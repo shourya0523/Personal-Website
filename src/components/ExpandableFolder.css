@@ -1,0 +1,81 @@
+.folder-glass-container {
+  position: relative;
+  width: 80px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.folder-glass-container:hover {
+  transform: scale(1.05);
+}
+
+.folder-glass-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  /* Fully transparent glass effect - matching icons */
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  /* Refraction-like effect */
+  filter: contrast(1.1) brightness(1.05);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 4px;
+}
+
+.folder-glass-container:hover .folder-glass-front {
+  backdrop-filter: blur(25px) saturate(220%) brightness(1.15);
+  -webkit-backdrop-filter: blur(25px) saturate(220%) brightness(1.15);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-color);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Chromatic aberration effect */
+.folder-glass-front::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: inherit;
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  filter: blur(0.5px);
+  z-index: -1;
+  transform: translate(1px, 0);
+  opacity: 0.6;
+  mix-blend-mode: screen;
+}
+
+.folder-glass-front::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: inherit;
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  filter: blur(0.5px);
+  z-index: -2;
+  transform: translate(-1px, 0);
+  opacity: 0.6;
+  mix-blend-mode: screen;
+}
+
+.text-shadow {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

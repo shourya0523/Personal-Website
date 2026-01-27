@@ -1,0 +1,109 @@
+.folder {
+  width: 80px;
+  height: 66px;
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  perspective: 1000px;
+  pointer-events: none; /* Let parent handle clicks */
+}
+
+.folder__back {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  background: transparent;
+  border-radius: 4px;
+}
+
+.folder__front {
+  position: absolute;
+  width: 60%;
+  height: 80%;
+  background: transparent;
+  border-radius: 0 4px 4px 0;
+  top: 20%;
+  left: 0;
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  box-shadow: none;
+  border: none;
+}
+
+.folder__front.right {
+  left: 40%;
+  border-radius: 4px 0 0 4px;
+  transform-origin: right center;
+  background: transparent;
+  opacity: 0.6;
+  border: none;
+}
+
+.folder.open .folder__front {
+  transform: rotateY(-60deg);
+}
+
+.folder.open .folder__front.right {
+  transform: rotateY(60deg);
+}
+
+.paper {
+  position: absolute;
+  width: 55%;
+  height: 70%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  top: 25%;
+  left: 22.5%;
+  transform: translate(var(--magnet-x, 0), var(--magnet-y, 0));
+  transition: transform 0.1s ease-out;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.paper-1 {
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 1;
+}
+
+.paper-2 {
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  transform: translate(calc(var(--magnet-x, 0) + 2px), calc(var(--magnet-y, 0) + 2px));
+}
+
+.paper-3 {
+  background: rgba(255, 255, 255, 0.25);
+  z-index: 3;
+  transform: translate(calc(var(--magnet-x, 0) + 4px), calc(var(--magnet-y, 0) + 4px));
+}
+
+.folder.open .paper {
+  transform: translate(calc(var(--magnet-x, 0) + 10px), calc(var(--magnet-y, 0) - 5px)) rotateZ(-2deg);
+}
+
+.folder.open .paper-2 {
+  transform: translate(calc(var(--magnet-x, 0) + 12px), calc(var(--magnet-y, 0) - 3px)) rotateZ(-1deg);
+}
+
+.folder.open .paper-3 {
+  transform: translate(calc(var(--magnet-x, 0) + 14px), calc(var(--magnet-y, 0) - 1px)) rotateZ(1deg);
+}
+
+/* Hover effects */
+.folder:hover {
+  transform: scale(1.05);
+}
+
+.folder:hover .folder__front {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

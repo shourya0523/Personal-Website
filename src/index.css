@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Using SF (San Francisco) font family - Apple's system font */
+
+:root {
+  /* SF Mono as default font across the website */
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: hsl(195, 70%, 8%); /* Deep dark teal matching wallpaper */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+/* Selection - using emerald green from wallpaper */
+::selection {
+  background-color: hsla(170, 80%, 50%, 0.5);
+  color: white;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    /* Based on Cats Computer Wallpaper - emerald/teal greens with golden accents */
+    --background: 195 70% 8%; /* Deep dark teal background */
+    --foreground: 160 30% 95%; /* Light emerald text */
+    --card: 195 60% 12%; /* Dark teal card */
+    --card-foreground: 160 30% 95%;
+    --popover: 195 60% 12%;
+    --popover-foreground: 160 30% 95%;
+    --primary: 170 80% 50%; /* Bright emerald/aqua for primary actions */
+    --primary-foreground: 195 70% 8%; /* Dark teal text on primary */
+    --secondary: 195 50% 18%; /* Medium teal */
+    --secondary-foreground: 160 30% 95%;
+    --muted: 195 40% 20%; /* Muted teal */
+    --muted-foreground: 160 25% 70%;
+    --accent: 50 90% 65%; /* Golden/yellow accent (cat's eyes color) */
+    --accent-foreground: 195 70% 8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 195 50% 25%; /* Teal borders */
+    --input: 195 50% 18%;
+    --ring: 170 80% 50%; /* Emerald ring focus */
+    /* Chart colors matching wallpaper palette */
+    --chart-1: 170 80% 50%; /* Bright emerald */
+    --chart-2: 180 70% 45%; /* Deep aqua */
+    --chart-3: 195 60% 40%; /* Medium teal */
+    --chart-4: 50 90% 65%; /* Golden yellow */
+    --chart-5: 160 75% 55%; /* Bright aqua-green */
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}

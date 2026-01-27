@@ -1,0 +1,15 @@
+/* App-specific styles */
+.window-controls {
+  -webkit-app-region: no-drag;
+}
+
+/* Smooth animations */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent text selection on UI elements */
+button, .cursor-pointer {
+  user-select: none;
+  -webkit-user-select: none;
+}
