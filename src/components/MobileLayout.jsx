@@ -228,15 +228,24 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
 
             {/* App Content */}
             <div className="ios-app-content">
-              {activeWindow.content || (
+              {activeWindow.content && activeApp.type !== 'suggestions' ? (
+                activeWindow.content
+              ) : activeApp.component ? (
+                activeApp.type === 'suggestions' ? (
+                  <activeApp.component 
+                    onFileClick={() => {}} 
+                    apps={apps}
+                    onSuggestionClick={onAppClick}
+                  />
+                ) : (
+                  <activeApp.component onFileClick={() => {}} />
+                )
+              ) : (
                 <div className="ios-app-placeholder">
                   <div className="ios-app-icon-large">
                     {activeApp.iconElement || <span style={{ fontSize: '64px' }}>{activeApp.icon}</span>}
                   </div>
                   <h2 className="ios-app-name">{activeApp.label}</h2>
-                  {activeApp.component && (
-                    <activeApp.component onFileClick={() => {}} />
-                  )}
                 </div>
               )}
             </div>
