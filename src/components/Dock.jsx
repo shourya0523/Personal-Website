@@ -43,7 +43,11 @@ const Dock = memo(function Dock({ items, panelHeight = 68, baseItemSize = 64, ma
           return (
             <button
               key={index}
-              className="dock-item"
+              className={[
+                'dock-item',
+                item.isOpen ? 'dock-item--open' : '',
+                item.isMinimized ? 'dock-item--minimized' : ''
+              ].filter(Boolean).join(' ')}
               onClick={() => {
                 sounds.open()
                 if (item.onClick) item.onClick()
@@ -63,6 +67,15 @@ const Dock = memo(function Dock({ items, panelHeight = 68, baseItemSize = 64, ma
               <div className="dock-icon">
                 {item.icon}
               </div>
+              {item.isOpen && (
+                <span
+                  className={[
+                    'dock-indicator',
+                    item.isMinimized ? 'dock-indicator--minimized' : 'dock-indicator--open'
+                  ].join(' ')}
+                  aria-hidden="true"
+                />
+              )}
               <span className="dock-label">{item.label}</span>
             </button>
           )

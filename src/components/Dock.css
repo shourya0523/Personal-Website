@@ -161,3 +161,25 @@
 .dock-item:hover .dock-label {
   opacity: 1;
 }
+
+/* Open/minimized indicator dot (like macOS dock) */
+.dock-indicator {
+  position: absolute;
+  bottom: -0.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.dock-indicator--open {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.dock-indicator--minimized {
+  background: rgba(255, 189, 46, 0.95); /* macOS yellow */
+}

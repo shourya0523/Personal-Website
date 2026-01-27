@@ -1,53 +1,25 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
 import { Terminal as TerminalIcon, ChevronRight, AlertCircle, CheckCircle2, Info, Sparkles, Music, Play, Pause, Volume2, Image as ImageIcon, Folder, FileText } from 'lucide-react'
-import { useWindows } from '../contexts/WindowContext'
+import { useWindows } from '../contexts/useWindows'
 import { useMusic } from '../contexts/MusicContext'
 import { useWallpaper } from '../contexts/WallpaperContext'
 import { useUser } from '../contexts/UserContext'
 import { extractColorsFromImage } from '../utils/colorExtractor'
 
 const ASCII_ART = `
-    ╔═══════════════════════════════════════════════════════════════╗
-    ║  ╔═══╗                                                       ║
-    ║  ║ ⚡ ║     ███████╗██╗  ██╗ ██████╗ ██╗   ██╗██████╗       ║
-    ║  ╚═══╝     ██╔════╝██║  ██║██╔═══██╗██║   ██║██╔══██╗      ║
-    ║            ███████╗███████║██║   ██║██║   ██║██████╔╝      ║
-    ║            ╚════██║██╔══██║██║   ██║██║   ██║██╔══██╗      ║
-    ║            ███████║██║  ██║╚██████╔╝╚██████╔╝██║  ██║      ║
-    ║            ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝      ║
-    ║                                                               ║
-    ║            ██████╗ ███████╗                                   ║
-    ║            ██╔══██╗██╔════╝                                   ║
-    ║            ██████╔╝███████╗                                   ║
-    ║            ██╔══██╗╚════██║                                   ║
-    ║            ██║  ██║███████║                                   ║
-    ║            ╚═╝  ╚═╝╚══════╝                                   ║
-    ║                                                               ║
-    ║  ┌─────────────────────────────────────────────────────┐    ║
-    ║  │                                                     │    ║
-    ║  │         ██████╗ ███████╗                           │    ║
-    ║  │         ██╔═══██╗██╔════╝                           │    ║
-    ║  │         ██║   ██║███████╗                           │    ║
-    ║  │         ██║   ██║╚════██║                           │    ║
-    ║  │         ╚██████╔╝███████║                           │    ║
-    ║  │          ╚═════╝ ╚══════╝                           │    ║
-    ║  │                                                     │    ║
-    ║  └─────────────────────────────────────────────────────┘    ║
-    ║                                                               ║
-    ║  ════════════════════════════════════════════════════════    ║
-    ║                                                               ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
-    ║     ░░  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ░░        ║
-    ║     ░░  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ░░        ║
-    ║     ░░  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ░░        ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
-    ║                                                               ║
-    ║  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓    ║
-    ║  ┃  ⚡ v2.0  │  🚀 React  │  💻 CLI  │  🎨 Modern  ┃    ║
-    ║  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛    ║
-    ║                                                               ║
-    ╚═══════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║ ███████╗██╗  ██╗ ██████╗ ██╗   ██╗██████╗ ██╗   ██╗ █████╗       ║
+║ ██╔════╝██║  ██║██╔═══██╗██║   ██║██╔══██╗╚██╗ ██╔╝██╔══██╗      ║
+║ ███████╗███████║██║   ██║██║   ██║██████╔╝ ╚████╔╝ ███████║      ║
+║ ╚════██║██╔══██║██║   ██║██║   ██║██╔══██╗  ╚██╔╝  ██╔══██║      ║
+║ ███████║██║  ██║╚██████╔╝╚██████╔╝██║  ██║   ██║   ██║  ██║      ║
+║ ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝      ║
+║                                                                  ║
+║                         SHOURYA OS v2.0                          ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
 `
 
 const appCommands = {
@@ -831,13 +803,9 @@ User: ${userName || 'guest'}`,
     }
     // Random easter egg command
     else if (command === 'random') {
-      const randomValue = Math.random()
-      
-      // 5% chance - Secret code easter egg (moved to top for priority)
-      if (randomValue < 0.05) {
-        // Generate a unique code based on timestamp and random
+      const createSecretCodeArt = () => {
         const code = `SHOURYA-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
-        const asciiArt = `
+        return `
     ╔═══════════════════════════════════════════════╗
     ║                                               ║
     ║   ╔═══╗                                      ║
@@ -861,166 +829,136 @@ User: ${userName || 'guest'}`,
     ║                                               ║
     ╚═══════════════════════════════════════════════╝
         `
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: asciiArt,
-          outputType: 'success',
-          isAscii: true
-        }])
       }
-      // 10% chance - Pac-Man game
-      else if (randomValue < 0.15) {
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🎮 PAC-MAN EASTER EGG ACTIVATED! 🎮\n\nOpening Pac-Man game...`,
-          outputType: 'success'
-        }])
-        setTimeout(() => {
-          window.open('https://www.google.com/search?q=pacman+game', '_blank')
-        }, 1000)
-      }
-      // 10% chance - Cat meme wallpaper (random result each time)
-      else if (randomValue < 0.20) {
-        const randomCatIndex = Math.floor(Math.random() * 30) // Random index from 0-29
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🐱 MEOW! Setting random cat meme wallpaper...`,
-          outputType: 'info'
-        }])
-        searchAndSetWallpaper('cat meme', randomCatIndex)
-      }
-      // 10% chance - Never Gonna Give You Up
-      else if (randomValue < 0.30) {
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🎵 You've been rickrolled! 🎵\n\nPlaying Never Gonna Give You Up...`,
-          outputType: 'success'
-        }])
-        searchAndPlaySong('never gonna give you up rick astley')
-      }
-      // 10% chance - Doge meme wallpaper
-      else if (randomValue < 0.40) {
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🐕 Much wow! Very random! 🐕\n\nSetting Doge wallpaper...`,
-          outputType: 'success'
-        }])
-        searchAndSetWallpaper('doge meme')
-      }
-      // 5% chance - Secret code easter egg
-      else if (randomValue < 0.45) {
-        // Generate a unique code based on timestamp and random
-        const code = `SHOURYA-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
-        const asciiArt = `
-    ╔═══════════════════════════════════════════════╗
-    ║                                               ║
-    ║   ╔═══╗                                      ║
-    ║   ║🎲 ║   SECRET EASTER EGG DISCOVERED!     ║
-    ║   ╚═══╝                                      ║
-    ║                                               ║
-    ║   🎉 Congratulations! You found a secret!   ║
-    ║                                               ║
-    ║   Your Secret Code:                          ║
-    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
-    ║   ${code.padEnd(45)}║
-    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
-    ║                                               ║
-    ║   📝 Instructions:                           ║
-    ║   Send this code to Shourya for a            ║
-    ║   shoutout on LinkedIn!                      ║
-    ║                                               ║
-    ║   LinkedIn: linkedin.com/in/shouryayadav     ║
-    ║                                               ║
-    ║   (╯°□°）╯︵ ┻━┻                              ║
-    ║                                               ║
-    ╚═══════════════════════════════════════════════╝
-        `
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: asciiArt,
-          outputType: 'success',
-          isAscii: true
-        }])
-      }
-      // 10% chance - Play All Star by Smash Mouth
-      else if (randomValue < 0.6) {
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🌟 Somebody once told me... 🌟\n\nPlaying All Star by Smash Mouth...`,
-          outputType: 'success'
-        }])
-        searchAndPlaySong('all star smash mouth')
-      }
-      // 10% chance - Open a funny website
-      else if (randomValue < 0.65) {
-        const funnySites = [
-          { url: 'https://www.theuselessweb.com/', name: 'The Useless Web' },
-          { url: 'https://www.staggeringbeauty.com/', name: 'Staggering Beauty' },
-          { url: 'https://www.pointerpointer.com/', name: 'Pointer Pointer' },
-          { url: 'https://www.bouncingdvdlogo.com/', name: 'Bouncing DVD Logo' },
-        ]
-        const site = funnySites[Math.floor(Math.random() * funnySites.length)]
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🌐 Opening ${site.name}...\n\nEnjoy the randomness! 🎉`,
-          outputType: 'info'
-        }])
-        setTimeout(() => {
-          window.open(site.url, '_blank')
-        }, 1000)
-      }
-      // 10% chance - Motivational quote
-      else if (randomValue < 0.75) {
-        const quotes = [
-          "The only way to do great work is to love what you do. - Steve Jobs",
-          "Code is like humor. When you have to explain it, it's bad. - Cory House",
-          "First, solve the problem. Then, write the code. - John Johnson",
-          "Programming isn't about what you know; it's about what you can figure out. - Chris Pine",
-          "The best error message is the one that never appears. - Thomas Fuchs",
-          "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler",
-        ]
-        const quote = quotes[Math.floor(Math.random() * quotes.length)]
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `💡 Random Quote of the Day:\n\n"${quote}"\n\nKeep coding! 💻`,
-          outputType: 'info'
-        }])
-      }
-      // 10% chance - Play Never Gonna Give You Up (alternative)
-      else if (randomValue < 0.85) {
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🎭 The Matrix has you...\n\nWait, wrong reference.\n\nPlaying Never Gonna Give You Up anyway! 🎵`,
-          outputType: 'success'
-        }])
-        searchAndPlaySong('never gonna give you up rick astley')
-      }
-      // 5% chance - Random ASCII art drop
-      else if (randomValue < 0.90) {
-        const art = ASCII_ART_VARIANTS[Math.floor(Math.random() * ASCII_ART_VARIANTS.length)]
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `🎨 Random ASCII Art Drop!\n\n${art}`,
-          outputType: 'success',
-          isAscii: true
-        }])
-      }
-      // 10% chance - Funny error message
-      else {
-        const errors = [
-          "Error 418: I'm a teapot",
-          "Error 451: Unavailable For Legal Reasons",
-          "Error 509: Bandwidth Limit Exceeded (You've been too random!)",
-          "Error 420: Enhance Your Calm",
-          "Error 666: The server is possessed",
-        ]
-        const error = errors[Math.floor(Math.random() * errors.length)]
-        setHistory(prev => [...prev, {
-          type: 'output',
-          text: `⚠️  ${error}\n\nJust kidding! This is an easter egg, not a real error. 😄`,
-          outputType: 'error'
-        }])
-      }
+
+      // Weighted outcomes. Probabilities sum to 1.0
+      const outcomes = [
+        { id: 'secret-code', weight: 0.05, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: createSecretCodeArt(),
+            outputType: 'success',
+            isAscii: true
+          }])
+        }},
+        { id: 'pacman', weight: 0.10, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🎮 PAC-MAN EASTER EGG ACTIVATED! 🎮\n\nOpening Pac-Man game...`,
+            outputType: 'success'
+          }])
+          setTimeout(() => {
+            window.open('https://www.google.com/search?q=pacman+game', '_blank')
+          }, 1000)
+        }},
+        { id: 'cat-wallpaper', weight: 0.10, run: () => {
+          const randomCatIndex = Math.floor(Math.random() * 30) // 0-29
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🐱 MEOW! Setting random cat meme wallpaper...`,
+            outputType: 'info'
+          }])
+          searchAndSetWallpaper('cat meme', randomCatIndex)
+        }},
+        { id: 'rickroll', weight: 0.10, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🎵 You've been rickrolled! 🎵\n\nPlaying Never Gonna Give You Up...`,
+            outputType: 'success'
+          }])
+          searchAndPlaySong('never gonna give you up rick astley')
+        }},
+        { id: 'doge-wallpaper', weight: 0.10, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🐕 Much wow! Very random! 🐕\n\nSetting Doge wallpaper...`,
+            outputType: 'success'
+          }])
+          searchAndSetWallpaper('doge meme')
+        }},
+        { id: 'all-star', weight: 0.10, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🌟 Somebody once told me... 🌟\n\nPlaying All Star by Smash Mouth...`,
+            outputType: 'success'
+          }])
+          searchAndPlaySong('all star smash mouth')
+        }},
+        { id: 'funny-site', weight: 0.10, run: () => {
+          const funnySites = [
+            { url: 'https://www.theuselessweb.com/', name: 'The Useless Web' },
+            { url: 'https://www.staggeringbeauty.com/', name: 'Staggering Beauty' },
+            { url: 'https://www.pointerpointer.com/', name: 'Pointer Pointer' },
+            { url: 'https://www.bouncingdvdlogo.com/', name: 'Bouncing DVD Logo' },
+          ]
+          const site = funnySites[Math.floor(Math.random() * funnySites.length)]
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🌐 Opening ${site.name}...\n\nEnjoy the randomness! 🎉`,
+            outputType: 'info'
+          }])
+          setTimeout(() => {
+            window.open(site.url, '_blank')
+          }, 1000)
+        }},
+        { id: 'quote', weight: 0.10, run: () => {
+          const quotes = [
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Code is like humor. When you have to explain it, it's bad. - Cory House",
+            "First, solve the problem. Then, write the code. - John Johnson",
+            "Programming isn't about what you know; it's about what you can figure out. - Chris Pine",
+            "The best error message is the one that never appears. - Thomas Fuchs",
+            "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler",
+          ]
+          const quote = quotes[Math.floor(Math.random() * quotes.length)]
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `💡 Random Quote of the Day:\n\n"${quote}"\n\nKeep coding! 💻`,
+            outputType: 'info'
+          }])
+        }},
+        { id: 'matrix-rickroll', weight: 0.10, run: () => {
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🎭 The Matrix has you...\n\nWait, wrong reference.\n\nPlaying Never Gonna Give You Up anyway! 🎵`,
+            outputType: 'success'
+          }])
+          searchAndPlaySong('never gonna give you up rick astley')
+        }},
+        { id: 'ascii-art', weight: 0.05, run: () => {
+          const art = ASCII_ART_VARIANTS[Math.floor(Math.random() * ASCII_ART_VARIANTS.length)]
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `🎨 Random ASCII Art Drop!\n\n${art}`,
+            outputType: 'success',
+            isAscii: true
+          }])
+        }},
+        { id: 'fake-error', weight: 0.10, run: () => {
+          const errors = [
+            "Error 418: I'm a teapot",
+            "Error 451: Unavailable For Legal Reasons",
+            "Error 509: Bandwidth Limit Exceeded (You've been too random!)",
+            "Error 420: Enhance Your Calm",
+            "Error 666: The server is possessed",
+          ]
+          const error = errors[Math.floor(Math.random() * errors.length)]
+          setHistory(prev => [...prev, {
+            type: 'output',
+            text: `⚠️  ${error}\n\nJust kidding! This is an easter egg, not a real error. 😄`,
+            outputType: 'error'
+          }])
+        }},
+      ]
+
+      const r = Math.random()
+      let cumulative = 0
+      const chosen = outcomes.find(o => {
+        cumulative += o.weight
+        return r < cumulative
+      }) || outcomes[outcomes.length - 1]
+
+      chosen.run()
     }
     // Unknown command
     else {
@@ -1260,7 +1198,7 @@ const ASCII_ART_VARIANTS = [
    ║  │ Hello, ASCII!             │  ║
    ║  │                            │  ║
    ║  │ $ npm run dev             │  ║
-   ║  │ > Vite server up 🔥       │  ║
+   ║  │ > Vite server up !!       │  ║
    ║  └────────────────────────────┘  ║
    ║                                  ║
    ╚══════════════════════════════════╝
@@ -1316,15 +1254,14 @@ const ASCII_ART_VARIANTS = [
    ╔══════════════════════════════════╗
    ║  PAC-MAN                         ║
    ║                                  ║
-   ║      ╭───────╮                   ║
-   ║     ╱         ╲                  ║
-   ║    │    ◉◉    │                  ║
-   ║    │   ╱  ╲   │                  ║
-   ║    │  ╱    ╲  │                  ║
-   ║     ╲        ╱                   ║
-   ║      ╰───────╯                   ║
+   ║        .-""""-.                  ║
+   ║       /  .--.  \\                 ║
+   ║      |  |    |  |   o o o o      ║
+   ║      |  |    |  >                ║
+   ║       \\  '--'  /                 ║
+   ║        '-.__.-'                  ║
    ║                                  ║
-   ║   WAKA WAKA WAKA!                ║
+   ║   WAKA WAKA!                     ║
    ║                                  ║
    ╚══════════════════════════════════╝
   `,
@@ -1349,18 +1286,16 @@ const ASCII_ART_VARIANTS = [
    ╔══════════════════════════════════╗
    ║  MUSIC NOTE                      ║
    ║                                  ║
-   ║         ♪                        ║
-   ║        ╱ ╲                       ║
-   ║       ╱   ╲                      ║
-   ║      ╱     ╲                     ║
-   ║     │       │                    ║
-   ║     │       │                    ║
-   ║     │       │                    ║
-   ║     ╲       ╱                    ║
-   ║      ╲     ╱                     ║
-   ║       ╲___╱                      ║
+   ║          __                      ║
+   ║         / /                      ║
+   ║        / /__                     ║
+   ║       /____/|                    ║
+   ║       |    |/                    ║
+   ║       |    |                     ║
+   ║       |    |                     ║
+   ║       o    o                     ║
    ║                                  ║
-   ║   🎵 Keep coding! 🎵              ║
+   ║   Keep coding!                   ║
    ║                                  ║
    ╚══════════════════════════════════╝
   `,
@@ -1368,14 +1303,14 @@ const ASCII_ART_VARIANTS = [
    ╔══════════════════════════════════╗
    ║  DOGE                            ║
    ║                                  ║
-   ║      ░░░░░░░░░░░░░░░░░           ║
-   ║    ░░  ░░░░░░░░░░░░░░░░░░░  ░░  ║
-   ║   ░░  ░░  ░░░░░░░░░░░░░░░░░  ░░ ║
-   ║  ░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░ ║
-   ║  ░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░ ║
-   ║   ░░  ░░░░░░░░░░░░░░░░░░░░░░░░  ║
-   ║    ░░  ░░░░░░░░░░░░░░░░░░░░░░   ║
-   ║      ░░░░░░░░░░░░░░░░░░░░░░░     ║
+   ║        / \\__      __/ \\         ║
+   ║       (    \\______/    )        ║
+   ║        \\__  (o)  (o)  __/        ║
+   ║           \\    __    /           ║
+   ║            \\__\\__/__/            ║
+   ║              /  \\                ║
+   ║             /____\\               ║
+   ║                                  ║
    ║                                  ║
    ║   Much ASCII! Very Art!          ║
    ║                                  ║
@@ -1395,7 +1330,7 @@ const ASCII_ART_VARIANTS = [
    ║    │             │              ║
    ║    └─────────────┘              ║
    ║                                  ║
-   ║   💻 Terminal Power! 💻          ║
+   ║   Terminal Power!                ║
    ║                                  ║
    ╚══════════════════════════════════╝
   `,
@@ -1403,18 +1338,16 @@ const ASCII_ART_VARIANTS = [
    ╔══════════════════════════════════╗
    ║  STAR                            ║
    ║                                  ║
-   ║          ⭐                      ║
-   ║         ╱   ╲                    ║
-   ║        ╱     ╲                   ║
-   ║       ╱       ╲                  ║
-   ║      ╱         ╲                 ║
-   ║     ╱           ╲                ║
-   ║    ╱             ╲               ║
-   ║   ╱               ╲              ║
-   ║  ╱                 ╲             ║
-   ║ ╱                   ╲            ║
+   ║              *                   ║
+   ║             ***                  ║
+   ║        *   *****   *            ║
+   ║         ***********             ║
+   ║          *********              ║
+   ║        *   *****   *            ║
+   ║             ***                  ║
+   ║              *                   ║
    ║                                  ║
-   ║   You're a star! ⭐              ║
+   ║   You're a star!                 ║
    ║                                  ║
    ╚══════════════════════════════════╝
   `,

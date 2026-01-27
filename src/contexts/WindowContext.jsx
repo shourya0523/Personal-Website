@@ -1,18 +1,15 @@
-import { createContext, useContext, useState } from 'react'
-
-const WindowContext = createContext()
-
-export const useWindows = () => {
-  const context = useContext(WindowContext)
-  if (!context) {
-    throw new Error('useWindows must be used within WindowProvider')
-  }
-  return context
-}
+import { useRef, useState } from 'react'
+import { WindowContext } from './windowContext'
 
 export const WindowProvider = ({ children }) => {
   const [windows, setWindows] = useState([])
-  const [zIndexCounter, setZIndexCounter] = useState(1000)
+  // Use a ref to avoid batched-state overwrite bugs when multiple window updates happen in a single tick.
+  const zIndexCounterRef = useRef(1000)
+
+  const getNextZIndex = () => {
+    zIndexCounterRef.current += 1
+    return zIndexCounterRef.current
+  }
 
   const openWindow = (windowData) => {
     const defaultSize = windowData.size || { width: 800, height: 600 }
@@ -27,56 +24,56 @@ export const WindowProvider = ({ children }) => {
     const newWindow = {
       ...windowData,
       id: windowData.id || `window-${Date.now()}`,
-      zIndex: zIndexCounter + 1,
+      zIndex: getNextZIndex(),
       minimized: false,
       maximized: false,
       position: centerPosition,
       size: defaultSize,
     }
-    setWindows([...windows, newWindow])
-    setZIndexCounter(zIndexCounter + 1)
+    setWindows(prev => [...prev, newWindow])
   }
 
   const closeWindow = (id) => {
-    setWindows(windows.filter(w => w.id !== id))
+    setWindows(prev => prev.filter(w => w.id !== id))
   }
 
   const minimizeWindow = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, minimized: true } : w
-    ))
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, minimized: true } : w))
+    )
   }
 
   const maximizeWindow = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, maximized: !w.maximized } : w
-    ))
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, maximized: !w.maximized } : w))
+    )
   }
 
   const restoreWindow = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, minimized: false } : w
-    ))
-    bringToFront(id)
+    // Restore + bring-to-front must be atomic; otherwise a second setState can overwrite the first in React batching.
+    const nextZ = getNextZIndex()
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, minimized: false, zIndex: nextZ } : w))
+    )
   }
 
   const bringToFront = (id) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, zIndex: zIndexCounter + 1 } : w
-    ))
-    setZIndexCounter(zIndexCounter + 1)
+    const nextZ = getNextZIndex()
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, zIndex: nextZ } : w))
+    )
   }
 
   const updateWindowPosition = (id, position) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, position } : w
-    ))
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, position } : w))
+    )
   }
 
   const updateWindowSize = (id, size) => {
-    setWindows(windows.map(w => 
-      w.id === id ? { ...w, size } : w
-    ))
+    setWindows(prev =>
+      prev.map(w => (w.id === id ? { ...w, size } : w))
+    )
   }
 
   return (

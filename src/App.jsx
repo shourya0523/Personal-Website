@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Sparkles } from 'lucide-react'
-import { WindowProvider, useWindows } from './contexts/WindowContext'
+import { WindowProvider } from './contexts/WindowContext'
+import { useWindows } from './contexts/useWindows'
 import { SoundProvider, useSounds } from './contexts/SoundContext'
 import Window from './components/Window'
 import Dock from './components/Dock'
@@ -299,13 +300,20 @@ function DesktopOS() {
 
       {/* Dock */}
       <Dock
-        items={apps.filter(app => ['about', 'projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id)).map(app => ({
-          icon: app.iconElement || <span>{app.icon}</span>,
-          label: app.label,
-          color: app.color || 'blue',
-          app: app,
-          onClick: () => handleAppClick(app)
-        }))}
+        items={apps
+          .filter(app => ['about', 'projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id))
+          .map(app => {
+            const windowForApp = windows.find(w => w.type === app.type)
+            return {
+              icon: app.iconElement || <span>{app.icon}</span>,
+              label: app.label,
+              color: app.color || 'blue',
+              app: app,
+              isOpen: !!windowForApp,
+              isMinimized: !!windowForApp?.minimized,
+              onClick: () => handleAppClick(app),
+            }
+          })}
         panelHeight={68}
         baseItemSize={64}
         magnification={20}
