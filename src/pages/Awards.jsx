@@ -1,42 +1,33 @@
 import { motion } from 'framer-motion'
-import { Trophy, Award, Star } from 'lucide-react'
+import { Trophy, Award, Star, GraduationCap } from 'lucide-react'
 
 const awards = [
   {
     id: 1,
-    title: 'Best Innovation Award',
-    organization: 'Tech Conference 2024',
-    year: '2024',
-    description: 'Recognized for innovative approach to solving complex problems',
+    title: 'FinHacks AI/ML Winner',
+    organization: 'FinHacks Hackathon',
+    year: '2025',
+    description: 'First place in AI/ML category for Spendr financial compatibility app',
     icon: Trophy,
     color: 'text-yellow-400'
   },
   {
     id: 2,
-    title: 'Outstanding Developer',
-    organization: 'Company Excellence Awards',
-    year: '2023',
-    description: 'Awarded for exceptional contributions to key projects',
-    icon: Award,
+    title: 'John Martinson Honors Program',
+    organization: 'Northeastern University',
+    year: '2024 - Present',
+    description: 'Selected for prestigious honors program recognizing academic excellence',
+    icon: GraduationCap,
     color: 'text-blue-400'
   },
   {
     id: 3,
-    title: 'Hackathon Winner',
-    organization: 'CodeFest 2023',
-    year: '2023',
-    description: 'First place in 48-hour hackathon competition',
-    icon: Star,
+    title: 'Dean\'s List',
+    organization: 'Northeastern University',
+    year: '4x Recipient',
+    description: 'Recognized for outstanding academic achievement multiple semesters',
+    icon: Award,
     color: 'text-purple-400'
-  },
-  {
-    id: 4,
-    title: 'Open Source Contributor',
-    organization: 'GitHub',
-    year: '2022',
-    description: 'Recognized for significant contributions to open source projects',
-    icon: Star,
-    color: 'text-green-400'
   },
 ]
 

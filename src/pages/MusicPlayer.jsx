@@ -299,7 +299,15 @@ export default function MusicPlayer() {
                   key={song.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  onClick={() => handlePlaySong(song)}
+                  onClick={() => {
+                    // If this is the current song, toggle play/pause
+                    // Otherwise, play the song
+                    if (currentSong?.id === song.id) {
+                      togglePlayPause()
+                    } else {
+                      handlePlaySong(song)
+                    }
+                  }}
                   className={`relative group cursor-pointer rounded-lg overflow-hidden transition-all ${
                     currentSong?.id === song.id
                       ? 'ring-2 ring-blue-500 scale-105'
@@ -318,9 +326,23 @@ export default function MusicPlayer() {
                           <motion.div
                             animate={{ scale: [1, 1.2, 1] }}
                             transition={{ repeat: Infinity, duration: 1 }}
-                            className="w-16 h-16 bg-blue-500/80 rounded-full flex items-center justify-center"
+                            className="w-16 h-16 bg-blue-500/80 rounded-full flex items-center justify-center cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              togglePlayPause()
+                            }}
                           >
                             <Pause className="w-8 h-8 text-white" />
+                          </motion.div>
+                        ) : currentSong?.id === song.id && !isPlaying ? (
+                          <motion.div
+                            className="w-16 h-16 bg-blue-500/60 rounded-full flex items-center justify-center cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              togglePlayPause()
+                            }}
+                          >
+                            <Play className="w-8 h-8 text-white ml-1" />
                           </motion.div>
                         ) : (
                           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

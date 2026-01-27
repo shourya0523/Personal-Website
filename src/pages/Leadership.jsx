@@ -1,47 +1,48 @@
 import { motion } from 'framer-motion'
-import { Users, Target, TrendingUp } from 'lucide-react'
+import { Users, Target, TrendingUp, Building2 } from 'lucide-react'
 
 const leadershipRoles = [
   {
     id: 1,
-    title: 'Tech Lead',
-    organization: 'Engineering Team',
-    period: '2023 - Present',
-    description: 'Leading a team of 8 engineers, setting technical direction and mentoring junior developers',
+    title: 'Director of Operations, Co-Founder',
+    organization: 'Claude Builders Club @ Northeastern',
+    period: 'Aug 2025 – Present',
+    description: 'Co-founded and scaled AI-focused student organization. Secured major sponsorships, organized events, and launched product incubator program.',
     achievements: [
-      'Increased team productivity by 40%',
-      'Implemented agile practices',
-      'Mentored 5+ junior developers'
+      'Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building',
+      'Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships',
+      'Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment',
+      'Deliver presentations to large audiences at workshops and events'
     ],
-    icon: Users,
+    icon: Building2,
     color: 'text-blue-400'
   },
   {
     id: 2,
-    title: 'Open Source Maintainer',
-    organization: 'Community Project',
-    period: '2022 - Present',
-    description: 'Maintaining and contributing to open source projects with 10k+ stars',
+    title: 'Software Product Lab Lead',
+    organization: 'Forge – A Sherman Center Program',
+    period: 'Aug 2025 – Dec 2025',
+    description: 'Led 8-developer team through full product lifecycle building a mobile application. Managed agile workflows, authored PRDs, designed system architecture.',
     achievements: [
-      'Managed 50+ contributors',
-      'Released 10+ major versions',
-      'Organized community events'
+      'Directed 8-developer team building mobile application using agile practices and structured product workflows',
+      'Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination',
+      'Accelerated development timeline by 4 weeks through low-fi wireframing and database schema redesign',
+      'Delivered live product demonstrations showcasing mobile application features and technical capabilities'
     ],
-    icon: Target,
+    icon: Users,
     color: 'text-green-400'
   },
   {
     id: 3,
-    title: 'Conference Speaker',
-    organization: 'Tech Conferences',
-    period: '2021 - Present',
-    description: 'Speaking at various tech conferences about software engineering and best practices',
+    title: 'Executive Board Member',
+    organization: 'AI Club @ Northeastern',
+    period: 'Dates TBD',
+    description: 'Co-authored official AI policy for business school. Drove programming and operations for large student organization.',
     achievements: [
-      'Presented at 5+ conferences',
-      'Reached 1000+ developers',
-      'Published technical articles'
+      'Co-authored D\'Amore-McKim\'s official AI policy, establishing ethical guidelines for 3,000+ students',
+      'Drove programming and operations for 500+ member organization, increasing event attendance by 40%'
     ],
-    icon: TrendingUp,
+    icon: Target,
     color: 'text-purple-400'
   },
 ]

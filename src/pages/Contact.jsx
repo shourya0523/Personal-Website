@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
-import { Mail, Linkedin, Github, Twitter } from 'lucide-react'
+import { Mail, Linkedin, Github, Phone } from 'lucide-react'
 
 export default function Contact({ onFileClick }) {
   const socialLinks = [
-    { icon: Mail, label: 'Email', href: 'mailto:shourya@example.com', color: 'text-red-400' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#', color: 'text-blue-400' },
-    { icon: Github, label: 'GitHub', href: '#', color: 'text-gray-400' },
-    { icon: Twitter, label: 'Twitter', href: '#', color: 'text-blue-500' },
+    { icon: Mail, label: 'Email', href: 'mailto:yadav.sho@northeastern.edu', color: 'text-red-400' },
+    { icon: Phone, label: 'Phone', href: 'tel:+15103267626', color: 'text-green-400' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/shouryadav', color: 'text-blue-400' },
+    { icon: Github, label: 'GitHub', href: 'https://github.com/shourya0523', color: 'text-gray-400' },
   ]
 
   return (
@@ -36,6 +36,8 @@ export default function Contact({ onFileClick }) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
                   href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   whileHover={{ scale: 1.05, x: 5 }}
                   className="flex items-center gap-4 p-4 bg-gray-700/50 border border-gray-600 rounded-lg hover:border-blue-500 transition-colors"
                 >

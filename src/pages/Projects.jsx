@@ -5,43 +5,53 @@ import Folder from '../components/Folder'
 const projects = [
   {
     id: 1,
-    title: 'E-Commerce Platform',
-    description: 'Full-stack e-commerce solution with payment integration',
-    tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    github: '#',
-    demo: '#',
+    title: 'Pact',
+    description: 'Mobile accountability app with full-stack architecture. Led product decisions and designed scalable cloud backend.',
+    tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
+    github: 'https://github.com/shourya0523/Pact',
+    demo: null,
     color: '#3B82F6',
-    files: ['Frontend', 'Backend', 'Database']
+    files: ['Backend', 'Frontend', 'Database']
   },
   {
     id: 2,
-    title: 'Task Management App',
-    description: 'Collaborative task management with real-time updates',
-    tech: ['React', 'Firebase', 'TypeScript'],
-    github: '#',
-    demo: '#',
+    title: 'Claude Code Demo',
+    description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs. Created extensive demo library.',
+    tech: ['Claude Code', 'React', 'Python'],
+    github: 'https://github.com/shourya0523/Claude_Code_Demo',
+    demo: null,
     color: '#8B5CF6',
-    files: ['Components', 'API', 'Config']
+    files: ['Examples', 'Templates', 'Demos']
   },
   {
     id: 3,
-    title: 'AI Image Generator',
-    description: 'Web application for generating images using AI',
-    tech: ['Next.js', 'OpenAI API', 'Tailwind CSS'],
-    github: '#',
-    demo: '#',
+    title: 'CapTuring',
+    description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity.',
+    tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
+    github: 'https://github.com/shourya0523',
+    demo: null,
     color: '#10B981',
-    files: ['Generator', 'Gallery', 'Settings']
+    files: ['Pipeline', 'Features', 'Analysis']
   },
   {
     id: 4,
-    title: 'Social Media Dashboard',
-    description: 'Analytics dashboard for social media metrics',
-    tech: ['React', 'D3.js', 'Python', 'FastAPI'],
-    github: '#',
-    demo: '#',
+    title: 'ClubWorks',
+    description: 'Full-stack platform for college club operations with role-based access, analytics, and event workflows.',
+    tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],
+    github: 'https://github.com/shourya0523',
+    demo: null,
     color: '#F59E0B',
-    files: ['Dashboard', 'Analytics', 'Reports']
+    files: ['API', 'Dashboard', 'Config']
+  },
+  {
+    id: 5,
+    title: 'Spendr',
+    description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching.',
+    tech: ['JavaScript', 'Python', 'React'],
+    github: null,
+    demo: 'https://devpost.com/software/spendr',
+    color: '#EC4899',
+    files: ['Algorithm', 'UI', 'Data']
   },
 ]
 
@@ -113,22 +123,30 @@ export default function Projects({ onFileClick, onOpenFolder }) {
                     ))}
                   </div>
                   <div className="flex gap-2 mt-auto">
-                    <a
-                      href={project.github}
-                      className="flex items-center gap-1 px-3 py-1.5 bg-gray-800/50 hover:bg-gray-700/50 rounded transition-colors text-xs"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github size={12} />
-                      Code
-                    </a>
-                    <a
-                      href={project.demo}
-                      className="flex items-center gap-1 px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600 rounded transition-colors text-xs"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink size={12} />
-                      Demo
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 px-3 py-1.5 bg-gray-800/50 hover:bg-gray-700/50 rounded transition-colors text-xs"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Github size={12} />
+                        Code
+                      </a>
+                    )}
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600 rounded transition-colors text-xs"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={12} />
+                        Demo
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               )
