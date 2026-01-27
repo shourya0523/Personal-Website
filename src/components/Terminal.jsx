@@ -886,9 +886,9 @@ User: ${userName || 'guest'}`,
         }},
         { id: 'funny-site', weight: 0.10, run: () => {
           const funnySites = [
-            { url: 'https://www.theuselessweb.com/', name: 'The Useless Web' },
-            { url: 'https://www.staggeringbeauty.com/', name: 'Staggering Beauty' },
-            { url: 'https://www.pointerpointer.com/', name: 'Pointer Pointer' },
+            { url: 'https://longdogechallenge.com/', name: 'Long Doge Challenge' },
+            { url: 'http://www.staggeringbeauty.com/', name: 'Staggering Beauty' },
+            { url: 'https://pointerpointer.com/', name: 'Pointer Pointer' },
             { url: 'https://www.bouncingdvdlogo.com/', name: 'Bouncing DVD Logo' },
           ]
           const site = funnySites[Math.floor(Math.random() * funnySites.length)]
@@ -903,12 +903,18 @@ User: ${userName || 'guest'}`,
         }},
         { id: 'quote', weight: 0.10, run: () => {
           const quotes = [
-            "The only way to do great work is to love what you do. - Steve Jobs",
-            "Code is like humor. When you have to explain it, it's bad. - Cory House",
-            "First, solve the problem. Then, write the code. - John Johnson",
-            "Programming isn't about what you know; it's about what you can figure out. - Chris Pine",
-            "The best error message is the one that never appears. - Thomas Fuchs",
-            "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler",
+            "I have no idea what I'm doing, but I know I'm doing it really, really well. - Andy Dwyer",
+            "Every pizza is a personal pizza if you believe in yourself. - Unknown",
+            "Cats are just tiny, furry roommates who judge your life choices. - The Internet",
+            "I'm not lazy, I'm on energy saving mode. - A Cat, Probably",
+            "If it fits, I sits. If it doesn't fit, I sits anyway. - Ancient Cat Proverb",
+            "The only thing we have to fear is running out of snacks. - Franklin D. Hungry",
+            "I followed my heart and it led me to the fridge. - Every Developer at 2am",
+            "Dogs have owners. Cats have staff. - Unknown",
+            "I'm not arguing, I'm just explaining why I'm right. - Every Cat Ever",
+            "Behind every great programmer is a mass of tangled charging cables. - Confucius, Probably",
+            "Sleep is just a free trial of death. - A Very Tired Person",
+            "My code works and I have no idea why. My code doesn't work and I have no idea why. - The Two Moods",
           ]
           const quote = quotes[Math.floor(Math.random() * quotes.length)]
           setHistory(prev => [...prev, {
