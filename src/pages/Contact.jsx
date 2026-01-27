@@ -1,8 +1,22 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Linkedin, Github, Phone } from 'lucide-react'
 import BounceCards from '@/components/ui/BounceCards/BounceCards'
 
 export default function Contact({ onFileClick }) {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isSmallMobile, setIsSmallMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsSmallMobile(window.innerWidth < 480)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const socialLinks = [
     { icon: Mail, label: 'Email', href: 'mailto:yadav.sho@northeastern.edu', color: 'text-red-400', bgColor: 'bg-red-500/20' },
     { icon: Phone, label: 'Phone', href: 'tel:+15103267626', color: 'text-green-400', bgColor: 'bg-green-500/20' },
@@ -38,47 +52,87 @@ export default function Contact({ onFileClick }) {
     `)}`
   })
 
+  const containerWidth = isSmallMobile ? 280 : isMobile ? 400 : 600
+  const containerHeight = isSmallMobile ? 350 : isMobile ? 450 : 500
+  
+  const getTransformStyles = () => {
+    if (isSmallMobile) {
+      return [
+        'rotate(8deg) translate(-100px, -10px)',
+        'rotate(4deg) translate(-50px, -5px)',
+        'rotate(-2deg) translate(0px, 0px)',
+        'rotate(-6deg) translate(50px, 5px)'
+      ]
+    } else if (isMobile) {
+      return [
+        'rotate(8deg) translate(-150px, -15px)',
+        'rotate(4deg) translate(-75px, -8px)',
+        'rotate(-2deg) translate(0px, 0px)',
+        'rotate(-6deg) translate(75px, 8px)'
+      ]
+    }
+    return [
+      'rotate(8deg) translate(-200px, -20px)',
+      'rotate(4deg) translate(-100px, -10px)',
+      'rotate(-2deg) translate(0px, 0px)',
+      'rotate(-6deg) translate(100px, 10px)'
+    ]
+  }
+
   return (
-    <div className="p-8 text-white min-h-screen">
+    <div className="p-4 md:p-8 text-white min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-4xl font-bold mb-8 text-center">Get In Touch</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center">Get In Touch</h1>
 
         {/* Bounce Cards for Contact */}
-        <div className="flex justify-center items-center my-12">
-          <div className="relative" style={{ width: '600px', height: '500px' }}>
+        <div className="flex justify-center items-center my-8 md:my-12">
+          <div className="relative" style={{ width: `${containerWidth}px`, height: `${containerHeight}px`, maxWidth: '100%' }}>
             <BounceCards
               images={contactCardImages}
-              containerWidth={600}
-              containerHeight={500}
+              containerWidth={containerWidth}
+              containerHeight={containerHeight}
               animationDelay={0.3}
               animationStagger={0.1}
-              transformStyles={[
-                'rotate(8deg) translate(-200px, -20px)',
-                'rotate(4deg) translate(-100px, -10px)',
-                'rotate(-2deg) translate(0px, 0px)',
-                'rotate(-6deg) translate(100px, 10px)'
-              ]}
+              transformStyles={getTransformStyles()}
             />
             {/* Overlay clickable links positioned over each card */}
             {socialLinks.map((social, index) => {
-              const cardPositions = [
-                { left: 'calc(50% - 200px - 200px)', top: 'calc(50% - 100px - 20px)', transform: 'rotate(8deg)' },
-                { left: 'calc(50% - 200px - 100px)', top: 'calc(50% - 100px - 10px)', transform: 'rotate(4deg)' },
-                { left: 'calc(50% - 100px)', top: 'calc(50% - 100px)', transform: 'rotate(-2deg)' },
-                { left: 'calc(50% + 100px)', top: 'calc(50% - 100px + 10px)', transform: 'rotate(-6deg)' }
-              ]
+              const cardSize = isSmallMobile ? 120 : isMobile ? 150 : 200
+              const getCardPositions = () => {
+                if (isSmallMobile) {
+                  return [
+                    { left: `calc(50% - ${cardSize/2}px - 100px)`, top: `calc(50% - ${cardSize/2}px - 10px)`, transform: 'rotate(8deg)' },
+                    { left: `calc(50% - ${cardSize/2}px - 50px)`, top: `calc(50% - ${cardSize/2}px - 5px)`, transform: 'rotate(4deg)' },
+                    { left: `calc(50% - ${cardSize/2}px)`, top: `calc(50% - ${cardSize/2}px)`, transform: 'rotate(-2deg)' },
+                    { left: `calc(50% - ${cardSize/2}px + 50px)`, top: `calc(50% - ${cardSize/2}px + 5px)`, transform: 'rotate(-6deg)' }
+                  ]
+                } else if (isMobile) {
+                  return [
+                    { left: `calc(50% - ${cardSize/2}px - 150px)`, top: `calc(50% - ${cardSize/2}px - 15px)`, transform: 'rotate(8deg)' },
+                    { left: `calc(50% - ${cardSize/2}px - 75px)`, top: `calc(50% - ${cardSize/2}px - 8px)`, transform: 'rotate(4deg)' },
+                    { left: `calc(50% - ${cardSize/2}px)`, top: `calc(50% - ${cardSize/2}px)`, transform: 'rotate(-2deg)' },
+                    { left: `calc(50% - ${cardSize/2}px + 75px)`, top: `calc(50% - ${cardSize/2}px + 8px)`, transform: 'rotate(-6deg)' }
+                  ]
+                }
+                return [
+                  { left: `calc(50% - ${cardSize/2}px - 200px)`, top: `calc(50% - ${cardSize/2}px - 20px)`, transform: 'rotate(8deg)' },
+                  { left: `calc(50% - ${cardSize/2}px - 100px)`, top: `calc(50% - ${cardSize/2}px - 10px)`, transform: 'rotate(4deg)' },
+                  { left: `calc(50% - ${cardSize/2}px)`, top: `calc(50% - ${cardSize/2}px)`, transform: 'rotate(-2deg)' },
+                  { left: `calc(50% - ${cardSize/2}px + 100px)`, top: `calc(50% - ${cardSize/2}px + 10px)`, transform: 'rotate(-6deg)' }
+                ]
+              }
               return (
                 <a
                   key={social.label}
                   href={social.href}
                   target={social.href.startsWith('http') ? '_blank' : undefined}
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="absolute w-[200px] h-[200px] cursor-pointer z-10"
-                  style={cardPositions[index]}
+                  className="absolute cursor-pointer z-10"
+                  style={{ width: `${cardSize}px`, height: `${cardSize}px`, ...getCardPositions()[index] }}
                   onClick={(e) => {
                     // Ensure click works
                     if (social.href.startsWith('http')) {
@@ -98,9 +152,9 @@ export default function Contact({ onFileClick }) {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 space-y-4"
+          className="mt-8 md:mt-12 space-y-4"
         >
-          <h2 className="text-2xl font-bold mb-4 text-center">Connect With Me</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Connect With Me</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
             {socialLinks.map((social, index) => {
               const Icon = social.icon

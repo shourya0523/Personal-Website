@@ -20,6 +20,15 @@ const ReflectiveCard = ({
   const videoRef = useRef(null);
 
   useEffect(() => {
+    // Check if device is mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                     (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+    
+    // Skip webcam on mobile devices
+    if (isMobile) {
+      return;
+    }
+
     let stream = null;
 
     const startWebcam = async () => {

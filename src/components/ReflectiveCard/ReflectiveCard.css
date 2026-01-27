@@ -40,6 +40,13 @@
   transition: filter 0.3s ease;
 }
 
+/* Hide video on mobile devices */
+@media (max-width: 768px) {
+  .reflective-video {
+    display: none;
+  }
+}
+
 .reflective-noise {
   position: absolute;
   inset: 0;

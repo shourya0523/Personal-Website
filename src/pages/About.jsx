@@ -35,7 +35,7 @@ export default function About({ onFileClick }) {
         <div className="absolute bottom-20 left-1/4 w-80 h-80 rounded-full blur-3xl animate-pulse delay-2000" style={{ backgroundColor: 'hsl(180, 70%, 45%, 0.1)' }} />
       </motion.div>
 
-      <div className="relative z-10 p-8">
+      <div className="relative z-10 p-4 md:p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -6,12 +6,35 @@ import { Search, Loader2, Image as ImageIcon } from 'lucide-react'
 
 const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY || 'YOUR_UNSPLASH_ACCESS_KEY'
 
+// Preset local wallpapers
+const presetWallpapers = [
+  {
+    id: 'cat-wallpaper',
+    name: 'Cat Wallpaper',
+    url: encodeURI('/Cats Computer Wallpaper.jpeg'),
+    thumbnail: encodeURI('/Cats Computer Wallpaper.jpeg')
+  },
+  {
+    id: 'desktop-background',
+    name: 'Desktop Background',
+    url: '/desktop-background.jpg',
+    thumbnail: '/desktop-background.jpg'
+  },
+  {
+    id: 'milky-way-night-sky',
+    name: 'Milky Way Night Sky',
+    url: '/jonatan-pie-h8nxGssjQXs-unsplash.jpg',
+    thumbnail: '/jonatan-pie-h8nxGssjQXs-unsplash.jpg'
+  }
+]
+
 export default function WallpaperSelector() {
   const { wallpaperUrl, updateWallpaper } = useWallpaper()
   const [searchQuery, setSearchQuery] = useState('nature')
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedPreset, setSelectedPreset] = useState(null)
   const [extractingColors, setExtractingColors] = useState(false)
   const [error, setError] = useState(null)
 
@@ -62,6 +85,7 @@ export default function WallpaperSelector() {
 
   const handleImageSelect = async (image) => {
     setSelectedImage(image.id)
+    setSelectedPreset(null)
     setExtractingColors(true)
     setError(null)
 
@@ -86,6 +110,30 @@ export default function WallpaperSelector() {
     }
   }
 
+  const handlePresetSelect = async (preset) => {
+    setSelectedPreset(preset.id)
+    setSelectedImage(null)
+    setExtractingColors(true)
+    setError(null)
+
+    try {
+      // Extract colors from the preset image
+      const colors = await extractColorsFromImage(preset.url, 10)
+      
+      // Update wallpaper and particle colors
+      updateWallpaper(preset.url, colors)
+      
+      // Show success feedback
+      setTimeout(() => {
+        setExtractingColors(false)
+      }, 500)
+    } catch (err) {
+      setError('Failed to extract colors from image')
+      console.error('Error extracting colors:', err)
+      setExtractingColors(false)
+    }
+  }
+
   return (
     <div className="h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
@@ -94,35 +142,37 @@ export default function WallpaperSelector() {
           <p className="text-gray-400">Choose a wallpaper and customize particle colors</p>
         </div>
 
-        {/* Search Bar */}
-        <form onSubmit={handleSearch} className="mb-6">
-          <div className="flex gap-2">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for wallpapers..."
-                className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
+        {/* Search Bar - Only show if API key is available */}
+        {(UNSPLASH_ACCESS_KEY && UNSPLASH_ACCESS_KEY !== 'YOUR_UNSPLASH_ACCESS_KEY') && (
+          <form onSubmit={handleSearch} className="mb-6">
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for wallpapers..."
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" size={20} />
+                    Loading...
+                  </>
+                ) : (
+                  'Search'
+                )}
+              </button>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  Loading...
-                </>
-              ) : (
-                'Search'
-              )}
-            </button>
-          </div>
-        </form>
+          </form>
+        )}
 
         {/* Error Message */}
         {error && (
@@ -130,6 +180,41 @@ export default function WallpaperSelector() {
             {error}
           </div>
         )}
+
+        {/* Preset Wallpapers */}
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-3 text-white">Preset Wallpapers</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {presetWallpapers.map((preset) => (
+              <motion.div
+                key={preset.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                  selectedPreset === preset.id
+                    ? 'border-purple-500 ring-2 ring-purple-500'
+                    : 'border-transparent hover:border-white/30'
+                }`}
+                onClick={() => handlePresetSelect(preset)}
+              >
+                <img
+                  src={preset.thumbnail}
+                  alt={preset.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-0 right-0 p-2 text-white text-xs opacity-0 hover:opacity-100 transition-opacity">
+                  <p className="truncate">{preset.name}</p>
+                </div>
+                {selectedPreset === preset.id && (
+                  <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
+                    <ImageIcon size={16} />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
         {/* Info Message */}
         {!UNSPLASH_ACCESS_KEY || UNSPLASH_ACCESS_KEY === 'YOUR_UNSPLASH_ACCESS_KEY' ? (
@@ -146,50 +231,59 @@ export default function WallpaperSelector() {
           </div>
         ) : null}
 
-        {/* Image Grid */}
-        {extractingColors && (
-          <div className="mb-4 p-4 bg-blue-500/20 border border-blue-500/50 rounded-lg text-blue-200 flex items-center gap-2">
-            <Loader2 className="animate-spin" size={20} />
-            Extracting colors from image...
-          </div>
-        )}
+        {/* Unsplash Search Section - Only show if API key is available */}
+        {(UNSPLASH_ACCESS_KEY && UNSPLASH_ACCESS_KEY !== 'YOUR_UNSPLASH_ACCESS_KEY') && (
+          <>
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold mb-3 text-white">Search Unsplash</h2>
+            </div>
 
-        {images.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.map((image) => (
-              <motion.div
-                key={image.id}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                  selectedImage === image.id
-                    ? 'border-purple-500 ring-2 ring-purple-500'
-                    : 'border-transparent hover:border-white/30'
-                }`}
-                onClick={() => handleImageSelect(image)}
-              >
-                <img
-                  src={image.urls.small}
-                  alt={image.alt_description || 'Wallpaper'}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-0 left-0 right-0 p-2 text-white text-xs opacity-0 hover:opacity-100 transition-opacity">
-                  <p className="truncate">{image.user.name}</p>
-                </div>
-                {selectedImage === image.id && (
-                  <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
-                    <ImageIcon size={16} />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        ) : !loading && (
-          <div className="text-center py-12 text-gray-400">
-            <ImageIcon size={48} className="mx-auto mb-4 opacity-50" />
-            <p>No images found. Try a different search term.</p>
-          </div>
+            {/* Image Grid */}
+            {extractingColors && (
+              <div className="mb-4 p-4 bg-blue-500/20 border border-blue-500/50 rounded-lg text-blue-200 flex items-center gap-2">
+                <Loader2 className="animate-spin" size={20} />
+                Extracting colors from image...
+              </div>
+            )}
+
+            {images.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {images.map((image) => (
+                  <motion.div
+                    key={image.id}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                      selectedImage === image.id
+                        ? 'border-purple-500 ring-2 ring-purple-500'
+                        : 'border-transparent hover:border-white/30'
+                    }`}
+                    onClick={() => handleImageSelect(image)}
+                  >
+                    <img
+                      src={image.urls.small}
+                      alt={image.alt_description || 'Wallpaper'}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-0 left-0 right-0 p-2 text-white text-xs opacity-0 hover:opacity-100 transition-opacity">
+                      <p className="truncate">{image.user.name}</p>
+                    </div>
+                    {selectedImage === image.id && (
+                      <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
+                        <ImageIcon size={16} />
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            ) : !loading && (
+              <div className="text-center py-12 text-gray-400">
+                <ImageIcon size={48} className="mx-auto mb-4 opacity-50" />
+                <p>No images found. Try a different search term.</p>
+              </div>
+            )}
+          </>
         )}
 
         {/* Current Wallpaper Info */}

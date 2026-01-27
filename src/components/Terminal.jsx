@@ -22,7 +22,7 @@ const ASCII_ART = `
     ║            ██████╔╝███████╗                                   ║
     ║            ██╔══██╗╚════██║                                   ║
     ║            ██║  ██║███████║                                   ║
-    ║            ╚═╝  ╚═╝╚════════╝                                   ║
+    ║            ╚═╝  ╚═╝╚══════╝                                   ║
     ║                                                               ║
     ║  ┌─────────────────────────────────────────────────────┐    ║
     ║  │                                                     │    ║
@@ -31,21 +31,21 @@ const ASCII_ART = `
     ║  │         ██║   ██║███████╗                           │    ║
     ║  │         ██║   ██║╚════██║                           │    ║
     ║  │         ╚██████╔╝███████║                           │    ║
-    ║  │          ╚═════╝ ╚════════╝                           │    ║
+    ║  │          ╚═════╝ ╚══════╝                           │    ║
     ║  │                                                     │    ║
     ║  └─────────────────────────────────────────────────────┘    ║
     ║                                                               ║
     ║  ════════════════════════════════════════════════════════    ║
     ║                                                               ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
-    ║     ░░  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ░░        ║
-    ║     ░░  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ░░        ║
-    ║     ░░  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ░░        ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
+    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
+    ║     ░░  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ░░        ║
+    ║     ░░  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ░░        ║
+    ║     ░░  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ░░        ║
+    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
     ║                                                               ║
-    ║  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓    ║
+    ║  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓    ║
     ║  ┃  ⚡ v2.0  │  🚀 React  │  💻 CLI  │  🎨 Modern  ┃    ║
-    ║  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛    ║
+    ║  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛    ║
     ║                                                               ║
     ╚═══════════════════════════════════════════════════════════════╝
 `
@@ -74,8 +74,18 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [commandHistory, setCommandHistory] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const inputRef = useRef(null)
   const terminalRef = useRef(null)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Initialize with ASCII art and welcome message
   useEffect(() => {
@@ -670,9 +680,9 @@ Type "recruiter" for quick info or "open resume" for details.`,
     }
     else if (command === 'linkedin' || command === 'github' || command === 'email') {
       const contactInfo = {
-        linkedin: 'LinkedIn: https://linkedin.com/in/shouryadav\nType "open contact" for full social links.',
-        github: 'GitHub: https://github.com/shourya0523\nType "open contact" for full social links.',
-        email: 'Email: yadav.sho@northeastern.edu\nType "open contact" for full contact information.'
+        linkedin: 'LinkedIn: https://linkedin.com/in/shouryayadav\nType "open contact" for full social links.',
+        github: 'GitHub: https://github.com/shouryayadav\nType "open contact" for full social links.',
+        email: 'Email: shourya.yadav@northeastern.edu\nType "open contact" for full contact information.'
       }
       setHistory(prev => [...prev, {
         type: 'output',
@@ -845,7 +855,7 @@ User: ${userName || 'guest'}`,
     ║   Send this code to Shourya for a            ║
     ║   shoutout on LinkedIn!                      ║
     ║                                               ║
-    ║   LinkedIn: linkedin.com/in/shouryadav     ║
+    ║   LinkedIn: linkedin.com/in/shouryayadav     ║
     ║                                               ║
     ║   (╯°□°）╯︵ ┻━┻                              ║
     ║                                               ║
@@ -904,24 +914,24 @@ User: ${userName || 'guest'}`,
         const asciiArt = `
     ╔═══════════════════════════════════════════════╗
     ║                                               ║
-    ║   ╔═══╗                                       ║
-    ║   ║🎲 ║   SECRET EASTER EGG DISCOVERED!       ║
-    ║   ╚═══╝                                       ║
+    ║   ╔═══╗                                      ║
+    ║   ║🎲 ║   SECRET EASTER EGG DISCOVERED!     ║
+    ║   ╚═══╝                                      ║
     ║                                               ║
-    ║   🎉 Congratulations! You found a secret!     ║
+    ║   🎉 Congratulations! You found a secret!   ║
     ║                                               ║
-    ║   Your Secret Code:                           ║
-    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     ║
+    ║   Your Secret Code:                          ║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
     ║   ${code.padEnd(45)}║
-    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     ║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
     ║                                               ║
-    ║   📝 Instructions:                            ║
-    ║   Send this code to Shourya for a             ║
-    ║   shoutout on LinkedIn!                       ║
+    ║   📝 Instructions:                           ║
+    ║   Send this code to Shourya for a            ║
+    ║   shoutout on LinkedIn!                      ║
     ║                                               ║
-    ║   LinkedIn: linkedin.com/in/shouryayadav      ║
+    ║   LinkedIn: linkedin.com/in/shouryayadav     ║
     ║                                               ║
-    ║   (╯°□°）╯︵ ┻━┻                               ║
+    ║   (╯°□°）╯︵ ┻━┻                              ║
     ║                                               ║
     ╚═══════════════════════════════════════════════╝
         `
@@ -985,17 +995,17 @@ User: ${userName || 'guest'}`,
         }])
         searchAndPlaySong('never gonna give you up rick astley')
       }
-      // 10% chance - Random ASCII art drop
-      else if (randomValue < 0.95) {
+      // 5% chance - Random ASCII art drop
+      else if (randomValue < 0.90) {
         const art = ASCII_ART_VARIANTS[Math.floor(Math.random() * ASCII_ART_VARIANTS.length)]
         setHistory(prev => [...prev, {
           type: 'output',
-          text: `🎲 Random ASCII Art Drop!\n` + art,
+          text: `🎨 Random ASCII Art Drop!\n\n${art}`,
           outputType: 'success',
           isAscii: true
         }])
       }
-      // 5% chance - Funny error message
+      // 10% chance - Funny error message
       else {
         const errors = [
           "Error 418: I'm a teapot",
@@ -1053,10 +1063,10 @@ User: ${userName || 'guest'}`,
   return (
     <div className="h-full flex flex-col bg-[#0a0a0a] text-[#e4e4e4] relative overflow-hidden">
       {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#1a1a1a] border-b border-[#2a2a2a]">
+      <div className="flex items-center justify-between px-3 md:px-4 py-2 bg-[#1a1a1a] border-b border-[#2a2a2a]">
         <div className="flex items-center gap-2">
-          <TerminalIcon size={14} className="text-[#888]" />
-          <span className="text-xs text-[#888] font-medium">Terminal - Shourya OS</span>
+          <TerminalIcon size={isMobile ? 12 : 14} className="text-[#888]" />
+          <span className="text-[10px] md:text-xs text-[#888] font-medium">Terminal - Shourya OS</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-[#444]"></div>
@@ -1068,10 +1078,10 @@ User: ${userName || 'guest'}`,
       {/* Terminal Content */}
       <div 
         ref={terminalRef} 
-        className="flex-1 overflow-auto p-4 font-mono text-sm leading-relaxed"
+        className="flex-1 overflow-auto p-3 md:p-4 font-mono text-xs md:text-sm leading-relaxed"
         style={{ 
           fontFamily: '"SF Mono", "Cascadia Code", "JetBrains Mono", Monaco, Consolas, monospace',
-          fontSize: '13px',
+          fontSize: isMobile ? '11px' : '13px',
           lineHeight: '1.6'
         }}
       >
@@ -1093,10 +1103,10 @@ User: ${userName || 'guest'}`,
                   </span>
                 </div>
               ) : (
-                <div className="flex items-start gap-2">
+                <div className={`flex items-start gap-2 ${item.isAscii ? 'terminal-ascii-wrapper' : ''}`}>
                   {item.icon && <span className="mt-0.5 flex-shrink-0">{item.icon}</span>}
                   <pre className={`flex-1 whitespace-pre-wrap break-words ${
-                    item.isAscii ? 'text-emerald-400' :
+                    item.isAscii ? 'text-emerald-400 terminal-ascii' :
                     item.outputType === 'error' ? 'text-red-400' :
                     item.outputType === 'info' ? 'text-blue-300' :
                     item.outputType === 'success' ? 'text-emerald-300' :
@@ -1157,12 +1167,39 @@ User: ${userName || 'guest'}`,
       </div>
 
       {/* Terminal Footer */}
-      <div className="px-4 py-2 bg-[#1a1a1a] border-t border-[#2a2a2a] text-xs text-[#666]">
-        <div className="flex items-center justify-between">
-          <span>Press ↑↓ to navigate history | Type "help" for commands</span>
+      <div className="px-3 md:px-4 py-2 bg-[#1a1a1a] border-t border-[#2a2a2a] text-[10px] md:text-xs text-[#666]">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 md:gap-0">
+          <span className="hidden md:inline">Press ↑↓ to navigate history | Type "help" for commands</span>
+          <span className="md:hidden">↑↓ History | "help" for commands</span>
           <span>{history.length} lines | {windows.length} windows</span>
         </div>
       </div>
+
+      {/* Mobile ASCII Art Scaling Styles */}
+      <style>{`
+        @media (max-width: 767px) {
+          .terminal-ascii {
+            font-size: 7px !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.5px;
+            overflow-x: auto;
+            max-width: 100%;
+          }
+          
+          .terminal-ascii-wrapper {
+            overflow-x: auto;
+            max-width: 100%;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .terminal-ascii {
+            font-size: 6px !important;
+            line-height: 1.0 !important;
+            letter-spacing: -1px;
+          }
+        }
+      `}</style>
     </div>
   )
 }
@@ -1172,7 +1209,7 @@ const ASCII_ART_VARIANTS = [
    ╔══════════════════════════════════╗
    ║  SPACE INVADER                   ║
    ║                                  ║
-   ║      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ║
+   ║      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ║
    ║      ▀█▀▀▀▀█▀▀▀▀█▀▀▀▀█▀        ║
    ║       █     █    █    █         ║
    ║      ██▄  ▄██  ▄██  ▄██        ║
@@ -1243,6 +1280,178 @@ const ASCII_ART_VARIANTS = [
    ║        /\_/\                      ║
    ║       /_/ \_\\                     ║
    ║      ~~~~~~~~~~                   ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  COFFEE CUP                      ║
+   ║                                  ║
+   ║        ( (                       ║
+   ║         ) )                      ║
+   ║      ........                    ║
+   ║      |      |]                   ║
+   ║      \\      /                    ║
+   ║       \`----'                     ║
+   ║                                  ║
+   ║   Code fueled by ☕              ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  PENGUIN                         ║
+   ║                                  ║
+   ║      .--.                        ║
+   ║     |o_o |                       ║
+   ║     |:_/ |                       ║
+   ║    //   \\ \\                     ║
+   ║   (|     | )                     ║
+   ║  /'\\_   _/\`\\                    ║
+   ║  \\___)=(___/                    ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  PAC-MAN                         ║
+   ║                                  ║
+   ║      ╭───────╮                   ║
+   ║     ╱         ╲                  ║
+   ║    │    ◉◉    │                  ║
+   ║    │   ╱  ╲   │                  ║
+   ║    │  ╱    ╲  │                  ║
+   ║     ╲        ╱                   ║
+   ║      ╰───────╯                   ║
+   ║                                  ║
+   ║   WAKA WAKA WAKA!                ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  HEART                           ║
+   ║                                  ║
+   ║      ♥♥     ♥♥                  ║
+   ║     ♥   ♥ ♥   ♥                 ║
+   ║    ♥     ♥     ♥                ║
+   ║     ♥           ♥                ║
+   ║      ♥         ♥                 ║
+   ║       ♥       ♥                  ║
+   ║        ♥     ♥                   ║
+   ║         ♥   ♥                    ║
+   ║          ♥ ♥                     ║
+   ║           ♥                       ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  MUSIC NOTE                      ║
+   ║                                  ║
+   ║         ♪                        ║
+   ║        ╱ ╲                       ║
+   ║       ╱   ╲                      ║
+   ║      ╱     ╲                     ║
+   ║     │       │                    ║
+   ║     │       │                    ║
+   ║     │       │                    ║
+   ║     ╲       ╱                    ║
+   ║      ╲     ╱                     ║
+   ║       ╲___╱                      ║
+   ║                                  ║
+   ║   🎵 Keep coding! 🎵              ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  DOGE                            ║
+   ║                                  ║
+   ║      ░░░░░░░░░░░░░░░░░           ║
+   ║    ░░  ░░░░░░░░░░░░░░░░░░░  ░░  ║
+   ║   ░░  ░░  ░░░░░░░░░░░░░░░░░  ░░ ║
+   ║  ░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░ ║
+   ║  ░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░ ║
+   ║   ░░  ░░░░░░░░░░░░░░░░░░░░░░░░  ║
+   ║    ░░  ░░░░░░░░░░░░░░░░░░░░░░   ║
+   ║      ░░░░░░░░░░░░░░░░░░░░░░░     ║
+   ║                                  ║
+   ║   Much ASCII! Very Art!          ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  COMPUTER                        ║
+   ║                                  ║
+   ║    ┌─────────────┐              ║
+   ║    │  ░░░░░░░░░  │              ║
+   ║    │  ░░░░░░░░░  │              ║
+   ║    │  ░░░░░░░░░  │              ║
+   ║    └─────────────┘              ║
+   ║         │││││                   ║
+   ║    ┌─────────────┐              ║
+   ║    │             │              ║
+   ║    └─────────────┘              ║
+   ║                                  ║
+   ║   💻 Terminal Power! 💻          ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  STAR                            ║
+   ║                                  ║
+   ║          ⭐                      ║
+   ║         ╱   ╲                    ║
+   ║        ╱     ╲                   ║
+   ║       ╱       ╲                  ║
+   ║      ╱         ╲                 ║
+   ║     ╱           ╲                ║
+   ║    ╱             ╲               ║
+   ║   ╱               ╲              ║
+   ║  ╱                 ╲             ║
+   ║ ╱                   ╲            ║
+   ║                                  ║
+   ║   You're a star! ⭐              ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  SNAKE                           ║
+   ║                                  ║
+   ║      ╭───╮                      ║
+   ║     ╱     ╲                     ║
+   ║    │  ◉ ◉ │                     ║
+   ║     ╲  ═  ╱                      ║
+   ║      ╰─╮╭─╯                     ║
+   ║        ││                       ║
+   ║      ╭─╯╰─╮                     ║
+   ║     ╱       ╲                    ║
+   ║    │         │                   ║
+   ║     ╲       ╱                    ║
+   ║      ╰─────╯                     ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  BUG                             ║
+   ║                                  ║
+   ║        ╭─╮                      ║
+   ║       ╱   ╲                     ║
+   ║      │ ◉ ◉ │                    ║
+   ║       ╲   ╱                     ║
+   ║        ╰─╯                      ║
+   ║        ╱││╲                     ║
+   ║       ╱ ││ ╲                    ║
+   ║      ╱  ││  ╲                   ║
+   ║     ╱   ││   ╲                  ║
+   ║    ╱    ││    ╲                 ║
+   ║                                  ║
+   ║   Found a bug? 🐛                ║
    ║                                  ║
    ╚══════════════════════════════════╝
   `

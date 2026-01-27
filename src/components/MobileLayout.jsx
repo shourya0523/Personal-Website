@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { X, ChevronDown, Battery, Wifi, Signal } from 'lucide-react'
+import { X, ChevronDown, Battery, Wifi, Signal, Home } from 'lucide-react'
 import { useWallpaper } from '../contexts/WallpaperContext'
 import { useUser } from '../contexts/UserContext'
 import { useSounds } from '../contexts/SoundContext'
@@ -15,6 +15,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false)
   const [swipeProgress, setSwipeProgress] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
+  const [showFirstRunHint, setShowFirstRunHint] = useState(false)
   
   const { wallpaperUrl } = useWallpaper()
   const { userName } = useUser()
@@ -28,6 +29,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
   const yTransform = useTransform(springY, [0, 300], [0, -100])
   
   const containerRef = useRef(null)
+  const suggestionsIconRef = useRef(null)
 
   // Get the topmost (active) window
   const activeWindow = windows.filter(w => !w.minimized).sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0))[0]
@@ -47,6 +49,31 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
     }, 60000)
     return () => clearInterval(batteryTimer)
   }, [])
+
+  // Check for first run
+  useEffect(() => {
+    const hasSeenFirstRun = localStorage.getItem('mobileFirstRunSeen')
+    if (!hasSeenFirstRun && !activeWindow) {
+      // Wait for app icons to render
+      setTimeout(() => {
+        if (suggestionsIconRef.current) {
+          setShowFirstRunHint(true)
+        }
+      }, 1000) // Wait for animations to complete
+    }
+  }, [activeWindow])
+
+  const handleDismissHint = () => {
+    setShowFirstRunHint(false)
+    localStorage.setItem('mobileFirstRunSeen', 'true')
+  }
+
+  const handleSuggestionsClick = (app) => {
+    if (showFirstRunHint) {
+      handleDismissHint()
+    }
+    onAppClick(app)
+  }
 
   const handleCloseApp = () => {
     if (activeWindow && onCloseWindow) {
@@ -121,7 +148,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
       ref={containerRef}
       className="ios-mobile-layout"
       style={{
-        backgroundImage: `url(${wallpaperUrl})`,
+        backgroundImage: `url("${wallpaperUrl}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -252,19 +279,30 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + pageIndex * 0.1 }}
                 >
-                  {page.map((app, index) => (
+                  {page.map((app, index) => {
+                    const isSuggestions = app.id === 'suggestions'
+                    return (
                     <motion.button
                       key={app.id}
-                      className="ios-app-icon"
-                      onClick={() => onAppClick(app)}
+                      ref={isSuggestions ? suggestionsIconRef : null}
+                      className={`ios-app-icon ${isSuggestions && showFirstRunHint ? 'ios-app-icon-pulse' : ''}`}
+                      onClick={() => isSuggestions ? handleSuggestionsClick(app) : onAppClick(app)}
                       whileTap={{ scale: 0.9 }}
                       initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: isSuggestions && showFirstRunHint ? [1, 1.1, 1] : 1
+                      }}
                       transition={{ 
                         delay: 0.5 + (pageIndex * appsPerPage + index) * 0.03,
                         type: "spring",
                         stiffness: 200,
-                        damping: 15
+                        damping: 15,
+                        scale: isSuggestions && showFirstRunHint ? {
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        } : undefined
                       }}
                     >
                       <GlassSurface
@@ -285,7 +323,8 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
                       </GlassSurface>
                       <span className="ios-app-icon-label">{app.label}</span>
                     </motion.button>
-                  ))}
+                    )
+                  })}
                 </motion.div>
               ))}
             </div>
@@ -410,25 +449,31 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
         )}
       </AnimatePresence>
 
-      {/* Home Indicator */}
-      <motion.div 
-        className="ios-home-indicator"
-        onTap={() => {
+      {/* Home Button */}
+      <motion.button 
+        className="ios-home-button"
+        onClick={() => {
           if (activeWindow) {
             handleCloseApp()
           }
         }}
-        whileTap={{ scale: 0.9 }}
+        initial={{ x: '-50%' }}
+        animate={{ x: '-50%' }}
+        whileTap={{ scale: 0.9, x: '-50%' }}
         drag="y"
         dragConstraints={{ top: -50, bottom: 0 }}
         dragElastic={0.3}
         onDragEnd={(event, info) => {
-          // Swipe up on home indicator to close app
+          // Swipe up on home button to close app
           if (activeWindow && info.offset.y < -30) {
             handleCloseApp()
           }
         }}
-      />
+        aria-label="Home"
+      >
+        <Home size={20} />
+      </motion.button>
+
     </div>
   )
 }

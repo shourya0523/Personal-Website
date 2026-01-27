@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 import CardSwap, { Card } from '../components/CardSwap/CardSwap'
@@ -88,6 +88,18 @@ const projects = [
 export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
   const { particleColors } = useWallpaper()
   const [selectedProject, setSelectedProject] = useState(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isSmallMobile, setIsSmallMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsSmallMobile(window.innerWidth < 480)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const handleCardClick = (project) => {
     console.log('Projects: Card clicked', { projectTitle: project.title, hasOnOpenWindow: !!onOpenWindow })
@@ -135,14 +147,14 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
           className="max-w-7xl mx-auto"
         >
           {/* CardSwap Section */}
-          <div className="p-6">
-            <h1 className="text-4xl font-bold mb-6 text-white">Projects</h1>
-            <div style={{ height: '600px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div className="p-4 md:p-6">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-white">Projects</h1>
+            <div className="relative flex justify-center items-center" style={{ minHeight: '400px', height: 'auto' }}>
             <CardSwap
-              width={500}
-              height={400}
-              cardDistance={60}
-              verticalDistance={70}
+              width={isSmallMobile ? 280 : isMobile ? 350 : 500}
+              height={isSmallMobile ? 320 : isMobile ? 360 : 400}
+              cardDistance={isSmallMobile ? 30 : isMobile ? 40 : 60}
+              verticalDistance={isSmallMobile ? 40 : isMobile ? 50 : 70}
               delay={5000}
               pauseOnHover={true}
             >
@@ -239,8 +251,8 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
           </div>
 
           {/* Scrollable Project List */}
-          <div className="px-6 pb-6">
-            <h2 className="text-2xl font-bold mb-4 text-white">All Projects</h2>
+          <div className="px-4 md:px-6 pb-6">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 text-white">All Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {projects.map((project, index) => {
                 const accentColor = getAccentColor(index)

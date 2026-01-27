@@ -299,29 +299,29 @@ export default function Resume({ onFileClick }) {
         className="sticky top-0 z-20 backdrop-blur-xl bg-gray-900/90 border-b border-gray-700/50"
         style={{ opacity: headerOpacity }}
       >
-        <div className="max-w-7xl mx-auto px-8 py-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent">
                 Resume
               </h1>
-              <p className="text-gray-400 mt-1">Professional Experience & Education</p>
+              <p className="text-gray-400 mt-1 text-sm md:text-base">Professional Experience & Education</p>
             </div>
             <motion.a
               href="/Shourya_Yadav_Gusto.pdf"
               download="Shourya_Yadav_Gusto.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all cursor-pointer shadow-lg shadow-blue-500/30"
+              className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all cursor-pointer shadow-lg shadow-blue-500/30"
             >
-              <Download size={20} />
+              <Download size={18} className="md:w-5 md:h-5" />
               Download PDF
             </motion.a>
           </div>
         </div>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-12">
         {/* Education Section */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}

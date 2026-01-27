@@ -50,13 +50,13 @@ const leadershipRoles = [
 
 export default function Leadership({ onFileClick }) {
   return (
-    <div className="p-8 text-white">
+    <div className="p-4 md:p-8 text-white">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-4xl font-bold mb-8">Leadership & Impact</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">Leadership & Impact</h1>
         <div className="space-y-6">
           {leadershipRoles.map((role, index) => {
             const Icon = role.icon
