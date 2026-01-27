@@ -121,7 +121,7 @@ export default function About({ onFileClick }) {
                   I get restless when I'm not working on something, which is why I'm usually juggling a <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>co-op</span>, a couple <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>side projects</span>, and at least one <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>organization</span> that probably needs more of my attention.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
-                  I'm drawn to roles where I can <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>build real things</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>lead teams</span> doing the same. Not interested in busywork or meetings that could've been emails.
+                  I'm drawn to roles where I can <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>build real things</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>lead teams</span> doing the same.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
                   When I'm not coding, I'm <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>producing music</span>, playing poker, hunting for good food in random cities, or binge-watching shows I've already seen three times.
