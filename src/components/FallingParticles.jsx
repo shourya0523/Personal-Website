@@ -45,7 +45,6 @@ export default function FallingParticles() {
   const isVisibleRef = useRef(true)
   const intersectionObserverRef = useRef(null)
   const lastFrameTimeRef = useRef(0)
-  const frameSkipRef = useRef(0)
   const particleCount = 35
 
   // Memoize particles to avoid recalculation
@@ -95,6 +94,13 @@ export default function FallingParticles() {
 
     const dpr = window.devicePixelRatio || 1
 
+    // Apply scale transform once when context is created
+    // Setting canvas.width/height resets the transform, so we need to reapply it
+    const applyScaleTransform = () => {
+      // Use setTransform to explicitly set the transform matrix (not cumulative)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
     const resizeCanvas = () => {
       const width = window.innerWidth
       const height = window.innerHeight
@@ -104,7 +110,8 @@ export default function FallingParticles() {
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
 
-      ctx.scale(dpr, dpr)
+      // Reapply scale transform after canvas dimensions are reset
+      applyScaleTransform()
       
       // Update endY for all particles
       particlesRef.current.forEach(particle => {
@@ -118,11 +125,6 @@ export default function FallingParticles() {
       resizeCanvas()
     }
     window.addEventListener('resize', resizeHandler, { passive: true })
-
-    // Wait for pre-rendering to complete before starting animation
-    if (isPreRendering && !preRenderComplete) {
-      return
-    }
 
     // Pre-render initial state
     ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
@@ -182,21 +184,17 @@ export default function FallingParticles() {
         const entry = entries[0]
         isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0
         
-        if (isVisibleRef.current && preRenderComplete) {
-          if (!animationFrameRef.current) {
-            animationFrameRef.current = requestAnimationFrame(animate)
-          }
+        if (isVisibleRef.current && preRenderComplete && !animationFrameRef.current) {
+          animationFrameRef.current = requestAnimationFrame(animate)
         }
       },
       { threshold: [0, 0.01] }
     )
     
-    if (canvas) {
-      observer.observe(canvas)
-      intersectionObserverRef.current = observer
-    }
+    observer.observe(canvas)
+    intersectionObserverRef.current = observer
 
-    // Start animation after pre-render completes
+    // Start animation only after pre-render completes
     if (preRenderComplete) {
       animationFrameRef.current = requestAnimationFrame(animate)
     }
@@ -208,60 +206,10 @@ export default function FallingParticles() {
       }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = null
       }
     }
   }, [isPreRendering, preRenderComplete, drawParticle])
-
-  // Restart animation when pre-render completes
-  useEffect(() => {
-    if (preRenderComplete && canvasRef.current && !animationFrameRef.current) {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext('2d', { alpha: true })
-      if (!ctx) return
-
-      let animationStartTime = null
-      const dpr = window.devicePixelRatio || 1
-      const targetFPS = 60
-      const frameInterval = 1000 / targetFPS
-
-      const animate = (currentTime) => {
-        if (!isVisibleRef.current) {
-          animationFrameRef.current = requestAnimationFrame(animate)
-          return
-        }
-
-        const elapsed = currentTime - lastFrameTimeRef.current
-        if (elapsed < frameInterval) {
-          animationFrameRef.current = requestAnimationFrame(animate)
-          return
-        }
-        lastFrameTimeRef.current = currentTime - (elapsed % frameInterval)
-
-        if (!animationStartTime) {
-          animationStartTime = currentTime
-          startTimeRef.current = currentTime
-        }
-
-        const elapsedSeconds = (currentTime - animationStartTime) / 1000
-        
-        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
-
-        const canvasWidth = canvas.width
-        particlesRef.current.forEach((particle) => {
-          const particleElapsed = elapsedSeconds - particle.delay
-          if (particleElapsed < 0) return
-          const cycleTime = particleElapsed % particle.duration
-          const progress = cycleTime / particle.duration
-          if (progress >= 1) return
-          drawParticle(ctx, particle, progress, canvasWidth, dpr)
-        })
-
-        animationFrameRef.current = requestAnimationFrame(animate)
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate)
-    }
-  }, [preRenderComplete, drawParticle])
 
   return (
     <canvas

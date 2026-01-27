@@ -340,42 +340,44 @@ function App() {
   }
 
   return (
-    <UserProvider>
-      <SoundProvider>
-        <MusicProvider>
-          <WallpaperProvider>
-            <WindowProvider>
-              <AnimatePresence mode="wait">
-                {currentPage === 'landing' && (
-                  <LandingPage key="landing" onComplete={handleLandingComplete} />
-                )}
-                {currentPage === 'login' && (
-                  <LoginPage key="login" onLogin={handleLogin} />
-                )}
-                {currentPage === 'desktop' && (
-                  <motion.div
-                    key="desktop"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <DesktopOS />
-                    <ClickSparkCursor
-                      sparkColor='#fff'
-                      sparkSize={16}
-                      sparkRadius={45}
-                      sparkCount={8}
-                      duration={400}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </WindowProvider>
-          </WallpaperProvider>
-        </MusicProvider>
-      </SoundProvider>
-    </UserProvider>
+    <PreRenderProvider>
+      <UserProvider>
+        <SoundProvider>
+          <MusicProvider>
+            <WallpaperProvider>
+              <WindowProvider>
+                <AnimatePresence mode="wait">
+                  {currentPage === 'landing' && (
+                    <LandingPage key="landing" onComplete={handleLandingComplete} />
+                  )}
+                  {currentPage === 'login' && (
+                    <LoginPage key="login" onLogin={handleLogin} />
+                  )}
+                  {currentPage === 'desktop' && (
+                    <motion.div
+                      key="desktop"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1 }}
+                    >
+                      <DesktopOS />
+                      <ClickSparkCursor
+                        sparkColor='#fff'
+                        sparkSize={16}
+                        sparkRadius={45}
+                        sparkCount={8}
+                        duration={400}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </WindowProvider>
+            </WallpaperProvider>
+          </MusicProvider>
+        </SoundProvider>
+      </UserProvider>
+    </PreRenderProvider>
   )
 }
 

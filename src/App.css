@@ -34,3 +34,30 @@ canvas {
   will-change: transform, opacity;
   transform: translateZ(0);
 }
+
+/* Performance optimizations for canvas elements */
+canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  contain: layout style paint;
+  isolation: isolate;
+}
+
+/* Optimize particle animations */
+.fixed.inset-0 {
+  contain: layout style paint;
+  isolation: isolate;
+}
+
+/* Reduce repaints during animations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimize compositing layers */
+.liquid-ether-container {
+  contain: layout style paint;
+  isolation: isolate;
+  will-change: contents;
+}

@@ -1,4 +1,5 @@
 import { useRef, useEffect, useCallback } from 'react';
+import { usePreRender } from '../contexts/PreRenderContext';
 
 const ClickSparkCursor = ({
   sparkColor = '#fff',
@@ -9,10 +10,14 @@ const ClickSparkCursor = ({
   easing = 'ease-out',
   extraScale = 1.0,
 }) => {
+  const { preRenderComplete } = usePreRender();
   const canvasRef = useRef(null);
   const sparksRef = useRef([]);
   const animationFrameRef = useRef(null);
   const isAnimatingRef = useRef(false);
+  const isVisibleRef = useRef(true);
+  const intersectionObserverRef = useRef(null);
+  const lastFrameTimeRef = useRef(0);
 
   const easeFunc = useCallback(t => {
     switch (easing) {
@@ -53,18 +58,30 @@ const ClickSparkCursor = ({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!canvas || !preRenderComplete) return;
+    
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
     ctx.scale(dpr, dpr);
 
+    const targetFPS = 60;
+    const frameInterval = 1000 / targetFPS;
+
     const draw = (timestamp) => {
-      if (sparksRef.current.length === 0) {
+      if (!isVisibleRef.current || sparksRef.current.length === 0) {
         isAnimatingRef.current = false;
         return;
       }
+
+      // Throttle to target FPS
+      const elapsed = timestamp - lastFrameTimeRef.current;
+      if (elapsed < frameInterval) {
+        animationFrameRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrameTimeRef.current = timestamp - (elapsed % frameInterval);
 
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
@@ -103,6 +120,8 @@ const ClickSparkCursor = ({
     };
 
     const handleClick = (e) => {
+      if (!preRenderComplete) return;
+      
       const x = e.clientX;
       const y = e.clientY;
 
@@ -123,15 +142,30 @@ const ClickSparkCursor = ({
       }
     };
 
+    // Intersection Observer to pause when not visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0;
+      },
+      { threshold: [0, 0.01] }
+    );
+    
+    observer.observe(canvas);
+    intersectionObserverRef.current = observer;
+
     document.addEventListener('click', handleClick, { passive: true });
 
     return () => {
       document.removeEventListener('click', handleClick);
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [sparkCount, sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]);
+  }, [sparkCount, sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale, preRenderComplete]);
 
   return (
     <canvas
