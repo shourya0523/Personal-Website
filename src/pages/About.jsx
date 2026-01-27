@@ -145,10 +145,10 @@ export default function About({ onFileClick }) {
               
               <div className="space-y-8">
                 {[
-                  { icon: Brain, color: "purple", title: "AI/ML Research", desc: "Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents" },
-                  { icon: Code, color: "blue", title: "Full-Stack Development", desc: "Building scalable applications with modern tech stacks" },
-                  { icon: Rocket, color: "green", title: "Leadership", desc: "Co-founding organizations reaching 200+ members" },
-                  { icon: Target, color: "yellow", title: "Investment Analysis", desc: "Contributing to analysis across consumer and equity markets" }
+                  { icon: Brain, color: "purple", colorClass: "text-purple-400", bgClass: "bg-purple-500/20", borderClass: "border-purple-500", title: "AI/ML Research", desc: "Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents" },
+                  { icon: Code, color: "blue", colorClass: "text-blue-400", bgClass: "bg-blue-500/20", borderClass: "border-blue-500", title: "Full-Stack Development", desc: "Building scalable applications with modern tech stacks" },
+                  { icon: Rocket, color: "green", colorClass: "text-green-400", bgClass: "bg-green-500/20", borderClass: "border-green-500", title: "Leadership", desc: "Co-founding organizations reaching 200+ members" },
+                  { icon: Target, color: "yellow", colorClass: "text-yellow-400", bgClass: "bg-yellow-500/20", borderClass: "border-yellow-500", title: "Investment Analysis", desc: "Contributing to analysis across consumer and equity markets" }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
@@ -158,11 +158,11 @@ export default function About({ onFileClick }) {
                     transition={{ delay: index * 0.1 }}
                     className="relative pl-20"
                   >
-                    <div className={`absolute left-0 w-16 h-16 rounded-full bg-${item.color}-500/20 border-2 border-${item.color}-500 flex items-center justify-center backdrop-blur-sm`}>
-                      <item.icon className={`w-8 h-8 text-${item.color}-400`} />
+                    <div className={`absolute left-0 w-16 h-16 rounded-full ${item.bgClass} border-2 ${item.borderClass} flex items-center justify-center backdrop-blur-sm`}>
+                      <item.icon className={`w-8 h-8 ${item.colorClass}`} />
                     </div>
                     <div className="bg-gray-800/50 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 hover:border-gray-600 transition-all hover:shadow-lg hover:shadow-purple-500/20">
-                      <h3 className={`text-xl font-bold mb-2 text-${item.color}-400`}>{item.title}</h3>
+                      <h3 className={`text-xl font-bold mb-2 ${item.colorClass}`}>{item.title}</h3>
                       <p className="text-gray-300">{item.desc}</p>
                     </div>
                   </motion.div>
@@ -185,10 +185,10 @@ export default function About({ onFileClick }) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Code, color: "blue", title: "Full-Stack Developer", desc: "Building scalable applications with Python, JavaScript, React, FastAPI, and AWS", gradient: "from-blue-500/20 to-blue-600/10" },
-                { icon: Brain, color: "purple", title: "AI/ML Researcher", desc: "Architecting NLP pipelines and semantic matching algorithms for healthcare data", gradient: "from-purple-500/20 to-purple-600/10" },
-                { icon: Rocket, color: "green", title: "Entrepreneur & Leader", desc: "Co-founding organizations, leading teams, and building products at startups", gradient: "from-green-500/20 to-green-600/10" },
-                { icon: Music, color: "red", title: "Creative & Explorer", desc: "Music production, poker, food tourism, global travel, and cat photography", gradient: "from-red-500/20 to-red-600/10" }
+                { icon: Code, color: "blue", colorClass: "text-blue-400", bgClass: "bg-blue-500/10", title: "Full-Stack Developer", desc: "Building scalable applications with Python, JavaScript, React, FastAPI, and AWS", gradient: "from-blue-500/20 to-blue-600/10" },
+                { icon: Brain, color: "purple", colorClass: "text-purple-400", bgClass: "bg-purple-500/10", title: "AI/ML Researcher", desc: "Architecting NLP pipelines and semantic matching algorithms for healthcare data", gradient: "from-purple-500/20 to-purple-600/10" },
+                { icon: Rocket, color: "green", colorClass: "text-green-400", bgClass: "bg-green-500/10", title: "Entrepreneur & Leader", desc: "Co-founding organizations, leading teams, and building products at startups", gradient: "from-green-500/20 to-green-600/10" },
+                { icon: Music, color: "red", colorClass: "text-red-400", bgClass: "bg-red-500/10", title: "Creative & Explorer", desc: "Music production, poker, food tourism, global travel, and cat photography", gradient: "from-red-500/20 to-red-600/10" }
               ].map((role, index) => (
                 <motion.div
                   key={index}
@@ -201,11 +201,11 @@ export default function About({ onFileClick }) {
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative z-10">
-                    <role.icon className={`w-12 h-12 text-${role.color}-400 mb-4 group-hover:scale-110 transition-transform`} />
+                    <role.icon className={`w-12 h-12 ${role.colorClass} mb-4 group-hover:scale-110 transition-transform`} />
                     <h3 className="text-2xl font-bold mb-3">{role.title}</h3>
                     <p className="text-gray-300 leading-relaxed">{role.desc}</p>
                   </div>
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-${role.color}-500/10 rounded-full blur-2xl group-hover:opacity-50 transition-opacity`} />
+                  <div className={`absolute top-0 right-0 w-32 h-32 ${role.bgClass} rounded-full blur-2xl group-hover:opacity-50 transition-opacity`} />
                 </motion.div>
               ))}
             </div>
