@@ -36,6 +36,26 @@
   margin-bottom: 8px;
 }
 
+.suggestions-collapse-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  color: hsl(var(--foreground));
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.suggestions-collapse-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
 .suggestions-carousel-title {
   display: flex;
   align-items: center;
@@ -56,7 +76,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden;
   width: 100%;
 }
 

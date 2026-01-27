@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Sparkles, Rocket } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sparkles, Rocket, ChevronUp, ChevronDown } from 'lucide-react'
 import GlassSurface from './GlassSurface'
 import { useSounds } from '../contexts/SoundContext'
 import './SuggestionsCarousel.css'
@@ -61,6 +61,7 @@ export default function SuggestionsCarousel({ apps, onSuggestionClick, isMobile 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const carouselRef = useRef(null)
   
   const x = useMotionValue(0)
@@ -226,9 +227,29 @@ export default function SuggestionsCarousel({ apps, onSuggestionClick, isMobile 
             <Sparkles size={22} style={{ color: 'hsl(var(--primary))' }} />
             <h3>Try This First</h3>
           </div>
+          <motion.button
+            onClick={() => {
+              setIsCollapsed(!isCollapsed)
+              sounds.click()
+            }}
+            className="suggestions-collapse-button"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label={isCollapsed ? 'Expand' : 'Collapse'}
+          >
+            {isCollapsed ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+          </motion.button>
         </div>
 
-        <div className="suggestions-carousel-content">
+        <AnimatePresence>
+          {!isCollapsed && (
+            <motion.div
+              className="suggestions-carousel-content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentIndex}
@@ -288,7 +309,9 @@ export default function SuggestionsCarousel({ apps, onSuggestionClick, isMobile 
               <ChevronRight size={20} />
             </button>
           </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </GlassSurface>
     </motion.div>
   )

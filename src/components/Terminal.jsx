@@ -713,6 +713,9 @@ Type "recruiter" for quick info or "open resume" for details.`,
   clear             Clear terminal screen
   help              Show this help message
 
+🎲 Easter Eggs:
+  random            Try your luck! (Terminal only)
+
 Examples:
   recruiter                    Quick recruiter info
   skills                       View technical skills
@@ -809,6 +812,30 @@ User: ${userName || 'guest'}`,
     // Projects, resume, contact, awards, leadership - open apps
     else if (['projects', 'resume', 'contact', 'awards', 'leadership', 'explorer'].includes(command)) {
       openApp(command)
+    }
+    // Random easter egg command
+    else if (command === 'random') {
+      const randomValue = Math.random()
+      
+      // 1 in 5 chance (20%) to link to Pac-Man
+      if (randomValue < 0.2) {
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🎮 PAC-MAN EASTER EGG ACTIVATED! 🎮\n\nOpening Pac-Man game...`,
+          outputType: 'success'
+        }])
+        setTimeout(() => {
+          window.open('https://www.google.com/search?q=pacman+game', '_blank')
+        }, 1000)
+      }
+      // 40% chance to set cat meme wallpaper
+      else if (randomValue < 0.6) {
+        searchAndSetWallpaper('cat meme')
+      }
+      // 40% chance to play Never Gonna Give You Up
+      else {
+        searchAndPlaySong('never gonna give you up rick astley')
+      }
     }
     // Unknown command
     else {
