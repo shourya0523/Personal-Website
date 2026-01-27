@@ -8,7 +8,7 @@ import GlassSurface from './GlassSurface'
 import FallingParticles from './FallingParticles'
 import './MobileLayout.css'
 
-export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWindow, children }) {
+export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWindow }) {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [batteryLevel, setBatteryLevel] = useState(100)
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false)

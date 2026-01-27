@@ -15,14 +15,23 @@ export const WindowProvider = ({ children }) => {
   const [zIndexCounter, setZIndexCounter] = useState(1000)
 
   const openWindow = (windowData) => {
+    const defaultSize = windowData.size || { width: 800, height: 600 }
+    
+    // Calculate center position
+    const centerPosition = windowData.position || (() => {
+      const centerX = (window.innerWidth - defaultSize.width) / 2
+      const centerY = (window.innerHeight - defaultSize.height) / 2
+      return { x: Math.max(0, centerX), y: Math.max(0, centerY) }
+    })()
+    
     const newWindow = {
       ...windowData,
       id: windowData.id || `window-${Date.now()}`,
       zIndex: zIndexCounter + 1,
       minimized: false,
       maximized: false,
-      position: windowData.position || { x: 100 + windows.length * 30, y: 100 + windows.length * 30 },
-      size: windowData.size || { width: 800, height: 600 },
+      position: centerPosition,
+      size: defaultSize,
     }
     setWindows([...windows, newWindow])
     setZIndexCounter(zIndexCounter + 1)

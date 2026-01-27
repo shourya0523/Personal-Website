@@ -5,53 +5,80 @@ import Folder from '../components/Folder'
 const projects = [
   {
     id: 1,
-    title: 'Pact',
-    description: 'Mobile accountability app with full-stack architecture. Led product decisions and designed scalable cloud backend.',
-    tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
-    github: 'https://github.com/shourya0523/Pact',
-    demo: null,
+    title: 'InSync',
+    description: 'Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.',
+    tech: ['Python', 'PostgreSQL', 'FastAPI', 'Scikit-Learn'],
+    github: null,
+    demo: 'https://insync-rg.com',
+    period: 'January 2026 – Present',
     color: '#3B82F6',
-    files: ['Backend', 'Frontend', 'Database']
+    files: ['Database', 'Matching', 'Pipelines']
   },
   {
     id: 2,
-    title: 'Claude Code Demo',
-    description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs. Created extensive demo library.',
-    tech: ['Claude Code', 'React', 'Python'],
-    github: 'https://github.com/shourya0523/Claude_Code_Demo',
+    title: 'DawnPa',
+    description: 'Comprehensive full-stack platform for healthcare tooling, currently under active development.',
+    tech: ['Full-Stack', 'Healthcare', 'Tooling'],
+    github: null,
     demo: null,
+    period: 'Work in Progress',
     color: '#8B5CF6',
-    files: ['Examples', 'Templates', 'Demos']
+    files: ['Platform', 'Healthcare', 'Tooling']
   },
   {
     id: 3,
-    title: 'CapTuring',
-    description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity.',
-    tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
-    github: 'https://github.com/shourya0523',
+    title: 'Pact',
+    description: 'Mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.',
+    tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
+    github: 'https://github.com/shourya0523/Pact',
     demo: null,
+    period: 'December 2025',
     color: '#10B981',
-    files: ['Pipeline', 'Features', 'Analysis']
+    files: ['Backend', 'Frontend', 'Database']
   },
   {
     id: 4,
-    title: 'ClubWorks',
-    description: 'Full-stack platform for college club operations with role-based access, analytics, and event workflows.',
-    tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],
-    github: 'https://github.com/shourya0523',
+    title: 'Claude Code Demo',
+    description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations.',
+    tech: ['Claude Code', 'React', 'Python'],
+    github: 'https://github.com/shourya0523/Claude_Code_Demo',
     demo: null,
+    period: 'October 2025 – November 2025',
     color: '#F59E0B',
-    files: ['API', 'Dashboard', 'Config']
+    files: ['Examples', 'Templates', 'Demos']
   },
   {
     id: 5,
     title: 'Spendr',
-    description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching.',
+    description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.',
     tech: ['JavaScript', 'Python', 'React'],
     github: null,
     demo: 'https://devpost.com/software/spendr',
+    period: 'January 2025',
     color: '#EC4899',
     files: ['Algorithm', 'UI', 'Data']
+  },
+  {
+    id: 6,
+    title: 'CapTuring',
+    description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.',
+    tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
+    github: 'https://github.com/shourya0523',
+    demo: null,
+    period: 'April 2025 – May 2025',
+    color: '#06B6D4',
+    files: ['Pipeline', 'Features', 'Analysis']
+  },
+  {
+    id: 7,
+    title: 'ClubWorks',
+    description: 'Full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.',
+    tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],
+    github: 'https://github.com/shourya0523/Clubworks_CS3200',
+    demo: null,
+    period: 'March 2025 – May 2025',
+    color: '#A855F7',
+    files: ['API', 'Dashboard', 'Config']
   },
 ]
 
@@ -109,9 +136,14 @@ export default function Projects({ onFileClick, onOpenFolder }) {
                   <h2 className="text-sm font-semibold mb-1 text-white text-center w-full truncate px-2">
                     {project.title}
                   </h2>
-                  <p className="text-xs text-gray-400 text-center mb-2 w-full line-clamp-2 px-2">
+                  <p className="text-xs text-gray-400 text-center mb-1 w-full line-clamp-2 px-2">
                     {project.description}
                   </p>
+                  {project.period && (
+                    <p className="text-xs text-gray-500 text-center mb-2 px-2">
+                      {project.period}
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-1 mb-2 justify-center w-full px-2">
                     {project.tech.slice(0, 2).map((tech) => (
                       <span
@@ -144,7 +176,7 @@ export default function Projects({ onFileClick, onOpenFolder }) {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink size={12} />
-                        Demo
+                        {project.demo.includes('insync') ? 'Website' : 'Demo'}
                       </a>
                     )}
                   </div>

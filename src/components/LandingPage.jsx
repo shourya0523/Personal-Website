@@ -56,7 +56,7 @@ export default function LandingPage({ onComplete }) {
           onShuffleComplete={handleShuffleComplete}
           colorFrom={colorFrom}
           colorTo={colorTo}
-          className="text-foreground shuffle-glow"
+          className="text-foreground"
         />
       </div>
     </motion.div>

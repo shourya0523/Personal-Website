@@ -196,14 +196,14 @@ export default function WallpaperSelector() {
         {wallpaperUrl && (
           <div className="mt-6 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-lg">
             <h3 className="text-lg font-semibold mb-2 text-white">Current Wallpaper</h3>
-            <div className="flex items-center gap-4">
+            <div className="flex items-start gap-4">
               <img
                 src={wallpaperUrl}
                 alt="Current wallpaper"
-                className="w-32 h-20 object-cover rounded"
+                className="w-32 h-20 object-cover rounded flex-shrink-0"
               />
-              <div className="flex-1">
-                <p className="text-sm text-gray-300 truncate">{wallpaperUrl}</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-gray-300 break-words break-all">{wallpaperUrl}</p>
                 <p className="text-xs text-gray-400 mt-1">
                   Particle colors have been customized based on this image
                 </p>

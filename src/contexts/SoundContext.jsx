@@ -2,8 +2,8 @@ import { createContext, useContext, useMemo } from 'react'
 
 const SoundContext = createContext()
 
-// Modern, subtle UI sound generator - water drops, soft chimes, ambient tones
-class ModernSoundGenerator {
+// Woodblock-esque sound generator - percussive, sharp attack, quick decay
+class WoodblockSoundGenerator {
   constructor() {
     this.audioContext = null
     this.initAudioContext()
@@ -26,8 +26,8 @@ class ModernSoundGenerator {
     }
   }
 
-  // Create a soft water drop sound
-  createWaterDrop(frequency = 800, duration = 0.15, volume = 0.2) {
+  // Create a woodblock sound - percussive with sharp attack
+  createWoodblock(frequency = 600, duration = 0.05, volume = 0.3) {
     if (!this.audioContext) return
 
     this.ensureAudioContext()
@@ -41,20 +41,88 @@ class ModernSoundGenerator {
 
       oscillator.type = 'sine'
       oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime)
-      oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.3, this.audioContext.currentTime + duration)
+      
+      const now = this.audioContext.currentTime
+      // Sharp attack, quick decay - woodblock characteristic
+      gainNode.gain.setValueAtTime(0, now)
+      gainNode.gain.linearRampToValueAtTime(volume, now + 0.001) // Very sharp attack
+      gainNode.gain.exponentialRampToValueAtTime(volume * 0.3, now + duration * 0.1) // Quick initial decay
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration) // Full decay
 
-      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-
-      oscillator.start(this.audioContext.currentTime)
-      oscillator.stop(this.audioContext.currentTime + duration)
+      oscillator.start(now)
+      oscillator.stop(now + duration)
     } catch (e) {
       // Silently fail
     }
   }
 
-  // Create a soft bell/chime sound
-  createChime(frequency = 1000, duration = 0.2, volume = 0.18) {
+  // Create a woodblock chime - two-tone woodblock pattern
+  createWoodblockChime(frequency1 = 600, frequency2 = 800, duration = 0.08, volume = 0.25) {
+    if (!this.audioContext) return
+
+    this.ensureAudioContext()
+
+    try {
+      const now = this.audioContext.currentTime
+      
+      // First woodblock
+      const osc1 = this.audioContext.createOscillator()
+      const gain1 = this.audioContext.createGain()
+      osc1.connect(gain1)
+      gain1.connect(this.audioContext.destination)
+      osc1.type = 'sine'
+      osc1.frequency.setValueAtTime(frequency1, now)
+      gain1.gain.setValueAtTime(0, now)
+      gain1.gain.linearRampToValueAtTime(volume, now + 0.001)
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + duration)
+      osc1.start(now)
+      osc1.stop(now + duration)
+      
+      // Second woodblock (slightly delayed)
+      const osc2 = this.audioContext.createOscillator()
+      const gain2 = this.audioContext.createGain()
+      osc2.connect(gain2)
+      gain2.connect(this.audioContext.destination)
+      osc2.type = 'sine'
+      osc2.frequency.setValueAtTime(frequency2, now + 0.05)
+      gain2.gain.setValueAtTime(0, now + 0.05)
+      gain2.gain.linearRampToValueAtTime(volume, now + 0.051)
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.05 + duration)
+      osc2.start(now + 0.05)
+      osc2.stop(now + 0.05 + duration)
+    } catch (e) {
+      // Silently fail
+    }
+  }
+
+  // Create a woodblock sequence - ascending or descending
+  createWoodblockSequence(frequencies = [400, 500, 600], duration = 0.05, volume = 0.25, delay = 0.05) {
+    if (!this.audioContext) return
+
+    this.ensureAudioContext()
+
+    try {
+      const now = this.audioContext.currentTime
+      frequencies.forEach((freq, index) => {
+        const osc = this.audioContext.createOscillator()
+        const gain = this.audioContext.createGain()
+        osc.connect(gain)
+        gain.connect(this.audioContext.destination)
+        osc.type = 'sine'
+        osc.frequency.setValueAtTime(freq, now + index * delay)
+        gain.gain.setValueAtTime(0, now + index * delay)
+        gain.gain.linearRampToValueAtTime(volume, now + index * delay + 0.001)
+        gain.gain.exponentialRampToValueAtTime(0.001, now + index * delay + duration)
+        osc.start(now + index * delay)
+        osc.stop(now + index * delay + duration)
+      })
+    } catch (e) {
+      // Silently fail
+    }
+  }
+
+  // Create a light woodblock tap
+  createLightWoodblock(frequency = 700, duration = 0.03, volume = 0.15) {
     if (!this.audioContext) return
 
     this.ensureAudioContext()
@@ -68,143 +136,63 @@ class ModernSoundGenerator {
 
       oscillator.type = 'sine'
       oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime)
-      oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.7, this.audioContext.currentTime + duration)
+      
+      const now = this.audioContext.currentTime
+      gainNode.gain.setValueAtTime(0, now)
+      gainNode.gain.linearRampToValueAtTime(volume, now + 0.001)
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration)
 
-      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-
-      oscillator.start(this.audioContext.currentTime)
-      oscillator.stop(this.audioContext.currentTime + duration)
+      oscillator.start(now)
+      oscillator.stop(now + duration)
     } catch (e) {
       // Silently fail
     }
   }
 
-  // Create a subtle whoosh sound
-  createWhoosh(duration = 0.12, volume = 0.15) {
-    if (!this.audioContext) return
 
-    this.ensureAudioContext()
-
-    try {
-      const bufferSize = this.audioContext.sampleRate * duration
-      const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate)
-      const data = buffer.getChannelData(0)
-
-      // Generate filtered noise for whoosh
-      for (let i = 0; i < bufferSize; i++) {
-        const progress = i / bufferSize
-        data[i] = (Math.random() * 2 - 1) * (1 - progress) * volume
-      }
-
-      const source = this.audioContext.createBufferSource()
-      const gainNode = this.audioContext.createGain()
-      const filter = this.audioContext.createBiquadFilter()
-
-      filter.type = 'lowpass'
-      filter.frequency.value = 2000
-      filter.Q.value = 1
-
-      source.buffer = buffer
-      source.connect(filter)
-      filter.connect(gainNode)
-      gainNode.connect(this.audioContext.destination)
-
-      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-
-      source.start(this.audioContext.currentTime)
-      source.stop(this.audioContext.currentTime + duration)
-    } catch (e) {
-      // Silently fail
-    }
-  }
-
-  // Create a soft tap/click sound
-  createSoftTap(frequency = 1200, duration = 0.05, volume = 0.15) {
-    if (!this.audioContext) return
-
-    this.ensureAudioContext()
-
-    try {
-      const oscillator = this.audioContext.createOscillator()
-      const gainNode = this.audioContext.createGain()
-
-      oscillator.connect(gainNode)
-      gainNode.connect(this.audioContext.destination)
-
-      oscillator.type = 'sine'
-      oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime)
-
-      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-
-      oscillator.start(this.audioContext.currentTime)
-      oscillator.stop(this.audioContext.currentTime + duration)
-    } catch (e) {
-      // Silently fail
-    }
-  }
-
-  // Create a gentle ambient tone
-  createAmbientTone(frequency = 600, duration = 0.18, volume = 0.16) {
-    if (!this.audioContext) return
-
-    this.ensureAudioContext()
-
-    try {
-      const oscillator = this.audioContext.createOscillator()
-      const gainNode = this.audioContext.createGain()
-
-      oscillator.connect(gainNode)
-      gainNode.connect(this.audioContext.destination)
-
-      oscillator.type = 'sine'
-      oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime)
-      oscillator.frequency.linearRampToValueAtTime(frequency * 1.2, this.audioContext.currentTime + duration * 0.5)
-      oscillator.frequency.linearRampToValueAtTime(frequency, this.audioContext.currentTime + duration)
-
-      gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-
-      oscillator.start(this.audioContext.currentTime)
-      oscillator.stop(this.audioContext.currentTime + duration)
-    } catch (e) {
-      // Silently fail
-    }
-  }
-
-  // Sound methods
+  // Sound methods - woodblock-esque sounds
   click() {
-    this.createSoftTap(1200, 0.05, 0.15)
+    // Short, sharp woodblock tap
+    this.createWoodblock(600, 0.03, 0.25)
+    this.createWoodblock(400, 0.02, 0.15)
   }
 
   open() {
-    this.createWaterDrop(900, 0.18, 0.22)
+    // Higher woodblock - opening sound
+    this.createWoodblock(800, 0.05, 0.3)
+    this.createWoodblock(500, 0.04, 0.2)
+    this.createWoodblock(300, 0.03, 0.15)
   }
 
   close() {
-    this.createWaterDrop(700, 0.15, 0.2)
+    // Lower woodblock - closing sound
+    this.createWoodblock(500, 0.05, 0.3)
+    this.createWoodblock(350, 0.04, 0.2)
+    this.createWoodblock(200, 0.03, 0.15)
   }
 
   hover() {
-    this.createSoftTap(1400, 0.03, 0.1)
+    // Very light woodblock tap
+    this.createLightWoodblock(700, 0.02, 0.12)
   }
 
   notification() {
-    this.createChime(1100, 0.25, 0.2)
+    // Two-tone woodblock chime
+    this.createWoodblockChime(600, 800, 0.06, 0.25)
   }
 
   maximize() {
-    this.createWhoosh(0.15, 0.18)
+    // Ascending woodblock sequence
+    this.createWoodblockSequence([400, 500, 600], 0.04, 0.22, 0.05)
   }
 
   minimize() {
-    this.createAmbientTone(500, 0.12, 0.16)
+    // Descending woodblock sequence
+    this.createWoodblockSequence([600, 500, 400], 0.04, 0.22, 0.05)
   }
 }
 
-const soundGenerator = new ModernSoundGenerator()
+const soundGenerator = new WoodblockSoundGenerator()
 
 export function SoundProvider({ children }) {
   const sounds = useMemo(() => ({

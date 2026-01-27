@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react'
 import LiquidEther from './LiquidEther/LiquidEther'
 import NameInputPage from './NameInputPage'
 
+
 // Helper function to convert HSL to hex
 function hslToHex(h, s, l) {
   l /= 100

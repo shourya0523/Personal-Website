@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, Pause, SkipForward, SkipBack, Volume2, Search, Music, Heart, Star } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, Volume2, Search, Music, Heart } from 'lucide-react'
 import { useMusic } from '../contexts/MusicContext'
 
 // Favorite song - plays by default
@@ -200,7 +200,7 @@ export default function MusicPlayer() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && searchSongs(searchQuery)}
-                placeholder="Search for songs, artists... (Deezer API)"
+                placeholder="Search for songs, artists..."
                 className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 text-white placeholder-gray-400"
               />
             </div>
@@ -249,26 +249,26 @@ export default function MusicPlayer() {
                         : 'bg-gray-800/50 border border-gray-700 hover:bg-gray-700/50'
                     }`}
                   >
-                    {song.cover && (
-                      <img
-                        src={song.cover}
-                        alt={song.album}
-                        className="w-16 h-16 rounded object-cover"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold truncate">{song.title}</h4>
-                      <p className="text-sm text-gray-400 truncate">{song.artist}</p>
-                      <p className="text-xs text-gray-500">{song.album}</p>
-                    </div>
-                    <div className="text-sm text-gray-400">
-                      {formatTime(song.duration)}
-                    </div>
-                    {currentSong?.id === song.id && isPlaying && (
-                      <motion.div
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ repeat: Infinity, duration: 1 }}
-                        className="w-3 h-3 bg-blue-400 rounded-full"
+                      {song.cover && (
+                        <img
+                          src={song.cover}
+                          alt={song.album}
+                          className="w-16 h-16 rounded object-cover"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold truncate">{song.title}</h4>
+                        <p className="text-sm text-gray-400 truncate">{song.artist}</p>
+                        <p className="text-xs text-gray-500">{song.album}</p>
+                      </div>
+                      <div className="text-sm text-gray-400">
+                        {formatTime(song.duration)}
+                      </div>
+                      {currentSong?.id === song.id && isPlaying && (
+                        <motion.div
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ repeat: Infinity, duration: 1 }}
+                          className="w-3 h-3 bg-blue-400 rounded-full"
                       />
                     )}
                   </motion.div>

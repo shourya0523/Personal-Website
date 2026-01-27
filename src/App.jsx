@@ -10,7 +10,6 @@ import StartMenu from './components/StartMenu'
 import MobileLayout from './components/MobileLayout'
 import FileExplorer, { fileStructure } from './components/FileExplorer'
 import GlassIcons from './components/GlassIcons'
-import ExpandableFolder from './components/ExpandableFolder'
 import Terminal from './components/Terminal'
 import About from './pages/About'
 import Projects from './pages/Projects'
@@ -27,6 +26,7 @@ import LoginPage from './components/LoginPage'
 import { UserProvider, useUser } from './contexts/UserContext'
 import { MusicProvider } from './contexts/MusicContext'
 import { WallpaperProvider, useWallpaper } from './contexts/WallpaperContext'
+import ClickSparkCursor from './components/ClickSparkCursor'
 import './App.css'
 
 const apps = [
@@ -147,7 +147,7 @@ function DesktopOS() {
 
   return (
     <div 
-      className="h-screen text-white overflow-hidden relative pt-8"
+      className="h-screen text-white overflow-hidden relative pt-14"
       style={{
         backgroundImage: `url(${wallpaperUrl})`,
         backgroundSize: 'cover',
@@ -155,11 +155,11 @@ function DesktopOS() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* Dark overlay to improve visibility */}
-      <div className="absolute inset-0 bg-black/10 z-0" />
-      
-      {/* Falling Particles - Always on top, non-interactive */}
-      <FallingParticles />
+        {/* Dark overlay to improve visibility */}
+        <div className="absolute inset-0 bg-black/10 z-0" />
+        
+        {/* Falling Particles - Always on top, non-interactive */}
+        <FallingParticles />
       
       {/* Desktop Icons */}
       <div className="absolute inset-0">
@@ -202,7 +202,13 @@ function DesktopOS() {
             key={window.id}
             window={{
               ...window,
-              content: app ? <app.component onFileClick={handleFileClick} /> : window.content
+              content: app ? (
+                app.type === 'terminal' ? (
+                  <app.component onFileClick={handleFileClick} onOpenApp={handleAppClick} apps={apps} />
+                ) : (
+                  <app.component onFileClick={handleFileClick} />
+                )
+              ) : window.content
             }}
             onClose={() => closeWindow(window.id)}
             onMinimize={() => minimizeWindow(window.id)}
@@ -288,6 +294,13 @@ function App() {
                     transition={{ duration: 1 }}
                   >
                     <DesktopOS />
+                    <ClickSparkCursor
+                      sparkColor='#fff'
+                      sparkSize={16}
+                      sparkRadius={45}
+                      sparkCount={8}
+                      duration={400}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>

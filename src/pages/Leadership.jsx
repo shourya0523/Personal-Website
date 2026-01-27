@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Users, Target, TrendingUp, Building2 } from 'lucide-react'
+import { Users, Target, TrendingUp, Building2, ExternalLink } from 'lucide-react'
 
 const leadershipRoles = [
   {
@@ -36,8 +36,9 @@ const leadershipRoles = [
     id: 3,
     title: 'Executive Board Member',
     organization: 'AI Club @ Northeastern',
-    period: 'Dates TBD',
-    description: 'Co-authored official AI policy for business school. Drove programming and operations for large student organization.',
+    period: 'June 2025 – Present',
+    website: 'https://aineu.org',
+    description: 'I co-authored D\'Amore-McKim\'s official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.',
     achievements: [
       'Co-authored D\'Amore-McKim\'s official AI policy, establishing ethical guidelines for 3,000+ students',
       'Drove programming and operations for 500+ member organization, increasing event attendance by 40%'
@@ -74,7 +75,19 @@ export default function Leadership({ onFileClick }) {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h2 className="text-2xl font-bold">{role.title}</h2>
-                        <p className="text-blue-400">{role.organization}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-blue-400">{role.organization}</p>
+                          {role.website && (
+                            <a
+                              href={role.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 hover:text-blue-400 text-sm underline"
+                            >
+                              Website
+                            </a>
+                          )}
+                        </div>
                       </div>
                       <span className="text-gray-400 text-sm">{role.period}</span>
                     </div>

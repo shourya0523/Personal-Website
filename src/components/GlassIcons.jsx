@@ -203,7 +203,7 @@ const GlassIcons = ({ items, className, colorful = false }) => {
 
     return (
       <button 
-        key={globalIndex} 
+        key={globalIndex}
         className={`icon-btn ${item.customClass || ''}`} 
         aria-label={item.label} 
         type="button"
