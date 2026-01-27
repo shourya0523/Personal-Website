@@ -22,7 +22,7 @@ const ASCII_ART = `
     ║            ██████╔╝███████╗                                   ║
     ║            ██╔══██╗╚════██║                                   ║
     ║            ██║  ██║███████║                                   ║
-    ║            ╚═╝  ╚═╝╚══════╝                                   ║
+    ║            ╚═╝  ╚═╝╚════════╝                                   ║
     ║                                                               ║
     ║  ┌─────────────────────────────────────────────────────┐    ║
     ║  │                                                     │    ║
@@ -31,21 +31,21 @@ const ASCII_ART = `
     ║  │         ██║   ██║███████╗                           │    ║
     ║  │         ██║   ██║╚════██║                           │    ║
     ║  │         ╚██████╔╝███████║                           │    ║
-    ║  │          ╚═════╝ ╚══════╝                           │    ║
+    ║  │          ╚═════╝ ╚════════╝                           │    ║
     ║  │                                                     │    ║
     ║  └─────────────────────────────────────────────────────┘    ║
     ║                                                               ║
     ║  ════════════════════════════════════════════════════════    ║
     ║                                                               ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
-    ║     ░░  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ░░        ║
-    ║     ░░  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ░░        ║
-    ║     ░░  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ░░        ║
-    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
+    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
+    ║     ░░  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ╔═══╗  ░░        ║
+    ║     ░░  ║   ║  ║   ║  ║   ║  ║   ║  ║   ║  ░░        ║
+    ║     ░░  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ╚═══╝  ░░        ║
+    ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ║
     ║                                                               ║
-    ║  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓    ║
+    ║  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓    ║
     ║  ┃  ⚡ v2.0  │  🚀 React  │  💻 CLI  │  🎨 Modern  ┃    ║
-    ║  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛    ║
+    ║  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛    ║
     ║                                                               ║
     ╚═══════════════════════════════════════════════════════════════╝
 `
@@ -214,7 +214,7 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
   }
 
   // Search and set wallpaper directly
-  const searchAndSetWallpaper = async (query) => {
+  const searchAndSetWallpaper = async (query, randomIndex = null) => {
     setIsLoading(true)
     setHistory(prev => [...prev, {
       type: 'output',
@@ -234,8 +234,10 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
         return
       }
 
+      // Fetch more results for random selection (up to 30)
+      const perPage = randomIndex !== null ? 30 : 1
       const response = await fetch(
-        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=${perPage}&orientation=landscape`,
         {
           headers: {
             'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
@@ -249,7 +251,11 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
 
       const data = await response.json()
       if (data.results && data.results.length > 0) {
-        const image = data.results[0]
+        // If randomIndex is provided, use it; otherwise use first result
+        const imageIndex = randomIndex !== null 
+          ? Math.min(randomIndex, data.results.length - 1)
+          : 0
+        const image = data.results[imageIndex]
         const imageUrl = image.urls.regular || image.urls.full
         
         // Extract colors
@@ -664,9 +670,9 @@ Type "recruiter" for quick info or "open resume" for details.`,
     }
     else if (command === 'linkedin' || command === 'github' || command === 'email') {
       const contactInfo = {
-        linkedin: 'LinkedIn: https://linkedin.com/in/shouryayadav\nType "open contact" for full social links.',
-        github: 'GitHub: https://github.com/shouryayadav\nType "open contact" for full social links.',
-        email: 'Email: shourya.yadav@northeastern.edu\nType "open contact" for full contact information.'
+        linkedin: 'LinkedIn: https://linkedin.com/in/shouryadav\nType "open contact" for full social links.',
+        github: 'GitHub: https://github.com/shourya0523\nType "open contact" for full social links.',
+        email: 'Email: yadav.sho@northeastern.edu\nType "open contact" for full contact information.'
       }
       setHistory(prev => [...prev, {
         type: 'output',
@@ -817,8 +823,43 @@ User: ${userName || 'guest'}`,
     else if (command === 'random') {
       const randomValue = Math.random()
       
-      // 1 in 5 chance (20%) to link to Pac-Man
-      if (randomValue < 0.2) {
+      // 5% chance - Secret code easter egg (moved to top for priority)
+      if (randomValue < 0.05) {
+        // Generate a unique code based on timestamp and random
+        const code = `SHOURYA-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+        const asciiArt = `
+    ╔═══════════════════════════════════════════════╗
+    ║                                               ║
+    ║   ╔═══╗                                      ║
+    ║   ║🎲 ║   SECRET EASTER EGG DISCOVERED!     ║
+    ║   ╚═══╝                                      ║
+    ║                                               ║
+    ║   🎉 Congratulations! You found a secret!   ║
+    ║                                               ║
+    ║   Your Secret Code:                          ║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
+    ║   ${code.padEnd(45)}║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║
+    ║                                               ║
+    ║   📝 Instructions:                           ║
+    ║   Send this code to Shourya for a            ║
+    ║   shoutout on LinkedIn!                      ║
+    ║                                               ║
+    ║   LinkedIn: linkedin.com/in/shouryadav     ║
+    ║                                               ║
+    ║   (╯°□°）╯︵ ┻━┻                              ║
+    ║                                               ║
+    ╚═══════════════════════════════════════════════╝
+        `
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: asciiArt,
+          outputType: 'success',
+          isAscii: true
+        }])
+      }
+      // 10% chance - Pac-Man game
+      else if (randomValue < 0.15) {
         setHistory(prev => [...prev, {
           type: 'output',
           text: `🎮 PAC-MAN EASTER EGG ACTIVATED! 🎮\n\nOpening Pac-Man game...`,
@@ -828,13 +869,147 @@ User: ${userName || 'guest'}`,
           window.open('https://www.google.com/search?q=pacman+game', '_blank')
         }, 1000)
       }
-      // 40% chance to set cat meme wallpaper
-      else if (randomValue < 0.6) {
-        searchAndSetWallpaper('cat meme')
+      // 10% chance - Cat meme wallpaper (random result each time)
+      else if (randomValue < 0.20) {
+        const randomCatIndex = Math.floor(Math.random() * 30) // Random index from 0-29
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🐱 MEOW! Setting random cat meme wallpaper...`,
+          outputType: 'info'
+        }])
+        searchAndSetWallpaper('cat meme', randomCatIndex)
       }
-      // 40% chance to play Never Gonna Give You Up
-      else {
+      // 10% chance - Never Gonna Give You Up
+      else if (randomValue < 0.30) {
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🎵 You've been rickrolled! 🎵\n\nPlaying Never Gonna Give You Up...`,
+          outputType: 'success'
+        }])
         searchAndPlaySong('never gonna give you up rick astley')
+      }
+      // 10% chance - Doge meme wallpaper
+      else if (randomValue < 0.40) {
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🐕 Much wow! Very random! 🐕\n\nSetting Doge wallpaper...`,
+          outputType: 'success'
+        }])
+        searchAndSetWallpaper('doge meme')
+      }
+      // 5% chance - Secret code easter egg
+      else if (randomValue < 0.45) {
+        // Generate a unique code based on timestamp and random
+        const code = `SHOURYA-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+        const asciiArt = `
+    ╔═══════════════════════════════════════════════╗
+    ║                                               ║
+    ║   ╔═══╗                                       ║
+    ║   ║🎲 ║   SECRET EASTER EGG DISCOVERED!       ║
+    ║   ╚═══╝                                       ║
+    ║                                               ║
+    ║   🎉 Congratulations! You found a secret!     ║
+    ║                                               ║
+    ║   Your Secret Code:                           ║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     ║
+    ║   ${code.padEnd(45)}║
+    ║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     ║
+    ║                                               ║
+    ║   📝 Instructions:                            ║
+    ║   Send this code to Shourya for a             ║
+    ║   shoutout on LinkedIn!                       ║
+    ║                                               ║
+    ║   LinkedIn: linkedin.com/in/shouryayadav      ║
+    ║                                               ║
+    ║   (╯°□°）╯︵ ┻━┻                               ║
+    ║                                               ║
+    ╚═══════════════════════════════════════════════╝
+        `
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: asciiArt,
+          outputType: 'success',
+          isAscii: true
+        }])
+      }
+      // 10% chance - Play All Star by Smash Mouth
+      else if (randomValue < 0.6) {
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🌟 Somebody once told me... 🌟\n\nPlaying All Star by Smash Mouth...`,
+          outputType: 'success'
+        }])
+        searchAndPlaySong('all star smash mouth')
+      }
+      // 10% chance - Open a funny website
+      else if (randomValue < 0.65) {
+        const funnySites = [
+          { url: 'https://www.theuselessweb.com/', name: 'The Useless Web' },
+          { url: 'https://www.staggeringbeauty.com/', name: 'Staggering Beauty' },
+          { url: 'https://www.pointerpointer.com/', name: 'Pointer Pointer' },
+          { url: 'https://www.bouncingdvdlogo.com/', name: 'Bouncing DVD Logo' },
+        ]
+        const site = funnySites[Math.floor(Math.random() * funnySites.length)]
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🌐 Opening ${site.name}...\n\nEnjoy the randomness! 🎉`,
+          outputType: 'info'
+        }])
+        setTimeout(() => {
+          window.open(site.url, '_blank')
+        }, 1000)
+      }
+      // 10% chance - Motivational quote
+      else if (randomValue < 0.75) {
+        const quotes = [
+          "The only way to do great work is to love what you do. - Steve Jobs",
+          "Code is like humor. When you have to explain it, it's bad. - Cory House",
+          "First, solve the problem. Then, write the code. - John Johnson",
+          "Programming isn't about what you know; it's about what you can figure out. - Chris Pine",
+          "The best error message is the one that never appears. - Thomas Fuchs",
+          "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler",
+        ]
+        const quote = quotes[Math.floor(Math.random() * quotes.length)]
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `💡 Random Quote of the Day:\n\n"${quote}"\n\nKeep coding! 💻`,
+          outputType: 'info'
+        }])
+      }
+      // 10% chance - Play Never Gonna Give You Up (alternative)
+      else if (randomValue < 0.85) {
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🎭 The Matrix has you...\n\nWait, wrong reference.\n\nPlaying Never Gonna Give You Up anyway! 🎵`,
+          outputType: 'success'
+        }])
+        searchAndPlaySong('never gonna give you up rick astley')
+      }
+      // 10% chance - Random ASCII art drop
+      else if (randomValue < 0.95) {
+        const art = ASCII_ART_VARIANTS[Math.floor(Math.random() * ASCII_ART_VARIANTS.length)]
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `🎲 Random ASCII Art Drop!\n` + art,
+          outputType: 'success',
+          isAscii: true
+        }])
+      }
+      // 5% chance - Funny error message
+      else {
+        const errors = [
+          "Error 418: I'm a teapot",
+          "Error 451: Unavailable For Legal Reasons",
+          "Error 509: Bandwidth Limit Exceeded (You've been too random!)",
+          "Error 420: Enhance Your Calm",
+          "Error 666: The server is possessed",
+        ]
+        const error = errors[Math.floor(Math.random() * errors.length)]
+        setHistory(prev => [...prev, {
+          type: 'output',
+          text: `⚠️  ${error}\n\nJust kidding! This is an easter egg, not a real error. 😄`,
+          outputType: 'error'
+        }])
       }
     }
     // Unknown command
@@ -991,3 +1166,84 @@ User: ${userName || 'guest'}`,
     </div>
   )
 }
+
+const ASCII_ART_VARIANTS = [
+  `
+   ╔══════════════════════════════════╗
+   ║  SPACE INVADER                   ║
+   ║                                  ║
+   ║      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ║
+   ║      ▀█▀▀▀▀█▀▀▀▀█▀▀▀▀█▀        ║
+   ║       █     █    █    █         ║
+   ║      ██▄  ▄██  ▄██  ▄██        ║
+   ║       ██████    ██████          ║
+   ║       ▀████      ████▀          ║
+   ║        ▀██        ██▀           ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  CUTE CAT                        ║
+   ║                                  ║
+   ║      /\\_/\\                     ║
+   ║     ( o . o )                    ║
+   ║      >  ^  <                     ║
+   ║     /  /_\\  \\                  ║
+   ║    (  /   \\  )                 ║
+   ║     \\|  _  |/                  ║
+   ║       | |_| |                    ║
+   ║       |_   _|                    ║
+   ║         |_|                      ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  RETRO ROBOT                     ║
+   ║                                  ║
+   ║        .-"""-.                   ║
+   ║       / .___. \\                 ║
+   ║       \\ (o o) /                 ║
+   ║        |  ^  |                   ║
+   ║       /|=====|\\                 ║
+   ║      /_|_____|_\\                ║
+   ║        /  | |  \\                ║
+   ║       /___| |___\\               ║
+   ║          /___\\                   ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  TERMINAL WINDOW                 ║
+   ║                                  ║
+   ║  ┌────────────────────────────┐  ║
+   ║  │ $ echo "Hello, ASCII!"    │  ║
+   ║  │ Hello, ASCII!             │  ║
+   ║  │                            │  ║
+   ║  │ $ npm run dev             │  ║
+   ║  │ > Vite server up 🔥       │  ║
+   ║  └────────────────────────────┘  ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `,
+  `
+   ╔══════════════════════════════════╗
+   ║  ROCKET                          ║
+   ║                                  ║
+   ║         /\\                      ║
+   ║        /  \\                     ║
+   ║       /____\\                    ║
+   ║        |  |                      ║
+   ║        |  |                      ║
+   ║        |  |                      ║
+   ║       /|  |\\                     ║
+   ║      /_|__|_\\                    ║
+   ║        /\_/\                      ║
+   ║       /_/ \_\\                     ║
+   ║      ~~~~~~~~~~                   ║
+   ║                                  ║
+   ╚══════════════════════════════════╝
+  `
+]

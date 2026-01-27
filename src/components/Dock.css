@@ -1,12 +1,14 @@
 .dock-outer {
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   z-index: 50;
   pointer-events: none;
   padding-bottom: 0.5rem;
   overflow: visible;
+  display: flex;
+  justify-content: center;
 }
 
 .dock-panel {
