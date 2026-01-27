@@ -80,39 +80,6 @@ export default function ProjectDetail({ project, onClose, onFileClick }) {
             </div>
           </div>
 
-          {/* Files */}
-          {project.files && project.files.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-3 text-white">Project Structure</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {project.files.map((file, index) => {
-                  const fileColor = particleColors[(project.id + index + 1) % particleColors.length]
-                  return (
-                    <div
-                      key={file}
-                      className="p-3 rounded-lg border transition-all hover:scale-105 cursor-pointer"
-                      style={{
-                        backgroundColor: fileColor + '10',
-                        borderColor: fileColor + '30',
-                      }}
-                      onClick={() => handleFileClick(file)}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = fileColor
-                        e.currentTarget.style.backgroundColor = fileColor + '20'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = fileColor + '30'
-                        e.currentTarget.style.backgroundColor = fileColor + '10'
-                      }}
-                    >
-                      <span className="text-sm text-gray-100">📄 {file}</span>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
           {/* Links */}
           <div className="flex gap-4">
             {project.github && (

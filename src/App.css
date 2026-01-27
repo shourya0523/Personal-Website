@@ -13,3 +13,24 @@ button, .cursor-pointer {
   user-select: none;
   -webkit-user-select: none;
 }
+
+/* GPU acceleration hints for animated elements */
+[data-animated],
+.motion-div,
+canvas {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize framer-motion animations */
+[data-framer-component] {
+  will-change: transform, opacity;
+}
+
+/* Optimize window animations */
+.window-animated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

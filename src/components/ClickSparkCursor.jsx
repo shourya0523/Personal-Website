@@ -11,24 +11,8 @@ const ClickSparkCursor = ({
 }) => {
   const canvasRef = useRef(null);
   const sparksRef = useRef([]);
-  const startTimeRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
+  const animationFrameRef = useRef(null);
+  const isAnimatingRef = useRef(false);
 
   const easeFunc = useCallback(t => {
     switch (easing) {
@@ -46,15 +30,43 @@ const ClickSparkCursor = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
 
-    let animationId;
+    const dpr = window.devicePixelRatio || 1;
 
-    const draw = timestamp => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
+    const resizeCanvas = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    ctx.scale(dpr, dpr);
+
+    const draw = (timestamp) => {
+      if (sparksRef.current.length === 0) {
+        isAnimatingRef.current = false;
+        return;
       }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
       sparksRef.current = sparksRef.current.filter(spark => {
         const elapsed = timestamp - spark.startTime;
@@ -83,21 +95,14 @@ const ClickSparkCursor = ({
         return true;
       });
 
-      animationId = requestAnimationFrame(draw);
+      if (sparksRef.current.length > 0) {
+        animationFrameRef.current = requestAnimationFrame(draw);
+      } else {
+        isAnimatingRef.current = false;
+      }
     };
 
-    animationId = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
-
-  useEffect(() => {
     const handleClick = (e) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      
       const x = e.clientX;
       const y = e.clientY;
 
@@ -110,14 +115,23 @@ const ClickSparkCursor = ({
       }));
 
       sparksRef.current.push(...newSparks);
+
+      // Start animation loop if not already running
+      if (!isAnimatingRef.current) {
+        isAnimatingRef.current = true;
+        animationFrameRef.current = requestAnimationFrame(draw);
+      }
     };
 
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClick, { passive: true });
 
     return () => {
       document.removeEventListener('click', handleClick);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
-  }, [sparkCount]);
+  }, [sparkCount, sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]);
 
   return (
     <canvas
@@ -130,7 +144,8 @@ const ClickSparkCursor = ({
         height: '100vh',
         pointerEvents: 'none',
         zIndex: 9999,
-        userSelect: 'none'
+        userSelect: 'none',
+        willChange: 'contents', // GPU acceleration hint
       }}
     />
   );

@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useMemo, memo } from 'react'
 import { useSounds } from '../contexts/SoundContext'
 import { useWallpaper } from '../contexts/WallpaperContext'
 import GlassSurface from './GlassSurface'
 import './Dock.css'
 
-export default function Dock({ items, panelHeight = 68, baseItemSize = 64, magnification = 20 }) {
+const Dock = memo(function Dock({ items, panelHeight = 68, baseItemSize = 64, magnification = 20 }) {
   const sounds = useSounds()
   const { particleColors } = useWallpaper()
   const [hoveredIndex, setHoveredIndex] = useState(null)
@@ -16,12 +16,12 @@ export default function Dock({ items, panelHeight = 68, baseItemSize = 64, magni
     return baseItemSize
   }
 
-  const getColorForIndex = (index) => {
-    return particleColors[index % particleColors.length]
-  }
+  const getColorForIndex = useMemo(() => {
+    return (index) => particleColors[index % particleColors.length]
+  }, [particleColors])
 
   return (
-    <div className="dock-outer">
+    <div className="dock-outer" data-animated>
       <GlassSurface
         borderRadius={16}
         opacity={0.85}
@@ -34,7 +34,8 @@ export default function Dock({ items, panelHeight = 68, baseItemSize = 64, magni
         className="dock-panel"
         style={{ 
           height: `${panelHeight}px`,
-          minHeight: `${panelHeight}px`
+          minHeight: `${panelHeight}px`,
+          willChange: 'transform'
         }}
       >
         {items.map((item, index) => {
@@ -53,7 +54,9 @@ export default function Dock({ items, panelHeight = 68, baseItemSize = 64, magni
                 width: `${getItemSize(index)}px`,
                 height: `${getItemSize(index)}px`,
                 minWidth: `${getItemSize(index)}px`,
-                '--accent-color': accentColor
+                '--accent-color': accentColor,
+                willChange: 'transform',
+                transform: 'translateZ(0)'
               }}
               title={item.label}
             >
@@ -67,4 +70,6 @@ export default function Dock({ items, panelHeight = 68, baseItemSize = 64, magni
       </GlassSurface>
     </div>
   )
-}
+})
+
+export default Dock

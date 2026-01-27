@@ -1,69 +1,277 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useMemo, useCallback } from 'react'
 import { useWallpaper } from '../contexts/WallpaperContext'
+import { usePreRender } from '../contexts/PreRenderContext'
 
-const Particle = ({ x, delay, duration, size, color }) => {
-  return (
-    <motion.div
-      className="absolute pointer-events-none"
-      style={{
-        left: `${x}%`,
-        width: size,
-        height: size,
-        backgroundColor: color,
-        opacity: 0.6, // Increased opacity for better visibility
-        boxShadow: `0 0 ${size * 3}px ${color}, 0 0 ${size * 6}px ${color}, 0 0 ${size * 9}px ${color}`,
-        filter: `drop-shadow(0 0 ${size * 2}px ${color})`,
-        transform: 'rotate(45deg)', // Square rotated 45 degrees for diamond effect
-      }}
-      initial={{ y: -50, opacity: 0 }}
-      animate={{
-        y: typeof window !== 'undefined' ? window.innerHeight + 100 : 1000,
-        opacity: [0, 0.6, 0.6, 0], // Increased opacity for better glow visibility
-      }}
-      transition={{
-        duration: duration,
-        delay: delay,
-        repeat: Infinity,
-        ease: 'linear',
-      }}
-    />
-  )
+// Cache for particle configurations to avoid recalculation
+const particleCache = new Map()
+
+// Generate cached particle data
+const generateParticles = (particleCount, particleColors, windowHeight) => {
+  const cacheKey = `${particleCount}-${particleColors.join(',')}-${windowHeight}`
+  
+  if (particleCache.has(cacheKey)) {
+    return particleCache.get(cacheKey)
+  }
+
+  const particles = Array.from({ length: particleCount }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    delay: Math.random() * 8,
+    duration: 10 + Math.random() * 10, // 10-20 seconds
+    size: 4 + Math.random() * 5, // 4-9px
+    color: particleColors[Math.floor(Math.random() * particleColors.length)],
+    startY: -50,
+    endY: windowHeight + 100,
+  }))
+
+  particleCache.set(cacheKey, particles)
+  
+  // Limit cache size to prevent memory issues
+  if (particleCache.size > 10) {
+    const firstKey = particleCache.keys().next().value
+    particleCache.delete(firstKey)
+  }
+
+  return particles
 }
 
 export default function FallingParticles() {
   const { particleColors } = useWallpaper()
-  const [particles, setParticles] = useState([])
-  const particleCount = 35 // More particles
+  const { isPreRendering, preRenderComplete } = usePreRender()
+  const canvasRef = useRef(null)
+  const animationFrameRef = useRef(null)
+  const particlesRef = useRef([])
+  const startTimeRef = useRef(null)
+  const isVisibleRef = useRef(true)
+  const intersectionObserverRef = useRef(null)
+  const lastFrameTimeRef = useRef(0)
+  const frameSkipRef = useRef(0)
+  const particleCount = 35
+
+  // Memoize particles to avoid recalculation
+  const particles = useMemo(() => {
+    const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 1000
+    return generateParticles(particleCount, particleColors, windowHeight)
+  }, [particleColors, particleCount])
 
   useEffect(() => {
-    // Create particles with random properties using colors from context
-    const newParticles = Array.from({ length: particleCount }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 8,
-      duration: 10 + Math.random() * 10, // 10-20 seconds for slow fall
-      size: 4 + Math.random() * 5, // 4-9px (larger than before)
-      color: particleColors[Math.floor(Math.random() * particleColors.length)],
-    }))
-    setParticles(newParticles)
-  }, [particleColors]) // Recreate particles when colors change
+    particlesRef.current = particles
+  }, [particles])
+
+  // Optimized particle drawing function
+  const drawParticle = useCallback((ctx, particle, progress, canvasWidth, dpr) => {
+    const y = particle.startY + (particle.endY - particle.startY) * progress
+    
+    // Opacity fade in/out
+    let opacity = 0.6
+    if (progress < 0.1) {
+      opacity = 0.6 * (progress / 0.1)
+    } else if (progress > 0.9) {
+      opacity = 0.6 * ((1 - progress) / 0.1)
+    }
+
+    const x = (particle.x / 100) * (canvasWidth / dpr)
+
+    // Draw particle with glow effect
+    ctx.save()
+    ctx.globalAlpha = opacity
+    ctx.fillStyle = particle.color
+    ctx.shadowBlur = particle.size * 3
+    ctx.shadowColor = particle.color
+    
+    // Draw rotated square (diamond shape)
+    ctx.translate(x, y)
+    ctx.rotate(Math.PI / 4) // 45 degrees
+    ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size)
+    ctx.restore()
+  }, [])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true })
+    if (!ctx) return
+
+    const dpr = window.devicePixelRatio || 1
+
+    const resizeCanvas = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+
+      ctx.scale(dpr, dpr)
+      
+      // Update endY for all particles
+      particlesRef.current.forEach(particle => {
+        particle.endY = height + 100
+      })
+    }
+
+    resizeCanvas()
+    
+    const resizeHandler = () => {
+      resizeCanvas()
+    }
+    window.addEventListener('resize', resizeHandler, { passive: true })
+
+    // Wait for pre-rendering to complete before starting animation
+    if (isPreRendering && !preRenderComplete) {
+      return
+    }
+
+    // Pre-render initial state
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+
+    let animationStartTime = null
+    const targetFPS = 60
+    const frameInterval = 1000 / targetFPS
+
+    const animate = (currentTime) => {
+      // Skip frames if not visible or during pre-rendering
+      if (!isVisibleRef.current || (isPreRendering && !preRenderComplete)) {
+        animationFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
+
+      // Throttle to target FPS
+      const elapsed = currentTime - lastFrameTimeRef.current
+      if (elapsed < frameInterval) {
+        animationFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
+      lastFrameTimeRef.current = currentTime - (elapsed % frameInterval)
+
+      if (!animationStartTime) {
+        animationStartTime = currentTime
+        startTimeRef.current = currentTime
+      }
+
+      const elapsedSeconds = (currentTime - animationStartTime) / 1000
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+
+      // Draw particles - batch operations for better performance
+      const canvasWidth = canvas.width
+      particlesRef.current.forEach((particle) => {
+        const particleElapsed = elapsedSeconds - particle.delay
+        
+        if (particleElapsed < 0) return // Not started yet
+        
+        const cycleTime = particleElapsed % particle.duration
+        const progress = cycleTime / particle.duration
+        
+        if (progress >= 1) {
+          return
+        }
+
+        drawParticle(ctx, particle, progress, canvasWidth, dpr)
+      })
+
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
+
+    // Intersection Observer to pause when not visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0
+        
+        if (isVisibleRef.current && preRenderComplete) {
+          if (!animationFrameRef.current) {
+            animationFrameRef.current = requestAnimationFrame(animate)
+          }
+        }
+      },
+      { threshold: [0, 0.01] }
+    )
+    
+    if (canvas) {
+      observer.observe(canvas)
+      intersectionObserverRef.current = observer
+    }
+
+    // Start animation after pre-render completes
+    if (preRenderComplete) {
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
+
+    return () => {
+      window.removeEventListener('resize', resizeHandler)
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect()
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+    }
+  }, [isPreRendering, preRenderComplete, drawParticle])
+
+  // Restart animation when pre-render completes
+  useEffect(() => {
+    if (preRenderComplete && canvasRef.current && !animationFrameRef.current) {
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext('2d', { alpha: true })
+      if (!ctx) return
+
+      let animationStartTime = null
+      const dpr = window.devicePixelRatio || 1
+      const targetFPS = 60
+      const frameInterval = 1000 / targetFPS
+
+      const animate = (currentTime) => {
+        if (!isVisibleRef.current) {
+          animationFrameRef.current = requestAnimationFrame(animate)
+          return
+        }
+
+        const elapsed = currentTime - lastFrameTimeRef.current
+        if (elapsed < frameInterval) {
+          animationFrameRef.current = requestAnimationFrame(animate)
+          return
+        }
+        lastFrameTimeRef.current = currentTime - (elapsed % frameInterval)
+
+        if (!animationStartTime) {
+          animationStartTime = currentTime
+          startTimeRef.current = currentTime
+        }
+
+        const elapsedSeconds = (currentTime - animationStartTime) / 1000
+        
+        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+
+        const canvasWidth = canvas.width
+        particlesRef.current.forEach((particle) => {
+          const particleElapsed = elapsedSeconds - particle.delay
+          if (particleElapsed < 0) return
+          const cycleTime = particleElapsed % particle.duration
+          const progress = cycleTime / particle.duration
+          if (progress >= 1) return
+          drawParticle(ctx, particle, progress, canvasWidth, dpr)
+        })
+
+        animationFrameRef.current = requestAnimationFrame(animate)
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
+  }, [preRenderComplete, drawParticle])
 
   return (
-    <div
-      className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden"
-      style={{ pointerEvents: 'none' }}
-    >
-      {particles.map((particle) => (
-        <Particle
-          key={particle.id}
-          x={particle.x}
-          delay={particle.delay}
-          duration={particle.duration}
-          size={particle.size}
-          color={particle.color}
-        />
-      ))}
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-[9999]"
+      style={{
+        pointerEvents: 'none',
+        willChange: 'contents',
+        contain: 'layout style paint',
+      }}
+    />
   )
 }

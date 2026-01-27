@@ -26,6 +26,7 @@ import LoginPage from './components/LoginPage'
 import { UserProvider, useUser } from './contexts/UserContext'
 import { MusicProvider } from './contexts/MusicContext'
 import { WallpaperProvider, useWallpaper } from './contexts/WallpaperContext'
+import { PreRenderProvider } from './contexts/PreRenderContext'
 import ClickSparkCursor from './components/ClickSparkCursor'
 import './App.css'
 
