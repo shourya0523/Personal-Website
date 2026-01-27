@@ -13,7 +13,6 @@ export default function About({ onFileClick }) {
   })
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [1, 1, 0.3, 0.3])
 
   const skills = {
     languages: ['Python', 'JavaScript', 'SQL', 'Java', 'HTML', 'CSS', 'Flask', 'FastAPI', 'React.js', 'Express.js', 'LangChain', 'Selenium'],
@@ -25,15 +24,15 @@ export default function About({ onFileClick }) {
   const interests = ['Music Production', 'Poker', 'Food Tourism', 'Global Travel', 'Binge-Watching TV Shows']
 
   return (
-    <div ref={containerRef} className="relative text-white h-full overflow-auto">
+    <div ref={containerRef} className="relative h-full overflow-auto" style={{ color: 'hsl(var(--foreground))' }}>
       {/* Animated Background Elements */}
       <motion.div 
         className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
         style={{ y: backgroundY }}
       >
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-2000" />
+        <div className="absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: 'hsl(170, 80%, 50%, 0.1)' }} />
+        <div className="absolute top-40 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000" style={{ backgroundColor: 'hsl(50, 90%, 65%, 0.1)' }} />
+        <div className="absolute bottom-20 left-1/4 w-80 h-80 rounded-full blur-3xl animate-pulse delay-2000" style={{ backgroundColor: 'hsl(180, 70%, 45%, 0.1)' }} />
       </motion.div>
 
       <div className="relative z-10 p-8">
@@ -45,7 +44,6 @@ export default function About({ onFileClick }) {
           {/* Hero Section with Split Layout */}
           <motion.div 
             className="grid md:grid-cols-2 gap-8 mb-16 items-center min-h-[60vh]"
-            style={{ opacity }}
           >
             {/* Left: Profile Card */}
             <motion.div
@@ -85,7 +83,13 @@ export default function About({ onFileClick }) {
             >
               <div className="relative">
                 <motion.h1 
-                  className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent"
+                  className="text-5xl md:text-6xl font-bold mb-4"
+                  style={{ 
+                    background: 'linear-gradient(to right, hsl(170, 80%, 50%), hsl(50, 90%, 65%), hsl(180, 70%, 45%))',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
@@ -97,7 +101,7 @@ export default function About({ onFileClick }) {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 >
-                  <Sparkles className="w-8 h-8 text-yellow-400" />
+                  <Sparkles className="w-8 h-8" style={{ color: 'hsl(var(--accent))' }} />
                 </motion.div>
               </div>
 
@@ -107,21 +111,20 @@ export default function About({ onFileClick }) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <p className="text-gray-300">
-                  I'm a <span className="text-blue-400 font-bold">Computer Science and Business</span> student at Northeastern University's D'Amore-McKim School of Business, pursuing a concentration in <span className="text-purple-400 font-semibold">Fintech</span> and a minor in <span className="text-green-400 font-semibold">Interdisciplinary AI</span>.
+                <p className="text-white" style={{ opacity: 1 }}>
+                  I'm <span className="font-bold" style={{ color: 'hsl(170, 80%, 50%)' }}>Shourya</span> — a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>CS and Business</span> student at Northeastern who'd rather be <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>building something</span> than talking about building something.
                 </p>
-                {userName && (
-                  <motion.p 
-                    className="text-gray-400 text-xl font-semibold"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.6, type: "spring" }}
-                  >
-                    Welcome, {userName}! 👋
-                  </motion.p>
-                )}
-                <p className="text-gray-300">
-                  With a <span className="text-yellow-400 font-semibold">3.71 GPA</span> and recognition through the <span className="text-blue-400 font-semibold">John Martinson Honors Program</span> and <span className="text-green-400 font-semibold">4x Dean's List</span>, I'm passionate about building at the intersection of technology and business strategy.
+                <p className="text-white" style={{ opacity: 1 }}>
+                  I like solving problems that sit at the intersection of <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>tech and business</span>, whether that's architecting <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>NLP pipelines</span> processing half a million clinical trials, scaling a student org from zero to <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>200+ members</span>, or figuring out how to <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>match VCs with startups algorithmically</span>.
+                </p>
+                <p className="text-white" style={{ opacity: 1 }}>
+                  I get restless when I'm not working on something, which is why I'm usually juggling a <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>co-op</span>, a couple <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>side projects</span>, and at least one <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>organization</span> that probably needs more of my attention.
+                </p>
+                <p className="text-white" style={{ opacity: 1 }}>
+                  I'm drawn to roles where I can <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>build real things</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>lead teams</span> doing the same. Not interested in busywork or meetings that could've been emails.
+                </p>
+                <p className="text-white" style={{ opacity: 1 }}>
+                  When I'm not coding, I'm <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>producing music</span>, playing poker, hunting for good food in random cities, or binge-watching shows I've already seen three times.
                 </p>
               </motion.div>
             </motion.div>
@@ -136,19 +139,19 @@ export default function About({ onFileClick }) {
             className="mb-16"
           >
             <div className="flex items-center gap-4 mb-8">
-              <TrendingUp className="w-8 h-8 text-purple-400" />
-              <h2 className="text-3xl font-bold">My Journey</h2>
+              <TrendingUp className="w-8 h-8" style={{ color: 'hsl(180, 70%, 45%)' }} />
+              <h2 className="text-3xl font-bold" style={{ color: 'hsl(var(--foreground))' }}>My Journey</h2>
             </div>
             <div className="relative">
               {/* Timeline Line */}
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500" />
+              <div className="absolute left-8 top-0 bottom-0 w-0.5" style={{ background: 'linear-gradient(to bottom, hsl(170, 80%, 50%), hsl(180, 70%, 45%), hsl(50, 90%, 65%))' }} />
               
               <div className="space-y-8">
                 {[
-                  { icon: Brain, color: "purple", colorClass: "text-purple-400", bgClass: "bg-purple-500/20", borderClass: "border-purple-500", title: "AI/ML Research", desc: "Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents" },
-                  { icon: Code, color: "blue", colorClass: "text-blue-400", bgClass: "bg-blue-500/20", borderClass: "border-blue-500", title: "Full-Stack Development", desc: "Building scalable applications with modern tech stacks" },
-                  { icon: Rocket, color: "green", colorClass: "text-green-400", bgClass: "bg-green-500/20", borderClass: "border-green-500", title: "Leadership", desc: "Co-founding organizations reaching 200+ members" },
-                  { icon: Target, color: "yellow", colorClass: "text-yellow-400", bgClass: "bg-yellow-500/20", borderClass: "border-yellow-500", title: "Investment Analysis", desc: "Contributing to analysis across consumer and equity markets" }
+                  { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.2)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI/ML Research", desc: "Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents" },
+                  { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.2)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Full-Stack Development", desc: "Building scalable applications with modern tech stacks" },
+                  { icon: Rocket, color: 'hsl(var(--accent))', bgColor: 'hsl(var(--accent) / 0.2)', borderColor: 'hsl(var(--accent) / 0.5)', title: "Leadership", desc: "Co-founding organizations reaching 200+ members" },
+                  { icon: Target, color: 'hsl(50, 90%, 65%)', bgColor: 'hsl(50, 90%, 65%, 0.2)', borderColor: 'hsl(50, 90%, 65%, 0.5)', title: "Investment Analysis", desc: "Contributing to analysis across consumer and equity markets" }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
@@ -158,12 +161,21 @@ export default function About({ onFileClick }) {
                     transition={{ delay: index * 0.1 }}
                     className="relative pl-20"
                   >
-                    <div className={`absolute left-0 w-16 h-16 rounded-full ${item.bgClass} border-2 ${item.borderClass} flex items-center justify-center backdrop-blur-sm`}>
-                      <item.icon className={`w-8 h-8 ${item.colorClass}`} />
+                    <div 
+                      className="absolute left-0 w-16 h-16 rounded-full border-2 flex items-center justify-center backdrop-blur-sm"
+                      style={{ backgroundColor: item.bgColor, borderColor: item.borderColor }}
+                    >
+                      <item.icon className="w-8 h-8" style={{ color: item.color }} />
                     </div>
-                    <div className="bg-gray-800/50 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50 hover:border-gray-600 transition-all hover:shadow-lg hover:shadow-purple-500/20">
-                      <h3 className={`text-xl font-bold mb-2 ${item.colorClass}`}>{item.title}</h3>
-                      <p className="text-gray-300">{item.desc}</p>
+                    <div 
+                      className="backdrop-blur-xl rounded-xl p-6 border transition-all hover:shadow-lg"
+                      style={{ 
+                        backgroundColor: 'hsl(var(--card) / 0.8)',
+                        borderColor: item.borderColor
+                      }}
+                    >
+                      <h3 className="text-xl font-bold mb-2" style={{ color: item.color }}>{item.title}</h3>
+                      <p style={{ color: 'hsl(var(--foreground))' }}>{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -180,15 +192,15 @@ export default function About({ onFileClick }) {
             className="mb-16"
           >
             <div className="flex items-center gap-4 mb-8">
-              <Zap className="w-8 h-8 text-yellow-400" />
-              <h2 className="text-3xl font-bold">What I Do</h2>
+              <Zap className="w-8 h-8" style={{ color: 'hsl(var(--accent))' }} />
+              <h2 className="text-3xl font-bold" style={{ color: 'hsl(var(--foreground))' }}>What I Do</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Code, color: "blue", colorClass: "text-blue-400", bgClass: "bg-blue-500/10", title: "Full-Stack Developer", desc: "Building scalable applications with Python, JavaScript, React, FastAPI, and AWS", gradient: "from-blue-500/20 to-blue-600/10" },
-                { icon: Brain, color: "purple", colorClass: "text-purple-400", bgClass: "bg-purple-500/10", title: "AI/ML Researcher", desc: "Architecting NLP pipelines and semantic matching algorithms for healthcare data", gradient: "from-purple-500/20 to-purple-600/10" },
-                { icon: Rocket, color: "green", colorClass: "text-green-400", bgClass: "bg-green-500/10", title: "Entrepreneur & Leader", desc: "Co-founding organizations, leading teams, and building products at startups", gradient: "from-green-500/20 to-green-600/10" },
-                { icon: Music, color: "red", colorClass: "text-red-400", bgClass: "bg-red-500/10", title: "Creative & Explorer", desc: "Music production, poker, food tourism, global travel, and cat photography", gradient: "from-red-500/20 to-red-600/10" }
+                { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.1)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Full-Stack Developer", desc: "Building scalable applications with Python, JavaScript, React, FastAPI, and AWS" },
+                { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.1)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI/ML Researcher", desc: "Architecting NLP pipelines and semantic matching algorithms for healthcare data" },
+                { icon: Rocket, color: 'hsl(var(--accent))', bgColor: 'hsl(var(--accent) / 0.1)', borderColor: 'hsl(var(--accent) / 0.5)', title: "Entrepreneur & Leader", desc: "Co-founding organizations, leading teams, and building products at startups" },
+                { icon: Music, color: 'hsl(50, 90%, 65%)', bgColor: 'hsl(50, 90%, 65%, 0.1)', borderColor: 'hsl(50, 90%, 65%, 0.5)', title: "Creative & Explorer", desc: "Music production, poker, food tourism, global travel, and cat photography" }
               ].map((role, index) => (
                 <motion.div
                   key={index}
@@ -197,15 +209,22 @@ export default function About({ onFileClick }) {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className={`relative group bg-gradient-to-br ${role.gradient} backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50 overflow-hidden cursor-pointer`}
+                  className="relative group backdrop-blur-xl rounded-2xl p-8 border overflow-hidden cursor-pointer"
+                  style={{ 
+                    backgroundColor: 'hsl(var(--card) / 0.8)',
+                    borderColor: role.borderColor
+                  }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: `linear-gradient(to bottom right, transparent, ${role.bgColor})` }} />
                   <div className="relative z-10">
-                    <role.icon className={`w-12 h-12 ${role.colorClass} mb-4 group-hover:scale-110 transition-transform`} />
-                    <h3 className="text-2xl font-bold mb-3">{role.title}</h3>
-                    <p className="text-gray-300 leading-relaxed">{role.desc}</p>
+                    <role.icon className="w-12 h-12 mb-4 group-hover:scale-110 transition-transform" style={{ color: role.color }} />
+                    <h3 className="text-2xl font-bold mb-3" style={{ color: 'hsl(var(--foreground))' }}>{role.title}</h3>
+                    <p style={{ color: 'hsl(var(--foreground))' }} className="leading-relaxed">{role.desc}</p>
                   </div>
-                  <div className={`absolute top-0 right-0 w-32 h-32 ${role.bgClass} rounded-full blur-2xl group-hover:opacity-50 transition-opacity`} />
+                  <div 
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl group-hover:opacity-50 transition-opacity"
+                    style={{ backgroundColor: role.bgColor }}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -220,16 +239,16 @@ export default function About({ onFileClick }) {
             className="mb-16"
           >
             <div className="flex items-center gap-4 mb-8">
-              <Code className="w-8 h-8 text-blue-400" />
-              <h2 className="text-3xl font-bold">Technical Skills</h2>
+              <Code className="w-8 h-8" style={{ color: 'hsl(170, 80%, 50%)' }} />
+              <h2 className="text-3xl font-bold" style={{ color: 'hsl(var(--foreground))' }}>Technical Skills</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {Object.entries(skills).map(([category, items], catIndex) => {
                 const colors = {
-                  languages: { bg: "bg-blue-600/20", border: "border-blue-500", text: "text-blue-400", icon: Code },
-                  cloud: { bg: "bg-green-600/20", border: "border-green-500", text: "text-green-400", icon: Rocket },
-                  ml: { bg: "bg-purple-600/20", border: "border-purple-500", text: "text-purple-400", icon: Brain },
-                  tools: { bg: "bg-yellow-600/20", border: "border-yellow-500", text: "text-yellow-400", icon: Zap }
+                  languages: { color: 'hsl(170, 80%, 50%)', bg: 'hsl(170, 80%, 50%, 0.2)', border: 'hsl(170, 80%, 50%, 0.5)', icon: Code },
+                  cloud: { color: 'hsl(var(--accent))', bg: 'hsl(var(--accent) / 0.2)', border: 'hsl(var(--accent) / 0.5)', icon: Rocket },
+                  ml: { color: 'hsl(180, 70%, 45%)', bg: 'hsl(180, 70%, 45%, 0.2)', border: 'hsl(180, 70%, 45%, 0.5)', icon: Brain },
+                  tools: { color: 'hsl(50, 90%, 65%)', bg: 'hsl(50, 90%, 65%, 0.2)', border: 'hsl(50, 90%, 65%, 0.5)', icon: Zap }
                 }
                 const config = colors[category]
                 const Icon = config.icon
@@ -241,11 +260,15 @@ export default function About({ onFileClick }) {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: catIndex * 0.1 }}
-                    className="bg-gray-800/50 backdrop-blur-xl rounded-xl p-6 border border-gray-700/50"
+                    className="backdrop-blur-xl rounded-xl p-6 border"
+                    style={{ 
+                      backgroundColor: 'hsl(var(--card) / 0.8)',
+                      borderColor: config.border
+                    }}
                   >
                     <div className="flex items-center gap-3 mb-4">
-                      <Icon className={`w-6 h-6 ${config.text}`} />
-                      <h3 className={`text-lg font-semibold ${config.text} capitalize`}>
+                      <Icon className="w-6 h-6" style={{ color: config.color }} />
+                      <h3 className="text-lg font-semibold capitalize" style={{ color: config.color }}>
                         {category === 'ml' ? 'Data Science & ML' : category === 'cloud' ? 'Cloud & Databases' : category === 'tools' ? 'Tools & Practices' : 'Languages & Frameworks'}
                       </h3>
                     </div>
@@ -258,7 +281,13 @@ export default function About({ onFileClick }) {
                           viewport={{ once: true }}
                           transition={{ delay: (catIndex * 0.1) + (index * 0.03) }}
                           whileHover={{ scale: 1.1, rotate: 2 }}
-                          className={`px-4 py-2 ${config.bg} ${config.border} border rounded-lg text-sm cursor-pointer hover:shadow-lg transition-all`}
+                          className="px-4 py-2 rounded-lg text-sm cursor-pointer transition-all"
+                          style={{ 
+                            backgroundColor: config.bg,
+                            borderColor: config.border,
+                            borderWidth: '1px',
+                            color: config.color
+                          }}
                         >
                           {skill}
                         </motion.span>
@@ -279,12 +308,18 @@ export default function About({ onFileClick }) {
             className="mb-16"
           >
             <div className="flex items-center gap-4 mb-8">
-              <Heart className="w-8 h-8 text-red-400" />
-              <h2 className="text-3xl font-bold">Personal Interests</h2>
+              <Heart className="w-8 h-8" style={{ color: 'hsl(50, 90%, 65%)' }} />
+              <h2 className="text-3xl font-bold" style={{ color: 'hsl(var(--foreground))' }}>Personal Interests</h2>
             </div>
-            <div className="bg-gradient-to-br from-purple-900/30 via-blue-900/30 to-green-900/30 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
-              <p className="text-gray-300 mb-6 text-lg leading-relaxed">
-                When I'm not coding or building organizations, you'll find me producing music, playing poker, exploring food scenes around the world, or binge-watching TV shows. I'm fluent in <span className="text-blue-400 font-semibold">English</span> and <span className="text-green-400 font-semibold">Hindi</span>, with fundamental knowledge of <span className="text-purple-400 font-semibold">German</span> and <span className="text-yellow-400 font-semibold">Marathi</span>.
+            <div 
+              className="backdrop-blur-xl rounded-2xl p-8 border"
+              style={{ 
+                backgroundColor: 'hsl(var(--card) / 0.8)',
+                borderColor: 'hsl(180, 70%, 45%, 0.5)'
+              }}
+            >
+              <p className="mb-6 text-lg leading-relaxed" style={{ color: 'hsl(var(--foreground))' }}>
+                When I'm not coding or building organizations, you'll find me producing music, playing poker, exploring food scenes around the world, or binge-watching TV shows. I'm fluent in <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>English</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>Hindi</span>, with fundamental knowledge of <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>German</span> and <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>Marathi</span>.
               </p>
               <div className="flex flex-wrap gap-3">
                 {interests.map((interest, index) => (
@@ -295,7 +330,13 @@ export default function About({ onFileClick }) {
                     viewport={{ once: true }}
                     transition={{ delay: 0.6 + index * 0.1, type: "spring" }}
                     whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                    className="px-6 py-3 bg-purple-600/20 border border-purple-500 rounded-full text-sm font-medium cursor-pointer hover:bg-purple-600/30 transition-all hover:shadow-lg hover:shadow-purple-500/30"
+                    className="px-6 py-3 rounded-full text-sm font-medium cursor-pointer transition-all"
+                    style={{ 
+                      backgroundColor: 'hsl(180, 70%, 45%, 0.2)',
+                      borderColor: 'hsl(180, 70%, 45%, 0.5)',
+                      borderWidth: '1px',
+                      color: 'hsl(180, 70%, 45%)'
+                    }}
                   >
                     {interest}
                   </motion.div>

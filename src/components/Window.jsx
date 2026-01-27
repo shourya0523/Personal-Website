@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Minus, Square, Maximize2 } from 'lucide-react'
+import { X, Minus, Square, Maximize2, Sparkles } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useSounds } from '../contexts/SoundContext'
 import GlassSurface from './GlassSurface'
@@ -46,24 +46,24 @@ export default function Window({ window, onClose, onMinimize, onMaximize, onFocu
     }
   }, [isDragging, dragStart, window.maximized, onDragEnd])
 
-  if (window.minimized) return null
-
   return (
     <AnimatePresence>
-      <motion.div
-        ref={windowRef}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ 
-          opacity: 1, 
-          scale: 1,
-          x: window.maximized ? 0 : window.position.x,
-          y: window.maximized ? 0 : window.position.y,
-          width: window.maximized ? '100%' : window.size.width,
-          height: window.maximized ? '100%' : window.size.height,
-        }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="absolute overflow-hidden flex flex-col"
+      {!window.minimized && (
+        <motion.div
+          ref={windowRef}
+          key={window.id}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            x: window.maximized ? 0 : window.position.x,
+            y: window.maximized ? 0 : window.position.y,
+            width: window.maximized ? '100%' : window.size.width,
+            height: window.maximized ? '100%' : window.size.height,
+          }}
+          exit={{ opacity: 0, scale: 0.8, y: window.position.y + 50 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          className="absolute overflow-hidden flex flex-col"
         style={{
           zIndex: window.zIndex,
           left: window.maximized ? 0 : window.position.x,
@@ -127,6 +127,15 @@ export default function Window({ window, onClose, onMinimize, onMaximize, onFocu
               <span className="text-sm font-medium">{window.title}</span>
             </div>
           </div>
+          <div className="flex items-center gap-3 window-controls">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4" style={{ color: 'hsl(var(--primary))' }} />
+            </motion.div>
+          </div>
         </div>
 
         {/* Window Content */}
@@ -166,7 +175,8 @@ export default function Window({ window, onClose, onMinimize, onMaximize, onFocu
           </div>
         )}
         </GlassSurface>
-      </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
   )
 }

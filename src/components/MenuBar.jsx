@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Play, Pause } from 'lucide-react'
+import { Play, Pause, Sparkles } from 'lucide-react'
 import { useSounds } from '../contexts/SoundContext'
 import { useUser } from '../contexts/UserContext'
 import { useMusic } from '../contexts/MusicContext'
 
-export default function MenuBar({ windows, onWindowClick, onStartMenuClick, isStartMenuOpen, apps = [] }) {
+export default function MenuBar({ windows, onWindowClick, apps = [] }) {
   const sounds = useSounds()
   const { userName } = useUser()
   const { currentSong, isPlaying, togglePlayPause } = useMusic()
@@ -42,21 +42,8 @@ export default function MenuBar({ windows, onWindowClick, onStartMenuClick, isSt
     >
       <div className="w-full h-full bg-black/60 backdrop-blur-lg border-b border-white/20 shadow-lg">
         <div className="flex items-center justify-between px-4 h-full text-xs text-white/95 font-medium">
-          {/* Apple Menu & App Name */}
+          {/* App Name */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                sounds.click()
-                onStartMenuClick()
-              }}
-              className={`px-2 py-1 rounded transition-colors ${
-                isStartMenuOpen ? 'bg-white/20' : 'hover:bg-white/10'
-              }`}
-            >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-                <circle cx="8" cy="8" r="6"/>
-              </svg>
-            </button>
             <span className="font-semibold text-sm">Shourya Yadav</span>
           </div>
 
@@ -144,6 +131,14 @@ export default function MenuBar({ windows, onWindowClick, onStartMenuClick, isSt
 
           {/* System Tray */}
           <div className="flex items-center gap-3">
+            {/* Logo */}
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer"
+            >
+              <Sparkles className="w-5 h-5" style={{ color: 'hsl(var(--primary))' }} />
+            </motion.div>
             <div className="text-right">
               <div className="font-medium text-xs">{formatTime(currentTime)}</div>
               <div className="text-white/60 text-[10px]">{formatDate(currentTime)}</div>

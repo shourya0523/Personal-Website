@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
+import { Sparkles } from 'lucide-react'
 import Shuffle from './Shuffle/Shuffle'
 
 // Helper to convert HSL to hex for GSAP color animations
@@ -37,6 +38,22 @@ export default function LandingPage({ onComplete }) {
       transition={{ duration: 1 }}
       className="fixed inset-0 flex items-center justify-center bg-background z-50"
     >
+      {/* Logo in top right */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="absolute top-8 right-8"
+      >
+        <motion.div
+          animate={{ rotate: [0, 15, -15, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="cursor-pointer"
+        >
+          <Sparkles className="w-10 h-10" style={{ color: 'hsl(var(--primary))' }} />
+        </motion.div>
+      </motion.div>
+      
       <div className="text-center">
         <Shuffle
           text="Shourya Yadav"

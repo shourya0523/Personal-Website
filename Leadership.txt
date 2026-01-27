@@ -1,0 +1,38 @@
+LEADERSHIP & IMPACT
+===================
+
+Director of Operations, Co-Founder
+Claude Builders Club @ Northeastern
+Period: Aug 2025 – Present
+
+Co-founded and scaled AI-focused student organization. Secured major sponsorships, organized events, and launched product incubator program.
+
+Key Achievements:
+• Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building
+• Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships
+• Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment
+• Deliver presentations to large audiences at workshops and events
+
+
+Software Product Lab Lead
+Forge – A Sherman Center Program
+Period: Aug 2025 – Dec 2025
+
+Led 8-developer team through full product lifecycle building a mobile application. Managed agile workflows, authored PRDs, designed system architecture.
+
+Key Achievements:
+• Directed 8-developer team building mobile application using agile practices and structured product workflows
+• Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination
+• Accelerated development timeline by 4 weeks through low-fi wireframing and database schema redesign
+• Delivered live product demonstrations showcasing mobile application features and technical capabilities
+
+
+Executive Board Member
+AI Club @ Northeastern
+Period: June 2025 – Present
+
+I co-authored D'Amore-McKim's official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.
+
+Key Achievements:
+• Co-authored D'Amore-McKim's official AI policy, establishing ethical guidelines for 3,000+ students
+• Drove programming and operations for 500+ member organization, increasing event attendance by 40%

@@ -75,7 +75,7 @@ export default function ExpandableFolder({ folderName, folderData, onFileClick, 
                       if (isFolder) {
                         // Could expand nested folder or open as window
                       } else if (onFileClick) {
-                        onFileClick(name)
+                        onFileClick(name, folderName)
                       }
                     }}
                   >

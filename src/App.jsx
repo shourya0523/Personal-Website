@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Type } from 'lucide-react'
+import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Sparkles } from 'lucide-react'
 import { WindowProvider, useWindows } from './contexts/WindowContext'
 import { SoundProvider, useSounds } from './contexts/SoundContext'
 import Window from './components/Window'
 import Dock from './components/Dock'
 import MenuBar from './components/MenuBar'
-import StartMenu from './components/StartMenu'
 import MobileLayout from './components/MobileLayout'
 import FileExplorer, { fileStructure } from './components/FileExplorer'
 import GlassIcons from './components/GlassIcons'
@@ -17,9 +16,10 @@ import Resume from './pages/Resume'
 import Contact from './pages/Contact'
 import Awards from './pages/Awards'
 import Leadership from './pages/Leadership'
-import FontDemo from './pages/FontDemo'
 import MusicPlayer from './pages/MusicPlayer'
 import WallpaperSelector from './pages/WallpaperSelector'
+import Suggestions from './pages/Suggestions'
+import SuggestionsCarousel from './components/SuggestionsCarousel'
 import FallingParticles from './components/FallingParticles'
 import LandingPage from './components/LandingPage'
 import LoginPage from './components/LoginPage'
@@ -38,9 +38,9 @@ const apps = [
   { id: 'leadership', type: 'leadership', label: 'Leadership', icon: '👥', iconElement: <Users size={24} />, color: 'cyan', component: Leadership },
   { id: 'explorer', type: 'explorer', label: 'File Explorer', icon: '📁', iconElement: <Folder size={24} />, color: 'indigo', component: FileExplorer },
   { id: 'terminal', type: 'terminal', label: 'Terminal', icon: '💻', iconElement: <TerminalIcon size={24} />, color: 'red', component: Terminal },
-  { id: 'fonts', type: 'fonts', label: 'Font Demo', icon: '🔤', iconElement: <Type size={24} />, color: 'slate', component: FontDemo },
   { id: 'music', type: 'music', label: 'Music Player', icon: '🎵', iconElement: <Music size={24} />, color: 'purple', component: MusicPlayer },
   { id: 'wallpaper', type: 'wallpaper', label: 'Wallpaper', icon: '🖼️', iconElement: <ImageIcon size={24} />, color: 'pink', component: WallpaperSelector },
+  { id: 'suggestions', type: 'suggestions', label: 'Suggestions', icon: '✨', iconElement: <Sparkles size={24} />, color: 'purple', component: Suggestions },
 ]
 
 // Desktop app icons (excluding Files which will be ExpandableFolder)
@@ -58,7 +58,6 @@ function DesktopOS() {
   const { windows, openWindow, closeWindow, minimizeWindow, maximizeWindow, restoreWindow, bringToFront, updateWindowPosition, updateWindowSize } = useWindows()
   const { userName } = useUser()
   const { wallpaperUrl } = useWallpaper()
-  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const sounds = useSounds()
 
@@ -93,7 +92,8 @@ function DesktopOS() {
     }
   }
 
-  const handleFileClick = (fileName) => {
+  const handleFileClick = (fileName, folderContext) => {
+    console.log('App: handleFileClick called', { fileName, folderContext })
     const fileToAppMap = {
       'Bio.txt': 'about',
       'Skills.json': 'about',
@@ -103,19 +103,61 @@ function DesktopOS() {
       'Resume.pdf': 'resume',
       'Cover Letter.pdf': 'resume',
       'Email.txt': 'contact',
+      'Phone.txt': 'contact',
       'Social Links.json': 'contact',
       '2024': 'awards',
       '2023': 'awards',
+      '2025': 'awards',
       'Roles.json': 'leadership',
       'Experience.md': 'leadership',
     }
 
+    // Handle README.md files and project files - map to parent folder's app
+    if (folderContext) {
+      const contextMap = {
+        'About': 'about',
+        'Projects': 'projects',
+        'Pact': 'projects',
+        'Claude Code Demo': 'projects',
+        'CapTuring': 'projects',
+        'ClubWorks': 'projects',
+        'Spendr': 'projects',
+        'InSync': 'projects',
+        'DawnPa': 'projects',
+        'Resume': 'resume',
+        'Contact': 'contact',
+        'Awards': 'awards',
+        '2024': 'awards',
+        '2025': 'awards',
+        'Leadership': 'leadership',
+        'Claude Builders Club': 'leadership',
+        'Forge': 'leadership',
+        'AI Club': 'leadership',
+        'Media': 'explorer',
+      }
+      const appType = contextMap[folderContext]
+      if (appType) {
+        const app = apps.find(a => a.id === appType)
+        if (app) {
+          handleAppClick(app)
+          return
+        }
+      }
+    }
+
     const appType = fileToAppMap[fileName] || Object.keys(fileToAppMap).find(key => fileName.includes(key))
+    console.log('App: File mapping result', { fileName, appType, matchedFromMap: !!fileToAppMap[fileName] })
+    
     if (appType) {
       const app = apps.find(a => a.id === appType)
       if (app) {
+        console.log('App: Opening app', appType)
         handleAppClick(app)
+      } else {
+        console.warn('App: App not found', appType)
       }
+    } else {
+      console.log('App: No app mapping found for file', fileName)
     }
   }
 
@@ -197,6 +239,29 @@ function DesktopOS() {
       {/* Windows */}
       {windows.map((window) => {
         const app = apps.find(a => a.type === window.type)
+        // Handle project-detail windows specially
+        if (window.type === 'project-detail' && window.content) {
+          // Clone the content and pass closeWindow and handleFileClick
+          const contentWithClose = React.cloneElement(window.content, {
+            onClose: () => closeWindow(window.id),
+            onFileClick: handleFileClick
+          })
+          return (
+            <Window
+              key={window.id}
+              window={{
+                ...window,
+                content: contentWithClose
+              }}
+              onClose={() => closeWindow(window.id)}
+              onMinimize={() => minimizeWindow(window.id)}
+              onMaximize={() => maximizeWindow(window.id)}
+              onFocus={() => bringToFront(window.id)}
+              onDragEnd={(position) => updateWindowPosition(window.id, position)}
+              onResize={(size) => updateWindowSize(window.id, size)}
+            />
+          )
+        }
         return (
           <Window
             key={window.id}
@@ -205,6 +270,10 @@ function DesktopOS() {
               content: app ? (
                 app.type === 'terminal' ? (
                   <app.component onFileClick={handleFileClick} onOpenApp={handleAppClick} apps={apps} />
+                ) : app.type === 'projects' ? (
+                  <app.component onFileClick={handleFileClick} onOpenWindow={openWindow} />
+                ) : app.type === 'suggestions' ? (
+                  <app.component onFileClick={handleFileClick} apps={apps} onSuggestionClick={handleAppClick} />
                 ) : (
                   <app.component onFileClick={handleFileClick} />
                 )
@@ -220,9 +289,16 @@ function DesktopOS() {
         )
       })}
 
+      {/* Suggestions Carousel */}
+      <SuggestionsCarousel
+        apps={apps}
+        onSuggestionClick={handleAppClick}
+        isMobile={false}
+      />
+
       {/* Dock */}
       <Dock
-        items={apps.filter(app => ['about', 'projects', 'resume', 'contact', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id)).map(app => ({
+        items={apps.filter(app => ['about', 'projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id)).map(app => ({
           icon: app.iconElement || <span>{app.icon}</span>,
           label: app.label,
           color: app.color || 'blue',
@@ -238,17 +314,7 @@ function DesktopOS() {
       <MenuBar
         windows={windows}
         onWindowClick={handleWindowClick}
-        onStartMenuClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
-        isStartMenuOpen={isStartMenuOpen}
         apps={apps}
-      />
-
-      {/* Start Menu */}
-      <StartMenu
-        isOpen={isStartMenuOpen}
-        apps={apps}
-        onAppClick={handleAppClick}
-        onClose={() => setIsStartMenuOpen(false)}
       />
     </div>
   )

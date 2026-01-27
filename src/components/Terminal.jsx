@@ -60,7 +60,6 @@ const appCommands = {
   'explorer': { name: 'File Explorer', icon: '📁' },
   'music': { name: 'Music Player', icon: '🎵' },
   'wallpaper': { name: 'Wallpaper', icon: '🖼️' },
-  'fonts': { name: 'Font Demo', icon: '🔤' },
   'terminal': { name: 'Terminal', icon: '💻' },
 }
 
@@ -326,7 +325,6 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
       'explorer': () => import('../components/FileExplorer').then(m => ({ default: m.default })),
       'music': () => import('../pages/MusicPlayer').then(m => ({ default: m.default })),
       'wallpaper': () => import('../pages/WallpaperSelector').then(m => ({ default: m.default })),
-      'fonts': () => import('../pages/FontDemo').then(m => ({ default: m.default })),
     }
 
     const loadComponent = componentMap[appId]
@@ -416,7 +414,7 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
       if (!appId) {
         setHistory(prev => [...prev, {
           type: 'output',
-          text: 'Usage: open <app>\nAvailable apps: about, projects, resume, contact, awards, leadership, explorer, music, wallpaper, fonts',
+          text: 'Usage: open <app>\nAvailable apps: about, projects, resume, contact, awards, leadership, explorer, music, wallpaper',
           outputType: 'error'
         }])
       } else if (appCommands[appId]) {
@@ -809,7 +807,7 @@ User: ${userName || 'guest'}`,
       }])
     }
     // Projects, resume, contact, awards, leadership - open apps
-    else if (['projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'fonts'].includes(command)) {
+    else if (['projects', 'resume', 'contact', 'awards', 'leadership', 'explorer'].includes(command)) {
       openApp(command)
     }
     // Unknown command

@@ -7,6 +7,7 @@ import './GlassIcons.css'
 const GlassIcons = ({ items, className, colorful = false }) => {
   const { particleColors } = useWallpaper()
   const [expandedFolderIndex, setExpandedFolderIndex] = useState(null)
+  const [expandedChildFolder, setExpandedChildFolder] = useState(null) // Track expanded child folder: { parentIndex, childName }
   const [columns, setColumns] = useState([items])
   const containerRef = useRef(null)
 
@@ -166,7 +167,15 @@ const GlassIcons = ({ items, className, colorful = false }) => {
                         className="flex flex-col items-center cursor-pointer group"
                         onClick={() => {
                           if (!isChildFolder && item.onFileClick) {
-                            item.onFileClick(name)
+                            // For direct file children, pass the parent folder name (item.label) as context
+                            item.onFileClick(name, item.label)
+                          } else if (isChildFolder) {
+                            // If child is a folder, toggle its expansion
+                            if (expandedChildFolder?.parentIndex === globalIndex && expandedChildFolder?.childName === name) {
+                              setExpandedChildFolder(null)
+                            } else {
+                              setExpandedChildFolder({ parentIndex: globalIndex, childName: name })
+                            }
                           }
                         }}
                       >
@@ -194,6 +203,73 @@ const GlassIcons = ({ items, className, colorful = false }) => {
                     )
                   })}
                 </div>
+                
+                {/* Nested child folder expansion */}
+                {expandedChildFolder?.parentIndex === globalIndex && childEntries.map(([name, childItem]) => {
+                  const isChildFolder = childItem.type === 'folder'
+                  const isChildExpanded = expandedChildFolder?.childName === name
+                  
+                  if (!isChildFolder || !isChildExpanded) return null
+                  
+                  const grandChildren = childItem.children || {}
+                  const grandChildEntries = Object.entries(grandChildren)
+                  
+                  return (
+                    <motion.div
+                      key={`nested-${name}`}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-4 ml-4 border-l-2 pl-4"
+                      style={{ borderColor: accentColor + '40' }}
+                    >
+                      <div className="text-xs text-gray-400 mb-2 font-semibold" style={{ color: accentColor }}>
+                        {name} contents:
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
+                        {grandChildEntries.map(([grandChildName, grandChildItem]) => {
+                          const isGrandChildFolder = grandChildItem.type === 'folder'
+                          return (
+                            <motion.div
+                              key={grandChildName}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              className="flex flex-col items-center cursor-pointer group"
+                              onClick={() => {
+                                if (!isGrandChildFolder && item.onFileClick) {
+                                  // For files inside child folders, pass the child folder's name (name) as context, not the parent (item.label)
+                                  item.onFileClick(grandChildName, name)
+                                }
+                              }}
+                            >
+                              {isGrandChildFolder ? (
+                                <div className="icon-btn__front" style={{ '--accent-color': accentColor }}>
+                                  <Folder
+                                    color="transparent"
+                                    size={0.5}
+                                    items={Object.keys(grandChildItem.children || {}).slice(0, 3).map(greatGrandChildName => (
+                                      <div key={greatGrandChildName} className="text-[7px] text-gray-600 truncate px-1">
+                                        {greatGrandChildName}
+                                      </div>
+                                    ))}
+                                  />
+                                </div>
+                              ) : (
+                                <div className="icon-btn__front" style={{ '--accent-color': accentColor }}>
+                                  <span className="text-xl">📄</span>
+                                </div>
+                              )}
+                              <span className="text-xs text-white text-center max-w-[80px] break-words group-hover:text-blue-400 transition-colors mt-1">
+                                {grandChildName}
+                              </span>
+                            </motion.div>
+                          )
+                        })}
+                      </div>
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             )}
           </AnimatePresence>

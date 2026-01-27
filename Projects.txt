@@ -1,0 +1,45 @@
+PROJECTS
+========
+
+InSync
+------
+Period: January 2026 – Present
+Tech: Python, PostgreSQL, FastAPI, Scikit-Learn
+Description: Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.
+
+DawnPa
+------
+Period: Work in Progress
+Tech: Full-Stack, Healthcare, Tooling
+Description: Comprehensive full-stack platform for healthcare tooling, currently under active development.
+
+Pact
+----
+Period: December 2025
+Tech: FastAPI, React Native, AWS EC2/S3, MongoDB
+Description: Mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.
+
+Claude Code Demo
+----------------
+Period: October 2025 – November 2025
+Tech: Claude Code, React, Python
+Description: Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations.
+
+Spendr
+------
+Period: January 2025
+Tech: JavaScript, Python, React
+Description: Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.
+Award: FinHacks AI/ML Winner
+
+CapTuring
+---------
+Period: April 2025 – May 2025
+Tech: NumPy, Plotly, Scikit-Learn
+Description: NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.
+
+ClubWorks
+---------
+Period: March 2025 – May 2025
+Tech: Flask, MySQL, Streamlit, Docker
+Description: Full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.

@@ -309,7 +309,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
                     brightness={115}
                     className="ios-dock-glass"
                   >
-                    {apps.filter(app => ['about', 'projects', 'resume', 'contact', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id)).map((app) => (
+                    {apps.filter(app => ['about', 'projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id)).map((app) => (
                       <button
                         key={app.id}
                         className="ios-dock-item"

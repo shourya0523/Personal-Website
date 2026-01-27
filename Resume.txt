@@ -1,0 +1,211 @@
+SHOURYA YADAV
+=============
+
+EDUCATION
+=========
+
+B.S. in Computer Science and Business
+Northeastern University, D'Amore McKim School of Business
+
+Expected Graduation: May 2027
+Concentration: Fintech | Minor: Interdisciplinary AI
+GPA: 3.71
+Dean's List: 4x Recipient
+John Martinson Honors Program
+
+
+PROFESSIONAL EXPERIENCE
+=======================
+
+Undergraduate Teaching Assistant – Advanced Programming with Data
+Northeastern University, Khoury College of Computer Sciences
+Location: Boston, MA
+Period: January 2026 – Present
+
+I support 50+ students weekly in Advanced Programming with Data, leading review sessions, creating training materials, and streamlining grading workflows to reduce turnaround time by 30%.
+
+Key Accomplishments:
+• Diagnose and resolve complex programming issues for 50+ students weekly, translating technical concepts clearly
+• Lead review sessions and create comprehensive training materials, improving student comprehension outcomes
+• Streamlined grading workflows and documentation processes, reducing turnaround time by 30%
+• Translate complex technical concepts into clear documentation and guidance
+
+
+AI/ML Researcher Co-op
+SNAP Life Sciences
+Location: Remote
+Period: May 2025 – December 2025
+
+At SNAP Life Sciences, I architected NLP ETL pipelines that processed over 150,000 patents and 500,000 clinical trials, reducing LLM costs by 70%. I developed semantic-matching algorithms achieving 100% recall for healthcare data classification and contributed 40% of the company's proprietary drug and patent database. Beyond technical work, I recruited and onboarded 10+ ML/engineering hires and delivered technical demonstrations to prospective enterprise clients.
+
+Key Accomplishments:
+• Architected NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials, cutting 70% of LLM costs
+• Developed semantic-matching algorithms achieving 100% recall and F1 score > 0.45 for healthcare data
+• Contributed 40% of proprietary drug and patent database through deep pharmaceutical dataset analysis
+• Recruited and onboarded 10+ ML/engineering hires, strengthening technical operations
+• Delivered technical demonstrations of NLP pipeline capabilities to prospective enterprise clients
+
+
+Sales & Business Development Intern
+Attentions AI
+Location: Remote
+Period: July 2024 – September 2024
+
+I executed market research supporting outbound GTM strategies, launched multi-channel marketing campaigns, and generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation.
+
+Key Accomplishments:
+• Executed market and competitive research to support outbound GTM strategies in AI SaaS environment
+• Launched 4+ multi-channel marketing campaigns, including automated email and social workflows
+• Generated 500+ qualified leads leveraging Apollo.io, LinkedIn, and Python-based automation tools
+• Collaborated with sales teams to develop prospect outreach materials and product positioning content
+
+
+LEADERSHIP
+==========
+
+Director of Operations, Co-Founder
+Claude Builders Club @ Northeastern
+Location: Boston, MA
+Period: August 2025 – Present
+
+I co-founded and scaled this AI-focused organization to 200+ members with a 12-person executive team. We've secured $30,000+ in sponsorships and I founded an AI product incubator guiding 30 students through ideation to deployment.
+
+Key Accomplishments:
+• Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building
+• Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships
+• Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment
+• Deliver presentations to large audiences at workshops and events
+• Secured sponsorships through client-facing pitches and strategic relationship management
+
+
+Executive Board Member
+AI Club @ Northeastern
+Location: Boston, MA
+Period: June 2025 – Present
+
+I co-authored D'Amore-McKim's official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.
+
+Key Accomplishments:
+• Co-authored D'Amore-McKim's official AI policy, establishing ethical guidelines for 3,000+ students
+• Drove programming and operations for 500+ member organization, increasing event attendance by 40%
+
+
+Software Product Lab Lead
+Forge – A Sherman Center Program
+Location: Boston, MA
+Period: August 2025 – December 2025
+
+I directed an 8-developer team building a mobile application, authored PRDs, designed API architecture, and accelerated the development timeline by 4 weeks through strategic wireframing and database redesign.
+
+Key Accomplishments:
+• Directed 8-developer team building mobile application using agile practices and structured product workflows
+• Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination
+• Accelerated development timeline by 4 weeks through low-fi wireframing and database schema redesign
+• Architected cloud infrastructure using AWS EC2 and S3, implementing CI/CD pipelines for deployment
+• Delivered live product demonstrations showcasing mobile application features and technical capabilities
+
+
+Analyst
+Pathway Investment Fund
+Location: Boston, MA
+Period: March 2025 – August 2025
+
+Conducted consumer sector analysis and contributed to investment portfolio decisions.
+
+Key Accomplishments:
+• Performed industry analysis in the consumer sector, compiling tri-semesterly reports for investments team
+• Added 4 companies to mock portfolio, yielding 18% simulated growth over 6 months
+
+
+Analyst
+Global Equity Management
+Location: Boston, MA
+Period: September 2024 – November 2024
+
+Analyzed SEC filings and presented investment theses to senior analysts.
+
+Key Accomplishments:
+• Evaluated 5 years of SEC filings, assessing fundamentals, financial health, and competitive positioning
+• Synthesized industry trends and presented acquisition-focused investment theses to senior analysts
+
+
+PROJECTS
+========
+
+InSync
+------
+Period: January 2026 – Present
+Tech: Python, PostgreSQL, FastAPI, Scikit-Learn
+Description: An algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets. I'm designing database schemas and matching algorithms to analyze venture capital financial data at scale.
+
+DawnPa
+------
+Period: Work in Progress
+Tech: Full-Stack Healthcare Tooling Platform
+Description: A comprehensive full-stack platform for healthcare tooling, currently under active development.
+
+Pact
+----
+Period: December 2025
+Tech: FastAPI, React Native, AWS EC2/S3, MongoDB
+Description: A mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.
+
+Claude Code Demo
+----------------
+Period: October 2025 – November 2025
+Tech: Claude Code, React, Python
+Description: A comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations delivered to 50+ attendees.
+
+Spendr
+------
+Period: January 2025
+Tech: JavaScript, Python, React
+Description: A hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.
+Award: FinHacks AI/ML Winner
+
+CapTuring
+---------
+Period: April 2025 – May 2025
+Tech: NumPy, Plotly, Scikit-Learn
+Description: An NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.
+
+ClubWorks
+---------
+Period: March 2025 – May 2025
+Tech: Flask, MySQL, Streamlit, Docker
+Description: A full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.
+
+
+TECHNICAL SKILLS
+================
+
+Languages & Frameworks
+----------------------
+Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, LangChain, Selenium
+
+Cloud & Databases
+-----------------
+AWS (EC2, RDS, S3), MySQL, PostgreSQL, MongoDB, Docker, Database Architecture
+
+Data Science & ML
+-----------------
+Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, ETL Pipelines
+
+Tools
+-----
+Git, Jira, REST APIs, Agile/Scrum, N8N, Alteryx (Foundations Certified)
+
+
+PERSONAL INTERESTS
+==================
+
+When I'm not coding or building organizations, you'll find me producing music, playing poker, exploring food scenes around the world, or binge-watching TV shows. I'm fluent in English and Hindi, with fundamental knowledge of German and Marathi.
+
+
+CONTACT INFORMATION
+===================
+
+Email: yadav.sho@northeastern.edu
+LinkedIn: linkedin.com/in/shouryadav
+GitHub: github.com/shourya0523
+Phone: (510) 326-7626

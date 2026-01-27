@@ -1,0 +1,91 @@
+ABOUT ME
+========
+
+I'm Shourya — a CS and Business student at Northeastern who'd rather be building something than talking about building something.
+
+I like solving problems that sit at the intersection of tech and business, whether that's architecting NLP pipelines processing half a million clinical trials, scaling a student org from zero to 200+ members, or figuring out how to match VCs with startups algorithmically.
+
+I get restless when I'm not working on something, which is why I'm usually juggling a co-op, a couple side projects, and at least one organization that probably needs more of my attention.
+
+I'm drawn to roles where I can build real things and lead teams doing the same. Not interested in busywork or meetings that could've been emails.
+
+When I'm not coding, I'm producing music, playing poker, hunting for good food in random cities, or binge-watching shows I've already seen three times.
+
+
+MY JOURNEY
+==========
+
+AI/ML Research
+--------------
+Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents
+
+Full-Stack Development
+----------------------
+Building scalable applications with modern tech stacks
+
+Leadership
+----------
+Co-founding organizations reaching 200+ members
+
+Investment Analysis
+------------------
+Contributing to analysis across consumer and equity markets
+
+
+WHAT I DO
+=========
+
+Full-Stack Developer
+--------------------
+Building scalable applications with Python, JavaScript, React, FastAPI, and AWS
+
+AI/ML Researcher
+----------------
+Architecting NLP pipelines and semantic matching algorithms for healthcare data
+
+Entrepreneur & Leader
+---------------------
+Co-founding organizations, leading teams, and building products at startups
+
+Creative & Explorer
+-------------------
+Music production, poker, food tourism, global travel, and cat photography
+
+
+TECHNICAL SKILLS
+================
+
+Languages & Frameworks
+----------------------
+Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, LangChain, Selenium
+
+Cloud & Databases
+-----------------
+AWS (EC2, RDS, S3), MySQL, PostgreSQL, MongoDB, Docker, Database Architecture
+
+Data Science & ML
+-----------------
+Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, ETL Pipelines
+
+Tools & Practices
+-----------------
+Git, Jira, REST APIs, Agile/Scrum, N8N, Alteryx (Foundations Certified)
+
+
+PERSONAL INTERESTS
+==================
+
+When I'm not coding or building organizations, you'll find me producing music, playing poker, exploring food scenes around the world, or binge-watching TV shows.
+
+Interests:
+- Music Production
+- Poker
+- Food Tourism
+- Global Travel
+- Binge-Watching TV Shows
+
+Languages:
+- English (Fluent)
+- Hindi (Fluent)
+- German (Fundamental knowledge)
+- Marathi (Fundamental knowledge)
