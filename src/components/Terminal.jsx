@@ -851,14 +851,13 @@ User: ${userName || 'guest'}`,
             window.open('https://www.google.com/search?q=pacman+game', '_blank')
           }, 1000)
         }},
-        { id: 'cat-wallpaper', weight: 0.10, run: () => {
-          const randomCatIndex = Math.floor(Math.random() * 30) // 0-29
+        { id: 'nature-wallpaper', weight: 0.10, run: () => {
           setHistory(prev => [...prev, {
             type: 'output',
-            text: `🐱 MEOW! Setting random cat meme wallpaper...`,
+            text: `🌲 Setting a beautiful nature wallpaper...`,
             outputType: 'info'
           }])
-          searchAndSetWallpaper('cat meme', randomCatIndex)
+          searchAndSetWallpaper('nature landscape')
         }},
         { id: 'rickroll', weight: 0.10, run: () => {
           setHistory(prev => [...prev, {
@@ -905,13 +904,8 @@ User: ${userName || 'guest'}`,
           const quotes = [
             "I have no idea what I'm doing, but I know I'm doing it really, really well. - Andy Dwyer",
             "Every pizza is a personal pizza if you believe in yourself. - Unknown",
-            "Cats are just tiny, furry roommates who judge your life choices. - The Internet",
-            "I'm not lazy, I'm on energy saving mode. - A Cat, Probably",
-            "If it fits, I sits. If it doesn't fit, I sits anyway. - Ancient Cat Proverb",
             "The only thing we have to fear is running out of snacks. - Franklin D. Hungry",
             "I followed my heart and it led me to the fridge. - Every Developer at 2am",
-            "Dogs have owners. Cats have staff. - Unknown",
-            "I'm not arguing, I'm just explaining why I'm right. - Every Cat Ever",
             "Behind every great programmer is a mass of tangled charging cables. - Confucius, Probably",
             "Sleep is just a free trial of death. - A Very Tired Person",
             "My code works and I have no idea why. My code doesn't work and I have no idea why. - The Two Moods",

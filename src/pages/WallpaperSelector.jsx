@@ -6,35 +6,12 @@ import { Search, Loader2, Image as ImageIcon } from 'lucide-react'
 
 const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY || 'YOUR_UNSPLASH_ACCESS_KEY'
 
-// Preset local wallpapers
-const presetWallpapers = [
-  {
-    id: 'cat-wallpaper',
-    name: 'Cat Wallpaper',
-    url: encodeURI('/Cats Computer Wallpaper.jpeg'),
-    thumbnail: encodeURI('/Cats Computer Wallpaper.jpeg')
-  },
-  {
-    id: 'desktop-background',
-    name: 'Desktop Background',
-    url: '/desktop-background.jpg',
-    thumbnail: '/desktop-background.jpg'
-  },
-  {
-    id: 'milky-way-night-sky',
-    name: 'Milky Way Night Sky',
-    url: '/jonatan-pie-h8nxGssjQXs-unsplash.jpg',
-    thumbnail: '/jonatan-pie-h8nxGssjQXs-unsplash.jpg'
-  }
-]
-
 export default function WallpaperSelector() {
   const { wallpaperUrl, updateWallpaper } = useWallpaper()
   const [searchQuery, setSearchQuery] = useState('nature')
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
-  const [selectedPreset, setSelectedPreset] = useState(null)
   const [extractingColors, setExtractingColors] = useState(false)
   const [error, setError] = useState(null)
 
@@ -84,46 +61,14 @@ export default function WallpaperSelector() {
   }
 
   const handleImageSelect = async (image) => {
-    setSelectedImage(image.id)
-    setSelectedPreset(null)
+    setSelectedImage(image)
     setExtractingColors(true)
     setError(null)
 
     try {
-      // Use regular size for better color extraction
-      const imageUrl = image.urls.regular || image.urls.full
+      const colors = await extractColorsFromImage(image.urls.regular, 10)
+      updateWallpaper(image.urls.regular, colors)
       
-      // Extract colors from the image
-      const colors = await extractColorsFromImage(imageUrl, 10)
-      
-      // Update wallpaper and particle colors
-      updateWallpaper(imageUrl, colors)
-      
-      // Show success feedback
-      setTimeout(() => {
-        setExtractingColors(false)
-      }, 500)
-    } catch (err) {
-      setError('Failed to extract colors from image')
-      console.error('Error extracting colors:', err)
-      setExtractingColors(false)
-    }
-  }
-
-  const handlePresetSelect = async (preset) => {
-    setSelectedPreset(preset.id)
-    setSelectedImage(null)
-    setExtractingColors(true)
-    setError(null)
-
-    try {
-      // Extract colors from the preset image
-      const colors = await extractColorsFromImage(preset.url, 10)
-      
-      // Update wallpaper and particle colors
-      updateWallpaper(preset.url, colors)
-      
-      // Show success feedback
       setTimeout(() => {
         setExtractingColors(false)
       }, 500)
@@ -180,41 +125,6 @@ export default function WallpaperSelector() {
             {error}
           </div>
         )}
-
-        {/* Preset Wallpapers */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-3 text-white">Preset Wallpapers</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {presetWallpapers.map((preset) => (
-              <motion.div
-                key={preset.id}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                  selectedPreset === preset.id
-                    ? 'border-purple-500 ring-2 ring-purple-500'
-                    : 'border-transparent hover:border-white/30'
-                }`}
-                onClick={() => handlePresetSelect(preset)}
-              >
-                <img
-                  src={preset.thumbnail}
-                  alt={preset.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-0 left-0 right-0 p-2 text-white text-xs opacity-0 hover:opacity-100 transition-opacity">
-                  <p className="truncate">{preset.name}</p>
-                </div>
-                {selectedPreset === preset.id && (
-                  <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
-                    <ImageIcon size={16} />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
 
         {/* Info Message */}
         {!UNSPLASH_ACCESS_KEY || UNSPLASH_ACCESS_KEY === 'YOUR_UNSPLASH_ACCESS_KEY' ? (

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { WindowContext } from './windowContext'
+import { WindowContext } from './WindowContext'
 
 export const useWindows = () => {
   const context = useContext(WindowContext)
@@ -8,4 +8,3 @@ export const useWindows = () => {
   }
   return context
 }
-

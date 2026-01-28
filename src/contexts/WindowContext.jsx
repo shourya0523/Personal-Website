@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react'
-import { WindowContext } from './windowContext'
+import { createContext } from 'react'
+
+export const WindowContext = createContext(null)
 
 export const WindowProvider = ({ children }) => {
   const [windows, setWindows] = useState([])

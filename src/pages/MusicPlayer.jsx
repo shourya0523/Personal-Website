@@ -22,7 +22,7 @@ const FAVORITE_SONGS = [
     album: 'Paradise',
     duration: 0, // Will be set when loaded
     preview: '/Paradise.mp3',
-    cover: '/Moo.png',
+    cover: 'Moo.png',
     isFavorite: true
   }
 ]
@@ -53,109 +53,55 @@ export default function MusicPlayer() {
       return () => clearTimeout(timer)
     }
   }, [hasAutoPlayed, playSong])
-
-  // Search for songs using Deezer API (no authentication required, includes preview URLs)
   const searchSongs = async (query) => {
     if (!query.trim()) {
       setError('Please enter a search query.')
       return
     }
-
+  
     setIsLoading(true)
     setSongs([])
     setError(null)
     
-    const deezerApiUrl = `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=20`
-    
-    // Try multiple CORS proxy services as fallbacks
-    const proxyServices = [
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(deezerApiUrl)}`,
-      `https://corsproxy.io/?${encodeURIComponent(deezerApiUrl)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(deezerApiUrl)}`,
-    ]
-    
-    let lastError = null
-    
-    for (let i = 0; i < proxyServices.length; i++) {
-      const proxyUrl = proxyServices[i]
-      try {
-        console.log(`[${i + 1}/${proxyServices.length}] Trying proxy:`, proxyUrl.substring(0, 60) + '...')
-        
-        const response = await fetch(proxyUrl, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-        })
-        
-        console.log('Response status:', response.status, response.statusText)
-        
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-        }
-        
-        const text = await response.text()
-        console.log('Response text preview:', text.substring(0, 200))
-        
-        let data
-        try {
-          data = JSON.parse(text)
-        } catch (parseError) {
-          console.error('Failed to parse JSON:', parseError)
-          throw new Error('Invalid JSON response from API')
-        }
-        
-        console.log('Parsed data:', data)
-        
-        // Check for API errors
-        if (data.error) {
-          console.error('Deezer API Error:', data.error)
-          throw new Error(data.error.message || 'API error')
-        }
-        
-        // Process results
-        if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-          const processedSongs = data.data
-            .filter(track => track.preview) // Only include tracks with previews
-            .map(track => ({
-              id: track.id,
-              title: track.title,
-              artist: track.artist?.name || 'Unknown Artist',
-              album: track.album?.title || 'Unknown Album',
-              duration: track.duration,
-              preview: track.preview, // 30-second preview URL
-              cover: track.album?.cover_medium || track.album?.cover || ''
-            }))
-          
-          if (processedSongs.length > 0) {
-            setSongs(processedSongs)
-            console.log(`✅ Success! Found ${processedSongs.length} songs`)
-            setIsLoading(false)
-            return // Success!
-          } else {
-            setSongs([])
-            setError('No songs with previews found. Try a different search term.')
-            setIsLoading(false)
-            return
-          }
-        } else {
-          setSongs([])
-          setError('No results found. Try a different search term.')
-          setIsLoading(false)
-          return
-        }
-      } catch (error) {
-        console.error(`❌ Proxy ${i + 1} failed:`, error.message)
-        lastError = error
-        if (i === proxyServices.length - 1) {
-          // Last proxy failed
-          console.error('All proxy attempts failed')
-          setError(`Search failed: ${error.message}. Please check your internet connection and try again.`)
-          setIsLoading(false)
-        }
-        // Continue to next proxy
-        continue
+    try {
+      const response = await fetch(`/api/deezer?q=${encodeURIComponent(query)}&limit=20`)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
+      
+      const data = await response.json()
+      
+      if (data.error) {
+        throw new Error(data.error.message || 'API error')
+      }
+      
+      if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+        const processedSongs = data.data
+          .filter(track => track.preview)
+          .map(track => ({
+            id: track.id,
+            title: track.title,
+            artist: track.artist?.name || 'Unknown Artist',
+            album: track.album?.title || 'Unknown Album',
+            duration: track.duration,
+            preview: track.preview,
+            cover: track.album?.cover_medium || track.album?.cover || ''
+          }))
+        
+        if (processedSongs.length > 0) {
+          setSongs(processedSongs)
+        } else {
+          setError('No songs with previews found. Try a different search term.')
+        }
+      } else {
+        setError('No results found. Try a different search term.')
+      }
+    } catch (error) {
+      console.error('Search failed:', error)
+      setError(`Search failed: ${error.message}`)
+    } finally {
+      setIsLoading(false)
     }
   }
 
