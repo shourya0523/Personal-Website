@@ -12,6 +12,16 @@ export const useWallpaper = () => {
 
 // Default particle colors (gold and green theme)
 const defaultParticleColors = [
+  '#fbbf24', // amber-400 (gold)
+  '#f59e0b', // amber-500 (darker gold)
+  '#eab308', // yellow-500 (bright gold)
+  '#10b981', // emerald-500 (green)
+  '#059669', // emerald-600 (darker green)
+  '#34d399', // emerald-400 (lighter green)
+  '#22c55e', // green-500 (bright green)
+  '#16a34a', // green-600 (deep green)
+  '#84cc16', // lime-500 (yellow-green)
+  '#65a30d', // lime-600 (darker yellow-green)
 ]
 
 export const WallpaperProvider = ({ children }) => {
