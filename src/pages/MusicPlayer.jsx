@@ -21,8 +21,8 @@ const FAVORITE_SONGS = [
     artist: 'Polyphia',
     album: 'Paradise',
     duration: 0, // Will be set when loaded
-    preview: '/music/Paradise.mp3',
-    cover: '/music/Moo.png',
+    preview: '/Paradise.mp3',
+    cover: 'Moo.png',
     isFavorite: true
   }
 ]
