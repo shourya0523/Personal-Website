@@ -15,11 +15,16 @@ const defaultParticleColors = [
 ]
 
 export const WallpaperProvider = ({ children }) => {
-  const defaultWallpaper = 'https://images.unsplash.com/photo-1572283046480-e990be92d301?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjM1NDR8MHwxfHNlYXJjaHw2fHxibGFja3xlbnwwfDB8fHwxNzY5NDc2MzYzfDA&ixlib=rb-4.1.0&q=80&w=1080'
+  const defaultWallpaper = 'https://images.unsplash.com/photo-1498898733745-c8c6df58e4ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjM1NDR8MHwxfHNlYXJjaHwxNXx8d2F0ZXJ8ZW58MHwwfHx8MTc2OTcxMDc0NXww&ixlib=rb-4.1.0&q=80&w=1080'
   
   const [wallpaperUrl, setWallpaperUrl] = useState(() => {
     return localStorage.getItem('wallpaperUrl') || defaultWallpaper
   })
+
+  useEffect(() => {
+    localStorage.setItem('particleColors', JSON.stringify(particleColors))
+  }, [particleColors])
+
   const [particleColors, setParticleColors] = useState(() => {
     const saved = localStorage.getItem('particleColors')
     return saved
@@ -29,9 +34,7 @@ export const WallpaperProvider = ({ children }) => {
     localStorage.setItem('wallpaperUrl', wallpaperUrl)
   }, [wallpaperUrl])
 
-  useEffect(() => {
-    localStorage.setItem('particleColors', JSON.stringify(particleColors))
-  }, [particleColors])
+
 
   const updateWallpaper = (url, colors) => {
     setWallpaperUrl(url)
