@@ -22,7 +22,7 @@ export const WallpaperProvider = ({ children }) => {
   })
   const [particleColors, setParticleColors] = useState(() => {
     const saved = localStorage.getItem('particleColors')
-    return saved ? JSON.parse(saved) : defaultParticleColors
+    return saved
   })
 
   useEffect(() => {
