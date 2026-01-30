@@ -4,6 +4,7 @@ import { X, ChevronDown, Battery, Wifi, Signal, Home } from 'lucide-react'
 import { useWallpaper } from '../contexts/WallpaperContext'
 import { useUser } from '../contexts/UserContext'
 import { useSounds } from '../contexts/SoundContext'
+import { safeLocalStorage } from '../utils/storage'
 import GlassSurface from './GlassSurface'
 import FallingParticles from './FallingParticles'
 import './MobileLayout.css'
@@ -52,7 +53,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
 
   // Check for first run
   useEffect(() => {
-    const hasSeenFirstRun = localStorage.getItem('mobileFirstRunSeen')
+    const hasSeenFirstRun = safeLocalStorage.getItem('mobileFirstRunSeen')
     if (!hasSeenFirstRun && !activeWindow) {
       // Wait for app icons to render
       setTimeout(() => {
@@ -65,7 +66,7 @@ export default function MobileLayout({ apps, onAppClick, windows = [], onCloseWi
 
   const handleDismissHint = () => {
     setShowFirstRunHint(false)
-    localStorage.setItem('mobileFirstRunSeen', 'true')
+    safeLocalStorage.setItem('mobileFirstRunSeen', 'true')
   }
 
   const handleSuggestionsClick = (app) => {

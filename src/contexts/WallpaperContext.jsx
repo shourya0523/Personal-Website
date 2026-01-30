@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { safeLocalStorage } from '../utils/storage'
 
 const WallpaperContext = createContext()
 
@@ -28,21 +29,21 @@ export const WallpaperProvider = ({ children }) => {
   const defaultWallpaper = 'https://images.unsplash.com/photo-1498898733745-c8c6df58e4ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjM1NDR8MHwxfHNlYXJjaHwxNXx8d2F0ZXJ8ZW58MHwwfHx8MTc2OTcxMDc0NXww&ixlib=rb-4.1.0&q=80&w=1080'
   
   const [wallpaperUrl, setWallpaperUrl] = useState(() => {
-    return localStorage.getItem('wallpaperUrl') || defaultWallpaper
+    return safeLocalStorage.getItem('wallpaperUrl', defaultWallpaper)
   })
-
-  useEffect(() => {
-    localStorage.setItem('particleColors', JSON.stringify(particleColors))
-  }, [particleColors])
 
   const [particleColors, setParticleColors] = useState(() => {
-    const saved = localStorage.getItem('particleColors')
-    return saved
+    const saved = safeLocalStorage.getItem('particleColors')
+    return saved ? JSON.parse(saved) : defaultParticleColors
   })
 
   useEffect(() => {
-    localStorage.setItem('wallpaperUrl', wallpaperUrl)
+    safeLocalStorage.setItem('wallpaperUrl', wallpaperUrl)
   }, [wallpaperUrl])
+
+  useEffect(() => {
+    safeLocalStorage.setItem('particleColors', JSON.stringify(particleColors))
+  }, [particleColors])
 
 
 

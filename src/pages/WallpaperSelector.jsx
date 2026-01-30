@@ -47,7 +47,6 @@ export default function WallpaperSelector() {
       setImages(data.results || [])
     } catch (err) {
       setError(err.message)
-      console.error('Error fetching images:', err)
     } finally {
       setLoading(false)
     }
@@ -74,7 +73,6 @@ export default function WallpaperSelector() {
       }, 500)
     } catch (err) {
       setError('Failed to extract colors from image')
-      console.error('Error extracting colors:', err)
       setExtractingColors(false)
     }
   }

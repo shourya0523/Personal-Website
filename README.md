@@ -40,6 +40,27 @@ A unique personal website designed as a mock operating system interface, featuri
 npm install
 ```
 
+### Environment Setup
+
+This project uses the Unsplash API for the wallpaper selector feature. You'll need to configure your own API keys:
+
+1. **Get Unsplash API Keys**:
+   - Go to https://unsplash.com/oauth/applications
+   - Create a new application or use an existing one
+   - Copy your Access Key and Secret Key
+
+2. **Configure Environment Variables**:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit `.env` and replace the placeholder values with your actual API keys:
+   ```
+   VITE_UNSPLASH_ACCESS_KEY=your_actual_access_key
+   VITE_UNSPLASH_SECRET_KEY=your_actual_secret_key
+   ```
+
+3. **Important**: Never commit your `.env` file to git. It's already in `.gitignore`.
+
 ### Development
 
 ```bash

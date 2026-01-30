@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useMemo } from 'react'
-import LiquidEther from './LiquidEther/LiquidEther'
+import { useState, useMemo, lazy, Suspense } from 'react'
 import NameInputPage from './NameInputPage'
+
+// Lazy load heavy 3D component
+const LiquidEther = lazy(() => import('./LiquidEther/LiquidEther'))
 
 
 // Helper function to convert HSL to hex
@@ -48,23 +50,25 @@ export default function LoginPage({ onLogin }) {
     >
       {/* LiquidEther Background */}
       <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-        <LiquidEther
-          colors={liquidEtherColors}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
+        <Suspense fallback={<div className="w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black" />}>
+          <LiquidEther
+            colors={liquidEtherColors}
+            mouseForce={20}
+            cursorSize={100}
+            isViscous
+            viscous={30}
+            iterationsViscous={32}
+            iterationsPoisson={32}
+            resolution={0.5}
+            isBounce={false}
+            autoDemo
+            autoSpeed={0.5}
+            autoIntensity={2.2}
+            takeoverDuration={0.25}
+            autoResumeDelay={3000}
+            autoRampDuration={0.6}
+          />
+        </Suspense>
       </div>
 
       {/* Login Button / Card Morph */}

@@ -4,6 +4,7 @@ import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folde
 import { WindowProvider } from './contexts/WindowContext'
 import { useWindows } from './contexts/useWindows'
 import { SoundProvider, useSounds } from './contexts/SoundContext'
+import { safeLocalStorage } from './utils/storage'
 import Window from './components/Window'
 import Dock from './components/Dock'
 import MenuBar from './components/MenuBar'
@@ -95,7 +96,6 @@ function DesktopOS() {
   }
 
   const handleFileClick = (fileName, folderContext) => {
-    console.log('App: handleFileClick called', { fileName, folderContext })
     const fileToAppMap = {
       'Bio.txt': 'about',
       'Skills.json': 'about',
@@ -148,18 +148,12 @@ function DesktopOS() {
     }
 
     const appType = fileToAppMap[fileName] || Object.keys(fileToAppMap).find(key => fileName.includes(key))
-    console.log('App: File mapping result', { fileName, appType, matchedFromMap: !!fileToAppMap[fileName] })
-    
+
     if (appType) {
       const app = apps.find(a => a.id === appType)
       if (app) {
-        console.log('App: Opening app', appType)
         handleAppClick(app)
-      } else {
-        console.warn('App: App not found', appType)
       }
-    } else {
-      console.log('App: No app mapping found for file', fileName)
     }
   }
 
@@ -333,7 +327,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('landing') // 'landing', 'login', 'name', 'desktop'
 
   useEffect(() => {
-    const savedFont = localStorage.getItem('selectedFont')
+    const savedFont = safeLocalStorage.getItem('selectedFont')
     if (savedFont) {
       document.body.style.fontFamily = savedFont
     }

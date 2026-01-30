@@ -45,7 +45,7 @@ const ReflectiveCard = ({
           videoRef.current.srcObject = stream;
         }
       } catch (err) {
-        console.error('Error accessing webcam:', err);
+        // Webcam access denied or not available
       }
     };
 

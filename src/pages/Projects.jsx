@@ -102,10 +102,8 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
   }, [])
 
   const handleCardClick = (project) => {
-    console.log('Projects: Card clicked', { projectTitle: project.title, hasOnOpenWindow: !!onOpenWindow })
     if (onOpenWindow) {
       const windowId = `project-${project.id}-${Date.now()}`
-      console.log('Projects: Opening project detail window', { windowId, projectTitle: project.title })
       onOpenWindow({
         id: windowId,
         type: 'project-detail',
@@ -114,8 +112,6 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
         content: <ProjectDetail project={project} />,
         size: { width: 900, height: 700 },
       })
-    } else {
-      console.warn('Projects: onOpenWindow handler not provided')
     }
   }
 

@@ -53,7 +53,7 @@ export const MusicProvider = ({ children }) => {
         soundRef.current.stop()
         soundRef.current.unload()
       } catch (error) {
-        console.log('Error stopping previous song:', error)
+        // Ignore errors when stopping/unloading
       }
       soundRef.current = null
     }
@@ -96,7 +96,6 @@ export const MusicProvider = ({ children }) => {
       },
       onloaderror: () => {
         setIsPlaying(false)
-        console.error('Error loading audio')
       }
     })
 

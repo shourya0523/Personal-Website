@@ -1,8 +1,10 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import ReflectiveCard from './ReflectiveCard/ReflectiveCard'
 import { useUser } from '../contexts/UserContext'
 import { Lock, Activity } from 'lucide-react'
+
+// Lazy load heavy 3D component
+const ReflectiveCard = lazy(() => import('./ReflectiveCard/ReflectiveCard'))
 
 // Helper to convert HSL to rgba
 function hslToRgba(h, s, l, a = 1) {
@@ -47,7 +49,8 @@ export default function NameInputPage({ onComplete }) {
         height: '100%',
         position: 'relative'
       }}>
-        <ReflectiveCard
+        <Suspense fallback={<div className="flex items-center justify-center h-full"><div className="text-white/50">Loading...</div></div>}>
+          <ReflectiveCard
         overlayColor={themeTint}
         blurStrength={8}
         glassDistortion={10}
@@ -110,7 +113,8 @@ export default function NameInputPage({ onComplete }) {
               <span className="value">{name || '--------'}</span>
             </div>
           </div>
-        </ReflectiveCard>
+          </ReflectiveCard>
+        </Suspense>
       </div>
     </div>
   )

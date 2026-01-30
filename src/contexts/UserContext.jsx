@@ -1,16 +1,17 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { safeLocalStorage } from '../utils/storage'
 
 const UserContext = createContext()
 
 export function UserProvider({ children }) {
   const [userName, setUserName] = useState(() => {
     // Load from localStorage on mount
-    return localStorage.getItem('userName') || ''
+    return safeLocalStorage.getItem('userName', '')
   })
 
   const updateUserName = (name) => {
     setUserName(name)
-    localStorage.setItem('userName', name)
+    safeLocalStorage.setItem('userName', name)
   }
 
   return (

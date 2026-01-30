@@ -47,7 +47,7 @@ export default function MusicPlayer() {
           playSong(FAVORITE_SONG)
           setHasAutoPlayed(true)
         } catch (error) {
-          console.log('Auto-play prevented by browser. Click play to start.')
+          // Auto-play prevented by browser - user can click play manually
         }
       }, 1000)
       return () => clearTimeout(timer)
@@ -98,7 +98,6 @@ export default function MusicPlayer() {
         setError('No results found. Try a different search term.')
       }
     } catch (error) {
-      console.error('Search failed:', error)
       setError(`Search failed: ${error.message}`)
     } finally {
       setIsLoading(false)

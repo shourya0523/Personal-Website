@@ -9,11 +9,8 @@ export default function ProjectDetail({ project, onClose, onFileClick }) {
   const accentColor = particleColors[project.id % particleColors.length]
 
   const handleFileClick = (fileName) => {
-    console.log('ProjectDetail: File clicked', { fileName, projectTitle: project.title, hasOnFileClick: !!onFileClick })
     if (onFileClick) {
       onFileClick(fileName, project.title)
-    } else {
-      console.warn('ProjectDetail: onFileClick handler not provided')
     }
   }
 

@@ -1,10 +1,18 @@
+// Cache for storing extracted colors by image URL
+const colorCache = new Map()
+
 /**
- * Extract dominant colors from an image
+ * Extract dominant colors from an image with caching
  * @param {string} imageUrl - URL of the image
  * @param {number} colorCount - Number of colors to extract (default: 10)
  * @returns {Promise<string[]>} Array of hex color codes
  */
 export async function extractColorsFromImage(imageUrl, colorCount = 10) {
+  // Check cache first
+  const cacheKey = `${imageUrl}-${colorCount}`
+  if (colorCache.has(cacheKey)) {
+    return Promise.resolve(colorCache.get(cacheKey))
+  }
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
@@ -26,7 +34,8 @@ export async function extractColorsFromImage(imageUrl, colorCount = 10) {
         const data = imageData.data
         
         // Sample pixels (every Nth pixel for performance)
-        const sampleRate = Math.max(1, Math.floor(data.length / 4 / 1000))
+        // Reduced from 1000 to 500 samples for better performance
+        const sampleRate = Math.max(1, Math.floor(data.length / 4 / 500))
         const colors = []
         
         for (let i = 0; i < data.length; i += 4 * sampleRate) {
@@ -45,9 +54,18 @@ export async function extractColorsFromImage(imageUrl, colorCount = 10) {
         
         // Group similar colors and get dominant ones
         const dominantColors = getDominantColors(colors, colorCount)
+
+        // Cache the result
+        colorCache.set(cacheKey, dominantColors)
+
+        // Limit cache size to prevent memory issues (keep last 50 images)
+        if (colorCache.size > 50) {
+          const firstKey = colorCache.keys().next().value
+          colorCache.delete(firstKey)
+        }
+
         resolve(dominantColors)
       } catch (error) {
-        console.error('Error extracting colors:', error)
         reject(error)
       }
     }

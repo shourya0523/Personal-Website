@@ -20,12 +20,19 @@ export const config = {
         `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=${limit}`
       );
       const data = await response.json();
-  
+
+      // Determine allowed origin - either from environment or request origin for same-site requests
+      const origin = req.headers.get('origin');
+      const allowedOrigin = process.env.ALLOWED_ORIGIN ||
+                           (origin && (origin.includes('localhost') || origin.includes('127.0.0.1')))
+                           ? origin
+                           : 'http://localhost:5173';
+
       return new Response(JSON.stringify(data), {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': allowedOrigin,
         },
       });
     } catch (error) {
