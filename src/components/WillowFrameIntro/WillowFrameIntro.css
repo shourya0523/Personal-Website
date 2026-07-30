@@ -267,16 +267,43 @@
 @media (max-height: 560px) {
   .willow-intro__tooltip,
   .willow-intro__status {
-    bottom: max(2.75rem, calc(env(safe-area-inset-bottom, 0px) + 2.25rem));
+    bottom: max(3.25rem, calc(env(safe-area-inset-bottom, 0px) + 2.75rem));
+    width: min(78vw, 360px);
   }
 
   .willow-intro__tooltip-btn {
     padding: 0.55rem 0.9rem;
     min-height: 2.5rem;
+    font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+  }
+
+  .willow-intro__skip {
+    /* Keep clear of the centered tip on short landscape phones. */
+    left: max(0.5rem, env(safe-area-inset-left, 0px));
+    right: auto;
   }
 
   .willow-intro__coffee {
     font-size: clamp(2.4rem, 14vw, 5rem);
+  }
+}
+
+/* Portrait phones: softer breathe so contain-framed box doesn't jitter out. */
+@media (max-width: 640px) and (orientation: portrait) {
+  @keyframes willow-breathe {
+    0%,
+    100% {
+      transform: scale(1) translate3d(0, 0, 0);
+      filter: brightness(1) contrast(1);
+    }
+    50% {
+      transform: scale(1.015) translate3d(0, -0.3%, 0);
+      filter: brightness(1.04) contrast(1.02);
+    }
+  }
+
+  .willow-intro__tooltip {
+    bottom: max(4.5rem, calc(env(safe-area-inset-bottom, 0px) + 3.75rem));
   }
 }
 
