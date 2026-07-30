@@ -1,0 +1,292 @@
+.coffee-chat {
+  --blood: #c41e3a;
+  --blood-deep: #4a0000;
+  --ink: #f4e8e2;
+  --muted: #c4a8a0;
+  --paper: #1a080a;
+  --accent: #7cffb2;
+
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--ink);
+  background: #050000;
+  font-family: 'Syne', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.coffee-chat__blood-fallback {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at top, #3a0010, #050000 70%);
+}
+
+.coffee-chat__grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.coffee-chat__vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.coffee-chat__main {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem) 4rem;
+  pointer-events: none;
+}
+
+.coffee-chat__main a,
+.coffee-chat__main button {
+  pointer-events: auto;
+}
+
+.coffee-chat__brand {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  text-shadow: 0 2px 24px rgba(196, 30, 58, 0.45);
+}
+
+.coffee-chat__headline {
+  margin: 0;
+  max-width: 18ch;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.coffee-chat__no {
+  display: block;
+  font-family: 'Creepster', cursive;
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
+  color: var(--blood);
+  text-shadow: 0 0 30px rgba(196, 30, 58, 0.55);
+  margin-bottom: 0.35rem;
+  animation: coffee-pulse 2.8s ease-in-out infinite;
+}
+
+.coffee-chat__line {
+  display: block;
+  font-size: clamp(1.35rem, 3.6vw, 2.15rem);
+  color: var(--ink);
+}
+
+.coffee-chat__strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.12em;
+  text-decoration-color: var(--blood);
+  color: var(--muted);
+  margin-right: 0.2em;
+}
+
+.coffee-chat__support {
+  margin: 1.25rem 0 2rem;
+  max-width: 36rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.coffee-chat__stage {
+  display: grid;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .coffee-chat__stage {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.coffee-calendar-card {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(196, 30, 58, 0.45);
+  background: linear-gradient(145deg, rgba(26, 8, 10, 0.92), rgba(10, 0, 0, 0.88));
+  color: inherit;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+}
+
+.coffee-calendar-card__preview {
+  background: #120406;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.coffee-calendar-card__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5a3030;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.coffee-calendar-card__dot:nth-child(1) {
+  background: #c41e3a;
+}
+.coffee-calendar-card__dot:nth-child(2) {
+  background: #c9a227;
+}
+.coffee-calendar-card__dot:nth-child(3) {
+  background: #3d8b5a;
+}
+
+.coffee-calendar-card__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  flex: 1;
+}
+
+.coffee-calendar-card__grid span {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.coffee-calendar-card__grid span.is-busy {
+  background: rgba(196, 30, 58, 0.75);
+}
+
+.coffee-calendar-card__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.coffee-calendar-card__title {
+  margin: 0.35rem 0;
+  font-size: 1.35rem;
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.coffee-calendar-card__copy {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.coffee-calendar-card__cta {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.coffee-chat__memes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.coffee-chat__still {
+  margin: 0;
+  max-width: 280px;
+}
+
+.coffee-chat__still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: 2px solid rgba(196, 30, 58, 0.5);
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.coffee-chat__still figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+}
+
+.coffee-chat__freaky {
+  margin: 0.25rem 0 0;
+  font-family: 'Creepster', cursive;
+  font-size: 1.35rem;
+  color: var(--blood);
+}
+
+.coffee-chat__willow {
+  margin-top: 2.5rem;
+  height: 220px;
+  max-width: 360px;
+  pointer-events: none;
+}
+
+.willow-scene,
+.willow-scene--fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.willow-scene--fallback {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  border: 1px dashed rgba(196, 30, 58, 0.35);
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+@keyframes coffee-pulse {
+  0%,
+  100% {
+    transform: translateX(0);
+    filter: none;
+  }
+  48% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+    filter: hue-rotate(-8deg);
+  }
+  52% {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coffee-chat__no {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .coffee-calendar-card {
+    grid-template-columns: 1fr;
+  }
+
+  .coffee-calendar-card__preview {
+    min-height: 110px;
+  }
+}

@@ -1,0 +1,25 @@
+.blood-fluid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  background: #0a0000;
+}
+
+.blood-fluid__fallback,
+.blood-fluid--static {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 20%, #5c0010 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, #2a0008 0%, transparent 50%),
+    linear-gradient(160deg, #1a0000 0%, #0a0000 45%, #120005 100%);
+}
+
+.blood-fluid canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
