@@ -91,6 +91,8 @@
   pointer-events: none;
   user-select: none;
   opacity: 0;
+  transform-origin: center 45%;
+  will-change: transform, filter;
   animation: willow-frame-in 0.7s ease forwards;
 }
 
@@ -100,6 +102,38 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Idle “breathing” between clicks — alive still, not a paused video. */
+.willow-intro[data-phase='prompt-open'] .willow-intro__frame {
+  animation:
+    willow-frame-in 0.7s ease forwards,
+    willow-breathe 5.6s ease-in-out 0.7s infinite;
+}
+
+.willow-intro[data-phase='prompt-wish'] .willow-intro__frame {
+  opacity: 1;
+  animation: willow-breathe 5.6s ease-in-out infinite;
+}
+
+.willow-intro[data-phase='opening'] .willow-intro__frame,
+.willow-intro[data-phase='breaking'] .willow-intro__frame {
+  opacity: 1;
+  animation: none;
+  transform: none;
+  filter: none;
+}
+
+@keyframes willow-breathe {
+  0%,
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    transform: scale(1.032) translate3d(0, -0.55%, 0);
+    filter: brightness(1.06) contrast(1.03);
   }
 }
 
@@ -209,7 +243,13 @@
   .willow-intro__wash,
   .willow-intro__frame {
     transition: none;
-    animation: none;
+    animation: none !important;
+  }
+
+  .willow-intro__frame {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 
   .willow-intro__coffee,
