@@ -69,21 +69,64 @@ html.coffee-route #root {
   min-width: 0;
 }
 
+@media (max-width: 640px) {
+  .coffee-chat__main {
+    padding:
+      max(1rem, env(safe-area-inset-top, 0px))
+      max(0.85rem, env(safe-area-inset-right, 0px))
+      max(2.25rem, env(safe-area-inset-bottom, 0px))
+      max(0.85rem, env(safe-area-inset-left, 0px));
+  }
+}
+
 .coffee-chat__hero {
   display: grid;
-  gap: clamp(1.75rem, 4vw, 2.75rem);
+  gap: clamp(1.25rem, 3.5vw, 2.75rem);
   align-items: start;
+  /* Mobile: brand/copy → booking CTA → meme stills (CTA in first viewport). */
+  grid-template-areas:
+    'copy'
+    'cal'
+    'memes';
+}
+
+.coffee-chat__hero-copy {
+  grid-area: copy;
+  min-width: 0;
+}
+
+.coffee-chat__hero-cal {
+  grid-area: cal;
+  min-width: 0;
+  width: 100%;
+  max-width: 420px;
+  justify-self: stretch;
+}
+
+.coffee-chat__memes {
+  grid-area: memes;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem 1rem;
+  margin-top: 0;
+  pointer-events: none;
+  min-width: 0;
 }
 
 @media (min-width: 960px) {
   .coffee-chat__hero {
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 400px);
+    grid-template-areas:
+      'copy cal'
+      'memes cal';
     gap: clamp(2rem, 4vw, 3.25rem);
   }
 
   .coffee-chat__hero-cal {
     position: sticky;
     top: 1.5rem;
+    max-width: none;
+    justify-self: stretch;
   }
 }
 
@@ -338,15 +381,6 @@ html.coffee-route #root {
   color: var(--muted);
 }
 
-.coffee-chat__memes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem 1rem;
-  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
-  pointer-events: none;
-  min-width: 0;
-}
-
 .coffee-chat__still {
   margin: 0;
   max-width: 100%;
@@ -396,32 +430,43 @@ html.coffee-route #root {
   .coffee-chat__still--bear {
     margin-top: 0;
   }
-
-  .coffee-chat__still img {
-    height: clamp(200px, 55vw, 280px);
-  }
 }
 
 @media (max-width: 640px) {
   .coffee-chat__brand {
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.35rem, 6.5vw, 1.75rem);
   }
 
   .coffee-chat__support {
-    margin: 1rem 0 0;
-    font-size: 0.98rem;
+    margin: 0.85rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
   }
 
   .coffee-chat__hero {
-    gap: 1.25rem;
+    gap: 1.1rem;
+  }
+
+  .coffee-chat__hero-cal {
+    max-width: none;
+  }
+
+  .coffee-chat__line {
+    font-size: clamp(1.2rem, 5.2vw, 1.55rem);
   }
 
   .coffee-chat__still {
     max-width: 100%;
   }
 
+  .coffee-chat__still img {
+    height: clamp(160px, 48vw, 220px);
+  }
+
   /* Keep glitch shake inside the viewport on narrow phones. */
   .coffee-chat__no {
+    font-size: clamp(1.85rem, 9.5vw, 2.75rem);
     animation-name: coffee-no-shake-mobile, coffee-no-flash;
   }
 }

@@ -37,17 +37,27 @@ function loadFrameBitmaps(urls) {
   )
 }
 
-/** Draw image cover-fit into canvas. */
-function paintCover(ctx, img, cssW, cssH) {
+/**
+ * Draw frame into canvas.
+ * Portrait (tall) viewports use contain so the willow box isn't cropped to
+ * gibberish on phones; landscape keeps cinematic cover.
+ */
+function paintFrameImage(ctx, img, cssW, cssH) {
   const iw = img.naturalWidth || img.width
   const ih = img.naturalHeight || img.height
   if (!iw || !ih) return
-  const scale = Math.max(cssW / iw, cssH / ih)
+  const portrait = cssH > cssW
+  const scale = portrait ? Math.min(cssW / iw, cssH / ih) : Math.max(cssW / iw, cssH / ih)
   const dw = iw * scale
   const dh = ih * scale
   const dx = (cssW - dw) / 2
   const dy = (cssH - dh) / 2
-  ctx.clearRect(0, 0, cssW, cssH)
+  if (typeof ctx.fillRect === 'function') {
+    ctx.fillStyle = '#000'
+    ctx.fillRect(0, 0, cssW, cssH)
+  } else if (typeof ctx.clearRect === 'function') {
+    ctx.clearRect(0, 0, cssW, cssH)
+  }
   ctx.drawImage(img, dx, dy, dw, dh)
 }
 
@@ -113,7 +123,7 @@ export default function WillowFrameIntro({ onComplete }) {
       if (!img) return
       const { w, h, ctx } = syncCanvasSize()
       if (!ctx || !w || !h) return
-      paintCover(ctx, img, w, h)
+      paintFrameImage(ctx, img, w, h)
     },
     [syncCanvasSize],
   )

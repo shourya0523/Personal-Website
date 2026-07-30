@@ -146,29 +146,49 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 400px) {
+/* Compact calendar so more of the card fits the first mobile viewport. */
+@media (max-width: 640px) {
   .coffee-calendar-card {
-    padding: 0.85rem 0.65rem 0.95rem;
-    gap: 0.65rem;
-  }
-
-  .coffee-calendar-card__title {
-    font-size: 1.3rem;
+    padding: 0.95rem 0.9rem 1.05rem;
+    gap: 0.55rem;
   }
 
   .coffee-calendar-card__copy {
-    font-size: 0.9rem;
+    display: none;
+  }
+
+  .coffee-calendar-card__picker .rdp-root {
+    --rdp-day-width: clamp(1.85rem, 9.5vw, 2.2rem);
+    --rdp-day-height: clamp(1.85rem, 9.5vw, 2.2rem);
+    --rdp-day_button-width: clamp(1.7rem, 8.5vw, 2.05rem);
+    --rdp-day_button-height: clamp(1.7rem, 8.5vw, 2.05rem);
+  }
+}
+
+@media (max-width: 400px) {
+  .coffee-calendar-card {
+    padding: 0.85rem 0.65rem 0.95rem;
+    gap: 0.55rem;
+  }
+
+  .coffee-calendar-card__title {
+    font-size: 1.25rem;
   }
 
   .coffee-calendar-card__picker {
-    padding: 0.35rem 0.15rem 0.5rem;
+    padding: 0.3rem 0.1rem 0.45rem;
   }
 
   .coffee-calendar-card__picker .rdp-month_caption {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .coffee-calendar-card__picker .rdp-weekday {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
+  }
+
+  .coffee-calendar-card__cta {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.95rem;
   }
 }
