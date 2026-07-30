@@ -1,3 +1,20 @@
+/* Unlock document scroll for /coffee (index.css locks body/#root for the OS shell). */
+html.coffee-route,
+html.coffee-route body {
+  height: auto !important;
+  min-height: 100%;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+html.coffee-route #root {
+  width: 100%;
+  height: auto !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: visible !important;
+}
+
 .coffee-chat {
   --blood: #c41e3a;
   --blood-deep: #4a0000;
@@ -12,7 +29,7 @@
   color: var(--ink);
   background: #050000;
   font-family: 'Syne', system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .coffee-chat__blood-fallback {

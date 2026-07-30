@@ -48,6 +48,26 @@ test.describe('Obsession coffee chat', () => {
     await expect(page.getByTestId('coffee-day-picker')).toBeVisible()
   })
 
+  test('document scroll works after reveal', async ({ page }) => {
+    await completeWillowIntro(page)
+    await expect(page.getByTestId('coffee-calendar-cta')).toBeVisible()
+
+    const before = await page.evaluate(() => window.scrollY)
+    await page.mouse.move(640, 360)
+    await page.mouse.wheel(0, 900)
+    await page.waitForTimeout(200)
+    const afterWheel = await page.evaluate(() => ({
+      y: window.scrollY,
+      docH: document.documentElement.scrollHeight,
+      viewH: window.innerHeight,
+      bodyOverflow: getComputedStyle(document.body).overflowY,
+      rootOverflow: getComputedStyle(document.getElementById('root')).overflowY,
+    }))
+    expect(afterWheel.docH).toBeGreaterThan(afterWheel.viewH)
+    expect(afterWheel.bodyOverflow).toMatch(/auto|scroll|visible/)
+    expect(afterWheel.y).toBeGreaterThan(before)
+  })
+
   test('coffee.html ships Nikki OG preview meta', async () => {
     const htmlPath = path.resolve(__dirname, '../coffee.html')
     const html = fs.readFileSync(htmlPath, 'utf8')
