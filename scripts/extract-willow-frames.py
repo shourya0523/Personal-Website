@@ -43,6 +43,9 @@ def extract_with_pillow(src: Path, tmp_dir: Path) -> tuple[list[Path], float]:
 
     avg = sum(durations_ms) / max(len(durations_ms), 1)
     fps = 1000.0 / avg if avg > 0 else float(TARGET_FPS)
+    # Animated WebP often stores bogus ~11ms durations (~90fps). Cap to a sane playback rate.
+    if fps > 30:
+        fps = float(TARGET_FPS)
     return paths, fps
 
 

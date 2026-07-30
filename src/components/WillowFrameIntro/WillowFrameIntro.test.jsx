@@ -24,11 +24,15 @@ describe('WillowFrameIntro', () => {
       ok: true,
       json: async () => manifest,
     })
-    // avoid real image network
+    // avoid real image network; resolve preload so ready=true
     vi.stubGlobal(
       'Image',
       class {
-        set src(_v) {}
+        onload = null
+        onerror = null
+        set src(_v) {
+          queueMicrotask(() => this.onload?.())
+        }
       },
     )
   })
