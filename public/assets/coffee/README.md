@@ -35,11 +35,13 @@ Outputs numbered `000.webp`… under `public/assets/coffee/willow-frames/` and s
 
 3. Open `/coffee`, click through the ritual, and adjust `openEndFrame` in `manifest.json` if the pause is early/late.
 
+Current tuned gates from `willow-source.webp`:
+
 ```json
 {
   "fps": 12,
-  "openEndFrame": 40,
-  "wishEndFrame": 90,
+  "openEndFrame": 110,
+  "wishEndFrame": 172,
   "frames": ["000.webp", "001.webp", "..."]
 }
 ```
