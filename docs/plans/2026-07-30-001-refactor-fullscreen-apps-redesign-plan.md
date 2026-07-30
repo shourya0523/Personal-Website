@@ -452,7 +452,7 @@ Desktop hub keeps wallpaper + dock + icons. Desktop AppShell is full-viewport wi
 | Deezer CORS/API key behavior differs local vs Vercel | Proxy mirrors `api/deezer.js`; e2e mocks search if needed |
 | Large PR touching shell + tests | Keep unit order U1→U5; prefer incremental commits per unit |
 
-**External research (load-bearing):** React Router v7 route-level `lazy` / Vite code-splitting guidance informed KTD3 ([React Router route `lazy`](https://reactrouter.com/7.6.1/start/data/route-object)); portfolio needs no loaders, so declarative + `React.lazy` is sufficient.
+**External research (load-bearing):** React Router v7 route-level `lazy` / Vite code-splitting guidance informed KTD4 ([React Router route `lazy`](https://reactrouter.com/7.6.1/start/data/route-object)); portfolio needs no loaders, so declarative + `React.lazy` is sufficient.
 
 ---
 
@@ -475,4 +475,5 @@ None blocking. Deferred non-blocking items live under Scope Boundaries → Defer
 
 - Codebase exploration of `src/App.jsx`, `src/contexts/WindowContext.jsx`, `src/components/Window.jsx`, `MobileLayout.jsx`, `FallingParticles.jsx`, `LoginPage.jsx`, `vite.config.js`, e2e specs, `package.json`
 - Evidence: double `x/y` + `left/top` positioning in `Window.jsx`; eager page imports in `App.jsx`; no `react-router` usage; Deezer path `/api/deezer` without Vite proxy; README/feature drift
-- React Router lazy route docs (external, load-bearing for KTD3)
+- React Router lazy route docs (external, load-bearing for KTD4)
+- User redirect: keep windows on small screens (R11 / KTD2)
