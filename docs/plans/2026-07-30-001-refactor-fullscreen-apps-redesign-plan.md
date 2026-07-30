@@ -13,15 +13,15 @@ deepened: false
 
 ## Goal Capsule
 
-On large screens, replace the stacked mock-OS window manager with full-screen route pages. On small screens, keep the existing window-based `MobileLayout` experience. Fix known functional bugs and apply straightforward performance cuts while preserving the portfolio's desktop-hub identity.
+Keep the stacked mock-OS window system. Make the green traffic-light control open the app as a dedicated full-screen page (route) for focused/perf use. Fix known bugs and apply straightforward performance improvements to the floating-window path. Small screens keep the existing window/`MobileLayout` model.
 
 **Authority:** User request (session) > this plan > existing code patterns. Prefer the existing dark OS visual language over a brand reboot.
 
-**Product Contract preservation:** Changed R1/R3/R5/R9 and added R11 after user redirect — small screens keep windows; desktop-only full-screen routes.
+**Product Contract preservation:** Corrected after user clarification — prior drafts wrongly retired stacked windows. Intent is: stacked windows remain; green button → full-screen page. R1–R11 rewritten in place to match.
 
-**Stop when:** Desktop apps open as dedicated full-screen URLs with only one content page mounted; small-screen apps still open via the window/`MobileLayout` model; listed bugs are fixed; always-on desktop effects are gated off desktop app routes; unit + e2e tests pass for both shells; README matches reality.
+**Stop when:** Dock/icons still open stacked floating windows; green button opens a full-screen app route and leaves the costly multi-window mount for that app; returning from full-screen restores the desktop hub (other windows preserved as specified); listed bugs fixed; drag/render perf wins landed; tests + README match.
 
-**Execution profile:** Code implementation via `ce-work` (or equivalent). Prefer smoke/runtime proof for shell/routing units; characterization-first for MusicPlayer and e2e login flow before rewriting expectations.
+**Execution profile:** Code via `ce-work`. Characterization-first for Window drag/maximize behavior and MusicPlayer/e2e before rewriting expectations.
 
 ---
 
@@ -29,111 +29,104 @@ On large screens, replace the stacked mock-OS window manager with full-screen ro
 
 ### Summary
 
-The site is a mock-OS personal portfolio. Today every app opens as a draggable/resizable window on desktop (costly) and as an iOS-style window overlay on mobile via `MobileLayout`. This plan switches **large-screen** navigation to full-screen pages (routes), **keeps windows on small screens**, fixes obvious broken assets and logic, and removes cheap performance waste.
+This is a mock-OS portfolio. Apps open as stacked floating windows. The green title-bar button today only toggles in-window maximize and still keeps the heavy window tree on the desktop. This plan rewires **green → full-screen page route**, keeps red/yellow/close/minimize/stacking, fixes obvious bugs, and cuts easy performance waste (especially drag-induced re-renders and eager imports).
 
 ### Problem Frame
 
-Stacked windows look like an OS demo but cost real FPS: Window drag writes React state every `mousemove`, DesktopOS rebuilds every page element each render, GlassSurface + FallingParticles keep running under open apps, and all page modules are eagerly imported into the main chunk. Several features are also broken (window positioning double-offset, missing resume PDF, Deezer proxy gap, flaky e2e, incorrect album cover path).
+Floating windows are the product identity, but they are expensive when content remounts every drag frame, every open window stays mounted with GlassSurface, and all pages are eagerly imported. Users still want stacking; they want the green control to escape into a lighter full-screen page experience.
 
 ### Requirements
 
-- R1. On large screens (existing breakpoint: `innerWidth >= 768`), opening an app navigates to a dedicated full-screen page/route instead of stacking a floating OS window.
-- R2. On large screens, closing or leaving an app returns to the desktop/home hub without leaving orphan desktop window state.
-- R3. On large screens, at most one portfolio content app is mounted at a time.
-- R4. Landing → login/name → desktop/mobile entry flow remains reachable and completes reliably in automated tests.
-- R5. On large screens, dock, desktop icons, terminal open-app commands, suggestions, and file-explorer mappings open full-screen routes.
-- R6. On large screens, project detail opens as a nested full-screen route (e.g. `/projects/:id`), not a cloned window element.
-- R7. Fix known functional bugs: desktop window position double-offset (removed with desktop windows), broken resume PDF link, album cover path, fileToAppMap fallback, dock double-open sound, MobileLayout `whileTap` on plain button, MusicPlayer unit test providers/copy, Deezer local API reachability, e2e click/login timing.
-- R8. Apply straightforward performance improvements: route-level code splitting for desktop app pages, gate or remove always-on FallingParticles under desktop app routes, stop SuggestionsCarousel autoplay under desktop app routes, disable visualizer auto-open, drop unused heavy deps when safe, simplify/remove ineffective PreRender path if it adds no value. Mobile keeps lightweight window UX; still avoid unnecessary always-on cost where easy (e.g. do not remount every page on every unrelated state tick).
-- R9. Preserve mock-OS visual identity: desktop hub (wallpaper, dock, icons, menu bar) + full-bleed desktop app chrome; small-screen keeps the existing window/`MobileLayout` OS feel.
-- R10. Update unit tests, Playwright e2e, and README so documented structure and interactions match the dual-shell UX.
-- R11. On small screens (`innerWidth < 768`), apps continue to open through the window-based `MobileLayout` + `WindowContext` model (not desktop-style full-screen routes). session-settled: user-directed — chosen over unifying mobile onto routes.
+- R1. Opening an app from dock, desktop icons, terminal, suggestions, or file mappings still opens (or focuses) a **stacked floating window** on large screens. session-settled: user-directed — chosen over replacing open with navigate.
+- R2. The **green** traffic-light control on a desktop window opens that app as a **full-screen page/route** (not merely CSS maximized-in-place). session-settled: user-directed — this is the "open in new pages on full screen" intent.
+- R3. Leaving the full-screen page (back/close) returns to the desktop hub. Floating windows that were open should still be present unless the implementer documents a deliberate "promote closes the floater" rule (default: **close or minimize the floater for that app when entering full-screen** so its content is not double-mounted; other apps' windows remain).
+- R4. Landing → login/name → desktop/mobile entry remains reachable and stable in automated tests.
+- R5. Red closes; yellow minimizes; stacking, focus/z-index, and drag/resize remain for floating windows (with perf fixes).
+- R6. Project detail may open as a floating window or nested full-screen route; green on a Projects window (or a detail window) can promote to `/projects` or `/projects/:id` full-screen. Prefer nested route for detail when promoted.
+- R7. Fix known bugs: window position double-offset (`x/y` + `left/top`), broken resume PDF link, album cover path, `fileToAppMap` fallback, dock double-open sound, MobileLayout `whileTap` on plain button, MusicPlayer unit test providers/copy, Deezer local API reachability, e2e click/login timing.
+- R8. Straightforward perf: stop recreating page elements on every DesktopOS render during drag; lazy-load page modules; gate or lighten always-on effects when sensible; visualizer `open: false`; drop unused heavy deps; reconsider PreRender; full-screen route mounts only that app's page (desktop compositor unmounted or idle underneath).
+- R9. Preserve mock-OS visual identity (wallpaper, dock, icons, menu bar, traffic lights). Full-screen page uses simple full-bleed chrome with back-to-desktop.
+- R10. Update unit/e2e/README for: stacked open, green→route, mobile windows.
+- R11. Small screens (`innerWidth < 768`) keep `MobileLayout` + `WindowContext` windows. session-settled: user-directed. Green-equivalent promote-to-route on mobile is **optional/out of scope** unless cheap; do not remove mobile windows.
 
 ### Actors
 
-- A1. Visitor — browses portfolio through landing, login, desktop hub, and app pages.
-- A2. Implementer / CI — runs Vitest and Playwright; expects stable selectors and routes.
+- A1. Visitor — uses stacked windows and optional full-screen promote.
+- A2. Implementer / CI — Vitest + Playwright.
 
 ### Key Flows
 
 - F1. Entry to hub
-  - **Trigger:** Visitor loads `/`
-  - **Actors:** A1
-  - **Steps:** Landing completes → login/name → navigate to desktop hub route
-  - **Outcome:** Hub visible with icons/dock; no content app mounted yet
+  - **Trigger:** Load `/`
+  - **Steps:** Landing → login/name → desktop or mobile shell
+  - **Outcome:** Hub ready
   - **Covered by:** R4, R9
 
-- F2. Open app full screen (large screen)
-  - **Trigger:** Click dock item, desktop icon, suggestion, or terminal command on a large viewport
-  - **Actors:** A1
-  - **Steps:** Navigate to `/about` (or peer route); hub chrome replaced or overlaid by full-screen app shell; page lazy-loads
-  - **Outcome:** Single full-screen app; URL shareable/refreshable for that app
-  - **Covered by:** R1, R3, R5, R8
+- F2. Open stacked window (large screen)
+  - **Trigger:** Dock/icon/terminal/suggestion click
+  - **Steps:** `openWindow` / restore / bringToFront as today
+  - **Outcome:** Floating window in the stack; multiple apps may be open
+  - **Covered by:** R1, R5
 
-- F3. Leave app (large screen)
-  - **Trigger:** Back/close control or navigate home
-  - **Actors:** A1
-  - **Steps:** Navigate to hub route; app unmounts
-  - **Outcome:** Hub restored; no desktop window stack residual
-  - **Covered by:** R2, R3
+- F3. Green → full-screen page
+  - **Trigger:** Click green traffic light on a floating window
+  - **Steps:** Navigate to `/<appId>` (or `/projects/:id`); unmount that floater's content (close/minimize that window); render AppShell + lazy page full screen
+  - **Outcome:** Focused full-screen app; other floaters remain on desktop underneath/when returning
+  - **Covered by:** R2, R3, R8
 
-- F4. Open project detail (large screen)
-  - **Trigger:** Select a project from Projects
-  - **Actors:** A1
-  - **Steps:** Navigate to `/projects/:id` full screen
-  - **Outcome:** Detail page only; closing returns to `/projects` or hub (implementer picks one and documents it)
-  - **Covered by:** R6
+- F4. Exit full-screen page
+  - **Trigger:** Back/close on AppShell
+  - **Steps:** Navigate to desktop hub route (or prior desktop state)
+  - **Outcome:** Desktop with remaining stacked windows visible
+  - **Covered by:** R3
 
-- F5. Open app on small screen
-  - **Trigger:** Tap an app on `MobileLayout`
-  - **Actors:** A1
-  - **Steps:** `openWindow` / existing mobile window path shows the app in the mobile window overlay
-  - **Outcome:** Window-based mobile UX preserved; not forced through desktop full-screen routes
+- F5. Small-screen open
+  - **Trigger:** Tap app on `MobileLayout`
+  - **Steps:** Existing window overlay path
+  - **Outcome:** Mobile windows preserved
   - **Covered by:** R11
 
 ### Acceptance Examples
 
-- AE1. Covers F2 / R1. Given a large-screen desktop hub, when the visitor clicks About, then the URL becomes `/about`, About content fills the viewport, and no floating window chrome with drag handles is present.
-- AE2. Covers F3 / R2. Given large-screen `/projects`, when the visitor activates close/back-to-home, then the URL is the hub route and Projects is unmounted.
-- AE3. Covers R7. Given MusicPlayer favorites, when album art for the Moo track renders, then it loads `/Moo.png` successfully.
-- AE4. Covers R4 / R10. Given a cold Playwright run, when the suite boots through landing/login, then it reaches the hub without relying on brittle fixed double-click + 2s sleeps alone.
-- AE5. Covers F5 / R11. Given a small viewport (`< 768`), when the visitor opens About, then the app appears via `MobileLayout` window overlay (not a desktop-style route-only shell that abandons windows).
+- AE1. Covers F2 / R1. Given desktop hub, when visitor clicks About, then a floating About window opens (stackable with others), URL may stay on desktop hub.
+- AE2. Covers F3 / R2. Given an open About floating window, when visitor clicks the green control, then URL becomes `/about`, About is full-bleed, and About is not also mounted as a floating window content tree.
+- AE3. Covers F4 / R3. Given `/about` full-screen with a Projects floater previously open, when visitor returns to desktop, then Projects floater is still available.
+- AE4. Covers R7. Moo favorite cover loads `/Moo.png`.
+- AE5. Covers R4 / R10. Playwright reaches hub without brittle dblclick-only assumptions.
+- AE6. Covers F5 / R11. Small viewport opens apps via `MobileLayout` windows.
 
 ### Success Criteria
 
-- Large-screen apps are route pages, not stacked floating windows.
-- Small-screen apps still use the window-based mobile shell.
-- Main-bundle no longer eagerly ships every page component for the desktop path.
-- Listed bugs in R7 are gone or explicitly deferred with reason.
-- `npm run test:run` and `npm run test:e2e` pass (or e2e skip only with documented env blocker).
-- README describes dual shell (desktop routes + mobile windows), not StartMenu/FontDemo phantoms.
+- Stacked floating windows still work on desktop.
+- Green promotes to full-screen route without double-mounting that app.
+- Drag no longer rebuilds all page trees every mousemove.
+- R7 bugs fixed; R8 wins landed; README accurate.
 
 ### Scope Boundaries
 
 **In scope**
-- Router introduction and route map for entry + desktop apps + project detail
-- Retirement of **desktop** multi-window drag/resize/z-index stacking
-- Retention of `WindowContext` + `MobileLayout` window UX for small screens
-- Full-screen desktop app shell redesign (hub preserved, app pages full-bleed)
-- Bug fixes listed in R7
-- Straightforward perf cuts listed in R8
-- Test + README alignment
+- Keep WindowContext stacked windows on desktop
+- Rewire green maximize → full-screen route + AppShell
+- Perf fixes for floating path (drag renders, lazy pages)
+- Bug fixes in R7
+- Small-screen windows retained
+- Tests + README
 
 **Out of scope**
-- Full brand reboot / new color system unrelated to the OS identity
-- Rebuilding File Explorer into a real filesystem browser (keep stub or redirect to hub Files affordance)
-- New content writing for About/Projects/etc. beyond layout wrappers needed for full-screen
-- Forcing mobile onto the same full-screen route model as desktop
+- Removing stacked windows / forcing all opens to routes
+- Full brand reboot
+- Real File Explorer rebuild
 - Spotify proxy revival
-- Three.js scene work beyond existing LiquidEther on login
-- PWA / SSR / Next.js migration
+- Required mobile green→route (optional follow-up)
+- Next.js / SSR migration
 
 ### Deferred to Follow-Up Work
 
-- Rich File Explorer implementation
-- Optional deep-link skip of landing for returning visitors
-- GSAP SplitText Club plugin licensing fallback if landing blocks progression in some environments
-- Media asset compression pass for large wallpapers / Paradise.mp3
+- Mobile green/promote-to-route
+- Rich File Explorer
+- Returning-visitor skip landing
+- GSAP SplitText fallback if landing blocks
+- Media asset compression
 
 ---
 
@@ -141,251 +134,210 @@ Stacked windows look like an OS demo but cost real FPS: Window drag writes React
 
 ### Assumptions
 
-Headless planning run — scoping confirmation skipped. Inferred bets recorded here (updated after user redirect: keep windows on small screens):
+Corrected after user clarification (green button = full-screen page; keep stacking):
 
-- Keep the desktop hub as a first-class route (e.g. `/desktop` or `/home`) after login on large screens; do not jump straight into a random app.
-- Preserve existing dark teal/emerald OS aesthetic; redesign means architecture + shell polish + clutter reduction, not a new brand.
-- Install React Router for SPA routes (`react-router` / compatible DOM bindings). Prefer declarative `BrowserRouter` + nested `Routes`/`Outlet` with `React.lazy` — portfolio pages need no loaders.
-- **Breakpoint stays `768px`** (matches current `DesktopOS` check). Large = desktop routes; small = `MobileLayout` + windows.
-- Shared providers wrap both shells. Page components stay shared; launch path differs by viewport.
-- On resize across the breakpoint, prefer a simple remount of the active shell (current behavior) over perfect state migration; document if janky.
-- Music continues globally via `MusicContext` across desktop route changes unless current product behavior already stops on unmount — preserve whichever is less surprising after checking `MusicContext`.
-- File Explorer dock entry either routes (desktop) or opens via window (mobile); do not rebuild the stub.
-- Visual redesign of content sections is limited to desktop full-screen layout chrome; keep page internals unless they break.
+- Breakpoint remains `768px`.
+- Full-screen routes live alongside the desktop hub (e.g. `/desktop` hub + `/about`, `/projects`, …). Entry landing/login can stay state-based or become routes — prefer routes for deep-linkable full-screen apps at minimum.
+- Default on green: **close the floating window for that app** when promoting so content is not mounted twice; other windows stay in `windows[]`.
+- In-place CSS maximize (old green toggle) is replaced by promote-to-route; if restore-from-maximize was useful, full-screen back button covers "exit full screen".
+- Shared lazy page factories feed both Window content and route Outlet.
+- MusicContext behavior across promote/unmount: inspect and preserve least-surprising audio continuity.
 
 ### Key Technical Decisions
 
-- KTD1. **Large-screen: replace window stack with URL routes.** session-settled: user-directed — chosen over keeping stacked OS windows on desktop. Rationale: user asked for full-screen pages to preserve performance on the costly drag/multi-mount path.
-- KTD2. **Small-screen: keep window-based `MobileLayout`.** session-settled: user-directed — chosen over unifying mobile onto routes. Rationale: user explicitly requires windows on small screens; existing mobile shell already presents one active window overlay and matches the OS metaphor on phones.
-- KTD3. **Hub + full-screen app layout (desktop only).** `/` landing, `/login`, `/desktop` hub; app routes like `/about`, `/projects`, `/projects/:id`, etc. App routes render shared `AppShell` (title, back/close) with `<Outlet />`. Mobile does not use these app routes for open/close; it uses `openWindow` / `closeWindow`.
-- KTD4. **Lazy page modules** for desktop route boundaries (`React.lazy` / router `lazy`). Mobile may still instantiate the active page through the apps registry — prefer lazy factories shared by both shells so mobile does not reintroduce an eager mega-bundle.
-- KTD5. **Keep `WindowContext` for mobile; stop using it for desktop app chrome.** Desktop Dock "isOpen" becomes path match; Terminal/`Projects` on desktop navigate. Mobile continues `onAppClick` → `openWindow`. Delete desktop-only `Window.jsx` drag/resize path once unused; do not delete window state APIs still required by `MobileLayout`.
-- KTD6. **Gate always-on desktop effects to hub only.** FallingParticles and SuggestionsCarousel mount on large-screen `/desktop` (and maybe login), not under desktop app routes. Mobile may keep its current particle usage unless an easy win appears; do not regress mobile UX for micro-gains.
-- KTD7. **Bug fix batch after routing skeleton.** Desktop double-position dies with desktop `Window.jsx` removal; mobile-specific bugs (`whileTap`) stay in scope.
-- KTD8. **Add Vite dev proxy for `/api/deezer`** so MusicPlayer search works outside Vercel.
+- KTD1. **Keep stacked floating windows as the default open path.** session-settled: user-directed — chosen over "all opens are routes".
+- KTD2. **Green traffic light navigates to a full-screen app route** and drops that floater's mounted content. session-settled: user-directed — chosen over in-place `maximized` flag only.
+- KTD3. **Add React Router** for full-screen app pages (+ optional hub/login routes). Declarative router + `React.lazy` is enough (no loaders).
+- KTD4. **Fix Window positioning to use either transform or `left/top`, not both**; fix drag so position updates do not recreate every `<app.component />` (store type in window state; render content from registry by type; memoize Window; consider dragging via refs/transforms without React state every pixel).
+- KTD5. **Keep `WindowContext` for desktop stack + mobile.** Do not delete window APIs.
+- KTD6. **Gate expensive ambient effects** where cheap (e.g. pause SuggestionsCarousel autoplay while many windows open or while on a full-screen route; particles optional under full-screen route).
+- KTD7. **Bug/proxy/deps cleanup** in the same delivery sequence.
+- KTD8. **Small screens keep windows** (R11). session-settled: user-directed.
 
 ### Alternative Approaches Considered
 
 | Approach | Pros | Cons | Verdict |
 |----------|------|------|---------|
-| A. Desktop routes + mobile windows (chosen) | Fixes desktop perf; honors small-screen windows | Two launch paths to maintain | **Choose** — matches latest user direction |
-| B. Routes everywhere (prior draft) | One navigation model | Drops mobile windows | Reject — user redirected |
-| C. Keep windows, always maximize on desktop | Smaller code change | Still remounts on drag; GlassSurface N; no URLs | Reject for desktop |
-| D. Migrate to Next.js App Router | Framework splitting/SSR | Out of scope rewrite | Reject / defer |
+| A. Stacked windows + green→full-screen route (chosen) | Keeps OS demo; opt-in perf focus mode | Two presentation modes | **Choose** — matches user clarification |
+| B. All opens are routes (prior draft) | Max perf | Kills stacking | Reject — user redirected |
+| C. Green only CSS-maximizes in place | Tiny change | Still mounts on desktop with GlassSurface/particles | Reject — not "new pages" |
 
 ### High-Level Technical Design
 
 ```mermaid
 flowchart TB
-  subgraph entry [Entry]
-    L["/ LandingPage"] --> Login["/login"]
-    Login --> Shell{"viewport >= 768?"}
-  end
-
-  Shell -->|yes| Hub["/desktop DesktopHub"]
-  Shell -->|no| Mobile["MobileLayout + WindowContext"]
-
-  Hub -->|navigate| AppRoute["/:app AppShell + lazy page"]
-  AppRoute -->|back| Hub
-  Hub --> Projects["/projects"]
-  Projects --> Detail["/projects/:id"]
-
-  Mobile -->|openWindow| MobWin["Active window overlay"]
-  MobWin -->|close| Mobile
+  Entry["Landing / Login"] --> Hub["Desktop hub + Window stack"]
+  Hub -->|dock/icon open| Float["Floating Window stack"]
+  Float -->|green button| FS["/:app AppShell full-screen route"]
+  FS -->|back/close| Hub
+  Entry --> Mobile["MobileLayout + windows"]
 ```
 
-Desktop hub keeps wallpaper + dock + icons. Desktop AppShell is full-viewport with compact top bar (close → hub). Small screens keep `MobileLayout` window overlays and `WindowContext`.
+`Window.jsx` green `onClick` calls `promoteToFullscreen(appType)` → `closeWindow(id)` (or minimize) + `navigate(\`/${appType}\`)`. DesktopOS still maps `windows` to `<Window />`. Full-screen route renders outside the window map.
 
 ### Implementation Constraints
 
-- Repo-relative paths only in implementer notes.
-- Do not hardcode test assertions that invent new copy — pull visible strings/selectors from components under test.
-- Preserve existing design-system cues (GlassSurface on hub controls is fine; avoid wrapping every full-screen page in heavy SVG displacement filters).
-- No exploit/malware work; Deezer proxy is a same-origin forwarder only.
+- Repo-relative paths only.
+- Never hardcode test copy — pull from components.
+- Preserve traffic-light affordances; green meaning changes to "Open full screen page".
+- Deezer proxy is same-origin forwarder only.
 
 ### Sequencing
 
-1. Router + desktop route map + providers (U1)
-2. Desktop launchers → navigate; keep WindowContext for mobile (U2)
-3. Desktop AppShell redesign + effect gating (U3)
-4. Bug fixes + Vite proxy + dependency cleanup (U4)
-5. Tests + README for dual shell (U5)
+1. Router + full-screen routes + AppShell (U1)
+2. Wire green → promote; keep open=window (U2)
+3. Floating-window perf + position bug (U3)
+4. Other bugs, proxy, deps (U4)
+5. Tests + README (U5)
 
 ---
 
 ## Implementation Units
 
-### U1. Introduce router and desktop route map
+### U1. Add full-screen routes and AppShell
 
-**Goal:** Add SPA routing for landing, login, desktop hub, and lazy desktop app routes. Keep `WindowProvider` available for the mobile shell.
+**Goal:** Introduce router + lazy full-screen app routes with a simple AppShell (back to desktop), without removing floating windows.
 
-**Requirements:** R1, R4, R6, R11
+**Requirements:** R2, R3, R4, R9
 
 **Dependencies:** None
 
 **Files:**
-- `package.json` (add `react-router` / DOM bindings)
+- `package.json`
 - `src/main.jsx`
-- `src/App.jsx` (or split `src/routes.jsx`, `src/layouts/DesktopHub.jsx`, `src/layouts/AppShell.jsx`)
-- `src/pages/*` (default exports remain; may add thin route wrappers)
-- `src/contexts/WindowContext.jsx` (retain provider wiring)
+- `src/App.jsx` / `src/routes.jsx`
+- `src/layouts/AppShell.jsx` (create)
+- `src/pages/*` (lazy boundaries)
 
 **Approach:**
-- Install current React Router package compatible with React 19 + Vite 7.
-- Wrap app in `BrowserRouter` (or `RouterProvider` if using data router). Prefer declarative routes because pages are static.
-- Map entry flow from `currentPage` state to routes; login success `navigate('/desktop')`.
-- Register lazy routes for each app id for **desktop** use; Suspense fallback matches dark theme.
-- Nested route for `/projects/:id`.
-- Viewport gate: large screens render desktop hub/routes; small screens render `MobileLayout` still backed by windows.
+- Add React Router.
+- Routes for `/about`, `/projects`, `/projects/:id`, `/resume`, etc., plus desktop hub path.
+- AppShell: full-bleed, back/close → desktop hub.
+- Landing/login can move onto routes or stay local state initially; full-screen apps must be routable.
 
-**Patterns to follow:** Existing lazy pattern in `LoginPage.jsx` for LiquidEther; provider nesting in `App.jsx`; existing `innerWidth < 768` split.
+**Patterns to follow:** Existing LiquidEther `lazy` pattern; provider nesting.
 
 **Test scenarios:**
-- Happy: visiting `/desktop` after login on large viewport renders hub markers (About/Projects labels).
-- Happy: visiting `/about` on large viewport renders About full screen.
-- Happy: small viewport still reaches `MobileLayout` after login.
-- Edge: unknown desktop path shows minimal not-found or redirect to hub.
-- Integration: refresh on `/resume` (large) still shows Resume (providers wrap router).
+- Happy: visit `/about` shows About full screen with back control.
+- Happy: back returns to desktop hub.
+- Edge: unknown path → hub or not-found.
+- Integration: providers wrap router so Music/Wallpaper still work on full-screen pages.
 
-**Verification:** Dev server: desktop navigation works for hub + two app routes; mobile still opens an app as a window overlay; build succeeds.
+**Verification:** Manual navigate to two app routes works; build succeeds.
 
-**Execution note:** Prefer runtime smoke after wiring routes before deleting desktop-only window chrome.
+**Execution note:** Smoke routes before rewiring green.
 
 ---
 
-### U2. Desktop launchers navigate; mobile keeps windows
+### U2. Green promotes to full-screen; opens stay stacked windows
 
-**Goal:** On large screens, remove multi-window open/drag/resize/z-index app chrome. On small screens, keep `MobileLayout` + `WindowContext` open/close behavior.
+**Goal:** Dock/icons still `openWindow`. Green calls promote-to-route. Mobile unchanged.
 
 **Requirements:** R1, R2, R3, R5, R6, R11
 
 **Dependencies:** U1
 
 **Files:**
-- `src/contexts/WindowContext.jsx` (keep for mobile; stop desktop consumers of drag/resize if unused)
-- `src/contexts/useWindows.js`
-- `src/components/Window.jsx` (remove desktop usage; delete if no remaining callers)
+- `src/components/Window.jsx`
+- `src/contexts/WindowContext.jsx` (optional `promote` helper)
 - `src/App.jsx`
 - `src/components/Dock.jsx`
-- `src/components/MenuBar.jsx`
-- `src/components/GlassIcons.jsx` / desktop hub
-- `src/components/MobileLayout.jsx` (preserve window props API)
 - `src/components/Terminal.jsx`
-- `src/components/SuggestionsCarousel.jsx`
-- `src/pages/Suggestions.jsx`
-- `src/pages/Projects.jsx`
-- `src/components/ProjectDetail.jsx`
-- `src/components/FileExplorer.jsx` (routing on desktop only)
+- `src/pages/Projects.jsx` / `src/components/ProjectDetail.jsx`
+- `src/components/MobileLayout.jsx`
 
 **Approach:**
-- Desktop `handleAppClick` → `navigate(\`/${app.id}\`)`.
-- Mobile `handleAppClick` → existing `openWindow` / restore / bring-to-front.
-- Desktop Dock active state: `useLocation().pathname`.
-- Desktop close: `navigate('/desktop')`.
-- Desktop Projects: `navigate(\`/projects/${id}\`)`; mobile project detail may keep window open path (or a mobile-friendly window) — do not break small-screen project viewing.
-- Fix `fileToAppMap` fallback to resolve **values** (app types), then branch navigate vs openWindow by viewport.
-- Wire or remove dead `onOpenFolder` path in Projects.
-- Do **not** remove `WindowProvider` while `MobileLayout` needs it.
+- Replace green `onMaximize` in-place toggle with `onPromoteFullscreen` → close/minimize this window + `navigate` to app route.
+- Update button title/tooltip to "Full screen" / "Open as page".
+- Keep red/yellow/stacking.
+- Desktop open paths remain `openWindow`.
+- Mobile: no required promote; keep windows.
 
-**Patterns to follow:** Current `apps` registry; existing mobile active-window selection in `MobileLayout.jsx`.
+**Patterns to follow:** Existing traffic-light UI in `Window.jsx`; `useWindows` API.
 
 **Test scenarios:**
-- Happy: desktop dock click changes location and mounts one page.
-- Happy: mobile app tap opens window overlay; close returns to home grid.
-- Happy: desktop terminal open-app navigates; mobile terminal (if reachable) still opens via windows or documented behavior.
-- Happy: desktop project card opens `/projects/:id`.
-- Edge: resizing across 768 remounts the appropriate shell without crash.
-- Integration: AE5 — small viewport never depends on desktop AppShell-only close controls.
+- Happy: open About + Projects as two floaters.
+- Happy: green on About → `/about` full screen; Projects floater still in state for return.
+- Happy: back from `/about` shows desktop with Projects window.
+- Edge: green on already-only-window still works.
+- Integration: AE6 mobile window open unaffected.
 
-**Verification:** Desktop has no `updateWindowPosition` call sites; mobile still calls `openWindow`/`closeWindow`; manual open/close works on both shells.
+**Verification:** Grep shows green path uses navigate; dock open still uses openWindow.
 
 ---
 
-### U3. Desktop AppShell redesign and effect gating
+### U3. Floating window performance and position fix
 
-**Goal:** Deliver the desktop full-bleed app chrome redesign and cut always-on effects off the desktop critical path when an app route is open. Leave mobile window chrome intact.
+**Goal:** Fix double position bug and stop drag from rebuilding all app trees every frame.
 
-**Requirements:** R8, R9, R11
+**Requirements:** R7 (position), R8
 
-**Dependencies:** U2
+**Dependencies:** U2 helpful but can parallel after U1 if needed; prefer after U2.
 
 **Files:**
-- `src/layouts/AppShell.jsx` (create) or equivalent in `src/components/`
-- `src/App.css` / `src/index.css` (shell tokens only as needed)
-- `src/components/FallingParticles.jsx` (desktop mount site)
-- `src/components/SuggestionsCarousel.jsx` (desktop mount site)
-- `src/components/ClickSparkCursor.jsx` (desktop mount site)
-- `src/contexts/PreRenderContext.jsx` (simplify/remove if proven useless)
-- `src/components/GlassSurface.jsx` (usage sites — avoid full-page wrap on desktop routes)
-- `src/components/MobileLayout.jsx` (no regressions to window overlay chrome)
+- `src/components/Window.jsx`
+- `src/App.jsx`
+- `src/contexts/WindowContext.jsx`
+- optionally window unit test under `src/components/Window.test.jsx`
 
 **Approach:**
-- Desktop AppShell: full viewport, compact top bar with close→hub, title from route meta, content scroll region; no drag/resize; prefer light backdrop over per-page GlassSurface SVG filters.
-- Desktop hub retains wallpaper, dock, icons, menu bar.
-- Mount FallingParticles / SuggestionsCarousel / ClickSpark only on desktop hub (and login if desired), not under desktop app routes.
-- Do not strip mobile particles solely for symmetry if that regresses the small-screen feel.
-- Evaluate PreRenderContext: if theatrical only, remove provider and simplify consumers.
-- Keep 2–3 intentional motions on desktop route enter/exit — avoid motion noise.
+- Use **either** framer `x/y` **or** CSS `left/top`, not both.
+- Store `type` on window records; render `<app.component />` from type inside Window (or memoized child) so DesktopOS re-renders do not clone new element trees unnecessarily.
+- Prefer dragging via ref/transform with `onDragEnd` committing position once, or throttle React position updates.
+- Lazy-load page modules used by both Window and routes.
 
-**Patterns to follow:** Existing MenuBar/Dock visual language; preserve teal/gold accents; keep `MobileLayout` window presentation.
+**Patterns to follow:** React 19 / existing Window drag effect; avoid adding useMemo unless needed — structural fix preferred.
 
 **Test scenarios:**
-- Happy: desktop app route has back/close returning to hub.
-- Happy: desktop hub may show particles; desktop `/about` does not mount FallingParticles.
-- Happy: small-screen window overlay still opens/closes after shell polish.
-- Test expectation for pure styling: none beyond smoke — visual check at desktop and mobile widths.
+- Happy: window opens roughly centered (not 2× offset).
+- Happy: dragging does not remount Terminal input history (characterization: type text, drag, text remains).
+- Edge: maximized-in-place removed; promote path covered in U2.
+- Test expectation: add focused unit/integration coverage for position commit.
 
-**Verification:** Desktop app pages feel full-screen; no particle canvas under desktop `/about`; mobile windows still work.
+**Verification:** Visual position correct; drag no longer feels like full-app re-render stutter.
+
+**Execution note:** Characterization-first — observe Terminal/Music state across drag before/after.
 
 ---
 
-### U4. Bug fixes and straightforward build/runtime perf cleanup
+### U4. Remaining bugs, Deezer proxy, dependency cleanup
 
-**Goal:** Clear remaining R7 bugs and easy package/build wins that do not depend on more architecture debate.
+**Goal:** Clear leftover R7/R8 items unrelated to green promote.
 
 **Requirements:** R7, R8
 
-**Dependencies:** U1 (proxy), U2 (some bugs obsolete)
+**Dependencies:** U1 (proxy can land anytime)
 
 **Files:**
-- `src/pages/Resume.jsx` (PDF href — add asset under `public/` or fix path to an existing file)
-- `src/pages/MusicPlayer.jsx` (`/Moo.png`)
-- `src/pages/MusicPlayer.test.jsx`
-- `src/components/MobileLayout.jsx` (`motion.button` for `whileTap`)
-- `src/components/Dock.jsx` (single open sound)
-- `src/components/Window.jsx` (desktop-only removal in U2 — double position dies with desktop windows)
-- `vite.config.js` (Deezer proxy; visualizer `open: false`)
-- `api/deezer.js` (reference for proxy target)
-- `package.json` (remove unused deps if unused: `@react-three/*`, `maath`, `use-sound`, unused `motion` package if distinct from framer-motion; remove broken `spotify-proxy` script or restore file — prefer remove script)
-- `public/` as needed for resume PDF
+- `src/pages/Resume.jsx` + `public/` PDF as needed
+- `src/pages/MusicPlayer.jsx` / `MusicPlayer.test.jsx`
+- `src/components/MobileLayout.jsx`
+- `src/components/Dock.jsx`
+- `src/App.jsx` (`fileToAppMap` fallback)
+- `vite.config.js`
+- `package.json`
+- `api/deezer.js`
 
 **Approach:**
-- Fix asset paths; ensure resume download target exists or hide broken CTA.
-- Wrap MusicPlayer tests with required providers; align empty-state assertion with component string **from the component**.
-- Dev-server proxy `/api/deezer` so local search works.
-- Drop dead dependencies only after grep confirms zero imports.
-- Do not invent new MusicPlayer empty-state copy in tests.
-
-**Patterns to follow:** Existing `SoundContext.test.jsx` provider wrapping; Vercel `api/deezer.js` request/response shape.
+- Fix assets, providers in tests, single dock sound, `motion.button`, file map values not keys.
+- Vite proxy `/api/deezer`; visualizer `open: false`.
+- Remove unused deps only after grep-clean.
 
 **Test scenarios:**
-- Happy: MusicPlayer test renders under MusicProvider without throw.
-- Happy: Moo favorite image `src` is `/Moo.png`.
-- Happy: Deezer search in dev hits proxied `/api/deezer` (mock network or smoke).
-- Error: missing resume asset — either file present or button not linking 404.
-- Edge: dock open sound fires once per open.
+- Happy: MusicPlayer test with MusicProvider.
+- Happy: cover `src` is `/Moo.png`.
+- Happy: file map fallback opens correct app type.
+- Error: resume CTA not 404.
 
-**Verification:** `npm run test:run` green for touched tests; `npm run build` does not auto-open stats.html; bundle analyzer file may still emit to `dist/stats.html`.
-
-**Execution note:** Characterization-first for MusicPlayer tests — observe current failure, then fix providers/assertions against real UI strings.
+**Verification:** `npm run test:run` green for touched tests; build does not auto-open stats.
 
 ---
 
-### U5. Align e2e suite and README with route-based UX
+### U5. Tests and README for stacked + green promote
 
-**Goal:** Make automated entry + app open reliable; documentation matches the redesign.
+**Goal:** Document and test the real UX.
 
-**Requirements:** R4, R10
+**Requirements:** R4, R10, R11
 
 **Dependencies:** U2, U3, U4
 
@@ -393,23 +345,18 @@ Desktop hub keeps wallpaper + dock + icons. Desktop AppShell is full-viewport wi
 - `e2e/app.spec.js`
 - `e2e/music-player.spec.js`
 - `README.md`
-- optionally `playwright.config.js` if baseURL/timeouts need tuning
 
 **Approach:**
-- Replace dblclick with single click; wait on URL (`/desktop`, `/music`) and role/text from real UI instead of fixed multi-second sleeps where possible.
-- Stabilize login/name: explicit waits for Login button → name field → hub landmark.
-- Rewrite README: remove Font Demo / StartMenu / Taskbar / DesktopIcon / Google Font list fiction; document **desktop routes + mobile windows**, env keys, scripts that exist.
-- Keep tests pulling locators from visible labels already in components.
-- Add or adjust at least one mobile-viewport check that an app opens as a window overlay (Playwright `setViewportSize`).
+- E2E: single-click open window; green → URL full-screen; back to desktop; mobile viewport window open.
+- README: stacked windows + green full-screen pages; remove Font Demo/StartMenu fiction.
 
 **Test scenarios:**
-- Happy: e2e reaches hub and opens Music via single click; URL is `/music` on desktop viewport.
-- Happy: desktop icons visible on hub.
-- Happy: mobile viewport opens an app via window UI (AE5).
-- Integration: music search test skips gracefully or mocks API if proxy unavailable — document choice in test.
-- Edge: landing-only test does not require full desktop boot if isolated.
+- Happy: open Music window; green → `/music`; back.
+- Happy: two windows can be open before promote.
+- Happy: mobile viewport window overlay.
+- Integration: login flow stable.
 
-**Verification:** `npm run test:e2e` passes locally in this environment (or failures are env-only and called out); README documents dual shell.
+**Verification:** `npm run test:e2e` passes or env blockers documented.
 
 ---
 
@@ -417,29 +364,22 @@ Desktop hub keeps wallpaper + dock + icons. Desktop AppShell is full-viewport wi
 
 | Gate | Command / check | Proves |
 |------|-----------------|--------|
-| Unit | `npm run test:run` | MusicPlayer/SoundContext and any new route helper tests |
-| Lint | `npm run lint` | No new eslint errors in touched files |
-| Build | `npm run build` | Route lazy splits; visualizer does not block CI with `open: true` |
-| E2E | `npm run test:e2e` | Entry flow + open app via routes |
-| Manual smoke (desktop) | Dev large viewport: hub → open About/Projects/Music → back → project detail | R1–R6, R9 |
-| Manual smoke (mobile) | Dev `<768`: open/close apps via MobileLayout windows | R11 |
-| Perf smoke | Confirm no FallingParticles canvas on desktop app route; network tab shows separate page chunks | R8 |
-
-**Behavioral skill evaluation:** not required (no agent/tool surface).
-
-**Release validate:** not applicable (static Vite portfolio).
+| Unit | `npm run test:run` | MusicPlayer + any Window tests |
+| Lint | `npm run lint` | Touched files clean |
+| Build | `npm run build` | Lazy splits; no visualizer auto-open |
+| E2E | `npm run test:e2e` | Stacked open + green promote + mobile windows |
+| Manual | Open 2 windows; green one; back; drag other | R1–R3, R5, R8 |
 
 ---
 
 ## Definition of Done
 
-- All Implementation Units U1–U5 complete with their verification outcomes.
-- Product requirements R1–R10 satisfied or explicitly deferred under Scope Boundaries with reason.
-- Desktop window stacking/drag APIs gone from the large-screen path; desktop apps are full-screen routes.
-- Small-screen `WindowContext` + `MobileLayout` window path remains intentional and working (R11).
-- Obvious bugs in R7 fixed.
-- Tests and README updated; dual shell is deliberate, not an abandoned half-migration.
-- Abandoned experiment code from implementation attempts removed from the diff.
+- U1–U5 complete with verification.
+- Stacked windows remain the default open UX (R1).
+- Green opens full-screen page routes without double-mounting (R2–R3).
+- Position/drag perf fixed; R7 bugs fixed.
+- Mobile windows retained (R11).
+- README/tests match; no abandoned "routes-only" half migration.
 
 ---
 
@@ -447,33 +387,32 @@ Desktop hub keeps wallpaper + dock + icons. Desktop AppShell is full-viewport wi
 
 | Risk | Mitigation |
 |------|------------|
-| GSAP SplitText Club plugin blocks landing → login in some installs | E2E should timeout-fail clearly; consider try/catch fallback calling `onComplete` if already partially present — only if reproduced |
-| Music audio UX across unmount | Inspect `MusicContext` before deciding stop-vs-continue; document choice in AppShell notes |
-| Deezer CORS/API key behavior differs local vs Vercel | Proxy mirrors `api/deezer.js`; e2e mocks search if needed |
-| Large PR touching shell + tests | Keep unit order U1→U5; prefer incremental commits per unit |
+| Double-mount if promote forgets to close floater | Default close/minimize that window on promote; assert in AE2 |
+| Users expect old in-place maximize | Tooltip "Full screen"; back exits |
+| Drag perf fix incomplete | Prefer ref-drag; measure Terminal survival across drag |
+| Deezer local vs Vercel | Proxy + e2e mock |
 
-**External research (load-bearing):** React Router v7 route-level `lazy` / Vite code-splitting guidance informed KTD4 ([React Router route `lazy`](https://reactrouter.com/7.6.1/start/data/route-object)); portfolio needs no loaders, so declarative + `React.lazy` is sufficient.
+**External research (load-bearing for lazy routes):** React Router route `lazy` / Vite splitting ([docs](https://reactrouter.com/7.6.1/start/data/route-object)) informs KTD3.
 
 ---
 
 ## System-Wide Impact
 
-- **Navigation model:** large screens move to URL routes (bookmarkable apps); small screens keep window state.
-- **Performance posture:** one mounted desktop app; desktop hub-only particles; smaller initial JS via lazy pages.
-- **Tests:** Playwright covers desktop routes and mobile window open.
-- **Docs:** README becomes source of truth for the dual shell.
+- Navigation: floating stack + optional full-screen routes.
+- Perf: promote path mounts one page; floating path gets drag/lazy fixes.
+- Tests: cover both modes.
+- Docs: dual interaction model.
 
 ---
 
 ## Open Questions
 
-None blocking. Deferred non-blocking items live under Scope Boundaries → Deferred to Follow-Up Work.
+None blocking. Default on green = close that floater (not keep maximized under the route) is the plan default; change only if implementation discovers a strong UX reason and documents it.
 
 ---
 
 ## Sources & Research
 
-- Codebase exploration of `src/App.jsx`, `src/contexts/WindowContext.jsx`, `src/components/Window.jsx`, `MobileLayout.jsx`, `FallingParticles.jsx`, `LoginPage.jsx`, `vite.config.js`, e2e specs, `package.json`
-- Evidence: double `x/y` + `left/top` positioning in `Window.jsx`; eager page imports in `App.jsx`; no `react-router` usage; Deezer path `/api/deezer` without Vite proxy; README/feature drift
-- React Router lazy route docs (external, load-bearing for KTD4)
-- User redirect: keep windows on small screens (R11 / KTD2)
+- Codebase: `Window.jsx` green `onMaximize`, `WindowContext.jsx`, `App.jsx`, `MobileLayout.jsx`, perf hotspots
+- User clarifications: (1) keep windows on small screens (2) "no stacked windows?" was a misunderstanding — intent is green full-screen button → page, not kill stacking
+- React Router lazy route docs (KTD3)
