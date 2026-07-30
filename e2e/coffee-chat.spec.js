@@ -68,6 +68,40 @@ test.describe('Obsession coffee chat', () => {
     expect(afterWheel.y).toBeGreaterThan(before)
   })
 
+  test('fits narrow mobile viewport without horizontal overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 })
+    await page.goto('/coffee')
+    await page.waitForLoadState('domcontentloaded')
+
+    await expect(page.getByTestId('willow-intro')).toBeVisible({ timeout: 15000 })
+    const introLayout = await page.evaluate(() => {
+      const stage = document.querySelector('.willow-intro__stage')?.getBoundingClientRect()
+      const hud = document.querySelector('.willow-intro__hud')?.getBoundingClientRect()
+      return {
+        overflowX: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        overlap: stage && hud ? Math.max(0, stage.bottom - hud.top) : null,
+      }
+    })
+    expect(introLayout.overflowX).toBe(false)
+    expect(introLayout.overlap).toBe(0)
+
+    await page.getByTestId('willow-skip').click()
+    await expect(page.getByTestId('coffee-calendar-card')).toBeVisible({ timeout: 15000 })
+
+    const revealed = await page.evaluate(() => {
+      const card = document.querySelector('.coffee-calendar-card')?.getBoundingClientRect()
+      return {
+        overflowX: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        cardOverflow: card ? card.right > window.innerWidth + 1 : true,
+        cardWidth: card ? Math.round(card.width) : 0,
+        viewport: window.innerWidth,
+      }
+    })
+    expect(revealed.overflowX).toBe(false)
+    expect(revealed.cardOverflow).toBe(false)
+    expect(revealed.cardWidth).toBeLessThanOrEqual(revealed.viewport)
+  })
+
   test('coffee.html ships Nikki OG preview meta', async () => {
     const htmlPath = path.resolve(__dirname, '../coffee.html')
     const html = fs.readFileSync(htmlPath, 'utf8')

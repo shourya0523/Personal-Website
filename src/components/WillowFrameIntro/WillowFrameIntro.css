@@ -2,17 +2,29 @@
   position: fixed;
   inset: 0;
   z-index: 40;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.5vh, 1.25rem);
+  padding:
+    max(0.75rem, env(safe-area-inset-top, 0px))
+    max(0.75rem, env(safe-area-inset-right, 0px))
+    max(0.75rem, env(safe-area-inset-bottom, 0px))
+    max(0.75rem, env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
   background:
     radial-gradient(ellipse at center, #1a1208 0%, #050200 70%);
   color: #f4e8e2;
   font-family: 'Syne', system-ui, sans-serif;
+  overflow: hidden;
 }
 
 .willow-intro__stage {
-  width: min(92vw, 720px);
+  /* Cap by both viewport width and short-phone height so HUD never overlaps. */
+  width: min(92vw, 720px, calc(52dvh * 4 / 3));
   aspect-ratio: 4 / 3;
+  flex: 0 1 auto;
   border: 2px solid rgba(196, 30, 58, 0.45);
   box-shadow: 0 0 60px rgba(196, 30, 58, 0.2);
   overflow: hidden;
@@ -31,7 +43,7 @@
   height: 100%;
   display: grid;
   place-items: center;
-  padding: 2rem;
+  padding: clamp(1rem, 4vw, 2rem);
   text-align: center;
   color: #c4a8a0;
   font-family: 'Instrument Serif', Georgia, serif;
@@ -39,15 +51,13 @@
 }
 
 .willow-intro__hud {
-  position: absolute;
-  bottom: clamp(1.5rem, 6vh, 3.5rem);
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
   width: min(92vw, 420px);
+  flex-shrink: 0;
   text-align: center;
 }
 
@@ -57,9 +67,13 @@
   background: rgba(10, 0, 0, 0.75);
   color: #f4e8e2;
   font-family: 'Creepster', cursive;
-  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-size: clamp(1.15rem, 4.5vw, 1.85rem);
   letter-spacing: 0.02em;
-  padding: 0.85rem 1.4rem;
+  padding: 0.85rem 1.15rem;
+  min-height: 3rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
   backdrop-filter: blur(8px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -86,7 +100,7 @@
   margin: 0;
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 3.5vw, 1.15rem);
   color: #c4a8a0;
 }
 
@@ -98,6 +112,23 @@
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+@media (max-height: 560px) {
+  .willow-intro {
+    gap: 0.55rem;
+  }
+
+  .willow-intro__stage {
+    width: min(88vw, calc(42dvh * 4 / 3));
+  }
+
+  .willow-intro__cta {
+    padding: 0.65rem 1rem;
+    min-height: 2.75rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
