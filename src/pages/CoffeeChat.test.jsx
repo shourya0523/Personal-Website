@@ -71,10 +71,11 @@ describe('CoffeeChat', () => {
     expect(screen.getByText(/No no no no no/i)).toBeInTheDocument()
     const strike = document.querySelector('.coffee-chat__strike')
     expect(strike?.textContent.toLowerCase()).toContain('date')
-    const cta = screen.getByTestId('coffee-calendar-card')
+    const cta = screen.getByTestId('coffee-calendar-cta')
     expect(cta).toHaveAttribute('href', NOTION_COFFEE_URL)
     expect(cta).toHaveAttribute('target', '_blank')
     expect(cta).toHaveAttribute('rel', expect.stringContaining('noopener'))
+    expect(screen.getByTestId('coffee-day-picker')).toBeInTheDocument()
   })
 
   it('does not render OS login chrome', () => {

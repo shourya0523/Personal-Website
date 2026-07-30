@@ -115,90 +115,6 @@
   }
 }
 
-.coffee-calendar-card {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid rgba(196, 30, 58, 0.45);
-  background: linear-gradient(145deg, rgba(26, 8, 10, 0.92), rgba(10, 0, 0, 0.88));
-  color: inherit;
-  text-decoration: none;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
-  pointer-events: auto;
-}
-
-.coffee-calendar-card__preview {
-  background: #120406;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.6rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.coffee-calendar-card__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #5a3030;
-  display: inline-block;
-  margin-right: 4px;
-}
-
-.coffee-calendar-card__dot:nth-child(1) {
-  background: #c41e3a;
-}
-.coffee-calendar-card__dot:nth-child(2) {
-  background: #c9a227;
-}
-.coffee-calendar-card__dot:nth-child(3) {
-  background: #3d8b5a;
-}
-
-.coffee-calendar-card__grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  flex: 1;
-}
-
-.coffee-calendar-card__grid span {
-  aspect-ratio: 1;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.coffee-calendar-card__grid span.is-busy {
-  background: rgba(196, 30, 58, 0.75);
-}
-
-.coffee-calendar-card__eyebrow {
-  margin: 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.coffee-calendar-card__title {
-  margin: 0.35rem 0;
-  font-size: 1.35rem;
-  font-family: 'Instrument Serif', Georgia, serif;
-}
-
-.coffee-calendar-card__copy {
-  margin: 0 0 0.85rem;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.coffee-calendar-card__cta {
-  display: inline-block;
-  font-weight: 700;
-  color: var(--accent);
-}
 
 .coffee-chat__memes {
   display: flex;
@@ -281,12 +197,3 @@
   }
 }
 
-@media (max-width: 640px) {
-  .coffee-calendar-card {
-    grid-template-columns: 1fr;
-  }
-
-  .coffee-calendar-card__preview {
-    min-height: 110px;
-  }
-}

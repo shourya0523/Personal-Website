@@ -41,10 +41,11 @@ test.describe('Obsession coffee chat', () => {
 
   test('calendar CTA opens Notion meet link after reveal', async ({ page }) => {
     await completeWillowIntro(page)
-    const cta = page.getByTestId('coffee-calendar-card')
+    const cta = page.getByTestId('coffee-calendar-cta')
     await expect(cta).toBeVisible({ timeout: 15000 })
     await expect(cta).toHaveAttribute('href', NOTION_COFFEE_URL)
     await expect(cta).toHaveAttribute('target', '_blank')
+    await expect(page.getByTestId('coffee-day-picker')).toBeVisible()
   })
 
   test('coffee.html ships Nikki OG preview meta', async () => {

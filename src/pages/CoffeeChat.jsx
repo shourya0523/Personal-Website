@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import CoffeeCalendarCard from '../components/CoffeeCalendarCard'
+import CoffeeCalendarCard from '../components/CoffeeCalendarCard.jsx'
 import WillowFrameIntro from '../components/WillowFrameIntro/WillowFrameIntro'
 import './CoffeeChat.css'
 
