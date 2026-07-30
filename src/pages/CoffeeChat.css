@@ -69,16 +69,192 @@
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
+  overflow: hidden;
 }
 
 .coffee-chat__no {
+  position: relative;
   display: block;
   font-family: 'Creepster', cursive;
-  font-size: clamp(2.4rem, 8vw, 4.5rem);
+  font-size: clamp(2.6rem, 9vw, 5rem);
+  line-height: 1.15;
   color: var(--blood);
-  text-shadow: 0 0 30px rgba(196, 30, 58, 0.55);
-  margin-bottom: 0.35rem;
-  animation: coffee-pulse 2.8s ease-in-out infinite;
+  text-shadow:
+    0 0 18px rgba(196, 30, 58, 0.75),
+    0 0 42px rgba(196, 30, 58, 0.35);
+  margin-bottom: 0.45rem;
+  transform-origin: left center;
+  overflow: hidden;
+  /* keep transforms from expanding scroll width */
+  max-width: 100%;
+  animation:
+    coffee-no-shake 4.8s ease-in-out infinite,
+    coffee-no-flash 4.8s ease-in-out infinite;
+}
+
+.coffee-chat__no::before,
+.coffee-chat__no::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.coffee-chat__no::before {
+  color: #00fff0;
+  text-shadow: none;
+  mix-blend-mode: screen;
+  animation: coffee-no-rgb-a 4.8s ease-in-out infinite;
+  clip-path: inset(0 0 55% 0);
+}
+
+.coffee-chat__no::after {
+  color: #ff2a6d;
+  text-shadow: none;
+  mix-blend-mode: screen;
+  animation: coffee-no-rgb-b 4.8s ease-in-out infinite;
+  clip-path: inset(45% 0 0 0);
+}
+
+@keyframes coffee-no-shake {
+  0%,
+  72%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+  74% {
+    transform: translate3d(-3px, 0, 0);
+    filter: contrast(1.15);
+  }
+  76% {
+    transform: translate3d(4px, 0, 0);
+    filter: contrast(1.25) brightness(1.1);
+  }
+  78% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  80%,
+  90% {
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+  92% {
+    transform: translate3d(3px, 0, 0);
+    filter: brightness(1.15);
+  }
+  94% {
+    transform: translate3d(-3px, 0, 0);
+  }
+  96% {
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+}
+
+@keyframes coffee-no-rgb-a {
+  0%,
+  72%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  74% {
+    transform: translate3d(-3px, 0, 0);
+    opacity: 0.55;
+  }
+  78% {
+    transform: translate3d(2px, 0, 0);
+    opacity: 0.4;
+  }
+  80%,
+  90% {
+    opacity: 0;
+    transform: none;
+  }
+  92% {
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.45;
+  }
+  96% {
+    opacity: 0;
+  }
+}
+
+@keyframes coffee-no-rgb-b {
+  0%,
+  72%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  74% {
+    transform: translate3d(3px, 0, 0);
+    opacity: 0.55;
+  }
+  78% {
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.4;
+  }
+  80%,
+  90% {
+    opacity: 0;
+    transform: none;
+  }
+  92% {
+    transform: translate3d(2px, 0, 0);
+    opacity: 0.45;
+  }
+  96% {
+    opacity: 0;
+  }
+}
+
+@keyframes coffee-no-flash {
+  0%,
+  72%,
+  100% {
+    text-shadow:
+      0 0 18px rgba(196, 30, 58, 0.75),
+      0 0 42px rgba(196, 30, 58, 0.35);
+  }
+  75% {
+    text-shadow:
+      -2px 0 rgba(0, 255, 240, 0.55),
+      2px 0 rgba(255, 42, 109, 0.55),
+      0 0 24px rgba(196, 30, 58, 0.8);
+  }
+  80%,
+  91% {
+    text-shadow:
+      0 0 18px rgba(196, 30, 58, 0.75),
+      0 0 42px rgba(196, 30, 58, 0.35);
+  }
+  93% {
+    text-shadow:
+      -2px 0 rgba(0, 255, 240, 0.4),
+      2px 0 rgba(255, 42, 109, 0.4),
+      0 0 20px rgba(196, 30, 58, 0.7);
+  }
+  96% {
+    text-shadow:
+      0 0 18px rgba(196, 30, 58, 0.75),
+      0 0 42px rgba(196, 30, 58, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coffee-chat__no,
+  .coffee-chat__no::before,
+  .coffee-chat__no::after {
+    animation: none;
+  }
+
+  .coffee-chat__no::before,
+  .coffee-chat__no::after {
+    content: none;
+  }
 }
 
 .coffee-chat__line {
@@ -173,27 +349,4 @@
   font-family: 'Instrument Serif', Georgia, serif;
 }
 
-@keyframes coffee-pulse {
-  0%,
-  100% {
-    transform: translateX(0);
-    filter: none;
-  }
-  48% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-2px);
-    filter: hue-rotate(-8deg);
-  }
-  52% {
-    transform: translateX(2px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .coffee-chat__no {
-    animation: none;
-  }
-}
 

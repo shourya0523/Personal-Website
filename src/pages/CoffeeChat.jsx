@@ -44,7 +44,9 @@ export default function CoffeeChat() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="coffee-chat__no">No no no no no…</span>
+              <span className="coffee-chat__no" data-text="No no no no no…" aria-label="No no no no no">
+                No no no no no…
+              </span>
               <span className="coffee-chat__line">
                 Don’t do that! We were having such a nice{' '}
                 <span className="coffee-chat__strike">date</span> coffee chat
