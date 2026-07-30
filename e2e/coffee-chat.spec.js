@@ -6,19 +6,41 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const NOTION_COFFEE_URL = 'https://calendar.notion.so/meet/shourya0523/coffee'
 
+async function completeWillowIntro(page) {
+  await expect(page.getByTestId('willow-intro')).toBeVisible({ timeout: 15000 })
+  await page.getByTestId('willow-open').click()
+  await expect(page.getByTestId('willow-wish')).toBeVisible({ timeout: 15000 })
+  await page.getByTestId('willow-wish').click()
+  await expect(page.getByTestId('coffee-chat')).toHaveAttribute('data-revealed', 'true', {
+    timeout: 15000,
+  })
+}
+
 test.describe('Obsession coffee chat', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/coffee')
     await page.waitForLoadState('domcontentloaded')
   })
 
-  test('loads themed page outside the OS shell', async ({ page }) => {
-    await expect(page.getByTestId('coffee-chat')).toBeVisible({ timeout: 15000 })
+  test('requires open + wish clicks before revealing the site', async ({ page }) => {
+    await expect(page.getByTestId('willow-intro')).toBeVisible({ timeout: 15000 })
+    await expect(page.getByTestId('coffee-calendar-card')).toHaveCount(0)
+    await expect(page.getByTestId('willow-open')).toBeVisible()
+    // must not auto-show wish CTA before open
+    await expect(page.getByTestId('willow-wish')).toHaveCount(0)
+
+    await page.getByTestId('willow-open').click()
+    await expect(page.getByTestId('willow-wish')).toBeVisible({ timeout: 15000 })
+    await expect(page.getByTestId('coffee-calendar-card')).toHaveCount(0)
+
+    await page.getByTestId('willow-wish').click()
+    await expect(page.getByTestId('coffee-chat')).toHaveAttribute('data-revealed', 'true')
     await expect(page.getByText(/No no no no no/i)).toBeVisible()
     await expect(page.getByRole('button', { name: /login/i })).toHaveCount(0)
   })
 
-  test('calendar CTA opens Notion meet link', async ({ page }) => {
+  test('calendar CTA opens Notion meet link after reveal', async ({ page }) => {
+    await completeWillowIntro(page)
     const cta = page.getByTestId('coffee-calendar-card')
     await expect(cta).toBeVisible({ timeout: 15000 })
     await expect(cta).toHaveAttribute('href', NOTION_COFFEE_URL)
