@@ -17,11 +17,14 @@ vi.mock('framer-motion', () => {
   const aside = ({ children, whileHover, whileTap, initial, animate, transition, exit, ...props }) => (
     <aside {...props}>{children}</aside>
   )
+  const figure = ({ children, whileHover, whileTap, initial, animate, transition, exit, ...props }) => (
+    <figure {...props}>{children}</figure>
+  )
   const a = ({ children, whileHover, whileTap, initial, animate, transition, exit, ...props }) => (
     <a {...props}>{children}</a>
   )
   return {
-    motion: { div: passthrough, p, h1, aside, a },
+    motion: { div: passthrough, p, h1, aside, figure, a },
     AnimatePresence: ({ children }) => children,
   }
 })

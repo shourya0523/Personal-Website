@@ -17,7 +17,7 @@ export default function CoffeeCalendarCard() {
       className="coffee-calendar-card"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.55, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 0.25, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       data-testid="coffee-calendar-card"
       role="region"
       aria-label="Book a coffee chat"

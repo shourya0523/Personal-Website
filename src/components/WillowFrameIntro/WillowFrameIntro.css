@@ -1,34 +1,114 @@
 .willow-intro {
+  --willow-black: #000000;
+  --willow-crimson: #6e0014;
+  --willow-blood: #c41e3a;
+  --willow-cream: #f4e8e2;
+
   position: fixed;
   inset: 0;
   z-index: 40;
+  overflow: hidden;
+  background: var(--willow-black);
+  color: var(--willow-cream);
+  font-family: 'Syne', system-ui, sans-serif;
+  transition: background-color 1.8s ease;
+}
+
+.willow-intro--lit {
+  background: var(--willow-crimson);
+}
+
+.willow-intro__wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 45%, rgba(196, 30, 58, 0.35) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, transparent 35%, rgba(0, 0, 0, 0.7) 100%);
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+.willow-intro--lit .willow-intro__wash {
+  opacity: 1;
+}
+
+.willow-intro--loading {
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(ellipse at center, #1a1208 0%, #050200 70%);
-  color: #f4e8e2;
-  font-family: 'Syne', system-ui, sans-serif;
+  background: var(--willow-black);
+}
+
+.willow-intro__coffee {
+  margin: 0;
+  font-family: 'Creepster', cursive;
+  font-size: clamp(3.5rem, 18vw, 9rem);
+  letter-spacing: 0.06em;
+  color: var(--willow-blood);
+  text-shadow:
+    0 0 40px rgba(196, 30, 58, 0.65),
+    0 0 2px #ff2a4a;
+  animation: willow-coffee-pulse 2.4s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes willow-coffee-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1) skewX(0deg);
+    filter: none;
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.03) skewX(-1.5deg);
+    filter: drop-shadow(2px 0 #8b0000) drop-shadow(-2px 0 #ff0033);
+  }
+  55% {
+    opacity: 0.85;
+    transform: scale(1.01) skewX(1deg);
+  }
 }
 
 .willow-intro__stage {
-  width: min(92vw, 720px);
-  aspect-ratio: 4 / 3;
-  border: 2px solid rgba(196, 30, 58, 0.45);
-  box-shadow: 0 0 60px rgba(196, 30, 58, 0.2);
-  overflow: hidden;
-  background: #0a0604;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  display: block;
 }
 
 .willow-intro__frame {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
+  pointer-events: none;
+  user-select: none;
+  animation: willow-frame-in 0.9s ease both;
+}
+
+@keyframes willow-frame-in {
+  from {
+    opacity: 0;
+    filter: brightness(0);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
 }
 
 .willow-intro__fallback {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
   padding: 2rem;
@@ -36,72 +116,108 @@
   color: #c4a8a0;
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
+  font-size: 1.2rem;
 }
 
-.willow-intro__hud {
+.willow-intro__tooltip {
   position: absolute;
-  bottom: clamp(1.5rem, 6vh, 3.5rem);
   left: 50%;
+  bottom: clamp(4.5rem, 12vh, 7rem);
   transform: translateX(-50%);
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  width: min(92vw, 420px);
-  text-align: center;
+  pointer-events: auto;
+  animation: willow-tip-float 2.8s ease-in-out infinite;
 }
 
-.willow-intro__cta {
+.willow-intro__tooltip-btn {
   appearance: none;
-  border: 2px solid #c41e3a;
-  background: rgba(10, 0, 0, 0.75);
-  color: #f4e8e2;
-  font-family: 'Creepster', cursive;
-  font-size: clamp(1.35rem, 4vw, 1.85rem);
-  letter-spacing: 0.02em;
-  padding: 0.85rem 1.4rem;
+  border: 1px solid rgba(244, 232, 226, 0.35);
+  background: rgba(0, 0, 0, 0.72);
+  color: var(--willow-cream);
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+  padding: 0.7rem 1.15rem;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
 }
 
-.willow-intro__cta:hover:not(:disabled),
-.willow-intro__cta:focus-visible {
-  transform: scale(1.03);
-  box-shadow: 0 0 28px rgba(196, 30, 58, 0.45);
+.willow-intro__tooltip-btn:hover,
+.willow-intro__tooltip-btn:focus-visible {
+  border-color: var(--willow-blood);
+  color: #fff;
   outline: none;
 }
 
-.willow-intro__cta:disabled {
-  opacity: 0.5;
-  cursor: wait;
+.willow-intro__tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 9px solid rgba(0, 0, 0, 0.72);
+  margin-top: -1px;
 }
 
-.willow-intro__cta--wish {
-  border-color: #7cffb2;
-  color: #7cffb2;
+@keyframes willow-tip-float {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
 }
 
 .willow-intro__status {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(4.5rem, 12vh, 7rem);
+  transform: translateX(-50%);
   margin: 0;
+  z-index: 2;
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
-  font-size: 1.15rem;
-  color: #c4a8a0;
+  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+  color: rgba(244, 232, 226, 0.75);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  animation: willow-tip-float 2.8s ease-in-out infinite;
 }
 
 .willow-intro__skip {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 3;
   appearance: none;
   background: transparent;
   border: none;
-  color: #8a7068;
+  color: rgba(138, 112, 104, 0.85);
   text-decoration: underline;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.willow-intro__skip:hover {
+  color: var(--willow-cream);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .willow-intro__cta {
+  .willow-intro,
+  .willow-intro__wash,
+  .willow-intro__frame {
     transition: none;
+    animation: none;
+  }
+
+  .willow-intro__coffee,
+  .willow-intro__tooltip,
+  .willow-intro__status {
+    animation: none;
   }
 }

@@ -59,9 +59,27 @@ html.coffee-route #root {
 .coffee-chat__main {
   position: relative;
   z-index: 2;
-  max-width: 1100px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem) 4rem;
+}
+
+.coffee-chat__hero {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .coffee-chat__hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 400px);
+    gap: clamp(2rem, 4vw, 3.25rem);
+  }
+
+  .coffee-chat__hero-cal {
+    position: sticky;
+    top: 1.5rem;
+  }
 }
 
 .coffee-chat__brand {
@@ -76,7 +94,7 @@ html.coffee-route #root {
 
 .coffee-chat__headline {
   margin: 0;
-  max-width: 18ch;
+  max-width: 22ch;
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -307,60 +325,72 @@ html.coffee-route #root {
 }
 
 .coffee-chat__support {
-  margin: 1.25rem 0 2rem;
+  margin: 1.25rem 0 0;
   max-width: 36rem;
   font-size: 1.05rem;
   line-height: 1.55;
   color: var(--muted);
 }
 
-.coffee-chat__stage {
-  display: grid;
-  gap: 1.75rem;
-  align-items: start;
-}
-
-@media (min-width: 900px) {
-  .coffee-chat__stage {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  }
-}
-
-
 .coffee-chat__memes {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem 1rem;
+  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
   pointer-events: none;
 }
 
 .coffee-chat__still {
   margin: 0;
-  max-width: 280px;
+  max-width: none;
+}
+
+.coffee-chat__still--bear {
+  margin-top: clamp(1rem, 3vw, 2rem);
 }
 
 .coffee-chat__still img {
   display: block;
   width: 100%;
-  height: auto;
+  height: clamp(160px, 28vw, 280px);
   object-fit: cover;
-  border: 2px solid rgba(196, 30, 58, 0.5);
-  filter: saturate(0.85) contrast(1.05);
+  object-position: center top;
+  border: 2px solid rgba(196, 30, 58, 0.55);
+  filter: saturate(0.9) contrast(1.08);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
 }
 
 .coffee-chat__still figcaption {
-  margin-top: 0.4rem;
-  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-size: clamp(0.85rem, 1.6vw, 0.95rem);
   color: var(--muted);
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
+  line-height: 1.35;
 }
 
-.coffee-chat__freaky {
-  margin: 0.25rem 0 0;
+.coffee-chat__tagline {
+  grid-column: 1 / -1;
+  margin: 0.35rem 0 0;
   font-family: 'Creepster', cursive;
-  font-size: 1.35rem;
+  font-size: clamp(1.45rem, 3.5vw, 2rem);
   color: var(--blood);
+  text-shadow: 0 0 24px rgba(196, 30, 58, 0.4);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 559px) {
+  .coffee-chat__memes {
+    grid-template-columns: 1fr;
+  }
+
+  .coffee-chat__still--bear {
+    margin-top: 0;
+  }
+
+  .coffee-chat__still img {
+    height: clamp(200px, 55vw, 280px);
+  }
 }
 
 .coffee-chat__willow {

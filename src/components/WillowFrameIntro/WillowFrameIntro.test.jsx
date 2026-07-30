@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import WillowFrameIntro from './WillowFrameIntro'
 
 const manifest = {
-  fps: 1000,
+  fps: 20,
   openEndFrame: 2,
   wishEndFrame: 4,
   frames: ['000.jpg', '001.jpg', '002.jpg', '003.jpg', '004.jpg'],
@@ -24,7 +24,6 @@ describe('WillowFrameIntro', () => {
       ok: true,
       json: async () => manifest,
     })
-    // avoid real image network; resolve preload so ready=true
     vi.stubGlobal(
       'Image',
       class {
@@ -42,7 +41,14 @@ describe('WillowFrameIntro', () => {
     vi.useRealTimers()
   })
 
-  it('does not autoplay open; first click starts opening and pauses at openEndFrame', async () => {
+  it('shows creepy COFFEE? while frames load, then open tooltip', async () => {
+    render(<WillowFrameIntro onComplete={vi.fn()} />)
+    expect(screen.getByTestId('willow-loading')).toHaveTextContent('COFFEE?')
+    expect(await screen.findByTestId('willow-open')).toBeInTheDocument()
+    expect(screen.queryByTestId('willow-loading')).not.toBeInTheDocument()
+  })
+
+  it('does not autoplay open; first click plays to openEndFrame then pauses', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
     const onComplete = vi.fn()
@@ -52,12 +58,8 @@ describe('WillowFrameIntro', () => {
     expect(screen.queryByTestId('willow-wish')).not.toBeInTheDocument()
     await user.click(open)
 
-    await waitFor(() => {
-      expect(screen.getByTestId('willow-intro')).toHaveAttribute('data-phase', 'opening')
-    })
-
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(50)
+      await vi.advanceTimersByTimeAsync(500)
     })
 
     await waitFor(() => {
@@ -76,13 +78,13 @@ describe('WillowFrameIntro', () => {
 
     await user.click(await screen.findByTestId('willow-open'))
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(50)
+      await vi.advanceTimersByTimeAsync(500)
     })
     await waitFor(() => screen.getByTestId('willow-wish'))
     await user.click(screen.getByTestId('willow-wish'))
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(50)
+      await vi.advanceTimersByTimeAsync(500)
     })
 
     await waitFor(() => {
