@@ -61,7 +61,12 @@ html.coffee-route #root {
   z-index: 2;
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem) 4rem;
+  padding:
+    max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-top, 0px))
+    max(clamp(1rem, 4vw, 2.5rem), env(safe-area-inset-right, 0px))
+    max(3rem, env(safe-area-inset-bottom, 0px))
+    max(clamp(1rem, 4vw, 2.5rem), env(safe-area-inset-left, 0px));
+  min-width: 0;
 }
 
 .coffee-chat__hero {
@@ -94,18 +99,19 @@ html.coffee-route #root {
 
 .coffee-chat__headline {
   margin: 0;
-  max-width: 22ch;
+  max-width: min(22ch, 100%);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .coffee-chat__no {
   position: relative;
   display: block;
   font-family: 'Creepster', cursive;
-  font-size: clamp(2.6rem, 9vw, 5rem);
+  font-size: clamp(2.15rem, 10vw, 5rem);
   line-height: 1.15;
   color: var(--blood);
   text-shadow:
@@ -338,11 +344,14 @@ html.coffee-route #root {
   gap: 0.85rem 1rem;
   margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
   pointer-events: none;
+  min-width: 0;
 }
 
 .coffee-chat__still {
   margin: 0;
-  max-width: none;
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
 }
 
 .coffee-chat__still--bear {
@@ -373,7 +382,7 @@ html.coffee-route #root {
   grid-column: 1 / -1;
   margin: 0.35rem 0 0;
   font-family: 'Creepster', cursive;
-  font-size: clamp(1.45rem, 3.5vw, 2rem);
+  font-size: clamp(1.25rem, 4vw, 2rem);
   color: var(--blood);
   text-shadow: 0 0 24px rgba(196, 30, 58, 0.4);
   letter-spacing: 0.02em;
@@ -390,6 +399,76 @@ html.coffee-route #root {
 
   .coffee-chat__still img {
     height: clamp(200px, 55vw, 280px);
+  }
+}
+
+@media (max-width: 640px) {
+  .coffee-chat__brand {
+    margin-bottom: 0.9rem;
+  }
+
+  .coffee-chat__support {
+    margin: 1rem 0 0;
+    font-size: 0.98rem;
+  }
+
+  .coffee-chat__hero {
+    gap: 1.25rem;
+  }
+
+  .coffee-chat__still {
+    max-width: 100%;
+  }
+
+  /* Keep glitch shake inside the viewport on narrow phones. */
+  .coffee-chat__no {
+    animation-name: coffee-no-shake-mobile, coffee-no-flash;
+  }
+}
+
+@keyframes coffee-no-shake-mobile {
+  0%,
+  68%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(0deg) scale(1);
+    filter: none;
+    letter-spacing: -0.03em;
+    opacity: 1;
+  }
+  70% {
+    transform: translate3d(-4px, 1px, 0) skewX(-4deg) scale(1.02, 0.97);
+    filter: contrast(1.4) brightness(1.2);
+    letter-spacing: 0.03em;
+  }
+  72% {
+    transform: translate3d(5px, -1px, 0) skewX(5deg) scale(0.98, 1.04);
+    filter: contrast(1.5) saturate(1.5);
+  }
+  74% {
+    transform: translate3d(-2px, 0, 0) skewX(-1deg) scale(1.04);
+    filter: brightness(1.5);
+  }
+  76%,
+  84% {
+    transform: translate3d(0, 0, 0) skewX(0) scale(1);
+    filter: none;
+    letter-spacing: -0.03em;
+  }
+  86% {
+    transform: translate3d(3px, 1px, 0) skewX(3deg);
+    filter: hue-rotate(-20deg) contrast(1.35);
+  }
+  88% {
+    transform: translate3d(-5px, -1px, 0) skewX(-6deg) scale(1.02, 0.95);
+    filter: brightness(0.65) contrast(1.7);
+  }
+  90% {
+    transform: translate3d(2px, 0, 0) scale(1.05);
+    filter: brightness(1.7) saturate(1.7);
+  }
+  92% {
+    transform: translate3d(0, 0, 0);
+    filter: none;
   }
 }
 

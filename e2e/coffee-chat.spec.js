@@ -68,6 +68,43 @@ test.describe('Obsession coffee chat', () => {
     expect(afterWheel.y).toBeGreaterThan(before)
   })
 
+  test('fits narrow mobile viewport without horizontal overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 })
+    await page.goto('/coffee')
+    await page.waitForLoadState('domcontentloaded')
+
+    await expect(page.getByTestId('willow-intro')).toBeVisible({ timeout: 15000 })
+    // Wait for COFFEE? loader → open tooltip (frames preload).
+    await expect(page.getByTestId('willow-open')).toBeVisible({ timeout: 30000 })
+    const introLayout = await page.evaluate(() => {
+      const tip = document.querySelector('.willow-intro__tooltip')?.getBoundingClientRect()
+      return {
+        overflowX: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        tipVisible: tip ? tip.width > 0 && tip.bottom <= window.innerHeight + 1 : false,
+        tipOverflow: tip ? tip.right > window.innerWidth + 1 || tip.left < -1 : true,
+      }
+    })
+    expect(introLayout.overflowX).toBe(false)
+    expect(introLayout.tipVisible).toBe(true)
+    expect(introLayout.tipOverflow).toBe(false)
+
+    await page.getByTestId('willow-skip').click()
+    await expect(page.getByTestId('coffee-calendar-card')).toBeVisible({ timeout: 15000 })
+
+    const revealed = await page.evaluate(() => {
+      const card = document.querySelector('.coffee-calendar-card')?.getBoundingClientRect()
+      return {
+        overflowX: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        cardOverflow: card ? card.right > window.innerWidth + 1 : true,
+        cardWidth: card ? Math.round(card.width) : 0,
+        viewport: window.innerWidth,
+      }
+    })
+    expect(revealed.overflowX).toBe(false)
+    expect(revealed.cardOverflow).toBe(false)
+    expect(revealed.cardWidth).toBeLessThanOrEqual(revealed.viewport)
+  })
+
   test('coffee.html ships Nikki OG preview meta', async () => {
     const htmlPath = path.resolve(__dirname, '../coffee.html')
     const html = fs.readFileSync(htmlPath, 'utf8')
