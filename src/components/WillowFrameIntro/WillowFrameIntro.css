@@ -87,22 +87,19 @@
 .willow-intro__frame {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
   display: block;
   pointer-events: none;
   user-select: none;
-  animation: willow-frame-in 0.9s ease both;
+  opacity: 0;
+  animation: willow-frame-in 0.7s ease forwards;
 }
 
 @keyframes willow-frame-in {
   from {
     opacity: 0;
-    filter: brightness(0);
   }
   to {
     opacity: 1;
-    filter: brightness(1);
   }
 }
 

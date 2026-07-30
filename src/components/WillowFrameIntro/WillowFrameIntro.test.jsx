@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import WillowFrameIntro from './WillowFrameIntro'
 
 const manifest = {
-  fps: 20,
+  fps: 40,
   openEndFrame: 2,
   wishEndFrame: 4,
   frames: ['000.jpg', '001.jpg', '002.jpg', '003.jpg', '004.jpg'],
@@ -29,17 +29,35 @@ describe('WillowFrameIntro', () => {
       class {
         onload = null
         onerror = null
+        decoding = 'async'
+        naturalWidth = 16
+        naturalHeight = 16
+        width = 16
+        height = 16
+        decode = () => Promise.resolve()
         set src(_v) {
           queueMicrotask(() => this.onload?.())
         }
       },
     )
+    // canvas paint no-op in jsdom
+    HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
+      setTransform: vi.fn(),
+      clearRect: vi.fn(),
+      drawImage: vi.fn(),
+    }))
   })
 
   afterEach(() => {
     vi.unstubAllGlobals()
     vi.useRealTimers()
   })
+
+  async function flushPlayback(ms = 400) {
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(ms)
+    })
+  }
 
   it('shows creepy COFFEE? while frames load, then open tooltip', async () => {
     render(<WillowFrameIntro onComplete={vi.fn()} />)
@@ -58,9 +76,7 @@ describe('WillowFrameIntro', () => {
     expect(screen.queryByTestId('willow-wish')).not.toBeInTheDocument()
     await user.click(open)
 
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(500)
-    })
+    await flushPlayback(500)
 
     await waitFor(() => {
       expect(screen.getByTestId('willow-intro')).toHaveAttribute('data-phase', 'prompt-wish')
@@ -77,15 +93,10 @@ describe('WillowFrameIntro', () => {
     render(<WillowFrameIntro onComplete={onComplete} />)
 
     await user.click(await screen.findByTestId('willow-open'))
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(500)
-    })
+    await flushPlayback(500)
     await waitFor(() => screen.getByTestId('willow-wish'))
     await user.click(screen.getByTestId('willow-wish'))
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(500)
-    })
+    await flushPlayback(800)
 
     await waitFor(() => {
       expect(onComplete).toHaveBeenCalledTimes(1)

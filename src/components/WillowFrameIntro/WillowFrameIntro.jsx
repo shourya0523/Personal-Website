@@ -3,25 +3,52 @@ import './WillowFrameIntro.css'
 
 const MANIFEST_URL = '/assets/coffee/willow-frames/manifest.json'
 const FRAMES_BASE = '/assets/coffee/willow-frames/'
-/** Playback boost over manifest fps (user: speed it up a little). */
-const FPS_BOOST = 1.35
+/** Playback boost over manifest fps. */
+const FPS_BOOST = 1.45
 
 /**
  * @typedef {'loading' | 'prompt-open' | 'opening' | 'prompt-wish' | 'breaking' | 'done'} IntroPhase
  */
 
-function preloadImages(urls) {
+/**
+ * Load + keep Image elements alive so decoded bitmaps aren't GC'd mid-playback.
+ * @param {string[]} urls
+ * @returns {Promise<HTMLImageElement[]>}
+ */
+function loadFrameBitmaps(urls) {
   return Promise.all(
     urls.map(
       (src) =>
-        new Promise((resolve) => {
+        new Promise((resolve, reject) => {
           const img = new Image()
-          img.onload = () => resolve(true)
-          img.onerror = () => resolve(false)
+          img.decoding = 'async'
+          img.onload = async () => {
+            try {
+              if (typeof img.decode === 'function') await img.decode()
+            } catch {
+              /* decode can reject on some stubs; bitmap still usable */
+            }
+            resolve(img)
+          }
+          img.onerror = () => reject(new Error(`Failed to load ${src}`))
           img.src = src
         }),
     ),
   )
+}
+
+/** Draw image cover-fit into canvas. */
+function paintCover(ctx, img, cssW, cssH) {
+  const iw = img.naturalWidth || img.width
+  const ih = img.naturalHeight || img.height
+  if (!iw || !ih) return
+  const scale = Math.max(cssW / iw, cssH / ih)
+  const dw = iw * scale
+  const dh = ih * scale
+  const dx = (cssW - dw) / 2
+  const dy = (cssH - dh) / 2
+  ctx.clearRect(0, 0, cssW, cssH)
+  ctx.drawImage(img, dx, dy, dw, dh)
 }
 
 /**
@@ -37,15 +64,22 @@ export default function WillowFrameIntro({ onComplete }) {
   const [reduceMotion, setReduceMotion] = useState(false)
   const [fadeIn, setFadeIn] = useState(false)
 
-  const timerRef = useRef(null)
-  const completedRef = useRef(false)
+  const canvasRef = useRef(/** @type {HTMLCanvasElement | null} */ (null))
+  const framesRef = useRef(/** @type {HTMLImageElement[]} */ ([]))
   const frameRef = useRef(0)
-  const playingRef = useRef(false)
   const phaseRef = useRef(/** @type {IntroPhase} */ ('loading'))
+  const rafRef = useRef(/** @type {number | null} */ (null))
+  const playingRef = useRef(false)
+  const completedRef = useRef(false)
+  const reduceMotionRef = useRef(false)
 
   useEffect(() => {
     phaseRef.current = phase
   }, [phase])
+
+  useEffect(() => {
+    reduceMotionRef.current = reduceMotion
+  }, [reduceMotion])
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -54,6 +88,54 @@ export default function WillowFrameIntro({ onComplete }) {
     mq.addEventListener?.('change', update)
     return () => mq.removeEventListener?.('change', update)
   }, [])
+
+  const syncCanvasSize = useCallback(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return { w: 0, h: 0, ctx: null }
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const w = Math.max(1, Math.floor(canvas.clientWidth))
+    const h = Math.max(1, Math.floor(canvas.clientHeight))
+    const bw = Math.floor(w * dpr)
+    const bh = Math.floor(h * dpr)
+    if (canvas.width !== bw || canvas.height !== bh) {
+      canvas.width = bw
+      canvas.height = bh
+    }
+    const ctx = canvas.getContext('2d')
+    if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    return { w, h, ctx }
+  }, [])
+
+  const paintFrame = useCallback(
+    (index) => {
+      const frames = framesRef.current
+      const img = frames[index]
+      if (!img) return
+      const { w, h, ctx } = syncCanvasSize()
+      if (!ctx || !w || !h) return
+      paintCover(ctx, img, w, h)
+    },
+    [syncCanvasSize],
+  )
+
+  const stopPlayback = useCallback(() => {
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+    playingRef.current = false
+  }, [])
+
+  useEffect(() => () => stopPlayback(), [stopPlayback])
+
+  // Keep canvas sized + show current frame on resize / ready.
+  useEffect(() => {
+    if (!ready) return undefined
+    const onResize = () => paintFrame(frameRef.current)
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [ready, paintFrame])
 
   useEffect(() => {
     let cancelled = false
@@ -69,13 +151,18 @@ export default function WillowFrameIntro({ onComplete }) {
         }
         setManifest(data)
         const urls = data.frames.map((name) => `${FRAMES_BASE}${name}`)
-        // Preload everything so the break sequence never stalls on cold frames.
-        await preloadImages(urls)
+        const images = await loadFrameBitmaps(urls)
         if (cancelled) return
+        framesRef.current = images
+        frameRef.current = 0
+        setFrameIndex(0)
         setReady(true)
         setPhase('prompt-open')
-        // kick crimson wash after paint
-        requestAnimationFrame(() => setFadeIn(true))
+        requestAnimationFrame(() => {
+          setFadeIn(true)
+          // paint after canvas mounts
+          requestAnimationFrame(() => paintFrame(0))
+        })
       })
       .catch((err) => {
         if (!cancelled) {
@@ -85,117 +172,141 @@ export default function WillowFrameIntro({ onComplete }) {
       })
     return () => {
       cancelled = true
+      framesRef.current = []
     }
-  }, [])
+  }, [paintFrame])
 
   const finish = useCallback(() => {
     if (completedRef.current) return
     completedRef.current = true
-    playingRef.current = false
+    stopPlayback()
     setPhase('done')
     onComplete?.()
-  }, [onComplete])
-
-  const clearTimer = useCallback(() => {
-    if (timerRef.current != null) {
-      window.clearInterval(timerRef.current)
-      timerRef.current = null
-    }
-    playingRef.current = false
-  }, [])
-
-  useEffect(() => () => clearTimer(), [clearTimer])
+  }, [onComplete, stopPlayback])
 
   const playTo = useCallback(
     (endIndex, nextPhase) => {
       if (!manifest || playingRef.current) return
-      clearTimer()
+      stopPlayback()
       playingRef.current = true
 
+      const end = Math.min(Math.max(0, endIndex), framesRef.current.length - 1 || endIndex)
       const baseFps = Math.max(1, Number(manifest.fps) || 12)
-      const fps = reduceMotion ? baseFps : baseFps * FPS_BOOST
-      const ms = 1000 / fps
-      const end = Math.min(Math.max(0, endIndex), manifest.frames.length - 1)
+      const fps = reduceMotionRef.current ? baseFps : baseFps * FPS_BOOST
+      const frameMs = 1000 / fps
 
-      // Already at/past end — jump phase immediately.
       if (frameRef.current >= end) {
         frameRef.current = end
         setFrameIndex(end)
+        paintFrame(end)
         playingRef.current = false
         setPhase(nextPhase)
         if (nextPhase === 'done') finish()
         return
       }
 
-      timerRef.current = window.setInterval(() => {
-        const prev = frameRef.current
-        if (prev >= end) {
-          clearTimer()
+      let lastTick = performance.now()
+      let acc = 0
+
+      const tick = (now) => {
+        if (!playingRef.current) return
+        const dt = Math.min(64, now - lastTick)
+        lastTick = now
+        acc += dt
+
+        let advanced = false
+        while (acc >= frameMs && frameRef.current < end) {
+          acc -= frameMs
+          frameRef.current += 1
+          advanced = true
+        }
+
+        if (advanced) {
+          const idx = frameRef.current
+          paintFrame(idx)
+          // Avoid React re-render every frame — tests read the DOM attribute.
+          canvasRef.current?.setAttribute('data-frame-index', String(idx))
+        }
+
+        if (frameRef.current >= end) {
+          playingRef.current = false
+          rafRef.current = null
+          setFrameIndex(frameRef.current)
           setPhase(nextPhase)
           if (nextPhase === 'done') finish()
           return
         }
-        const next = prev + 1
-        frameRef.current = next
-        setFrameIndex(next)
-        if (next >= end) {
-          clearTimer()
-          setPhase(nextPhase)
-          if (nextPhase === 'done') finish()
-        }
-      }, ms)
+
+        rafRef.current = requestAnimationFrame(tick)
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
     },
-    [manifest, clearTimer, finish, reduceMotion],
+    [manifest, stopPlayback, paintFrame, finish],
   )
 
-  const handleOpen = () => {
-    if (phaseRef.current !== 'prompt-open' || !manifest || !ready) return
-    const end = Number(manifest.openEndFrame) || 0
-    if (reduceMotion) {
-      frameRef.current = end
-      setFrameIndex(end)
-      setPhase('prompt-wish')
-      return
-    }
-    setPhase('opening')
-    playTo(end, 'prompt-wish')
-  }
+  const handleOpen = useCallback(
+    (e) => {
+      e?.stopPropagation?.()
+      if (phaseRef.current !== 'prompt-open' || !manifest || !ready) return
+      const end = Number(manifest.openEndFrame) || 0
+      if (reduceMotionRef.current) {
+        frameRef.current = end
+        setFrameIndex(end)
+        paintFrame(end)
+        setPhase('prompt-wish')
+        return
+      }
+      setPhase('opening')
+      playTo(end, 'prompt-wish')
+    },
+    [manifest, ready, playTo, paintFrame],
+  )
 
-  const handleWish = () => {
-    if (phaseRef.current !== 'prompt-wish' || !manifest) return
-    const end = Number(manifest.wishEndFrame) ?? manifest.frames.length - 1
-    if (reduceMotion) {
-      frameRef.current = end
-      setFrameIndex(end)
+  const handleWish = useCallback(
+    (e) => {
+      e?.stopPropagation?.()
+      if (phaseRef.current !== 'prompt-wish' || !manifest) return
+      const end = Number(manifest.wishEndFrame) ?? framesRef.current.length - 1
+      if (reduceMotionRef.current) {
+        frameRef.current = end
+        setFrameIndex(end)
+        paintFrame(end)
+        finish()
+        return
+      }
+      // Flip phase first, then start on next frame so UI updates immediately.
+      setPhase('breaking')
+      playingRef.current = false
+      requestAnimationFrame(() => playTo(end, 'done'))
+    },
+    [manifest, playTo, paintFrame, finish],
+  )
+
+  const handleSkip = useCallback(
+    (e) => {
+      e?.stopPropagation?.()
+      stopPlayback()
+      if (manifest) {
+        const end = Number(manifest.wishEndFrame) ?? framesRef.current.length - 1
+        frameRef.current = end
+        setFrameIndex(end)
+        paintFrame(end)
+      }
       finish()
-      return
-    }
-    setPhase('breaking')
-    // Defer so phase='breaking' commits before interval starts (avoids stale guards).
-    window.setTimeout(() => playTo(end, 'done'), 0)
-  }
+    },
+    [manifest, stopPlayback, paintFrame, finish],
+  )
 
-  const handleSkip = () => {
-    clearTimer()
-    if (manifest) {
-      const end = Number(manifest.wishEndFrame) ?? manifest.frames.length - 1
-      frameRef.current = end
-      setFrameIndex(end)
-    }
-    finish()
-  }
-
-  const handleStageClick = () => {
-    if (phase === 'prompt-open') handleOpen()
-    else if (phase === 'prompt-wish') handleWish()
-  }
+  const handleStageClick = useCallback(
+    (e) => {
+      if (phaseRef.current === 'prompt-open') handleOpen(e)
+      else if (phaseRef.current === 'prompt-wish') handleWish(e)
+    },
+    [handleOpen, handleWish],
+  )
 
   if (phase === 'done') return null
-
-  const frameSrc =
-    ready && manifest && manifest.frames[frameIndex]
-      ? `${FRAMES_BASE}${manifest.frames[frameIndex]}`
-      : null
 
   const showLoading = phase === 'loading' || (!ready && !error)
   const tip =
@@ -226,29 +337,27 @@ export default function WillowFrameIntro({ onComplete }) {
             onClick={handleStageClick}
             aria-label={tip || 'Willow ritual'}
           >
-            {frameSrc ? (
-              <img
+            {error && framesRef.current.length === 0 ? (
+              <span className="willow-intro__fallback" data-testid="willow-fallback">
+                Willow frames unavailable — skip to enter
+              </span>
+            ) : (
+              <canvas
+                ref={canvasRef}
                 className="willow-intro__frame"
-                src={frameSrc}
-                alt=""
-                draggable={false}
                 data-testid="willow-frame"
                 data-frame-index={frameIndex}
               />
-            ) : (
-              <span className="willow-intro__fallback" data-testid="willow-fallback">
-                {error ? 'Willow frames unavailable — skip to enter' : '…'}
-              </span>
             )}
           </button>
 
           {tip && (
-            <div className="willow-intro__tooltip" onClick={handleStageClick}>
+            <div className="willow-intro__tooltip">
               <button
                 type="button"
                 className="willow-intro__tooltip-btn"
                 data-testid={phase === 'prompt-open' ? 'willow-open' : 'willow-wish'}
-                onClick={handleStageClick}
+                onClick={phase === 'prompt-open' ? handleOpen : handleWish}
               >
                 {tip}
               </button>
@@ -257,7 +366,10 @@ export default function WillowFrameIntro({ onComplete }) {
           )}
 
           {(phase === 'opening' || phase === 'breaking') && (
-            <p className="willow-intro__status" data-testid={phase === 'opening' ? 'willow-opening' : 'willow-breaking'}>
+            <p
+              className="willow-intro__status"
+              data-testid={phase === 'opening' ? 'willow-opening' : 'willow-breaking'}
+            >
               {phase === 'opening' ? 'Opening…' : 'Careful what you wish for…'}
             </p>
           )}
