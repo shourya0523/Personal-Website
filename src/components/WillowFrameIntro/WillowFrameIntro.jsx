@@ -8,6 +8,20 @@ const FRAMES_BASE = '/assets/coffee/willow-frames/'
  * @typedef {'prompt-open' | 'opening' | 'prompt-wish' | 'breaking' | 'done'} IntroPhase
  */
 
+function preloadImages(urls) {
+  return Promise.all(
+    urls.map(
+      (src) =>
+        new Promise((resolve) => {
+          const img = new Image()
+          img.onload = () => resolve(true)
+          img.onerror = () => resolve(false)
+          img.src = src
+        }),
+    ),
+  )
+}
+
 /**
  * One Wish Willow frame-sequence ritual.
  * Click open → play to openEndFrame → click wish → play to wishEndFrame → onComplete.
@@ -16,6 +30,7 @@ export default function WillowFrameIntro({ onComplete }) {
   const [phase, setPhase] = useState(/** @type {IntroPhase} */ ('prompt-open'))
   const [frameIndex, setFrameIndex] = useState(0)
   const [manifest, setManifest] = useState(null)
+  const [ready, setReady] = useState(false)
   const [error, setError] = useState(null)
   const [reduceMotion, setReduceMotion] = useState(false)
   const timerRef = useRef(null)
@@ -36,17 +51,20 @@ export default function WillowFrameIntro({ onComplete }) {
         if (!r.ok) throw new Error('manifest missing')
         return r.json()
       })
-      .then((data) => {
+      .then(async (data) => {
         if (cancelled) return
         if (!Array.isArray(data.frames) || data.frames.length === 0) {
           throw new Error('manifest has no frames')
         }
         setManifest(data)
-        // preload
-        data.frames.forEach((name) => {
-          const img = new Image()
-          img.src = `${FRAMES_BASE}${name}`
-        })
+        const urls = data.frames.map((name) => `${FRAMES_BASE}${name}`)
+        // Prioritize frames through the open gate, then the rest.
+        const openEnd = Math.min(Number(data.openEndFrame) || 0, urls.length - 1)
+        await preloadImages(urls.slice(0, openEnd + 1))
+        if (cancelled) return
+        setReady(true)
+        // warm the rest in background
+        preloadImages(urls.slice(openEnd + 1))
       })
       .catch((err) => {
         if (!cancelled) setError(err.message || 'Failed to load frames')
@@ -100,7 +118,7 @@ export default function WillowFrameIntro({ onComplete }) {
   )
 
   const handleOpen = () => {
-    if (phase !== 'prompt-open' || !manifest) return
+    if (phase !== 'prompt-open' || !manifest || !ready) return
     const end = Number(manifest.openEndFrame) || 0
     if (reduceMotion) {
       setFrameIndex(end)
@@ -163,9 +181,9 @@ export default function WillowFrameIntro({ onComplete }) {
             className="willow-intro__cta"
             data-testid="willow-open"
             onClick={handleOpen}
-            disabled={!manifest && !error}
+            disabled={(!ready || !manifest) && !error}
           >
-            Click to open the box
+            {ready || error ? 'Click to open the box' : 'Loading the willow…'}
           </button>
         )}
         {phase === 'opening' && (
@@ -188,7 +206,7 @@ export default function WillowFrameIntro({ onComplete }) {
             Careful what you wish for…
           </p>
         )}
-        {(error || reduceMotion) && phase !== 'done' && (
+        {(error || reduceMotion || ready) && phase !== 'done' && (
           <button
             type="button"
             className="willow-intro__skip"

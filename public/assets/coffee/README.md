@@ -9,25 +9,37 @@
 
 Filenames must match `coffee.html` meta tags (`nikki-frown.jpg`).
 
-## Willow frame sequence
+## Willow source → frames
 
-Export your willow-box video as numbered frames and drop them here:
+1. Drop your animated WebP (box open → willow break) at:
 
-`public/assets/coffee/willow-frames/`
+`public/assets/coffee/willow-source.webp`
 
-Update `manifest.json`:
+2. Extract frames + rewrite `manifest.json`:
+
+```bash
+python3 scripts/extract-willow-frames.py
+```
+
+Or pass a custom path:
+
+```bash
+python3 scripts/extract-willow-frames.py /path/to/willow.webp
+```
+
+Outputs numbered `000.webp`… under `public/assets/coffee/willow-frames/` and sets:
+
+- `fps` — from the source (clamped ~8–24)
+- `openEndFrame` — heuristic ~45% (pause when willow is centered — **tune this**)
+- `wishEndFrame` — last frame
+
+3. Open `/coffee`, click through the ritual, and adjust `openEndFrame` in `manifest.json` if the pause is early/late.
 
 ```json
 {
   "fps": 12,
   "openEndFrame": 40,
   "wishEndFrame": 90,
-  "frames": ["000.jpg", "001.jpg", "..."]
+  "frames": ["000.webp", "001.webp", "..."]
 }
 ```
-
-- `openEndFrame` — index where the willow is **centered**; intro pauses here for “make a wish”
-- `wishEndFrame` — final break / aftermath frame; then the site reveals
-- Frame files are loaded from the same folder as the names in `frames`
-
-Placeholder frames ship for local testing until your export is ready.
