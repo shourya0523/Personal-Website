@@ -1,31 +1,34 @@
 ABOUT ME
 ========
 
-I'm Shourya — a CS and Business student at Northeastern who'd rather be building something than talking about building something.
+I'm Shourya — a CS and Business student at Northeastern (fintech + AI) currently a data engineering intern at Kroll and incoming healthcare research associate at M3.
 
-I like solving problems that sit at the intersection of tech and business, whether that's architecting NLP pipelines processing half a million clinical trials, scaling a student org from zero to 200+ members, or figuring out how to match VCs with startups algorithmically.
+I like solving problems at the intersection of AI, healthcare, and finance — NLP pipelines over half a million clinical trials, SiMSai (1st at HHIC), scaling a student org from zero to 200+ members, or matching VCs with startups algorithmically.
 
-I get restless when I'm not working on something, which is why I'm usually juggling a co-op, a couple side projects, and at least one organization that probably needs more of my attention.
+I get restless when I'm not working on something, which is why I'm usually juggling a role, a couple side projects, and at least one organization that probably needs more of my attention.
 
 I'm drawn to roles where I can build real things and lead teams doing the same. Not interested in busywork or meetings that could've been emails.
 
 When I'm not coding, I'm producing music, playing poker, hunting for good food in random cities, or binge-watching shows I've already seen three times.
 
+LinkedIn: https://linkedin.com/in/shouryadav
+GitHub: https://github.com/shourya0523
+
 
 MY JOURNEY
 ==========
 
-AI/ML Research
---------------
-Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents
+Data Engineering
+----------------
+Building data systems at Kroll for risk and financial advisory
 
-Full-Stack Development
-----------------------
-Building scalable applications with modern tech stacks
+AI for Healthcare
+-----------------
+NLP pipelines on pharma data and SiMSai, an SMS agent for remote patient monitoring
 
 Leadership
 ----------
-Co-founding organizations reaching 200+ members
+Co-founding organizations reaching 200+ members and advising SGA on AI
 
 Investment Analysis
 ------------------
@@ -35,13 +38,13 @@ Contributing to analysis across consumer and equity markets
 WHAT I DO
 =========
 
-Full-Stack Developer
---------------------
-Building scalable applications with Python, JavaScript, React, FastAPI, and AWS
+Data Engineer
+-------------
+Pipelines and databases on AWS — RDS, S3, Lambda, PostgreSQL — for finance and healthcare
 
-AI/ML Researcher
-----------------
-Architecting NLP pipelines and semantic matching algorithms for healthcare data
+AI/ML Builder
+-------------
+NLP pipelines, biomedical NER, and agentic systems like SiMSai for remote patient monitoring
 
 Entrepreneur & Leader
 ---------------------
@@ -57,15 +60,15 @@ TECHNICAL SKILLS
 
 Languages & Frameworks
 ----------------------
-Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, LangChain, Selenium
+Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, Node.js, LangChain, Selenium
 
 Cloud & Databases
 -----------------
-AWS (EC2, RDS, S3), MySQL, PostgreSQL, MongoDB, Docker, Database Architecture
+AWS (EC2, RDS, S3, Lambda), MySQL, PostgreSQL, MongoDB, Redis, Docker, Database Architecture
 
 Data Science & ML
 -----------------
-Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, ETL Pipelines
+Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, BioBERT, SciSpacy, ETL Pipelines
 
 Tools & Practices
 -----------------

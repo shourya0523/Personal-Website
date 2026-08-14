@@ -8,6 +8,17 @@ import ProjectDetail from '../components/ProjectDetail'
 const projects = [
   {
     id: 1,
+    title: 'SiMSai',
+    description: 'SMS-based agentic AI for remote patient monitoring. Works over basic text so patients without smartphones or reliable internet can still be reached. Won 1st place at the Husky Healthcare Innovation Challenge.',
+    tech: ['Node.js', 'Twilio', 'Gemini', 'Redis'],
+    github: null,
+    demo: 'https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt',
+    period: 'February 2026 – Present',
+    color: '#22C55E',
+    files: ['Messaging', 'Agent', 'Alerts']
+  },
+  {
+    id: 2,
     title: 'InSync',
     description: 'Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.',
     tech: ['Python', 'PostgreSQL', 'FastAPI', 'Scikit-Learn'],
@@ -18,7 +29,7 @@ const projects = [
     files: ['Database', 'Matching', 'Pipelines']
   },
   {
-    id: 2,
+    id: 3,
     title: 'DawnPa',
     description: 'Comprehensive full-stack platform for healthcare tooling, currently under active development.',
     tech: ['Full-Stack', 'Healthcare', 'Tooling'],
@@ -29,7 +40,7 @@ const projects = [
     files: ['Platform', 'Healthcare', 'Tooling']
   },
   {
-    id: 3,
+    id: 4,
     title: 'Pact',
     description: 'Mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.',
     tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
@@ -40,7 +51,7 @@ const projects = [
     files: ['Backend', 'Frontend', 'Database']
   },
   {
-    id: 4,
+    id: 5,
     title: 'Claude Code Demo',
     description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations.',
     tech: ['Claude Code', 'React', 'Python'],
@@ -51,7 +62,7 @@ const projects = [
     files: ['Examples', 'Templates', 'Demos']
   },
   {
-    id: 5,
+    id: 6,
     title: 'Spendr',
     description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.',
     tech: ['JavaScript', 'Python', 'React'],
@@ -62,7 +73,7 @@ const projects = [
     files: ['Algorithm', 'UI', 'Data']
   },
   {
-    id: 6,
+    id: 7,
     title: 'CapTuring',
     description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.',
     tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
@@ -73,7 +84,7 @@ const projects = [
     files: ['Pipeline', 'Features', 'Analysis']
   },
   {
-    id: 7,
+    id: 8,
     title: 'ClubWorks',
     description: 'Full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.',
     tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],
@@ -235,7 +246,7 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <ExternalLink size={14} />
-                            {project.demo.includes('insync') ? 'Website' : 'Demo'}
+                            {project.demo.includes('insync') ? 'Website' : project.demo.includes('linkedin') ? 'Writeup' : 'Demo'}
                           </a>
                         )}
                       </div>
@@ -336,7 +347,7 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
                           onClick={(e) => e.stopPropagation()}
                         >
                           <ExternalLink size={12} />
-                          {project.demo.includes('insync') ? 'Website' : 'Demo'}
+                          {project.demo.includes('insync') ? 'Website' : project.demo.includes('linkedin') ? 'Writeup' : 'Demo'}
                         </a>
                       )}
                     </div>

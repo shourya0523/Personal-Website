@@ -12,11 +12,11 @@ export const fileStructure = {
             type: 'file', 
             content: `# About Me
 
-I'm **Shourya** — a CS and Business student at Northeastern who'd rather be building something than talking about building something.
+I'm **Shourya** — a CS and Business student at Northeastern (fintech + AI) currently a data engineering intern at Kroll and incoming healthcare research associate at M3.
 
-I like solving problems that sit at the intersection of tech and business, whether that's architecting NLP pipelines processing half a million clinical trials, scaling a student org from zero to 200+ members, or figuring out how to match VCs with startups algorithmically.
+I like solving problems at the intersection of AI, healthcare, and finance — NLP pipelines over half a million clinical trials, SiMSai (1st at HHIC), scaling a student org from zero to 200+ members, or matching VCs with startups algorithmically.
 
-I get restless when I'm not working on something, which is why I'm usually juggling a co-op, a couple side projects, and at least one organization that probably needs more of my attention.
+I get restless when I'm not working on something, which is why I'm usually juggling a role, a couple side projects, and at least one organization that probably needs more of my attention.
 
 I'm drawn to roles where I can build real things and lead teams doing the same. Not interested in busywork or meetings that could've been emails.
 
@@ -26,13 +26,13 @@ When I'm not coding, I'm producing music, playing poker, hunting for good food i
 
 ### Languages & Frameworks
 - Python, JavaScript, SQL, Java, HTML, CSS
-- Flask, FastAPI, React.js, Express.js, LangChain, Selenium
+- Flask, FastAPI, React.js, Express.js, Node.js, LangChain, Selenium
 
 ### Cloud & Databases
-- AWS (EC2, RDS, S3), MySQL, PostgreSQL, MongoDB, Docker
+- AWS (EC2, RDS, S3, Lambda), MySQL, PostgreSQL, MongoDB, Redis, Docker
 
 ### Data Science & ML
-- Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, ETL Pipelines
+- Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, BioBERT, SciSpacy, ETL Pipelines
 
 ### Tools
 - Git, Jira, REST APIs, Agile/Scrum, N8N, Alteryx (Foundations Certified)
@@ -51,6 +51,12 @@ When I'm not coding, I'm producing music, playing poker, hunting for good food i
 A collection of projects I've built, from hackathon winners to full-stack platforms.
 
 ## Featured Projects
+
+### SiMSai
+**Status:** Active · 1st Place HHIC 2026  
+**Tech Stack:** Node.js, Twilio, Gemini, Redis, WhatsApp  
+**Description:** SMS-based agentic AI for remote patient monitoring. Works over basic text so patients without smartphones or reliable internet can still be reached.  
+**Writeup:** [LinkedIn](https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt)
 
 ### InSync
 **Status:** Active Development  
@@ -93,6 +99,34 @@ A collection of projects I've built, from hackathon winners to full-stack platfo
 **Description:** A full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.  
 **GitHub:** [github.com/shourya0523/Clubworks_CS3200](https://github.com/shourya0523/Clubworks_CS3200)
 `
+          },
+          'SiMSai': {
+            type: 'folder',
+            color: '#22C55E',
+            children: {
+              'README.md': {
+                type: 'file',
+                content: `# SiMSai
+
+🏆 **1st Place · Husky Healthcare Innovation Challenge 2026**
+
+SMS-based agentic AI for remote patient monitoring. Works over basic text messaging so patients without smartphones or reliable internet can still be reached.
+
+## Tech Stack
+
+- Node.js, Twilio, Gemini, Redis, WhatsApp
+
+## Key Features
+
+- Symptom tracking and medication adherence over SMS
+- Critical alert escalation to care teams
+- Multilingual semantic intent detection
+- Designed around RPM billing codes (CPT 99453–99458)
+
+**Writeup:** [LinkedIn post](https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt)
+`
+              }
+            }
           },
           'Pact': { 
             type: 'folder', 
@@ -257,50 +291,72 @@ Northeastern University, D'Amore-McKim School of Business
 - **GPA:** 3.71
 - **Concentration:** Fintech
 - **Minor:** Interdisciplinary AI
-- **Honors:** John Martinson Honors Program, 4x Dean's List
+- **Honors:** John Martinson Honors Program, 5x Dean's List
 
 ## Professional Experience
 
-### Undergraduate Teaching Assistant – Advanced Programming with Data
-**Northeastern University, Khoury College** | January 2026 – Present
+### Data Engineering Intern
+**Kroll** | June 2026 – Present | New York, NY
+[kroll.com](https://www.kroll.com)
 
-- Support 50+ students weekly in Advanced Programming with Data
+- Engineering and technical intern on data systems for risk and financial advisory work
+
+### Incoming Junior Healthcare Research Associate
+**M3** | Incoming · August 2026
+[m3.com](https://www.m3.com)
+
+- Joining M3 to support healthcare research across North America
+
+### Undergraduate Teaching Assistant – Advanced Programming with Data
+**Northeastern University, Khoury College** | January 2026 – April 2026
+[khoury.northeastern.edu](https://khoury.northeastern.edu)
+
+- Taught advanced programming with data to 100+ students
 - Lead review sessions and create training materials
 - Streamline grading workflows, reducing turnaround time by 30%
 
-### AI/ML Researcher Co-op
+### AI Engineer Co-op
 **SNAP Life Sciences** | May 2025 – December 2025
+[LinkedIn](https://www.linkedin.com/company/snap-lifesciences)
 
-- Architected NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials
-- Reduced LLM costs by 70%
-- Developed semantic-matching algorithms achieving 100% recall
-- Contributed 40% of company's proprietary drug and patent database
+- Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials with BioBERT and SciSpacy
+- Migrated ChEMBL (2.8M molecules) onto PostgreSQL/RDS
+- Built AWS-native stack (RDS, S3, Lambda) for pharma dealmaking workflows
 - Recruited and onboarded 10+ ML/engineering hires
 
-### Sales & Business Development Intern
-**Attentions AI** | July 2024 – September 2024
+### Sales & Business Development
+**Attentions AI** | July 2024 – September 2024 | Pune, India
+[LinkedIn](https://www.linkedin.com/company/attentions)
 
-- Executed market research supporting outbound GTM strategies
-- Launched multi-channel marketing campaigns
+- Built inbound and outbound sales pipelines
 - Generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation
 
 ## Leadership
 
-### Director of Operations, Co-Founder
-**Claude Builders Club @ Northeastern** | August 2025 – Present
+### AI Advisory Board Member
+**Student Government Association of Northeastern University** | April 2026 – Present
+[northeastern.edu](https://www.northeastern.edu)
 
-- Co-founded and scaled organization to 200+ members with 12-person executive team
-- Secured $30,000+ in sponsorships
-- Founded AI product incubator guiding 30 students through ideation to deployment
+- Advise student government on AI policy, education, and student-facing AI initiatives
 
-### Executive Board Member
-**AI Club @ Northeastern** | June 2025 – Present
+### Advisory Board Member
+**Northeastern AI Club** | June 2025 – Present
+[aineu.org](https://aineu.org)
 
 - Co-authored D'Amore-McKim's official AI policy for 3,000+ students
 - Drove programming for 500+ member organization, increasing event attendance by 40%
 
+### Co-Founder & Vice President
+**Claude Builder Club Northeastern** | December 2025 – March 2026
+[LinkedIn](https://www.linkedin.com/company/northeastern-anthropic-builders-club)
+
+- Co-founded Anthropic-sponsored chapter; grew from zero to 200+ members
+- Secured $30,000+ in sponsorships
+- Ran workshops, hackathons, a creatathon, and a Claude Code agent workshop
+
 ### Software Product Lab Lead
 **Forge – A Sherman Center Program** | August 2025 – December 2025
+[shermancenter.northeastern.edu](https://shermancenter.northeastern.edu)
 
 - Directed 8-developer team building mobile application
 - Authored PRDs, designed API architecture
@@ -333,7 +389,7 @@ Let's connect! I'm always open to discussing new opportunities, collaborations, 
 
 - Roles where I can build real things and lead teams
 - Opportunities at the intersection of tech and business
-- Co-ops and internships in AI/ML, full-stack development, or product leadership
+- Co-ops and internships in data engineering, AI/ML, healthcare, or product leadership
 - Collaborations on interesting projects
 
 Not interested in busywork or meetings that could've been emails.
@@ -352,10 +408,16 @@ Not interested in busywork or meetings that could've been emails.
             type: 'file',
             content: `# Awards & Recognition
 
+## 2026
+
+### 🏆 1st Place at Husky Healthcare Innovation Challenge
+**Issued by:** ViTAL at Northeastern University  
+**Project:** SiMSai — SMS-based agentic AI for remote patient monitoring
+
 ## 2025
 
-### 🏆 FinHacks AI/ML Winner
-**Category:** AI/ML  
+### 🏆 FinHacks AI/ML Track Winner
+**Issued by:** Disrupt at Northeastern  
 **Project:** Spendr - Financial compatibility app using bank data analysis
 
 ## 2024
@@ -364,8 +426,25 @@ Not interested in busywork or meetings that could've been emails.
 Northeastern University's prestigious honors program recognizing academic excellence and leadership potential.
 
 ### 📚 Dean's List
-Multiple semesters of academic excellence (4x total)
+Multiple semesters of academic excellence (5x total)
 `
+          },
+          '2026': {
+            type: 'folder',
+            color: '#EF4444',
+            children: {
+              'README.md': {
+                type: 'file',
+                content: `# 2026 Awards
+
+## 🏆 1st Place at Husky Healthcare Innovation Challenge
+
+**Issued by:** ViTAL at Northeastern University  
+**Project:** SiMSai  
+**Description:** First place for an SMS-based agentic AI prototype for remote patient monitoring, pitched with a 12-minute live demo.
+`
+              }
+            }
           },
           '2025': { 
             type: 'folder', 
@@ -417,16 +496,21 @@ Achieved Dean's List recognition for multiple semesters, demonstrating consisten
 
 ## Current Roles
 
-### Director of Operations, Co-Founder
-**Claude Builders Club @ Northeastern** | August 2025 – Present
+### AI Advisory Board Member
+**Student Government Association of Northeastern University** | April 2026 – Present
+[northeastern.edu](https://www.northeastern.edu)
 
-- Co-founded and scaled organization to 200+ members
-- Built 12-person executive team
-- Secured $30,000+ in sponsorships
-- Founded AI product incubator guiding 30 students
+- Advise student government on AI policy, education, and student-facing AI initiatives
 
-### Executive Board Member
-**AI Club @ Northeastern** | June 2025 – Present
+### University Program
+**The AI Collective** | April 2026 – Present
+[genaicollective.ai](https://www.genaicollective.ai)
+
+- Represent Northeastern in The AI Collective's university program
+
+### Advisory Board Member
+**Northeastern AI Club** | June 2025 – Present
+[aineu.org](https://aineu.org)
 
 - Co-authored D'Amore-McKim's official AI policy for 3,000+ students
 - Drove programming for 500+ member organization
@@ -434,8 +518,17 @@ Achieved Dean's List recognition for multiple semesters, demonstrating consisten
 
 ## Past Roles
 
+### Co-Founder & Vice President
+**Claude Builder Club Northeastern** | December 2025 – March 2026
+[LinkedIn](https://www.linkedin.com/company/northeastern-anthropic-builders-club)
+
+- Grew the club from zero to 200+ members
+- Secured $30,000+ in sponsorships
+- Ran workshops, hackathons, a creatathon, and a Claude Code workshop
+
 ### Software Product Lab Lead
 **Forge – A Sherman Center Program** | August 2025 – December 2025
+[shermancenter.northeastern.edu](https://shermancenter.northeastern.edu)
 
 - Directed 8-developer team building mobile application
 - Authored PRDs and designed API architecture
@@ -450,8 +543,8 @@ Achieved Dean's List recognition for multiple semesters, demonstrating consisten
                 type: 'file',
                 content: `# Claude Builders Club @ Northeastern
 
-## Role: Director of Operations, Co-Founder
-**Duration:** August 2025 – Present
+## Role: Co-Founder & Vice President
+**Duration:** December 2025 – March 2026
 
 ## About
 
@@ -510,7 +603,7 @@ Delivered live product demonstrations showcasing mobile application features and
                 type: 'file',
                 content: `# AI Club @ Northeastern
 
-## Role: Executive Board Member
+## Role: Advisory Board Member
 **Duration:** June 2025 – Present
 
 ## About

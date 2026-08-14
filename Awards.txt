@@ -1,11 +1,18 @@
 AWARDS & RECOGNITION
 ====================
 
-FinHacks AI/ML Winner
---------------------
-Organization: FinHacks Hackathon
+1st Place at Husky Healthcare Innovation Challenge
+--------------------------------------------------
+Organization: ViTAL at Northeastern University
+Year: 2026
+Description: First place for SiMSai, an SMS-based agentic AI prototype for remote patient monitoring
+
+FinHacks AI/ML Track Winner
+---------------------------
+Organization: Disrupt at Northeastern
 Year: 2025
 Description: First place in AI/ML category for Spendr financial compatibility app
+Devpost: https://devpost.com/software/spendr
 
 John Martinson Honors Program
 -----------------------------
@@ -16,5 +23,5 @@ Description: Selected for prestigious honors program recognizing academic excell
 Dean's List
 -----------
 Organization: Northeastern University
-Year: 4x Recipient
-Description: Recognized for outstanding academic achievement multiple semesters
+Year: 5x Recipient
+Description: Recognized for outstanding academic achievement across five semesters

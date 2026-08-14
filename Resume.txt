@@ -1,142 +1,211 @@
 SHOURYA YADAV
 =============
 
+LinkedIn: https://linkedin.com/in/shouryadav
+GitHub: https://github.com/shourya0523
+Email: yadav.sho@northeastern.edu
+Phone: (510) 326-7626
+
+
 EDUCATION
 =========
 
 B.S. in Computer Science and Business
 Northeastern University, D'Amore McKim School of Business
+https://damore-mckim.northeastern.edu
 
 Expected Graduation: May 2027
 Concentration: Fintech | Minor: Interdisciplinary AI
 GPA: 3.71
-Dean's List: 4x Recipient
+Dean's List: 5x Recipient
 John Martinson Honors Program
 
 
 PROFESSIONAL EXPERIENCE
 =======================
 
+Data Engineering Intern
+Kroll
+https://www.kroll.com
+Location: New York, NY
+Period: June 2026 – Present
+
+Engineering and technical intern on data systems for risk and financial advisory work.
+
+
+Incoming Junior Healthcare Research Associate
+M3
+https://www.m3.com
+Location: North America
+Period: Incoming · August 2026
+
+Joining M3 to support healthcare research across North America.
+
+
 Undergraduate Teaching Assistant – Advanced Programming with Data
 Northeastern University, Khoury College of Computer Sciences
+https://khoury.northeastern.edu
 Location: Boston, MA
-Period: January 2026 – Present
+Period: January 2026 – April 2026
 
-I support 50+ students weekly in Advanced Programming with Data, leading review sessions, creating training materials, and streamlining grading workflows to reduce turnaround time by 30%.
+Taught Advanced Programming with Data to 100+ students, leading review sessions, creating training materials, and streamlining grading workflows to reduce turnaround time by 30%.
 
 Key Accomplishments:
-• Diagnose and resolve complex programming issues for 50+ students weekly, translating technical concepts clearly
-• Lead review sessions and create comprehensive training materials, improving student comprehension outcomes
+• Taught advanced programming with data to 100+ students
+• Diagnose and resolve complex programming issues, translating technical concepts clearly
+• Lead review sessions and create comprehensive training materials
 • Streamlined grading workflows and documentation processes, reducing turnaround time by 30%
-• Translate complex technical concepts into clear documentation and guidance
 
 
-AI/ML Researcher Co-op
+AI Engineer Co-op
 SNAP Life Sciences
+https://www.linkedin.com/company/snap-lifesciences
 Location: Remote
 Period: May 2025 – December 2025
 
-At SNAP Life Sciences, I architected NLP ETL pipelines that processed over 150,000 patents and 500,000 clinical trials, reducing LLM costs by 70%. I developed semantic-matching algorithms achieving 100% recall for healthcare data classification and contributed 40% of the company's proprietary drug and patent database. Beyond technical work, I recruited and onboarded 10+ ML/engineering hires and delivered technical demonstrations to prospective enterprise clients.
+Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials with BioBERT and SciSpacy for biomedical NER. Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS and built an AWS-native stack (RDS, S3, Lambda) for pharma dealmaking workflows.
 
 Key Accomplishments:
-• Architected NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials, cutting 70% of LLM costs
-• Developed semantic-matching algorithms achieving 100% recall and F1 score > 0.45 for healthcare data
-• Contributed 40% of proprietary drug and patent database through deep pharmaceutical dataset analysis
-• Recruited and onboarded 10+ ML/engineering hires, strengthening technical operations
-• Delivered technical demonstrations of NLP pipeline capabilities to prospective enterprise clients
+• Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials using BioBERT and SciSpacy
+• Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS via dblink
+• Built on an AWS-native stack (RDS, S3, Lambda) to support dealmaking workflows
+• Developed semantic-matching algorithms achieving 100% recall and F1 score > 0.45
+• Contributed 40% of proprietary drug and patent database; recruited and onboarded 10+ ML/engineering hires
 
 
-Sales & Business Development Intern
+Sales & Business Development
 Attentions AI
-Location: Remote
+https://www.linkedin.com/company/attentions
+Location: Pune, India
 Period: July 2024 – September 2024
 
-I executed market research supporting outbound GTM strategies, launched multi-channel marketing campaigns, and generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation.
+Built inbound and outbound sales pipelines. Generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation.
 
 Key Accomplishments:
-• Executed market and competitive research to support outbound GTM strategies in AI SaaS environment
-• Launched 4+ multi-channel marketing campaigns, including automated email and social workflows
+• Built inbound and outbound sales pipelines
+• Executed market and competitive research to support outbound GTM strategies
+• Launched 4+ multi-channel marketing campaigns
 • Generated 500+ qualified leads leveraging Apollo.io, LinkedIn, and Python-based automation tools
-• Collaborated with sales teams to develop prospect outreach materials and product positioning content
 
 
 LEADERSHIP
 ==========
 
-Director of Operations, Co-Founder
-Claude Builders Club @ Northeastern
+AI Advisory Board Member
+Student Government Association of Northeastern University
+https://www.northeastern.edu
 Location: Boston, MA
-Period: August 2025 – Present
+Period: April 2026 – Present
 
-I co-founded and scaled this AI-focused organization to 200+ members with a 12-person executive team. We've secured $30,000+ in sponsorships and I founded an AI product incubator guiding 30 students through ideation to deployment.
-
-Key Accomplishments:
-• Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building
-• Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships
-• Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment
-• Deliver presentations to large audiences at workshops and events
-• Secured sponsorships through client-facing pitches and strategic relationship management
+Advise student government on AI policy, education, and student-facing AI initiatives.
 
 
-Executive Board Member
-AI Club @ Northeastern
+University Program
+The AI Collective
+https://www.genaicollective.ai
+Location: Boston, MA
+Period: April 2026 – Present
+
+Represent Northeastern in The AI Collective's university program.
+
+
+Advisory Board Member
+Northeastern AI Club
+https://aineu.org
 Location: Boston, MA
 Period: June 2025 – Present
 
-I co-authored D'Amore-McKim's official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.
+Led collaboration between D'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students.
 
 Key Accomplishments:
-• Co-authored D'Amore-McKim's official AI policy, establishing ethical guidelines for 3,000+ students
+• Co-authored D'Amore-McKim's official AI policy for 3,000+ students
 • Drove programming and operations for 500+ member organization, increasing event attendance by 40%
+
+
+Cohort 5
+rev
+https://www.linkedin.com/company/revschool
+Period: January 2026 – April 2026
+
+Worked with 3 startups, building products inside Boston's rev community.
+
+
+Co-Founder & Vice President
+Claude Builder Club Northeastern
+https://www.linkedin.com/company/northeastern-anthropic-builders-club
+Location: Boston, MA
+Period: December 2025 – March 2026
+
+Co-founded Northeastern's Anthropic-sponsored Claude Builder Club, growing it from zero to 200+ members. Secured $30k+ in sponsorships and ran workshops, hackathons, and a creatathon.
+
+Key Accomplishments:
+• Grew the club from zero to 200+ members across engineering, business, and design
+• Secured $30k+ in sponsorships
+• Ran workshops, hackathons, and a creatathon; delivered a Claude Code workshop on agent development
+• Organized a fireside chat with a Senior PM from Alacriti (former Block), attended by 32 students
+• Designed personalized project sprints tailored to members' submitted ideas
 
 
 Software Product Lab Lead
 Forge – A Sherman Center Program
+https://shermancenter.northeastern.edu
 Location: Boston, MA
 Period: August 2025 – December 2025
 
-I directed an 8-developer team building a mobile application, authored PRDs, designed API architecture, and accelerated the development timeline by 4 weeks through strategic wireframing and database redesign.
+Built and led an 8-person software team, developing end-to-end products.
 
 Key Accomplishments:
-• Directed 8-developer team building mobile application using agile practices and structured product workflows
-• Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination
-• Accelerated development timeline by 4 weeks through low-fi wireframing and database schema redesign
-• Architected cloud infrastructure using AWS EC2 and S3, implementing CI/CD pipelines for deployment
-• Delivered live product demonstrations showcasing mobile application features and technical capabilities
+• Directed 8-developer team building mobile application
+• Authored PRDs, defined API architecture, implemented CI/CD pipelines
+• Accelerated development timeline by 4 weeks through wireframing and database schema redesign
 
 
-Analyst
+Treasurer
+Northeastern Quantum Community
+https://www.linkedin.com/company/qnu
+Location: Boston, MA
+Period: April 2025 – December 2025
+
+
+Investment Analyst
 Pathway Investment Fund
+https://www.linkedin.com/company/pathwayinvestmentfund
 Location: Boston, MA
 Period: March 2025 – August 2025
 
-Conducted consumer sector analysis and contributed to investment portfolio decisions.
-
 Key Accomplishments:
-• Performed industry analysis in the consumer sector, compiling tri-semesterly reports for investments team
+• Performed industry analysis in the consumer sector
 • Added 4 companies to mock portfolio, yielding 18% simulated growth over 6 months
 
 
 Analyst
 Global Equity Management
-Location: Boston, MA
+https://www.linkedin.com/company/global-equity-management
+Location: Remote
 Period: September 2024 – November 2024
 
-Analyzed SEC filings and presented investment theses to senior analysts.
-
 Key Accomplishments:
-• Evaluated 5 years of SEC filings, assessing fundamentals, financial health, and competitive positioning
-• Synthesized industry trends and presented acquisition-focused investment theses to senior analysts
+• Evaluated 5 years of SEC filings
+• Presented acquisition-focused investment theses to senior analysts
 
 
 PROJECTS
 ========
 
+SiMSai
+------
+Period: February 2026 – Present
+Tech: Node.js, Twilio, Gemini, Redis, WhatsApp
+Award: 1st Place · Husky Healthcare Innovation Challenge 2026
+Description: SMS-based agentic AI for remote patient monitoring. Works over basic text messaging so patients without smartphones or reliable internet can still be reached.
+Writeup: https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt
+
 InSync
 ------
 Period: January 2026 – Present
 Tech: Python, PostgreSQL, FastAPI, Scikit-Learn
-Description: An algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets. I'm designing database schemas and matching algorithms to analyze venture capital financial data at scale.
+Description: An algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.
+Website: https://insync-rg.com
 
 DawnPa
 ------
@@ -149,19 +218,22 @@ Pact
 Period: December 2025
 Tech: FastAPI, React Native, AWS EC2/S3, MongoDB
 Description: A mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.
+GitHub: https://github.com/shourya0523/Pact
 
 Claude Code Demo
 ----------------
 Period: October 2025 – November 2025
 Tech: Claude Code, React, Python
 Description: A comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations delivered to 50+ attendees.
+GitHub: https://github.com/shourya0523/Claude_Code_Demo
 
 Spendr
 ------
 Period: January 2025
 Tech: JavaScript, Python, React
 Description: A hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.
-Award: FinHacks AI/ML Winner
+Award: FinHacks AI/ML Track Winner
+Devpost: https://devpost.com/software/spendr
 
 CapTuring
 ---------
@@ -174,6 +246,7 @@ ClubWorks
 Period: March 2025 – May 2025
 Tech: Flask, MySQL, Streamlit, Docker
 Description: A full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.
+GitHub: https://github.com/shourya0523/Clubworks_CS3200
 
 
 TECHNICAL SKILLS
@@ -181,15 +254,15 @@ TECHNICAL SKILLS
 
 Languages & Frameworks
 ----------------------
-Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, LangChain, Selenium
+Python, JavaScript, SQL, Java, HTML, CSS, Flask, FastAPI, React.js, Express.js, Node.js, LangChain, Selenium
 
 Cloud & Databases
 -----------------
-AWS (EC2, RDS, S3), MySQL, PostgreSQL, MongoDB, Docker, Database Architecture
+AWS (EC2, RDS, S3, Lambda), MySQL, PostgreSQL, MongoDB, Redis, Docker, Database Architecture
 
 Data Science & ML
 -----------------
-Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, ETL Pipelines
+Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, BioBERT, SciSpacy, ETL Pipelines
 
 Tools
 -----

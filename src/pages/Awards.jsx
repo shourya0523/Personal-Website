@@ -4,15 +4,24 @@ import { Trophy, Award, Star, GraduationCap } from 'lucide-react'
 const awards = [
   {
     id: 1,
-    title: 'FinHacks AI/ML Winner',
-    organization: 'FinHacks Hackathon',
-    year: '2025',
-    description: 'First place in AI/ML category for Spendr financial compatibility app',
+    title: '1st Place at Husky Healthcare Innovation Challenge',
+    organization: 'ViTAL at Northeastern University',
+    year: '2026',
+    description: 'First place for SiMSai, an SMS-based agentic AI prototype for remote patient monitoring, pitched with a live demo',
     icon: Trophy,
     color: 'text-yellow-400'
   },
   {
     id: 2,
+    title: 'FinHacks AI/ML Track Winner',
+    organization: 'Disrupt at Northeastern',
+    year: '2025',
+    description: 'First place in AI/ML category for Spendr, a financial compatibility app using bank data analysis',
+    icon: Trophy,
+    color: 'text-yellow-400'
+  },
+  {
+    id: 3,
     title: 'John Martinson Honors Program',
     organization: 'Northeastern University',
     year: '2024 - Present',
@@ -21,11 +30,11 @@ const awards = [
     color: 'text-blue-400'
   },
   {
-    id: 3,
+    id: 4,
     title: 'Dean\'s List',
     organization: 'Northeastern University',
-    year: '4x Recipient',
-    description: 'Recognized for outstanding academic achievement multiple semesters',
+    year: '5x Recipient',
+    description: 'Recognized for outstanding academic achievement across five semesters',
     icon: Award,
     color: 'text-purple-400'
   },

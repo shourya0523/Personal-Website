@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Download, Briefcase, GraduationCap, Award, ExternalLink, Calendar, MapPin, TrendingUp, Code, Users, Target, Zap, Github, Linkedin, Mail, Phone, Globe, Rocket, Brain } from 'lucide-react'
+import { Download, Briefcase, GraduationCap, Award, ExternalLink, Calendar, MapPin, TrendingUp, Code, Users, Target, Zap, Github, Linkedin, Mail, Phone, Globe, Rocket, Brain, Database } from 'lucide-react'
 import { useRef, useState } from 'react'
 
 export default function Resume({ onFileClick }) {
@@ -15,54 +15,82 @@ export default function Resume({ onFileClick }) {
   // Professional Experience - Most recent first
   const experiences = [
     {
+      title: 'Data Engineering Intern',
+      company: 'Kroll',
+      companyUrl: 'https://www.kroll.com',
+      period: 'June 2026 – Present',
+      location: 'New York, NY',
+      icon: Database,
+      color: 'blue',
+      description: 'Data engineering intern at Kroll in New York, contributing to engineering and technical systems that support risk and financial advisory.',
+      accomplishments: [
+        'Engineering and technical intern on data systems for risk and financial advisory work'
+      ],
+      metrics: []
+    },
+    {
+      title: 'Incoming Junior Healthcare Research Associate',
+      company: 'M3',
+      companyUrl: 'https://www.m3.com',
+      period: 'Incoming · August 2026',
+      location: 'North America',
+      icon: Brain,
+      color: 'cyan',
+      description: 'Incoming Junior Healthcare Research Associate at M3, starting August 2026.',
+      accomplishments: [
+        'Joining M3 to support healthcare research across North America'
+      ],
+      metrics: []
+    },
+    {
       title: 'Undergraduate Teaching Assistant – Advanced Programming with Data',
       company: 'Northeastern University, Khoury College of Computer Sciences',
       companyUrl: 'https://khoury.northeastern.edu',
-      period: 'January 2026 – Present',
+      period: 'January 2026 – April 2026',
       location: 'Boston, MA',
       icon: GraduationCap,
-      color: 'blue',
-      description: 'I support 50+ students weekly in Advanced Programming with Data, leading review sessions, creating training materials, and streamlining grading workflows to reduce turnaround time by 30%.',
+      color: 'indigo',
+      description: 'Taught Advanced Programming with Data to 100+ students, leading review sessions, creating training materials, and streamlining grading workflows to reduce turnaround time by 30%.',
       accomplishments: [
-        'Diagnose and resolve complex programming issues for 50+ students weekly, translating technical concepts clearly',
+        'Taught advanced programming with data to 100+ students',
+        'Diagnose and resolve complex programming issues, translating technical concepts clearly',
         'Lead review sessions and create comprehensive training materials, improving student comprehension outcomes',
-        'Streamlined grading workflows and documentation processes, reducing turnaround time by 30%',
-        'Translate complex technical concepts into clear documentation and guidance'
+        'Streamlined grading workflows and documentation processes, reducing turnaround time by 30%'
       ],
-      metrics: ['50+', '30%']
+      metrics: ['100+', '30%']
     },
     {
-      title: 'AI/ML Researcher Co-op',
+      title: 'AI Engineer Co-op',
       company: 'SNAP Life Sciences',
-      companyUrl: null,
+      companyUrl: 'https://www.linkedin.com/company/snap-lifesciences',
       period: 'May 2025 – December 2025',
       location: 'Remote',
       icon: Code,
       color: 'purple',
-      description: 'At SNAP Life Sciences, I architected NLP ETL pipelines that processed over 150,000 patents and 500,000 clinical trials, reducing LLM costs by 70%. I developed semantic-matching algorithms achieving 100% recall for healthcare data classification and contributed 40% of the company\'s proprietary drug and patent database. Beyond technical work, I recruited and onboarded 10+ ML/engineering hires and delivered technical demonstrations to prospective enterprise clients.',
+      description: 'Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials with BioBERT and SciSpacy for biomedical NER. Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS and built an AWS-native stack (RDS, S3, Lambda) for pharma dealmaking workflows.',
       accomplishments: [
-        'Architected NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials, cutting 70% of LLM costs',
+        'Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials using BioBERT and SciSpacy for biomedical named entity recognition',
+        'Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS via dblink, with batch processing and idempotent upserts',
+        'Built on an AWS-native stack (RDS, S3, Lambda) to support dealmaking workflows across pharma and biotech',
         'Developed semantic-matching algorithms achieving 100% recall and F1 score > 0.45 for healthcare data',
-        'Contributed 40% of proprietary drug and patent database through deep pharmaceutical dataset analysis',
-        'Recruited and onboarded 10+ ML/engineering hires, strengthening technical operations',
-        'Delivered technical demonstrations of NLP pipeline capabilities to prospective enterprise clients'
+        'Contributed 40% of proprietary drug and patent database; recruited and onboarded 10+ ML/engineering hires'
       ],
-      metrics: ['150k+', '70%', '100%']
+      metrics: ['150k+', '2.8M', '100%']
     },
     {
-      title: 'Sales & Business Development Intern',
+      title: 'Sales & Business Development',
       company: 'Attentions AI',
-      companyUrl: null,
+      companyUrl: 'https://www.linkedin.com/company/attentions',
       period: 'July 2024 – September 2024',
-      location: 'Remote',
+      location: 'Pune, India',
       icon: Target,
       color: 'green',
-      description: 'I executed market research supporting outbound GTM strategies, launched multi-channel marketing campaigns, and generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation.',
+      description: 'Built inbound and outbound sales pipelines. Executed market research supporting outbound GTM strategies, launched multi-channel marketing campaigns, and generated 500+ qualified leads through Apollo.io, LinkedIn, and Python automation.',
       accomplishments: [
+        'Built inbound and outbound sales pipelines',
         'Executed market and competitive research to support outbound GTM strategies in AI SaaS environment',
         'Launched 4+ multi-channel marketing campaigns, including automated email and social workflows',
-        'Generated 500+ qualified leads leveraging Apollo.io, LinkedIn, and Python-based automation tools',
-        'Collaborated with sales teams to develop prospect outreach materials and product positioning content'
+        'Generated 500+ qualified leads leveraging Apollo.io, LinkedIn, and Python-based automation tools'
       ],
       metrics: ['500+', '4+']
     }
@@ -71,37 +99,80 @@ export default function Resume({ onFileClick }) {
   // Leadership - Most recent first
   const leadership = [
     {
-      title: 'Director of Operations, Co-Founder',
-      company: 'Claude Builders Club @ Northeastern',
-      companyUrl: null,
-      period: 'August 2025 – Present',
+      title: 'AI Advisory Board Member',
+      company: 'Student Government Association of Northeastern University',
+      companyUrl: 'https://www.northeastern.edu',
+      period: 'April 2026 – Present',
       location: 'Boston, MA',
       icon: Users,
-      color: 'pink',
-      description: 'I co-founded and scaled this AI-focused organization to 200+ members with a 12-person executive team. We\'ve secured $30,000+ in sponsorships and I founded an AI product incubator guiding 30 students through ideation to deployment.',
+      color: 'blue',
+      description: 'Serving on Northeastern SGA\'s AI Advisory Board, representing undergraduate student interests around AI policy, education, and campus life.',
       accomplishments: [
-        'Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building',
-        'Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships',
-        'Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment',
-        'Deliver presentations to large audiences at workshops and events',
-        'Secured sponsorships through client-facing pitches and strategic relationship management'
+        'Advise student government on AI policy, education, and student-facing AI initiatives'
       ],
-      metrics: ['200+', '$30k+', '30']
+      metrics: []
     },
     {
-      title: 'Executive Board Member',
-      company: 'AI Club @ Northeastern',
+      title: 'University Program',
+      company: 'The AI Collective',
+      companyUrl: 'https://www.genaicollective.ai',
+      period: 'April 2026 – Present',
+      location: 'Boston, MA',
+      icon: Rocket,
+      color: 'purple',
+      description: 'University program member of The AI Collective, connecting with founders, researchers, operators, and investors in the broader AI community.',
+      accomplishments: [
+        'Represent Northeastern in The AI Collective\'s university program'
+      ],
+      metrics: []
+    },
+    {
+      title: 'Advisory Board Member',
+      company: 'Northeastern AI Club',
       companyUrl: 'https://aineu.org',
       period: 'June 2025 – Present',
       location: 'Boston, MA',
       icon: Users,
       color: 'cyan',
-      description: 'I co-authored D\'Amore-McKim\'s official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.',
+      description: 'Led collaboration between D\'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students and driving programming for a 500+ member organization.',
       accomplishments: [
         'Co-authored D\'Amore-McKim\'s official AI policy, establishing ethical guidelines for 3,000+ students',
+        'Led collaboration between D\'Amore-McKim and AINU on classroom AI use',
         'Drove programming and operations for 500+ member organization, increasing event attendance by 40%'
       ],
       metrics: ['3,000+', '500+', '40%']
+    },
+    {
+      title: 'Cohort 5',
+      company: 'rev',
+      companyUrl: 'https://www.linkedin.com/company/revschool',
+      period: 'January 2026 – April 2026',
+      location: 'Boston, MA',
+      icon: Zap,
+      color: 'yellow',
+      description: 'Worked with 3 startups, building products inside Boston\'s rev community of builders, founders, creatives, and researchers.',
+      accomplishments: [
+        'Worked with 3 startups on product-building projects'
+      ],
+      metrics: ['3']
+    },
+    {
+      title: 'Co-Founder & Vice President',
+      company: 'Claude Builder Club Northeastern',
+      companyUrl: 'https://www.linkedin.com/company/northeastern-anthropic-builders-club',
+      period: 'December 2025 – March 2026',
+      location: 'Boston, MA',
+      icon: Users,
+      color: 'pink',
+      description: 'Co-founded Northeastern\'s Anthropic-sponsored Claude Builder Club, growing it from zero to 200+ members across engineering, business, and design. Secured $30k+ in sponsorships and ran workshops, hackathons, and a creatathon.',
+      accomplishments: [
+        'Grew the club from zero to 200+ members across engineering, business, and design',
+        'Secured $30k+ in sponsorships',
+        'Ran workshops, hackathons, and a creatathon; delivered a Claude Code workshop on agent development',
+        'Organized a fireside chat with a Senior PM from Alacriti (former Block), attended by 32 students',
+        'Designed personalized project sprints tailored to members\' submitted ideas'
+      ],
+      metrics: ['200+', '$30k+', '32']
     },
     {
       title: 'Software Product Lab Lead',
@@ -111,7 +182,7 @@ export default function Resume({ onFileClick }) {
       location: 'Boston, MA',
       icon: Zap,
       color: 'yellow',
-      description: 'I directed an 8-developer team building a mobile application, authored PRDs, designed API architecture, and accelerated the development timeline by 4 weeks through strategic wireframing and database redesign.',
+      description: 'Built and led an 8-person software team, developing end-to-end products. Authored PRDs, designed API architecture, and accelerated the development timeline by 4 weeks through strategic wireframing and database redesign.',
       accomplishments: [
         'Directed 8-developer team building mobile application using agile practices and structured product workflows',
         'Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination',
@@ -122,9 +193,23 @@ export default function Resume({ onFileClick }) {
       metrics: ['8', '4 weeks']
     },
     {
-      title: 'Analyst',
+      title: 'Treasurer',
+      company: 'Northeastern Quantum Community',
+      companyUrl: 'https://www.linkedin.com/company/qnu',
+      period: 'April 2025 – December 2025',
+      location: 'Boston, MA',
+      icon: Target,
+      color: 'indigo',
+      description: 'Managed finances for Northeastern\'s Quantum Community, supporting campus engagement around quantum science and technology.',
+      accomplishments: [
+        'Handled treasury operations for the campus quantum community'
+      ],
+      metrics: []
+    },
+    {
+      title: 'Investment Analyst',
       company: 'Pathway Investment Fund',
-      companyUrl: null,
+      companyUrl: 'https://www.linkedin.com/company/pathwayinvestmentfund',
       period: 'March 2025 – August 2025',
       location: 'Boston, MA',
       icon: TrendingUp,
@@ -139,9 +224,9 @@ export default function Resume({ onFileClick }) {
     {
       title: 'Analyst',
       company: 'Global Equity Management',
-      companyUrl: null,
+      companyUrl: 'https://www.linkedin.com/company/global-equity-management',
       period: 'September 2024 – November 2024',
-      location: 'Boston, MA',
+      location: 'Remote',
       icon: TrendingUp,
       color: 'indigo',
       description: 'Analyzed SEC filings and presented investment theses to senior analysts.',
@@ -155,6 +240,17 @@ export default function Resume({ onFileClick }) {
 
   // Projects - Most recent first
   const projects = [
+    {
+      name: 'SiMSai',
+      period: 'February 2026 – Present',
+      tech: 'Node.js, Twilio, Gemini, Redis, WhatsApp',
+      description: 'SMS-based agentic AI for remote patient monitoring. Works over basic text messaging so patients without smartphones or reliable internet can still be reached. Tracks symptoms, monitors medication adherence, and escalates critical alerts to care teams. Designed around RPM billing codes (CPT 99453–99458).',
+      url: 'https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt',
+      github: null,
+      icon: Brain,
+      color: 'green',
+      award: '1st Place · Husky Healthcare Innovation Challenge 2026'
+    },
     {
       name: 'InSync',
       period: 'January 2026 – Present',
@@ -229,9 +325,9 @@ export default function Resume({ onFileClick }) {
   ]
 
   const technicalSkills = {
-    'Languages & Frameworks': ['Python', 'JavaScript', 'SQL', 'Java', 'HTML', 'CSS', 'Flask', 'FastAPI', 'React.js', 'Express.js', 'LangChain', 'Selenium'],
-    'Cloud & Databases': ['AWS (EC2, RDS, S3)', 'MySQL', 'PostgreSQL', 'MongoDB', 'Docker', 'Database Architecture'],
-    'Data Science & ML': ['Pandas', 'Scikit-Learn', 'HuggingFace', 'TensorFlow', 'NumPy', 'Plotly', 'PowerBI', 'ETL Pipelines'],
+    'Languages & Frameworks': ['Python', 'JavaScript', 'SQL', 'Java', 'HTML', 'CSS', 'Flask', 'FastAPI', 'React.js', 'Express.js', 'Node.js', 'LangChain', 'Selenium'],
+    'Cloud & Databases': ['AWS (EC2, RDS, S3, Lambda)', 'MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'Database Architecture'],
+    'Data Science & ML': ['Pandas', 'Scikit-Learn', 'HuggingFace', 'TensorFlow', 'NumPy', 'Plotly', 'PowerBI', 'BioBERT', 'SciSpacy', 'ETL Pipelines'],
     'Tools': ['Git', 'Jira', 'REST APIs', 'Agile/Scrum', 'N8N', 'Alteryx (Foundations Certified)']
   }
 
@@ -368,7 +464,7 @@ export default function Resume({ onFileClick }) {
                     <div className="text-sm text-gray-300">GPA</div>
                   </div>
                   <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl p-6 border border-blue-500/50">
-                    <div className="text-2xl font-bold text-blue-400 mb-1">4x</div>
+                    <div className="text-2xl font-bold text-blue-400 mb-1">5x</div>
                     <div className="text-sm text-gray-300">Dean's List</div>
                   </div>
                   <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-500/50">
