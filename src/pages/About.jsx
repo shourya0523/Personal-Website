@@ -15,9 +15,9 @@ export default function About({ onFileClick }) {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
   const skills = {
-    languages: ['Python', 'JavaScript', 'SQL', 'Java', 'HTML', 'CSS', 'Flask', 'FastAPI', 'React.js', 'Express.js', 'LangChain', 'Selenium'],
-    cloud: ['AWS (EC2, RDS, S3)', 'MySQL', 'PostgreSQL', 'MongoDB', 'Docker', 'Database Architecture'],
-    ml: ['Pandas', 'Scikit-Learn', 'HuggingFace', 'TensorFlow', 'NumPy', 'Plotly', 'PowerBI', 'ETL Pipelines'],
+    languages: ['Python', 'JavaScript', 'SQL', 'Java', 'HTML', 'CSS', 'Flask', 'FastAPI', 'React.js', 'Express.js', 'Node.js', 'LangChain', 'Selenium'],
+    cloud: ['AWS (EC2, RDS, S3, Lambda)', 'MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'Database Architecture'],
+    ml: ['Pandas', 'Scikit-Learn', 'HuggingFace', 'TensorFlow', 'NumPy', 'Plotly', 'PowerBI', 'BioBERT', 'SciSpacy', 'ETL Pipelines'],
     tools: ['Git', 'Jira', 'REST APIs', 'Agile/Scrum', 'N8N', 'Alteryx (Foundations Certified)']
   }
 
@@ -54,7 +54,7 @@ export default function About({ onFileClick }) {
             >
               <ProfileCard
                 name={userName || "Shourya Yadav"}
-                title="Computer Science & Business Student"
+                title="JRA @ M3 · Software Lead @ ACM"
                 handle="shouryayadav"
                 status="Online"
                 contactText="Contact Me"
@@ -112,13 +112,13 @@ export default function About({ onFileClick }) {
                 transition={{ delay: 0.4 }}
               >
                 <p className="text-white" style={{ opacity: 1 }}>
-                  I'm <span className="font-bold" style={{ color: 'hsl(170, 80%, 50%)' }}>Shourya</span> — a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>CS and Business</span> student at Northeastern who'd rather be <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>building something</span> than talking about building something.
+                  I'm <span className="font-bold" style={{ color: 'hsl(170, 80%, 50%)' }}>Shourya</span> — a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>CS and Business</span> student at Northeastern (fintech + AI) who'd rather be <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>building something</span> than talking about building something.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
-                  I like solving problems that sit at the intersection of <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>tech and business</span>, whether that's architecting <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>NLP pipelines</span> processing half a million clinical trials, scaling a student org from zero to <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>200+ members</span>, or figuring out how to <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>match VCs with startups algorithmically</span>.
+                  Right now I'm a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>Junior Healthcare Research Associate at M3</span> and <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>Software Tech Lead at ACM</span>, working on problems at the intersection of <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>AI, healthcare, and finance</span>.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
-                  I get restless when I'm not working on something, which is why I'm usually juggling a <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>co-op</span>, a couple <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>side projects</span>, and at least one <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>organization</span> that probably needs more of my attention.
+                  That looks like <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>Concord</span> for IB interview prep, <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>SiMSai</span> (1st at HHIC), <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>InSync</span> matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
                   I'm drawn to roles where I can <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>build real things</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>lead teams</span> doing the same.
@@ -148,9 +148,9 @@ export default function About({ onFileClick }) {
               
               <div className="space-y-8">
                 {[
-                  { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.2)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI/ML Research", desc: "Architecting NLP pipelines processing hundreds of thousands of pharmaceutical documents" },
-                  { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.2)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Full-Stack Development", desc: "Building scalable applications with modern tech stacks" },
-                  { icon: Rocket, color: 'hsl(var(--accent))', bgColor: 'hsl(var(--accent) / 0.2)', borderColor: 'hsl(var(--accent) / 0.5)', title: "Leadership", desc: "Co-founding organizations reaching 200+ members" },
+                  { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.2)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Data Engineering", desc: "Building data systems at Kroll for risk and financial advisory" },
+                  { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.2)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI for Healthcare", desc: "NLP pipelines on pharma data and SiMSai, an SMS agent for remote patient monitoring" },
+                  { icon: Rocket, color: 'hsl(var(--accent))', bgColor: 'hsl(var(--accent) / 0.2)', borderColor: 'hsl(var(--accent) / 0.5)', title: "Leadership", desc: "Co-founding organizations reaching 200+ members and advising SGA on AI" },
                   { icon: Target, color: 'hsl(50, 90%, 65%)', bgColor: 'hsl(50, 90%, 65%, 0.2)', borderColor: 'hsl(50, 90%, 65%, 0.5)', title: "Investment Analysis", desc: "Contributing to analysis across consumer and equity markets" }
                 ].map((item, index) => (
                   <motion.div
@@ -197,8 +197,8 @@ export default function About({ onFileClick }) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.1)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Full-Stack Developer", desc: "Building scalable applications with Python, JavaScript, React, FastAPI, and AWS" },
-                { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.1)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI/ML Researcher", desc: "Architecting NLP pipelines and semantic matching algorithms for healthcare data" },
+                { icon: Code, color: 'hsl(170, 80%, 50%)', bgColor: 'hsl(170, 80%, 50%, 0.1)', borderColor: 'hsl(170, 80%, 50%, 0.5)', title: "Data Engineer", desc: "Pipelines and databases on AWS — RDS, S3, Lambda, PostgreSQL — for finance and healthcare" },
+                { icon: Brain, color: 'hsl(180, 70%, 45%)', bgColor: 'hsl(180, 70%, 45%, 0.1)', borderColor: 'hsl(180, 70%, 45%, 0.5)', title: "AI/ML Builder", desc: "NLP pipelines, biomedical NER, and agentic systems like SiMSai for remote patient monitoring" },
                 { icon: Rocket, color: 'hsl(var(--accent))', bgColor: 'hsl(var(--accent) / 0.1)', borderColor: 'hsl(var(--accent) / 0.5)', title: "Entrepreneur & Leader", desc: "Co-founding organizations, leading teams, and building products at startups" },
                 { icon: Music, color: 'hsl(50, 90%, 65%)', bgColor: 'hsl(50, 90%, 65%, 0.1)', borderColor: 'hsl(50, 90%, 65%, 0.5)', title: "Creative & Explorer", desc: "Music production, poker, food tourism, global travel, and cat photography" }
               ].map((role, index) => (

@@ -5,9 +5,49 @@ import CardSwap, { Card } from '../components/CardSwap/CardSwap'
 import { useWallpaper } from '../contexts/WallpaperContext'
 import ProjectDetail from '../components/ProjectDetail'
 
+function demoLinkLabel(demo) {
+  if (!demo) return 'Demo'
+  if (demo.includes('insync') || demo.includes('concord.courses')) return 'Website'
+  if (demo.includes('linkedin')) return 'Writeup'
+  return 'Demo'
+}
+
 const projects = [
   {
     id: 1,
+    title: 'Concord',
+    description: 'AI-assisted IB interview prep with thousands of real-world questions. Target firms, learn concepts, and build your own roadmaps.',
+    tech: ['IB Prep', 'Product', 'Software'],
+    github: 'https://github.com/shourya0523/concord',
+    demo: 'https://concord.courses',
+    period: 'May 2026 – Present',
+    color: '#F59E0B',
+    files: ['Heat', 'Modules', 'Mocks']
+  },
+  {
+    id: 2,
+    title: 'SiMSai',
+    description: 'SMS-based agentic AI for remote patient monitoring. Works over basic text so patients without smartphones or reliable internet can still be reached. Won 1st place at the Husky Healthcare Innovation Challenge.',
+    tech: ['Node.js', 'Twilio', 'Gemini', 'Redis'],
+    github: 'https://github.com/shourya0523/SimisAI',
+    demo: 'https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt',
+    period: 'February 2026 – Present',
+    color: '#22C55E',
+    files: ['Messaging', 'Agent', 'Alerts']
+  },
+  {
+    id: 3,
+    title: 'Federated DICOM Search',
+    description: 'Hospital-controlled imaging discovery for research. PHI stays at the hospital; the edge returns de-identified Clinical Evidence Records, count bands, and opaque study tokens.',
+    tech: ['Healthcare', 'Data Engineering', 'Privacy'],
+    github: 'https://github.com/shourya0523/DICOM',
+    demo: null,
+    period: 'July 2026 – August 2026',
+    color: '#6366F1',
+    files: ['Search', 'Edge', 'CERs']
+  },
+  {
+    id: 4,
     title: 'InSync',
     description: 'Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.',
     tech: ['Python', 'PostgreSQL', 'FastAPI', 'Scikit-Learn'],
@@ -18,7 +58,7 @@ const projects = [
     files: ['Database', 'Matching', 'Pipelines']
   },
   {
-    id: 2,
+    id: 5,
     title: 'DawnPa',
     description: 'Comprehensive full-stack platform for healthcare tooling, currently under active development.',
     tech: ['Full-Stack', 'Healthcare', 'Tooling'],
@@ -29,7 +69,7 @@ const projects = [
     files: ['Platform', 'Healthcare', 'Tooling']
   },
   {
-    id: 3,
+    id: 6,
     title: 'Pact',
     description: 'Mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.',
     tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
@@ -40,7 +80,7 @@ const projects = [
     files: ['Backend', 'Frontend', 'Database']
   },
   {
-    id: 4,
+    id: 7,
     title: 'Claude Code Demo',
     description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations.',
     tech: ['Claude Code', 'React', 'Python'],
@@ -51,7 +91,7 @@ const projects = [
     files: ['Examples', 'Templates', 'Demos']
   },
   {
-    id: 5,
+    id: 8,
     title: 'Spendr',
     description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.',
     tech: ['JavaScript', 'Python', 'React'],
@@ -62,7 +102,7 @@ const projects = [
     files: ['Algorithm', 'UI', 'Data']
   },
   {
-    id: 6,
+    id: 9,
     title: 'CapTuring',
     description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.',
     tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
@@ -73,7 +113,7 @@ const projects = [
     files: ['Pipeline', 'Features', 'Analysis']
   },
   {
-    id: 7,
+    id: 10,
     title: 'ClubWorks',
     description: 'Full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.',
     tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],
@@ -235,7 +275,7 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <ExternalLink size={14} />
-                            {project.demo.includes('insync') ? 'Website' : 'Demo'}
+                            {demoLinkLabel(project.demo)}
                           </a>
                         )}
                       </div>
@@ -336,7 +376,7 @@ export default function Projects({ onFileClick, onOpenFolder, onOpenWindow }) {
                           onClick={(e) => e.stopPropagation()}
                         >
                           <ExternalLink size={12} />
-                          {project.demo.includes('insync') ? 'Website' : 'Demo'}
+                          {demoLinkLabel(project.demo)}
                         </a>
                       )}
                     </div>

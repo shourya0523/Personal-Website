@@ -4,25 +4,82 @@ import { Users, Target, TrendingUp, Building2, ExternalLink } from 'lucide-react
 const leadershipRoles = [
   {
     id: 1,
-    title: 'Director of Operations, Co-Founder',
-    organization: 'Claude Builders Club @ Northeastern',
-    period: 'Aug 2025 – Present',
-    description: 'Co-founded and scaled AI-focused student organization. Secured major sponsorships, organized events, and launched product incubator program.',
+    title: 'Software Tech Lead',
+    organization: 'ACM at Northeastern University',
+    period: 'Aug 2026 – Present',
+    website: 'https://neu.acm.org',
+    description: 'Software Tech Lead for ACM at Northeastern, the student chapter of the Association for Computing Machinery.',
     achievements: [
-      'Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building',
-      'Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships',
-      'Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment',
-      'Deliver presentations to large audiences at workshops and events'
+      'Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs'
+    ],
+    icon: Users,
+    color: 'text-green-400'
+  },
+  {
+    id: 2,
+    title: 'AI Advisory Board Member',
+    organization: 'Student Government Association of Northeastern University',
+    period: 'Apr 2026 – Present',
+    website: 'https://www.northeastern.edu',
+    description: 'Serving on Northeastern SGA\'s AI Advisory Board, representing undergraduate student interests around AI policy, education, and campus life.',
+    achievements: [
+      'Advise student government on AI policy, education, and student-facing AI initiatives'
     ],
     icon: Building2,
     color: 'text-blue-400'
   },
   {
-    id: 2,
+    id: 3,
+    title: 'University Program',
+    organization: 'The AI Collective',
+    period: 'Apr 2026 – Present',
+    website: 'https://www.genaicollective.ai',
+    description: 'University program member of The AI Collective, connecting with founders, researchers, operators, and investors in the broader AI community.',
+    achievements: [
+      'Represent Northeastern in The AI Collective\'s university program'
+    ],
+    icon: Target,
+    color: 'text-purple-400'
+  },
+  {
+    id: 4,
+    title: 'Advisory Board Member',
+    organization: 'Northeastern AI Club',
+    period: 'June 2025 – Aug 2026',
+    website: 'https://aineu.org',
+    description: 'Led collaboration between D\'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students and driving programming for a 500+ member organization.',
+    achievements: [
+      'Co-authored D\'Amore-McKim\'s official AI policy, establishing ethical guidelines for 3,000+ students',
+      'Led collaboration between D\'Amore-McKim and AINU on classroom AI use',
+      'Drove programming and operations for 500+ member organization, increasing event attendance by 40%'
+    ],
+    icon: Target,
+    color: 'text-cyan-400'
+  },
+  {
+    id: 5,
+    title: 'Co-Founder & Vice President',
+    organization: 'Claude Builder Club Northeastern',
+    period: 'Dec 2025 – Mar 2026',
+    website: 'https://www.linkedin.com/company/northeastern-anthropic-builders-club',
+    description: 'Co-founded Northeastern\'s Anthropic-sponsored Claude Builder Club. Grew it from zero to 200+ members, secured $30k+ in sponsorships, and ran workshops, hackathons, and a creatathon.',
+    achievements: [
+      'Grew the club from zero to 200+ members across engineering, business, and design',
+      'Secured $30,000+ in sponsorships',
+      'Ran workshops, hackathons, and a creatathon; delivered a Claude Code workshop on agent development',
+      'Organized a fireside chat with a Senior PM from Alacriti (former Block), attended by 32 students',
+      'Designed personalized project sprints tailored to members\' submitted ideas'
+    ],
+    icon: Building2,
+    color: 'text-pink-400'
+  },
+  {
+    id: 6,
     title: 'Software Product Lab Lead',
     organization: 'Forge – A Sherman Center Program',
     period: 'Aug 2025 – Dec 2025',
-    description: 'Led 8-developer team through full product lifecycle building a mobile application. Managed agile workflows, authored PRDs, designed system architecture.',
+    website: 'https://shermancenter.northeastern.edu',
+    description: 'Built and led an 8-person software team, developing end-to-end products. Managed agile workflows, authored PRDs, designed system architecture.',
     achievements: [
       'Directed 8-developer team building mobile application using agile practices and structured product workflows',
       'Authored PRDs, defined API architecture, implemented CI/CD pipelines, and managed Jira for coordination',
@@ -33,18 +90,17 @@ const leadershipRoles = [
     color: 'text-green-400'
   },
   {
-    id: 3,
-    title: 'Executive Board Member',
-    organization: 'AI Club @ Northeastern',
-    period: 'June 2025 – Present',
-    website: 'https://aineu.org',
-    description: 'I co-authored D\'Amore-McKim\'s official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.',
+    id: 7,
+    title: 'Cohort 5',
+    organization: 'rev',
+    period: 'Jan 2026 – Apr 2026',
+    website: 'https://www.linkedin.com/company/revschool',
+    description: 'Building products inside Boston\'s rev community — including InSync and Authly.',
     achievements: [
-      'Co-authored D\'Amore-McKim\'s official AI policy, establishing ethical guidelines for 3,000+ students',
-      'Drove programming and operations for 500+ member organization, increasing event attendance by 40%'
+      'Built InSync (insync-rg.com) and Authly as part of rev Cohort 5'
     ],
-    icon: Target,
-    color: 'text-purple-400'
+    icon: TrendingUp,
+    color: 'text-yellow-400'
   },
 ]
 

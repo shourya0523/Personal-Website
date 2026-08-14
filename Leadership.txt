@@ -1,24 +1,63 @@
 LEADERSHIP & IMPACT
 ===================
 
-Director of Operations, Co-Founder
-Claude Builders Club @ Northeastern
-Period: Aug 2025 – Present
+Software Tech Lead
+ACM at Northeastern University
+Period: Aug 2026 – Present
+Website: https://neu.acm.org
 
-Co-founded and scaled AI-focused student organization. Secured major sponsorships, organized events, and launched product incubator program.
+Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs.
+
+
+AI Advisory Board Member
+Student Government Association of Northeastern University
+Period: Apr 2026 – Present
+Website: https://www.northeastern.edu
+
+Advise student government on AI policy, education, and student-facing AI initiatives.
+
+
+University Program
+The AI Collective
+Period: Apr 2026 – Present
+Website: https://www.genaicollective.ai
+
+Represent Northeastern in The AI Collective's university program.
+
+
+Advisory Board Member
+Northeastern AI Club
+Period: June 2025 – Aug 2026
+Website: https://aineu.org
+
+Led collaboration between D'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students.
 
 Key Achievements:
-• Scaled organization to 200+ members and 12-person executive team, facilitating hands-on AI product building
-• Orchestrated hackathons, workshops, and speaker events; secured $30,000+ in sponsorships
-• Founded AI product incubator guiding 30 students through ideation, prototyping, and deployment
-• Deliver presentations to large audiences at workshops and events
+• Co-authored D'Amore-McKim's official AI policy, establishing ethical guidelines for 3,000+ students
+• Drove programming and operations for 500+ member organization, increasing event attendance by 40%
+
+
+Co-Founder & Vice President
+Claude Builder Club Northeastern
+Period: Dec 2025 – Mar 2026
+Website: https://www.linkedin.com/company/northeastern-anthropic-builders-club
+
+Co-founded Northeastern's Anthropic-sponsored Claude Builder Club. Grew it from zero to 200+ members, secured $30k+ in sponsorships, and ran workshops, hackathons, and a creatathon.
+
+Key Achievements:
+• Grew the club from zero to 200+ members across engineering, business, and design
+• Secured $30,000+ in sponsorships
+• Ran workshops, hackathons, and a creatathon; delivered a Claude Code workshop on agent development
+• Organized a fireside chat with a Senior PM from Alacriti (former Block), attended by 32 students
+• Designed personalized project sprints tailored to members' submitted ideas
 
 
 Software Product Lab Lead
 Forge – A Sherman Center Program
 Period: Aug 2025 – Dec 2025
+Website: https://shermancenter.northeastern.edu
 
-Led 8-developer team through full product lifecycle building a mobile application. Managed agile workflows, authored PRDs, designed system architecture.
+Built and led an 8-person software team, developing end-to-end products.
 
 Key Achievements:
 • Directed 8-developer team building mobile application using agile practices and structured product workflows
@@ -27,12 +66,9 @@ Key Achievements:
 • Delivered live product demonstrations showcasing mobile application features and technical capabilities
 
 
-Executive Board Member
-AI Club @ Northeastern
-Period: June 2025 – Present
+Cohort 5
+rev
+Period: Jan 2026 – Apr 2026
+Website: https://www.linkedin.com/company/revschool
 
-I co-authored D'Amore-McKim's official AI policy establishing ethical guidelines for 3,000+ students and drove programming for a 500+ member organization, increasing event attendance by 40%.
-
-Key Achievements:
-• Co-authored D'Amore-McKim's official AI policy, establishing ethical guidelines for 3,000+ students
-• Drove programming and operations for 500+ member organization, increasing event attendance by 40%
+Worked with 3 startups, building products inside Boston's rev community of builders, founders, creatives, and researchers.
