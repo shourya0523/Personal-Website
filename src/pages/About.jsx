@@ -54,7 +54,7 @@ export default function About({ onFileClick }) {
             >
               <ProfileCard
                 name={userName || "Shourya Yadav"}
-                title="DE @ Kroll · Incoming JRA @ M3"
+                title="JRA @ M3 · Software Lead @ ACM"
                 handle="shouryayadav"
                 status="Online"
                 contactText="Contact Me"
@@ -115,10 +115,10 @@ export default function About({ onFileClick }) {
                   I'm <span className="font-bold" style={{ color: 'hsl(170, 80%, 50%)' }}>Shourya</span> — a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>CS and Business</span> student at Northeastern (fintech + AI) who'd rather be <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>building something</span> than talking about building something.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
-                  Right now I'm a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>data engineering intern at Kroll</span> in New York, incoming <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>healthcare research associate at M3</span>, and I like problems at the intersection of <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>AI, healthcare, and finance</span>.
+                  Right now I'm a <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>Junior Healthcare Research Associate at M3</span> and <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>Software Tech Lead at ACM</span>, working on problems at the intersection of <span className="font-semibold" style={{ color: 'hsl(50, 90%, 65%)' }}>AI, healthcare, and finance</span>.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
-                  That looks like <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>NLP pipelines</span> over half a million clinical trials, an SMS agent that won <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>1st at HHIC</span>, scaling a student org from zero to <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>200+ members</span>, or matching VCs with startups algorithmically.
+                  That looks like <span className="font-semibold" style={{ color: 'hsl(180, 70%, 45%)' }}>Concord</span> for IB interview prep, <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>SiMSai</span> (1st at HHIC), <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>InSync</span> matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
                 </p>
                 <p className="text-white" style={{ opacity: 1 }}>
                   I'm drawn to roles where I can <span className="font-semibold" style={{ color: 'hsl(170, 80%, 50%)' }}>build real things</span> and <span className="font-semibold" style={{ color: 'hsl(var(--accent))' }}>lead teams</span> doing the same.

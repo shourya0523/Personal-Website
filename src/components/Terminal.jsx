@@ -506,11 +506,11 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
   • Computer Science & Business, Northeastern University
   • Concentration: Fintech | Minor: Interdisciplinary AI
   • GPA: 3.71 | Honors Program | 5x Dean's List
-  • Location: Boston, MA / New York, NY
+  • Location: Greater Boston
 
 💼 Current Role:
-  • Data Engineering Intern - Kroll (New York)
-  • Incoming Junior Healthcare Research Associate - M3
+  • Junior Healthcare Research Associate - M3
+  • Software Tech Lead - ACM at Northeastern
 
 🔧 Key Skills:
   • Languages: Python, JavaScript, SQL, Java, HTML/CSS
@@ -569,15 +569,19 @@ Tools & Technologies:
         text: `💼 Work Experience Summary
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Current:
-  • Data Engineering Intern | Kroll
-    Jun 2026 - Present | New York, NY
-    → Engineering and technical intern on data systems for risk and financial advisory
+  • Junior Healthcare Research Associate | M3
+    Aug 2026 - Present | North America
+    → Healthcare research associate at M3
 
-  • Incoming Junior Healthcare Research Associate | M3
-    Incoming · August 2026
-    → Healthcare research associate role starting August 2026
+  • Software Tech Lead | ACM at Northeastern
+    Aug 2026 - Present | Boston, MA
+    → Lead software for ACM @ Northeastern (neu.acm.org)
 
 Recent:
+  • Data Engineering Intern | Kroll
+    Jun 2026 - Aug 2026 | New York, NY (Hybrid)
+    → Built AI tools for internal teams
+
   • Undergraduate Teaching Assistant | Khoury College
     Jan 2026 - Apr 2026
     → Taught Advanced Programming with Data to 100+ students
@@ -656,8 +660,8 @@ Key Strengths:
   • Business Acumen: Investment analysis, GTM strategy, 
     secured $30k+ sponsorships
 
-Currently: Data Engineering Intern at Kroll (New York) and
-incoming Junior Healthcare Research Associate at M3.
+Currently: Junior Healthcare Research Associate at M3 and
+Software Tech Lead at ACM @ Northeastern.
 
 Type "recruiter" for quick info or "open resume" for details.`,
         outputType: 'info'
@@ -732,7 +736,7 @@ Examples:
         type: 'output',
         text: `Shourya Yadav
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-DE @ Kroll | Incoming JRA @ M3
+JRA @ M3 | Software Lead @ ACM
 Northeastern University | D'Amore-McKim School of Business
 
 📍 Location: Boston, MA

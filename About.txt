@@ -1,9 +1,9 @@
 ABOUT ME
 ========
 
-I'm Shourya — a CS and Business student at Northeastern (fintech + AI) currently a data engineering intern at Kroll and incoming healthcare research associate at M3.
+I'm Shourya — a CS and Business student at Northeastern (fintech + AI), Junior Healthcare Research Associate at M3, and Software Tech Lead at ACM.
 
-I like solving problems at the intersection of AI, healthcare, and finance — NLP pipelines over half a million clinical trials, SiMSai (1st at HHIC), scaling a student org from zero to 200+ members, or matching VCs with startups algorithmically.
+I like solving problems at the intersection of AI, healthcare, and finance — Concord for IB interview prep, SiMSai (1st at HHIC), InSync matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
 
 I get restless when I'm not working on something, which is why I'm usually juggling a role, a couple side projects, and at least one organization that probably needs more of my attention.
 

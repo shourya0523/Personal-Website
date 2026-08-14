@@ -24,22 +24,22 @@ John Martinson Honors Program
 PROFESSIONAL EXPERIENCE
 =======================
 
-Data Engineering Intern
-Kroll
-https://www.kroll.com
-Location: New York, NY
-Period: June 2026 – Present
-
-Engineering and technical intern on data systems for risk and financial advisory work.
-
-
-Incoming Junior Healthcare Research Associate
+Junior Healthcare Research Associate
 M3
 https://www.m3.com
 Location: North America
-Period: Incoming · August 2026
+Period: August 2026 – Present
 
-Joining M3 to support healthcare research across North America.
+Healthcare research associate supporting studies and research operations at M3.
+
+
+Data Engineering Intern
+Kroll
+https://www.kroll.com
+Location: New York, NY · Hybrid
+Period: June 2026 – August 2026
+
+Built AI tools for internal teams.
 
 
 Undergraduate Teaching Assistant – Advanced Programming with Data
@@ -91,6 +91,15 @@ Key Accomplishments:
 LEADERSHIP
 ==========
 
+Software Tech Lead
+ACM at Northeastern University
+https://neu.acm.org
+Location: Boston, MA
+Period: August 2026 – Present
+
+Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs.
+
+
 AI Advisory Board Member
 Student Government Association of Northeastern University
 https://www.northeastern.edu
@@ -113,7 +122,7 @@ Advisory Board Member
 Northeastern AI Club
 https://aineu.org
 Location: Boston, MA
-Period: June 2025 – Present
+Period: June 2025 – August 2026
 
 Led collaboration between D'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students.
 
@@ -192,6 +201,21 @@ Key Accomplishments:
 PROJECTS
 ========
 
+Concord
+------
+Period: May 2026 – Present
+Tech: Software Development, Product Management
+Description: AI-assisted IB interview preparation with thousands of real-world interview questions. Target firms, learn concepts, and build your own roadmaps.
+Website: https://concord.courses
+GitHub: https://github.com/shourya0523/concord
+
+Federated DICOM Search
+----------------------
+Period: July 2026 – August 2026
+Tech: Healthcare, Data Engineering
+Description: Hospital-controlled imaging discovery for research. PHI stays at the hospital; the edge returns de-identified Clinical Evidence Records, count bands, and opaque study tokens.
+GitHub: https://github.com/shourya0523/DICOM
+
 SiMSai
 ------
 Period: February 2026 – Present
@@ -199,6 +223,7 @@ Tech: Node.js, Twilio, Gemini, Redis, WhatsApp
 Award: 1st Place · Husky Healthcare Innovation Challenge 2026
 Description: SMS-based agentic AI for remote patient monitoring. Works over basic text messaging so patients without smartphones or reliable internet can still be reached.
 Writeup: https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt
+GitHub: https://github.com/shourya0523/SimisAI
 
 InSync
 ------

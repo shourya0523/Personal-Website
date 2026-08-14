@@ -12,9 +12,9 @@ export const fileStructure = {
             type: 'file', 
             content: `# About Me
 
-I'm **Shourya** — a CS and Business student at Northeastern (fintech + AI) currently a data engineering intern at Kroll and incoming healthcare research associate at M3.
+I'm **Shourya** — a CS and Business student at Northeastern (fintech + AI), Junior Healthcare Research Associate at M3, and Software Tech Lead at ACM.
 
-I like solving problems at the intersection of AI, healthcare, and finance — NLP pipelines over half a million clinical trials, SiMSai (1st at HHIC), scaling a student org from zero to 200+ members, or matching VCs with startups algorithmically.
+I like solving problems at the intersection of AI, healthcare, and finance — Concord for IB interview prep, SiMSai (1st at HHIC), InSync matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
 
 I get restless when I'm not working on something, which is why I'm usually juggling a role, a couple side projects, and at least one organization that probably needs more of my attention.
 
@@ -52,11 +52,25 @@ A collection of projects I've built, from hackathon winners to full-stack platfo
 
 ## Featured Projects
 
+### Concord
+**Status:** Active  
+**Tech Stack:** Software Development, Product Management  
+**Description:** AI-assisted IB interview prep with thousands of real-world questions. Target firms, learn concepts, and build your own roadmaps.  
+**Website:** [concord.courses](https://concord.courses)  
+**GitHub:** [github.com/shourya0523/concord](https://github.com/shourya0523/concord)
+
 ### SiMSai
 **Status:** Active · 1st Place HHIC 2026  
 **Tech Stack:** Node.js, Twilio, Gemini, Redis, WhatsApp  
 **Description:** SMS-based agentic AI for remote patient monitoring. Works over basic text so patients without smartphones or reliable internet can still be reached.  
+**GitHub:** [github.com/shourya0523/SimisAI](https://github.com/shourya0523/SimisAI)  
 **Writeup:** [LinkedIn](https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt)
+
+### Federated DICOM Search
+**Status:** Completed (July 2026 – August 2026)  
+**Tech Stack:** Healthcare, Data Engineering  
+**Description:** Hospital-controlled imaging discovery for research. PHI stays at the hospital; the edge returns de-identified Clinical Evidence Records, count bands, and opaque study tokens.  
+**GitHub:** [github.com/shourya0523/DICOM](https://github.com/shourya0523/DICOM)
 
 ### InSync
 **Status:** Active Development  
@@ -100,6 +114,41 @@ A collection of projects I've built, from hackathon winners to full-stack platfo
 **GitHub:** [github.com/shourya0523/Clubworks_CS3200](https://github.com/shourya0523/Clubworks_CS3200)
 `
           },
+          'Concord': {
+            type: 'folder',
+            color: '#F59E0B',
+            children: {
+              'README.md': {
+                type: 'file',
+                content: `# Concord
+
+AI-assisted IB interview preparation with thousands of real-world interview questions. Target firms, learn concepts, and build your own roadmaps.
+
+## Links
+
+- **Website:** [concord.courses](https://concord.courses)
+- **GitHub:** [github.com/shourya0523/concord](https://github.com/shourya0523/concord)
+`
+              }
+            }
+          },
+          'Federated DICOM Search': {
+            type: 'folder',
+            color: '#6366F1',
+            children: {
+              'README.md': {
+                type: 'file',
+                content: `# Federated DICOM Search
+
+Hospital-controlled imaging discovery for research (TOA Healthcare Hack).
+
+Researchers search across sites from one portal; source PHI stays at the hospital. What leaves the edge is de-identified Clinical Evidence Records (CERs), count bands, and opaque study tokens — not patient names, MRNs, or DICOM UIDs.
+
+**GitHub:** [github.com/shourya0523/DICOM](https://github.com/shourya0523/DICOM)
+`
+              }
+            }
+          },
           'SiMSai': {
             type: 'folder',
             color: '#22C55E',
@@ -123,6 +172,7 @@ SMS-based agentic AI for remote patient monitoring. Works over basic text messag
 - Multilingual semantic intent detection
 - Designed around RPM billing codes (CPT 99453–99458)
 
+**GitHub:** [github.com/shourya0523/SimisAI](https://github.com/shourya0523/SimisAI)
 **Writeup:** [LinkedIn post](https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt)
 `
               }
@@ -295,17 +345,17 @@ Northeastern University, D'Amore-McKim School of Business
 
 ## Professional Experience
 
-### Data Engineering Intern
-**Kroll** | June 2026 – Present | New York, NY
-[kroll.com](https://www.kroll.com)
-
-- Engineering and technical intern on data systems for risk and financial advisory work
-
-### Incoming Junior Healthcare Research Associate
-**M3** | Incoming · August 2026
+### Junior Healthcare Research Associate
+**M3** | August 2026 – Present | North America
 [m3.com](https://www.m3.com)
 
-- Joining M3 to support healthcare research across North America
+- Healthcare research associate supporting studies and research operations at M3
+
+### Data Engineering Intern
+**Kroll** | June 2026 – August 2026 | New York, NY · Hybrid
+[kroll.com](https://www.kroll.com)
+
+- Built AI tools for internal teams
 
 ### Undergraduate Teaching Assistant – Advanced Programming with Data
 **Northeastern University, Khoury College** | January 2026 – April 2026
@@ -333,6 +383,12 @@ Northeastern University, D'Amore-McKim School of Business
 
 ## Leadership
 
+### Software Tech Lead
+**ACM at Northeastern University** | August 2026 – Present
+[neu.acm.org](https://neu.acm.org)
+
+- Lead software for ACM @ Northeastern
+
 ### AI Advisory Board Member
 **Student Government Association of Northeastern University** | April 2026 – Present
 [northeastern.edu](https://www.northeastern.edu)
@@ -340,7 +396,7 @@ Northeastern University, D'Amore-McKim School of Business
 - Advise student government on AI policy, education, and student-facing AI initiatives
 
 ### Advisory Board Member
-**Northeastern AI Club** | June 2025 – Present
+**Northeastern AI Club** | June 2025 – August 2026
 [aineu.org](https://aineu.org)
 
 - Co-authored D'Amore-McKim's official AI policy for 3,000+ students
@@ -496,6 +552,12 @@ Achieved Dean's List recognition for multiple semesters, demonstrating consisten
 
 ## Current Roles
 
+### Software Tech Lead
+**ACM at Northeastern University** | August 2026 – Present
+[neu.acm.org](https://neu.acm.org)
+
+- Lead software for ACM @ Northeastern
+
 ### AI Advisory Board Member
 **Student Government Association of Northeastern University** | April 2026 – Present
 [northeastern.edu](https://www.northeastern.edu)
@@ -509,7 +571,7 @@ Achieved Dean's List recognition for multiple semesters, demonstrating consisten
 - Represent Northeastern in The AI Collective's university program
 
 ### Advisory Board Member
-**Northeastern AI Club** | June 2025 – Present
+**Northeastern AI Club** | June 2025 – August 2026
 [aineu.org](https://aineu.org)
 
 - Co-authored D'Amore-McKim's official AI policy for 3,000+ students
@@ -604,7 +666,7 @@ Delivered live product demonstrations showcasing mobile application features and
                 content: `# AI Club @ Northeastern
 
 ## Role: Advisory Board Member
-**Duration:** June 2025 – Present
+**Duration:** June 2025 – August 2026
 
 ## About
 

@@ -1,6 +1,14 @@
 LEADERSHIP & IMPACT
 ===================
 
+Software Tech Lead
+ACM at Northeastern University
+Period: Aug 2026 – Present
+Website: https://neu.acm.org
+
+Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs.
+
+
 AI Advisory Board Member
 Student Government Association of Northeastern University
 Period: Apr 2026 – Present
@@ -19,7 +27,7 @@ Represent Northeastern in The AI Collective's university program.
 
 Advisory Board Member
 Northeastern AI Club
-Period: June 2025 – Present
+Period: June 2025 – Aug 2026
 Website: https://aineu.org
 
 Led collaboration between D'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students.

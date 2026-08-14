@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Download, Briefcase, GraduationCap, Award, ExternalLink, Calendar, MapPin, TrendingUp, Code, Users, Target, Zap, Github, Linkedin, Mail, Phone, Globe, Rocket, Brain, Database } from 'lucide-react'
+import { Download, Briefcase, GraduationCap, Award, ExternalLink, Calendar, MapPin, TrendingUp, Code, Users, Target, Zap, Github, Linkedin, Mail, Phone, Globe, Rocket, Brain, Database, BookOpen } from 'lucide-react'
 import { useRef, useState } from 'react'
 
 export default function Resume({ onFileClick }) {
@@ -15,30 +15,30 @@ export default function Resume({ onFileClick }) {
   // Professional Experience - Most recent first
   const experiences = [
     {
-      title: 'Data Engineering Intern',
-      company: 'Kroll',
-      companyUrl: 'https://www.kroll.com',
-      period: 'June 2026 – Present',
-      location: 'New York, NY',
-      icon: Database,
-      color: 'blue',
-      description: 'Data engineering intern at Kroll in New York, contributing to engineering and technical systems that support risk and financial advisory.',
+      title: 'Junior Healthcare Research Associate',
+      company: 'M3',
+      companyUrl: 'https://www.m3.com',
+      period: 'August 2026 – Present',
+      location: 'North America',
+      icon: Brain,
+      color: 'cyan',
+      description: 'Junior Healthcare Research Associate at M3, supporting healthcare research across North America.',
       accomplishments: [
-        'Engineering and technical intern on data systems for risk and financial advisory work'
+        'Healthcare research associate supporting studies and research operations at M3'
       ],
       metrics: []
     },
     {
-      title: 'Incoming Junior Healthcare Research Associate',
-      company: 'M3',
-      companyUrl: 'https://www.m3.com',
-      period: 'Incoming · August 2026',
-      location: 'North America',
-      icon: Brain,
-      color: 'cyan',
-      description: 'Incoming Junior Healthcare Research Associate at M3, starting August 2026.',
+      title: 'Data Engineering Intern',
+      company: 'Kroll',
+      companyUrl: 'https://www.kroll.com',
+      period: 'June 2026 – August 2026',
+      location: 'New York, NY · Hybrid',
+      icon: Database,
+      color: 'blue',
+      description: 'Built AI tools for internal teams at Kroll in New York.',
       accomplishments: [
-        'Joining M3 to support healthcare research across North America'
+        'Built AI tools for internal teams'
       ],
       metrics: []
     },
@@ -99,6 +99,20 @@ export default function Resume({ onFileClick }) {
   // Leadership - Most recent first
   const leadership = [
     {
+      title: 'Software Tech Lead',
+      company: 'ACM at Northeastern University',
+      companyUrl: 'https://neu.acm.org',
+      period: 'August 2026 – Present',
+      location: 'Boston, MA',
+      icon: Code,
+      color: 'green',
+      description: 'Software Tech Lead for ACM at Northeastern, the student chapter of the Association for Computing Machinery.',
+      accomplishments: [
+        'Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs'
+      ],
+      metrics: []
+    },
+    {
       title: 'AI Advisory Board Member',
       company: 'Student Government Association of Northeastern University',
       companyUrl: 'https://www.northeastern.edu',
@@ -130,7 +144,7 @@ export default function Resume({ onFileClick }) {
       title: 'Advisory Board Member',
       company: 'Northeastern AI Club',
       companyUrl: 'https://aineu.org',
-      period: 'June 2025 – Present',
+      period: 'June 2025 – August 2026',
       location: 'Boston, MA',
       icon: Users,
       color: 'cyan',
@@ -150,9 +164,9 @@ export default function Resume({ onFileClick }) {
       location: 'Boston, MA',
       icon: Zap,
       color: 'yellow',
-      description: 'Worked with 3 startups, building products inside Boston\'s rev community of builders, founders, creatives, and researchers.',
+      description: 'Building products inside Boston\'s rev community of builders, founders, creatives, and researchers — including InSync and Authly.',
       accomplishments: [
-        'Worked with 3 startups on product-building projects'
+        'Built InSync (insync-rg.com) and Authly as part of rev Cohort 5'
       ],
       metrics: ['3']
     },
@@ -241,12 +255,32 @@ export default function Resume({ onFileClick }) {
   // Projects - Most recent first
   const projects = [
     {
+      name: 'Concord',
+      period: 'May 2026 – Present',
+      tech: 'Software Development, Product Management',
+      description: 'AI-assisted IB interview preparation with thousands of real-world interview questions. Target firms, learn concepts, and build your own roadmaps. Heat matrix for what firms actually ask, plus module roadmaps and interviewer-cast mocks.',
+      url: 'https://concord.courses',
+      github: 'https://github.com/shourya0523/concord',
+      icon: BookOpen,
+      color: 'yellow'
+    },
+    {
+      name: 'Federated DICOM Search',
+      period: 'July 2026 – August 2026',
+      tech: 'Healthcare, Data Engineering',
+      description: 'Hospital-controlled imaging discovery for research. Researchers search across sites from one portal; source PHI stays at the hospital. What leaves the edge is de-identified Clinical Evidence Records (CERs), count bands, and opaque study tokens — not patient names, MRNs, or DICOM UIDs.',
+      url: null,
+      github: 'https://github.com/shourya0523/DICOM',
+      icon: Database,
+      color: 'indigo'
+    },
+    {
       name: 'SiMSai',
       period: 'February 2026 – Present',
       tech: 'Node.js, Twilio, Gemini, Redis, WhatsApp',
       description: 'SMS-based agentic AI for remote patient monitoring. Works over basic text messaging so patients without smartphones or reliable internet can still be reached. Tracks symptoms, monitors medication adherence, and escalates critical alerts to care teams. Designed around RPM billing codes (CPT 99453–99458).',
       url: 'https://www.linkedin.com/posts/shouryadav_can-ai-help-save-lives-a-few-weeks-ago-activity-7441862829197983744-_DRt',
-      github: null,
+      github: 'https://github.com/shourya0523/SimisAI',
       icon: Brain,
       color: 'green',
       award: '1st Place · Husky Healthcare Innovation Challenge 2026'

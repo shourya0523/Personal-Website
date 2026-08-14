@@ -4,6 +4,19 @@ import { Users, Target, TrendingUp, Building2, ExternalLink } from 'lucide-react
 const leadershipRoles = [
   {
     id: 1,
+    title: 'Software Tech Lead',
+    organization: 'ACM at Northeastern University',
+    period: 'Aug 2026 – Present',
+    website: 'https://neu.acm.org',
+    description: 'Software Tech Lead for ACM at Northeastern, the student chapter of the Association for Computing Machinery.',
+    achievements: [
+      'Lead software for ACM @ Northeastern, a student chapter running workshops, hackathons, and technical community programs'
+    ],
+    icon: Users,
+    color: 'text-green-400'
+  },
+  {
+    id: 2,
     title: 'AI Advisory Board Member',
     organization: 'Student Government Association of Northeastern University',
     period: 'Apr 2026 – Present',
@@ -16,7 +29,7 @@ const leadershipRoles = [
     color: 'text-blue-400'
   },
   {
-    id: 2,
+    id: 3,
     title: 'University Program',
     organization: 'The AI Collective',
     period: 'Apr 2026 – Present',
@@ -29,10 +42,10 @@ const leadershipRoles = [
     color: 'text-purple-400'
   },
   {
-    id: 3,
+    id: 4,
     title: 'Advisory Board Member',
     organization: 'Northeastern AI Club',
-    period: 'June 2025 – Present',
+    period: 'June 2025 – Aug 2026',
     website: 'https://aineu.org',
     description: 'Led collaboration between D\'Amore-McKim and AINU, co-authoring the policy on AI use in the classroom for 3,000+ students and driving programming for a 500+ member organization.',
     achievements: [
@@ -44,7 +57,7 @@ const leadershipRoles = [
     color: 'text-cyan-400'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Co-Founder & Vice President',
     organization: 'Claude Builder Club Northeastern',
     period: 'Dec 2025 – Mar 2026',
@@ -61,7 +74,7 @@ const leadershipRoles = [
     color: 'text-pink-400'
   },
   {
-    id: 5,
+    id: 6,
     title: 'Software Product Lab Lead',
     organization: 'Forge – A Sherman Center Program',
     period: 'Aug 2025 – Dec 2025',
@@ -77,14 +90,14 @@ const leadershipRoles = [
     color: 'text-green-400'
   },
   {
-    id: 6,
+    id: 7,
     title: 'Cohort 5',
     organization: 'rev',
     period: 'Jan 2026 – Apr 2026',
     website: 'https://www.linkedin.com/company/revschool',
-    description: 'Worked with 3 startups, building products inside Boston\'s rev community of builders, founders, creatives, and researchers.',
+    description: 'Building products inside Boston\'s rev community — including InSync and Authly.',
     achievements: [
-      'Worked with 3 startups on product-building projects'
+      'Built InSync (insync-rg.com) and Authly as part of rev Cohort 5'
     ],
     icon: TrendingUp,
     color: 'text-yellow-400'
