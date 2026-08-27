@@ -36,11 +36,14 @@ export default function Resume({ onFileClick }) {
       location: 'New York, NY · Hybrid',
       icon: Database,
       color: 'blue',
-      description: 'Built AI tools for internal teams at Kroll in New York.',
+      description: 'Built internal AI and data tools for risk and financial advisory teams.',
       accomplishments: [
-        'Built AI tools for internal teams'
+        'Built a geographic AI intelligence engine with Azure OpenAI, Llama, Databricks, knowledge graphs, WebGL, and a custom projection',
+        'Reached 70% cost-attribution coverage on Databricks through semantic and ML asset tagging',
+        'Migrated Chainsys-Databricks ETL workflows to improve turnaround time and uptime',
+        'Presented AI design tools through Kroll\'s enterprise knowledge-sharing program'
       ],
-      metrics: []
+      metrics: ['70%']
     },
     {
       title: 'Undergraduate Teaching Assistant – Advanced Programming with Data',
@@ -262,6 +265,26 @@ export default function Resume({ onFileClick }) {
       url: 'https://concord.courses',
       github: 'https://github.com/shourya0523/concord',
       icon: BookOpen,
+      color: 'yellow'
+    },
+    {
+      name: 'Rubber Duck',
+      period: 'August 2026',
+      tech: 'Agent Skills, Node.js, MCP, SSE',
+      description: 'Portable agent skill for rubber-duck debugging: index a repo, talk to a duck in the browser, and stream an agent\'s replies live.',
+      url: null,
+      github: 'https://github.com/shourya0523/rubberduck',
+      icon: Brain,
+      color: 'cyan'
+    },
+    {
+      name: 'Por-Kit',
+      period: 'May 2026 – Present',
+      tech: 'Next.js, TypeScript, React, PostgreSQL',
+      description: 'Hosted portfolio CMS for developers to import career data, sync selected GitHub projects, and embed live portfolio content through an SDK, API, or widgets.',
+      url: null,
+      github: 'https://github.com/shourya0523/PorKit',
+      icon: Rocket,
       color: 'yellow'
     },
     {
