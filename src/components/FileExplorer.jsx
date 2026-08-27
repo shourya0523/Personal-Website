@@ -59,6 +59,18 @@ A collection of projects I've built, from hackathon winners to full-stack platfo
 **Website:** [concord.courses](https://concord.courses)  
 **GitHub:** [github.com/shourya0523/concord](https://github.com/shourya0523/concord)
 
+### Rubber Duck
+**Status:** Completed (August 2026)
+**Tech Stack:** Agent Skills, Node.js, MCP, SSE
+**Description:** Portable agent skill for rubber-duck debugging: index a repo, talk to a duck in the browser, and stream an agent's replies live.
+**GitHub:** [github.com/shourya0523/rubberduck](https://github.com/shourya0523/rubberduck)
+
+### Por-Kit
+**Status:** Active Development
+**Tech Stack:** Next.js, TypeScript, React, PostgreSQL
+**Description:** Hosted portfolio CMS for developers to import career data, sync selected GitHub projects, and embed live portfolio content through an SDK, API, or widgets.
+**GitHub:** [github.com/shourya0523/PorKit](https://github.com/shourya0523/PorKit)
+
 ### SiMSai
 **Status:** Active · 1st Place HHIC 2026  
 **Tech Stack:** Node.js, Twilio, Gemini, Redis, WhatsApp  
@@ -355,7 +367,10 @@ Northeastern University, D'Amore-McKim School of Business
 **Kroll** | June 2026 – August 2026 | New York, NY · Hybrid
 [kroll.com](https://www.kroll.com)
 
-- Built AI tools for internal teams
+- Built a geographic AI intelligence engine with Azure OpenAI, Llama, Databricks, knowledge graphs, WebGL, and a custom projection
+- Reached 70% cost-attribution coverage on Databricks through semantic and ML asset tagging
+- Migrated Chainsys-Databricks ETL workflows to improve turnaround time and uptime
+- Presented AI design tools through Kroll's enterprise knowledge-sharing program
 
 ### Undergraduate Teaching Assistant – Advanced Programming with Data
 **Northeastern University, Khoury College** | January 2026 – April 2026

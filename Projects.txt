@@ -9,6 +9,20 @@ Description: AI-assisted IB interview prep with thousands of real-world question
 Website: https://concord.courses
 GitHub: https://github.com/shourya0523/concord
 
+Rubber Duck
+-----------
+Period: August 2026
+Tech: Agent Skills, Node.js, MCP, SSE
+Description: Portable agent skill for rubber-duck debugging: index a repo, talk to a duck in the browser, and stream an agent's replies live.
+GitHub: https://github.com/shourya0523/rubberduck
+
+Por-Kit
+-------
+Period: May 2026 – Present
+Tech: Next.js, TypeScript, React, PostgreSQL
+Description: Hosted portfolio CMS for developers to import career data, sync selected GitHub projects, and embed live portfolio content through an SDK, API, or widgets.
+GitHub: https://github.com/shourya0523/PorKit
+
 SiMSai
 ------
 Period: February 2026 – Present

@@ -26,6 +26,28 @@ const projects = [
   },
   {
     id: 2,
+    title: 'Rubber Duck',
+    description: 'Portable agent skill for rubber-duck debugging: index a repo, talk to a duck in the browser, and stream an agent\'s replies live.',
+    tech: ['Agent Skills', 'Node.js', 'MCP', 'SSE'],
+    github: 'https://github.com/shourya0523/rubberduck',
+    demo: null,
+    period: 'August 2026',
+    color: '#06B6D4',
+    files: ['Skill', 'Bridge', 'Duck UI']
+  },
+  {
+    id: 3,
+    title: 'Por-Kit',
+    description: 'Hosted portfolio CMS for developers to import career data, sync selected GitHub projects, and embed live portfolio content through an SDK, API, or widgets.',
+    tech: ['Next.js', 'TypeScript', 'React', 'PostgreSQL'],
+    github: 'https://github.com/shourya0523/PorKit',
+    demo: null,
+    period: 'May 2026 – Present',
+    color: '#F59E0B',
+    files: ['CMS', 'SDK', 'Widgets']
+  },
+  {
+    id: 4,
     title: 'SiMSai',
     description: 'SMS-based agentic AI for remote patient monitoring. Works over basic text so patients without smartphones or reliable internet can still be reached. Won 1st place at the Husky Healthcare Innovation Challenge.',
     tech: ['Node.js', 'Twilio', 'Gemini', 'Redis'],
@@ -36,7 +58,7 @@ const projects = [
     files: ['Messaging', 'Agent', 'Alerts']
   },
   {
-    id: 3,
+    id: 5,
     title: 'Federated DICOM Search',
     description: 'Hospital-controlled imaging discovery for research. PHI stays at the hospital; the edge returns de-identified Clinical Evidence Records, count bands, and opaque study tokens.',
     tech: ['Healthcare', 'Data Engineering', 'Privacy'],
@@ -47,7 +69,7 @@ const projects = [
     files: ['Search', 'Edge', 'CERs']
   },
   {
-    id: 4,
+    id: 6,
     title: 'InSync',
     description: 'Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.',
     tech: ['Python', 'PostgreSQL', 'FastAPI', 'Scikit-Learn'],
@@ -58,7 +80,7 @@ const projects = [
     files: ['Database', 'Matching', 'Pipelines']
   },
   {
-    id: 5,
+    id: 7,
     title: 'DawnPa',
     description: 'Comprehensive full-stack platform for healthcare tooling, currently under active development.',
     tech: ['Full-Stack', 'Healthcare', 'Tooling'],
@@ -69,7 +91,7 @@ const projects = [
     files: ['Platform', 'Healthcare', 'Tooling']
   },
   {
-    id: 6,
+    id: 8,
     title: 'Pact',
     description: 'Mobile accountability app where I led product and architecture decisions, designing a scalable backend on AWS with MongoDB.',
     tech: ['FastAPI', 'React Native', 'AWS EC2/S3', 'MongoDB'],
@@ -80,7 +102,7 @@ const projects = [
     files: ['Backend', 'Frontend', 'Database']
   },
   {
-    id: 7,
+    id: 9,
     title: 'Claude Code Demo',
     description: 'Comprehensive workshop on rapid MVP prototyping for non-technical entrepreneurs, featuring 30+ examples, templates, and live demonstrations.',
     tech: ['Claude Code', 'React', 'Python'],
@@ -91,7 +113,7 @@ const projects = [
     files: ['Examples', 'Templates', 'Demos']
   },
   {
-    id: 8,
+    id: 10,
     title: 'Spendr',
     description: 'Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.',
     tech: ['JavaScript', 'Python', 'React'],
@@ -102,7 +124,7 @@ const projects = [
     files: ['Algorithm', 'UI', 'Data']
   },
   {
-    id: 9,
+    id: 11,
     title: 'CapTuring',
     description: 'NLP pipeline for detecting AI-generated text using TF-IDF and cosine similarity with extensible architecture.',
     tech: ['NumPy', 'Plotly', 'Scikit-Learn'],
@@ -113,7 +135,7 @@ const projects = [
     files: ['Pipeline', 'Features', 'Analysis']
   },
   {
-    id: 10,
+    id: 12,
     title: 'ClubWorks',
     description: 'Full-stack platform for college club operations featuring role-based access, analytics dashboards, and event workflows.',
     tech: ['Flask', 'MySQL', 'Streamlit', 'Docker'],

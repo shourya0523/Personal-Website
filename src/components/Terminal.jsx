@@ -580,7 +580,8 @@ Current:
 Recent:
   • Data Engineering Intern | Kroll
     Jun 2026 - Aug 2026 | New York, NY (Hybrid)
-    → Built AI tools for internal teams
+    → Built internal AI and data tools for risk and financial advisory teams
+    → Geographic AI intelligence engine; 70% Databricks cost-attribution coverage
 
   • Undergraduate Teaching Assistant | Khoury College
     Jan 2026 - Apr 2026
