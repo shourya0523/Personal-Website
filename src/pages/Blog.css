@@ -1,10 +1,12 @@
 .blog-app {
   background: #060815;
   color: #f5f3ff;
+  display: flex;
   height: 100%;
-  min-height: 100%;
+  min-height: 0;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .blog-app__ether {
@@ -12,6 +14,7 @@
   opacity: 0.42;
   pointer-events: none;
   position: absolute;
+  z-index: 0;
 }
 
 .blog-app__noise {
@@ -22,14 +25,18 @@
   opacity: .13;
   pointer-events: none;
   position: absolute;
+  z-index: 0;
 }
 
 .blog-app__content, .blog-article {
+  flex: 1;
   height: 100%;
+  min-height: 0;
   overflow-y: auto;
   padding: clamp(1.2rem, 3vw, 2.4rem);
   position: relative;
   scrollbar-color: rgba(196,181,253,.5) transparent;
+  z-index: 1;
 }
 
 .blog-app__header {
@@ -67,6 +74,9 @@
 @keyframes blog-pulse { 50% { box-shadow: 0 0 0 6px rgba(52,211,153,0); } }
 
 .blog-app__featured { margin: 0 auto 1.4rem; max-width: 1050px; }
+.blog-app__featured-spark, .blog-app__post-spark { display: block !important; width: 100% !important; }
+.blog-app__featured-button { background: none; border: 0; cursor: pointer; display: block; max-width: 620px; padding: 0; text-align: left; width: 100%; }
+.blog-app__featured-button .blog-post-card { min-height: 178px; }
 .blog-empty { margin: 1.2rem auto 1.8rem; max-width: 760px; overflow: hidden; position: relative; }
 .blog-empty__orb { border-radius: 50%; filter: blur(28px); opacity: .45; position: absolute; }
 .blog-empty__orb--one { background: #7c3aed; height: 130px; right: 9%; top: 10%; width: 130px; }

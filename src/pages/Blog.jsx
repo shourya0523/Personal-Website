@@ -89,7 +89,7 @@ function BlogIndex({ activeTag, posts, onTagChange, onOpenPost }) {
         </GlassSurface>
       </header>
 
-      {featured.length > 0 ? (
+      {featured.length > 1 ? (
         <section className="blog-app__featured" aria-label="Featured posts">
           <div className="blog-app__section-label">
             <span>NOW READING</span>
@@ -104,6 +104,18 @@ function BlogIndex({ activeTag, posts, onTagChange, onOpenPost }) {
               ))}
             </CardSwap>
           </div>
+        </section>
+      ) : featured.length === 1 ? (
+        <section className="blog-app__featured blog-app__featured--single" aria-label="Featured post">
+          <div className="blog-app__section-label">
+            <span>NOW READING</span>
+            <span className="blog-app__line" />
+          </div>
+          <ClickSpark className="blog-app__featured-spark" sparkColor={featured[0].accent} sparkSize={8} sparkRadius={22} sparkCount={6} duration={350}>
+            <button className="blog-app__featured-button" onClick={() => onOpenPost(featured[0])}>
+              <PostCard post={featured[0]} compact />
+            </button>
+          </ClickSpark>
         </section>
       ) : <EmptyArchive />}
 
@@ -130,7 +142,7 @@ function BlogIndex({ activeTag, posts, onTagChange, onOpenPost }) {
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ delay: index * 0.045 }}
             >
-              <ClickSpark sparkColor={post.accent} sparkSize={8} sparkRadius={22} sparkCount={6} duration={350}>
+              <ClickSpark className="blog-app__post-spark" sparkColor={post.accent} sparkSize={8} sparkRadius={22} sparkCount={6} duration={350}>
                 <button className="blog-app__post-button" onClick={() => onOpenPost(post)}>
                   <PostCard post={post} />
                 </button>
@@ -203,8 +215,7 @@ function Article({ post, onBack }) {
             <motion.section
               key={section.heading}
               initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08 }}
             >
               <h2>{section.heading}</h2>
