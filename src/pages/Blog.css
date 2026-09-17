@@ -1,7 +1,7 @@
 .blog-app {
   background: #060815;
   color: #f5f3ff;
-  display: flex;
+  display: block;
   height: 100%;
   min-height: 0;
   overflow: hidden;
@@ -32,7 +32,7 @@
 }
 
 .blog-app__content, .blog-article {
-  flex: 1;
+  box-sizing: border-box;
   height: 100%;
   min-height: 0;
   min-width: 0;
