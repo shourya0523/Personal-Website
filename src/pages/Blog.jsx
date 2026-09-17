@@ -39,14 +39,16 @@ export default function Blog() {
 
   return (
     <div className="blog-app">
-      <LiquidEther
-        className="blog-app__ether"
-        colors={['#1d4ed8', '#7c3aed', '#ec4899']}
-        resolution={0.35}
-        mouseForce={14}
-        cursorSize={70}
-        autoIntensity={1.4}
-      />
+      <div className="blog-app__ether-layer" aria-hidden="true">
+        <LiquidEther
+          className="blog-app__ether"
+          colors={['#1d4ed8', '#7c3aed', '#ec4899']}
+          resolution={0.35}
+          mouseForce={14}
+          cursorSize={70}
+          autoIntensity={1.4}
+        />
+      </div>
       <div className="blog-app__noise" aria-hidden="true" />
 
       <AnimatePresence mode="wait">

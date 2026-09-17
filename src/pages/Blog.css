@@ -9,15 +9,19 @@
   width: 100%;
 }
 
-.blog-app .blog-app__ether {
-  flex: none;
-  height: 100%;
+.blog-app__ether-layer {
   inset: 0;
-  opacity: 0.42;
+  overflow: hidden;
   pointer-events: none;
   position: absolute;
-  width: 100%;
   z-index: 0;
+}
+
+.blog-app__ether-layer .blog-app__ether {
+  flex: none;
+  height: 100%;
+  opacity: 0.42;
+  width: 100%;
 }
 
 .blog-app__noise {
@@ -33,16 +37,17 @@
 
 .blog-app__content, .blog-article {
   box-sizing: border-box;
-  height: 100%;
+  height: auto;
+  inset: 0;
   min-height: 0;
   min-width: 0;
   overflow-y: auto;
   padding: clamp(1.2rem, 3vw, 2.4rem);
-  position: relative;
+  position: absolute;
   scrollbar-color: rgba(196,181,253,.5) transparent;
+  width: auto;
   z-index: 1;
 }
-.blog-app__content { width: 100%; }
 
 .blog-app__header {
   align-items: flex-end;
