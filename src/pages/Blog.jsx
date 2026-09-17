@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, /* eslint-disable-line no-unused-vars */ motion } from 'framer-motion'
 import { ArrowLeft, ArrowUpRight, BookOpenText, CalendarDays, Clock3, Sparkles } from 'lucide-react'
 import CardSwap, { Card } from '../components/CardSwap/CardSwap'
 import ClickSpark from '../components/ClickSpark'
