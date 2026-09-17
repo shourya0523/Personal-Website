@@ -14,6 +14,20 @@ const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 }).format(new Date(`${date}T12:00:00`))
 
+const urlPattern = /(https?:\/\/[^\s]+)/g
+
+function LinkedParagraph({ text }) {
+  return (
+    <p>
+      {text.split(urlPattern).map((part, index) => (
+        part.startsWith('https://') || part.startsWith('http://') ? (
+          <a key={`${part}-${index}`} href={part} target="_blank" rel="noopener noreferrer">{part}</a>
+        ) : part
+      ))}
+    </p>
+  )
+}
+
 export default function Blog() {
   const [activeTag, setActiveTag] = useState('All')
   const [selectedPost, setSelectedPost] = useState(null)
@@ -194,7 +208,7 @@ function Article({ post, onBack }) {
               transition={{ delay: index * 0.08 }}
             >
               <h2>{section.heading}</h2>
-              {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+              {section.paragraphs.map(paragraph => <LinkedParagraph key={paragraph} text={paragraph} />)}
             </motion.section>
           ))}
           <footer>— Shourya</footer>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Sparkles, BookOpenText } from 'lucide-react'
 import { WindowProvider } from './contexts/WindowContext'
@@ -52,12 +52,12 @@ const apps = [
 const desktopApps = [
   { id: 'about', position: { x: 50, y: 100 } },
   { id: 'projects', position: { x: 50, y: 200 } },
-  { id: 'blog', position: { x: 50, y: 250 } },
-  { id: 'resume', position: { x: 50, y: 300 } },
-  { id: 'contact', position: { x: 50, y: 400 } },
-  { id: 'terminal', position: { x: 50, y: 500 } },
-  { id: 'music', position: { x: 50, y: 600 } },
-  { id: 'wallpaper', position: { x: 50, y: 700 } },
+  { id: 'blog', position: { x: 50, y: 300 } },
+  { id: 'resume', position: { x: 50, y: 400 } },
+  { id: 'contact', position: { x: 50, y: 500 } },
+  { id: 'terminal', position: { x: 50, y: 600 } },
+  { id: 'music', position: { x: 50, y: 700 } },
+  { id: 'wallpaper', position: { x: 50, y: 800 } },
 ]
 
 function DesktopOS() {
@@ -65,6 +65,7 @@ function DesktopOS() {
   const { userName } = useUser()
   const { wallpaperUrl } = useWallpaper()
   const [isMobile, setIsMobile] = useState(false)
+  const hasOpenedDeepLink = useRef(false)
   const sounds = useSounds()
 
   useEffect(() => {
@@ -169,6 +170,18 @@ function DesktopOS() {
       }
     }
   }
+
+  useEffect(() => {
+    const requestedApp = new URLSearchParams(window.location.search).get('app')
+    const isBlogDeepLink = requestedApp === 'blog' || window.location.hash === '#blog'
+
+    if (!isBlogDeepLink || hasOpenedDeepLink.current) return
+
+    hasOpenedDeepLink.current = true
+    handleAppClick(apps.find(app => app.id === 'blog'))
+    // This intentionally runs only when DesktopOS mounts after login.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleWindowClick = (windowId) => {
     const window = windows.find(w => w.id === windowId)

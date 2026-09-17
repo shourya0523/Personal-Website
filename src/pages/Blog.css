@@ -117,6 +117,8 @@
 .blog-article section { max-width: 62ch; }
 .blog-article section h2 { color: white; font-size: 1.3rem; letter-spacing: -.03em; margin: 1.8rem 0 .6rem; }
 .blog-article section p { color: #cbd5e1; line-height: 1.8; margin: 0 0 1rem; }
+.blog-article section a { color: var(--post-accent); overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--post-accent) 50%, transparent); text-underline-offset: .2em; }
+.blog-article section a:hover { color: white; text-decoration-color: white; }
 .blog-article footer { color: var(--post-accent); font-family: ui-monospace, monospace; margin-top: 2rem; }
 
 @media (max-width: 620px) {
