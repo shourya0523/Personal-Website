@@ -9,11 +9,14 @@
   width: 100%;
 }
 
-.blog-app__ether {
+.blog-app .blog-app__ether {
+  flex: none;
+  height: 100%;
   inset: 0;
   opacity: 0.42;
   pointer-events: none;
   position: absolute;
+  width: 100%;
   z-index: 0;
 }
 
@@ -32,12 +35,14 @@
   flex: 1;
   height: 100%;
   min-height: 0;
+  min-width: 0;
   overflow-y: auto;
   padding: clamp(1.2rem, 3vw, 2.4rem);
   position: relative;
   scrollbar-color: rgba(196,181,253,.5) transparent;
   z-index: 1;
 }
+.blog-app__content { width: 100%; }
 
 .blog-app__header {
   align-items: flex-end;
