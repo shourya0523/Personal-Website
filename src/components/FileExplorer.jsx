@@ -336,6 +336,20 @@ A hackathon-winning financial compatibility app using bank data analysis and spe
           }
         } 
       },
+      'Blog': {
+        type: 'folder',
+        color: '#A78BFA',
+        children: {
+          'Field Notes.md': {
+            type: 'file',
+            content: `# Field Notes
+
+Short build notes on AI, healthcare, finance, and making things.
+
+Open the Blog app for the reading view.`
+          }
+        }
+      },
       'Resume': { 
         type: 'folder', 
         color: '#10B981',

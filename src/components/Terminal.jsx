@@ -29,6 +29,7 @@ const appCommands = {
   'contact': { name: 'Contact', icon: '📧' },
   'awards': { name: 'Awards', icon: '🏆' },
   'leadership': { name: 'Leadership', icon: '👥' },
+  'blog': { name: 'Blog', icon: '📖' },
   'explorer': { name: 'File Explorer', icon: '📁' },
   'music': { name: 'Music Player', icon: '🎵' },
   'wallpaper': { name: 'Wallpaper', icon: '🖼️' },
@@ -310,6 +311,7 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
       'contact': () => import('../pages/Contact').then(m => ({ default: m.default })),
       'awards': () => import('../pages/Awards').then(m => ({ default: m.default })),
       'leadership': () => import('../pages/Leadership').then(m => ({ default: m.default })),
+      'blog': () => import('../pages/Blog').then(m => ({ default: m.default })),
       'explorer': () => import('../components/FileExplorer').then(m => ({ default: m.default })),
       'music': () => import('../pages/MusicPlayer').then(m => ({ default: m.default })),
       'wallpaper': () => import('../pages/WallpaperSelector').then(m => ({ default: m.default })),
@@ -402,7 +404,7 @@ export default function Terminal({ onFileClick, onOpenApp, apps: appsList }) {
       if (!appId) {
         setHistory(prev => [...prev, {
           type: 'output',
-          text: 'Usage: open <app>\nAvailable apps: about, projects, resume, contact, awards, leadership, explorer, music, wallpaper',
+          text: 'Usage: open <app>\nAvailable apps: about, projects, blog, resume, contact, awards, leadership, explorer, music, wallpaper',
           outputType: 'error'
         }])
       } else if (appCommands[appId]) {
@@ -815,8 +817,8 @@ User: ${userName || 'guest'}`,
         outputType: 'info'
       }])
     }
-    // Projects, resume, contact, awards, leadership - open apps
-    else if (['projects', 'resume', 'contact', 'awards', 'leadership', 'explorer'].includes(command)) {
+    // Projects, resume, contact, awards, leadership, blog - open apps
+    else if (['projects', 'resume', 'contact', 'awards', 'leadership', 'blog', 'explorer'].includes(command)) {
       openApp(command)
     }
     // Random easter egg command
