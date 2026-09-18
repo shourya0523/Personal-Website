@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, /* eslint-disable-line no-unused-vars */ motion } from 'framer-motion'
 import { ArrowLeft, ArrowUpRight, BookOpenText, CalendarDays, Clock3, Sparkles } from 'lucide-react'
-import CardSwap, { Card } from '../components/CardSwap/CardSwap'
 import ClickSpark from '../components/ClickSpark'
 import GlassSurface from '../components/GlassSurface'
-import LiquidEther from '../components/LiquidEther/LiquidEther'
+import ReflectiveCard from '../components/ReflectiveCard/ReflectiveCard'
 import { blogPosts, blogTags } from '../data/blogPosts'
 import './Blog.css'
 
@@ -14,18 +13,68 @@ const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 }).format(new Date(`${date}T12:00:00`))
 
-const urlPattern = /(https?:\/\/[^\s]+)/g
+const inlineMarkdown = /(\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*)/g
 
-function LinkedParagraph({ text }) {
-  return (
-    <p>
-      {text.split(urlPattern).map((part, index) => (
-        part.startsWith('https://') || part.startsWith('http://') ? (
-          <a key={`${part}-${index}`} href={part} target="_blank" rel="noopener noreferrer">{part}</a>
-        ) : part
-      ))}
-    </p>
-  )
+function InlineMarkdown({ text }) {
+  const nodes = []
+  let lastIndex = 0
+
+  for (const match of text.matchAll(inlineMarkdown)) {
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index))
+
+    if (match[2]) {
+      nodes.push(
+        <a key={`${match[3]}-${match.index}`} href={match[3]} target="_blank" rel="noopener noreferrer">
+          <InlineMarkdown text={match[2]} />
+        </a>,
+      )
+    } else if (match[4]) {
+      nodes.push(<strong key={match.index}>{match[4]}</strong>)
+    } else {
+      nodes.push(<em key={match.index}>{match[5]}</em>)
+    }
+    lastIndex = match.index + match[0].length
+  }
+
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex))
+  return nodes
+}
+
+function MarkdownBody({ markdown }) {
+  return markdown.split(/\n{2,}/).map((block, index) => {
+    if (block.startsWith('## ')) return <h2 key={block}>{block.slice(3)}</h2>
+
+    const lines = block.split('\n')
+    if (lines.every(line => /^\s*\* /.test(line))) {
+      const items = []
+      lines.forEach(line => {
+        const nested = line.startsWith('  * ')
+        const text = line.replace(/^\s*\* /, '')
+        if (nested && items.length) {
+          items[items.length - 1].children.push(text)
+        } else {
+          items.push({ text, children: [] })
+        }
+      })
+
+      return (
+        <ul key={`list-${index}`}>
+          {items.map(item => (
+            <li key={item.text}>
+              <InlineMarkdown text={item.text} />
+              {item.children.length > 0 && (
+                <ul>
+                  {item.children.map(child => <li key={child}><InlineMarkdown text={child} /></li>)}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    return <p key={`paragraph-${index}`}><InlineMarkdown text={block} /></p>
+  })
 }
 
 export default function Blog() {
@@ -39,16 +88,6 @@ export default function Blog() {
 
   return (
     <div className="blog-app">
-      <div className="blog-app__ether-layer" aria-hidden="true">
-        <LiquidEther
-          className="blog-app__ether"
-          colors={['#1d4ed8', '#7c3aed', '#ec4899']}
-          resolution={0.35}
-          mouseForce={14}
-          cursorSize={70}
-          autoIntensity={1.4}
-        />
-      </div>
       <div className="blog-app__noise" aria-hidden="true" />
 
       <AnimatePresence mode="wait">
@@ -68,7 +107,7 @@ export default function Blog() {
 }
 
 function BlogIndex({ activeTag, posts, onTagChange, onOpenPost }) {
-  const featured = blogPosts.slice(0, 3)
+  const featured = blogPosts[0]
 
   return (
     <motion.main
@@ -91,31 +130,15 @@ function BlogIndex({ activeTag, posts, onTagChange, onOpenPost }) {
         </GlassSurface>
       </header>
 
-      {featured.length > 1 ? (
-        <section className="blog-app__featured" aria-label="Featured posts">
-          <div className="blog-app__section-label">
-            <span>NOW READING</span>
-            <span className="blog-app__line" />
-          </div>
-          <div className="blog-app__swap-wrap">
-            <CardSwap width={330} height={208} cardDistance={23} verticalDistance={14} delay={6500} pauseOnHover easing="power1">
-              {featured.map((post) => (
-                <Card key={post.id} className="blog-app__swap-card" onClick={() => onOpenPost(post)}>
-                  <PostCard post={post} compact />
-                </Card>
-              ))}
-            </CardSwap>
-          </div>
-        </section>
-      ) : featured.length === 1 ? (
+      {featured ? (
         <section className="blog-app__featured blog-app__featured--single" aria-label="Featured post">
           <div className="blog-app__section-label">
             <span>NOW READING</span>
             <span className="blog-app__line" />
           </div>
-          <ClickSpark className="blog-app__featured-spark" sparkColor={featured[0].accent} sparkSize={8} sparkRadius={22} sparkCount={6} duration={350}>
-            <button className="blog-app__featured-button" onClick={() => onOpenPost(featured[0])}>
-              <PostCard post={featured[0]} compact />
+          <ClickSpark className="blog-app__featured-spark" sparkColor={featured.accent} sparkSize={8} sparkRadius={22} sparkCount={6} duration={350}>
+            <button className="blog-app__featured-button" onClick={() => onOpenPost(featured)}>
+              <PostCard post={featured} compact reflective />
             </button>
           </ClickSpark>
         </section>
@@ -172,8 +195,8 @@ function EmptyArchive() {
   )
 }
 
-function PostCard({ post, compact = false }) {
-  return (
+function PostCard({ post, compact = false, reflective = false }) {
+  const card = (
     <div className={`blog-post-card ${compact ? 'blog-post-card--compact' : ''}`} style={{ '--post-accent': post.accent }}>
       <div className="blog-post-card__glow" aria-hidden="true" />
       <div className="blog-post-card__topline">
@@ -188,6 +211,17 @@ function PostCard({ post, compact = false }) {
       </footer>
     </div>
   )
+
+  return reflective ? (
+    <ReflectiveCard
+      className="blog-post-card__reflective"
+      color="#f5f3ff"
+      overlayColor="rgba(15, 23, 42, 0.62)"
+      roughness={0.22}
+    >
+      {card}
+    </ReflectiveCard>
+  ) : card
 }
 
 function Article({ post, onBack }) {
@@ -213,17 +247,7 @@ function Article({ post, onBack }) {
           <h1>{post.title}</h1>
           <p className="blog-article__deck">{post.excerpt}</p>
           <div className="blog-article__rule" />
-          {post.body.map((section, index) => (
-            <motion.section
-              key={section.heading}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08 }}
-            >
-              <h2>{section.heading}</h2>
-              {section.paragraphs.map(paragraph => <LinkedParagraph key={paragraph} text={paragraph} />)}
-            </motion.section>
-          ))}
+          <MarkdownBody markdown={post.bodyMarkdown} />
           <footer>— Shourya</footer>
         </div>
       </GlassSurface>

@@ -1,98 +1,37 @@
 export const blogPosts = [
   {
     id: 'agentic-ai-use-guide',
-    title: 'Agentic AI, the right way: the guide I give engineers I mentor',
-    excerpt: 'How I ask mentees to use AI on real projects — not as autocomplete with vibes, but as a system of planning, context, skills, connectors, and verification.',
+    title: 'Please use agentic AI!!',
+    excerpt: 'We are working for a real client. We need to build this product in a really short window, and do high quality work.',
     date: '2026-09-17',
     readTime: '12 min',
     tags: ['AI', 'Engineering', 'Mentoring'],
     accent: '#7c3aed',
-    body: [
-      {
-        heading: 'Why this exists',
-        paragraphs: [
-          'This is the AI use guide I give engineers I am mentoring on a project. Not a manifesto. A working agreement so we ship faster without outsourcing judgment.',
-          'A recent MIT Media Lab study on LLM-assisted writing ("Your Brain on ChatGPT") found that people who leaned on an assistant across sessions showed weaker neural connectivity and weaker ownership of their own output than people who wrote unaided. Read it as a caution about cognitive offloading, not as "AI makes you dumb": https://www.media.mit.edu/publications/your-brain-on-chatgpt/ and the preprint: https://arxiv.org/pdf/2506.08872',
-          'The point for us: if you skip the thinking layer, you get speed theater. If you keep the thinking layer and put AI behind it, you get leverage.'
-        ]
-      },
-      {
-        heading: 'Please use agentic AI',
-        paragraphs: [
-          'I want you using agentic AI — systems that plan, use tools, manage context, and verify — not one-shot chat that dumps a wall of code you cannot defend.',
-          'That means: clear goals, scoped sub-tasks, persistent project memory, reusable skills, live connectors, and a bias toward testing what you just changed. Cursor, Claude Code, and similar agent harnesses are built for this loop. Treat them like junior teammates you still review.'
-        ]
-      },
-      {
-        heading: 'Start with a plan (and keep it visible)',
-        paragraphs: [
-          'Before you touch implementation, ask the agent for a plan. Force it to name assumptions, files it will touch, risks, and a definition of done.',
-          'In Claude Code, kick off with /plan or an equivalent planning mode so the approach is reviewable before diffs land. Docs: https://code.claude.com/docs/en/features-overview',
-          'In Cursor, use Plan / agent mode the same way: approve the approach, then let it execute. If the plan is vague, reject it. Vague plans create expensive thrash.'
-        ]
-      },
-      {
-        heading: 'Context is the product',
-        paragraphs: [
-          'Agents are only as good as what they can see. Put durable project truth in CLAUDE.md (or the equivalent always-on memory file). Keep it short: build/test commands, architecture invariants, "always do X" rules. Docs: https://code.claude.com/docs/en/memory',
-          'If your repo already has AGENTS.md for other tools, point CLAUDE.md at it with an @AGENTS.md import so you are not maintaining two sources of truth.',
-          'For long procedures, do not stuff CLAUDE.md. Move them into skills — on-demand playbooks that load only when relevant. Skills docs: https://code.claude.com/docs/en/skills',
-          'Rule of thumb: facts and invariants → memory file. Multi-step recipes → skills. One-off chat paste → you are doing it wrong.'
-        ]
-      },
-      {
-        heading: 'Subagents, connectors, and token hygiene',
-        paragraphs: [
-          'Break work the way a strong tech lead would. Investigation, implementation, and verification can be separate agent passes with clean handoffs instead of one giant context window that slowly loses the plot.',
-          'Wire connectors (MCP / integrations) for the systems you actually touch — GitHub, Linear, docs, browsers, databases — so the agent reads live state instead of guessing from stale paste.',
-          'Be token-efficient on purpose. Prefer targeted file reads over dumping the repo. Prefer summarizing tool output over re-pasting it. Prefer small diffs over rewrite-the-world PRs. Context bloat is how agents get confidently wrong.'
-        ]
-      },
-      {
-        heading: 'Model choice: plan hard, execute cheap',
-        paragraphs: [
-          'Use the strongest reasoning model for planning, architecture, and ambiguous debugging. Use a faster mid-tier model for bounded execution once the plan is solid.',
-          'My default split on Claude: Opus-class for planning and hard reasoning; Sonnet-class for implementation once the path is clear. Escalate back to the stronger model when the executor is thrashing, the bug is cross-cutting, or the plan itself looks wrong.',
-          'Do not spend frontier tokens on "rename this prop" work. Do not spend cheap tokens on "redesign the auth boundary" work. Match model to the decision density of the step.'
-        ]
-      },
-      {
-        heading: 'Testing is part of the agent loop',
-        paragraphs: [
-          'An agent that cannot run tests is guessing. Make test commands obvious in project memory. Ask for red → green when fixing bugs. Ask for a focused regression when changing behavior.',
-          'For UI, require screenshots or a short verification checklist. For APIs, require a curl or integration check. "Looks good to me" from an agent is not a test.',
-          'If tests are missing for the area you touched, adding a minimal one is often higher leverage than another feature commit.'
-        ]
-      },
-      {
-        heading: 'What good looks like on this project',
-        paragraphs: [
-          'You open with a plan I can skim in two minutes.',
-          'You update CLAUDE.md / skills when you learn something durable.',
-          'You use connectors instead of hallucinating ticket or repo state.',
-          'You keep diffs reviewable.',
-          'You show evidence: tests, logs, screenshots, or a repro.',
-          'You can explain every non-trivial change without the chat transcript open.'
-        ]
-      },
-      {
-        heading: 'What I will push back on',
-        paragraphs: [
-          'Blind accept of a giant diff.',
-          'Shipping code you cannot narrate.',
-          'Skipping plan mode because "it was a small change" (until it was not).',
-          'Pasting secrets into prompts.',
-          'Using AI to avoid reading the failing test.'
-        ]
-      },
-      {
-        heading: 'Bottom line',
-        paragraphs: [
-          'Agentic AI is a force multiplier for engineers who keep ownership. It is a liability for engineers who outsource understanding.',
-          'Use the agents. Keep the judgment. Write it down so the next session starts smarter than this one.'
-        ]
-      }
-    ]
+    bodyMarkdown: `This is the AI use guide I give to engineers I am mentoring for a project.
+
+We are working for a real client. We need to build this product in a really short window, and do high quality work. Software engineering has irreversibly changed through the advent of agentic AI, and you will use the skills you develop here wherever you work. If you have no experience with agentic development, I highly recommend sitting with me through a workshop.
+
+## That Said:
+
+There is a lot of research on code quality and cognitive impacts of GenAI use. We must still use it responsibly and with care if we are to create quality software.
+
+To quote an MIT study - [*"LLM users consistently underperformed at neural, linguistic, and behavioral levels. These results raise concerns about the long-term educational implications of LLM reliance and underscore the need for deeper inquiry into AI's role in learning"*](https://www.media.mit.edu/publications/your-brain-on-chatgpt/)
+
+## How do we do that? - Guidelines on AI Use
+
+* **Plan, then execute** - Goes without saying. Throwing an LLM directly at a problem will never yield good results. Tools like Cursor, Claude, all come with a dedicated plan mode for this reason. *(/plan)*. The benefits of planning are two-fold:
+  * Forces the LLM to deeply examine the codebase and analyse approaches
+  * You're smarter than an LLM! I trust your judgement. Read the plan, discuss, analyze, and push back!
+* **Subagents** - LLMs perform worse the more full their context window gets. There are multiple strategies to avoid this, including subagents, or breaking up a task into smaller workflows. Features can be large and complicated, and every line your agent writes makes it perform worse. Either specify the use of subagents when you create your plan, or break the task up yourself.
+* **Context management** - Building on the last point - Agents forget. If you see a pattern of bugs, are opinionated about style or tech stack, documentation! [Claude.md](https://code.claude.com/docs/en/memory) or .cursorrules are great starting points. In fact, when we begin development, I will share an [agents.md](https://agents.md) file for us to all edit and use.
+* **Skills** - Further on context management, there are ways to tailor your agent to your workflow. Building [skill.md](https://code.claude.com/docs/en/skills) files not only lets you save repeatable workflows, like testing, deployment, and debugging, but is also a great way to tailor your agentic workflow to your project.
+* **Connectors** - Software engineering is more than writing code. It is deployment, integrations, smoke-testing, data engineering, and more. It is extremely token and time inefficient to connect to these external tools without using MCP servers, skills, and connectors. Always search Claude and Cursor marketplaces for external connectors you can use.
+* **Token Efficiency** - Agents can be expensive! Understand what model you are using for your task. Cursors auto mode is a great default. For Claude, Fable 5.1 is a very rare use case. Use it for complex debugging, planning, or agent orchestration. Opus 5 is a expensive but powerful workhorse. Sonnet 5 should work for most of your subagents and one-off tasks.
+* **Testing** - Lets be honest. We are in the era of long running agents. It is unrealistic to expect each one of you to review thousands of lines of code a week. However, an agent needs to know when its wrong. Always have a agent test and verify after completing a feature. Pay attention to *what* you are testing. *[types of tests](https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing)*.
+
+## There is so much more
+
+Every developer picks up their own style and use cases for AI. Please experiment, learn, and be conscious of what you trust. All of you are talented, opinionated developers, so let your opinions reflect in your output. Good luck!`
   }
 ]
 
