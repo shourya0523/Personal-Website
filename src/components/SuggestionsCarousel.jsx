@@ -31,6 +31,14 @@ const suggestions = [
     color: 'purple'
   },
   {
+    id: 'blog',
+    title: 'Read Field Notes',
+    description: 'A mentoring guide to using agentic AI well',
+    icon: '📖',
+    action: 'blog',
+    color: 'purple'
+  },
+  {
     id: 'music',
     title: 'Listen to Music',
     description: 'Play my favorite songs',

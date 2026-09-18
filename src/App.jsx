@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Sparkles } from 'lucide-react'
+import { User, Briefcase, FileText, Mail, Terminal as TerminalIcon, Music, Folder, Image as ImageIcon, Trophy, Users, Sparkles, BookOpenText } from 'lucide-react'
 import { WindowProvider } from './contexts/WindowContext'
 import { useWindows } from './contexts/useWindows'
 import { SoundProvider, useSounds } from './contexts/SoundContext'
@@ -21,6 +21,7 @@ import Leadership from './pages/Leadership'
 import MusicPlayer from './pages/MusicPlayer'
 import WallpaperSelector from './pages/WallpaperSelector'
 import Suggestions from './pages/Suggestions'
+import Blog from './pages/Blog'
 import SuggestionsCarousel from './components/SuggestionsCarousel'
 import FallingParticles from './components/FallingParticles'
 import LandingPage from './components/LandingPage'
@@ -39,6 +40,7 @@ const apps = [
   { id: 'contact', type: 'contact', label: 'Contact', icon: '📧', iconElement: <Mail size={24} />, color: 'orange', component: Contact },
   { id: 'awards', type: 'awards', label: 'Awards', icon: '🏆', iconElement: <Trophy size={24} />, color: 'yellow', component: Awards },
   { id: 'leadership', type: 'leadership', label: 'Leadership', icon: '👥', iconElement: <Users size={24} />, color: 'cyan', component: Leadership },
+  { id: 'blog', type: 'blog', label: 'Blog', icon: '📖', iconElement: <BookOpenText size={24} />, color: 'purple', component: Blog },
   { id: 'explorer', type: 'explorer', label: 'File Explorer', icon: '📁', iconElement: <Folder size={24} />, color: 'indigo', component: FileExplorer },
   { id: 'terminal', type: 'terminal', label: 'Terminal', icon: '💻', iconElement: <TerminalIcon size={24} />, color: 'red', component: Terminal },
   { id: 'music', type: 'music', label: 'Music Player', icon: '🎵', iconElement: <Music size={24} />, color: 'purple', component: MusicPlayer },
@@ -50,11 +52,12 @@ const apps = [
 const desktopApps = [
   { id: 'about', position: { x: 50, y: 100 } },
   { id: 'projects', position: { x: 50, y: 200 } },
-  { id: 'resume', position: { x: 50, y: 300 } },
-  { id: 'contact', position: { x: 50, y: 400 } },
-  { id: 'terminal', position: { x: 50, y: 500 } },
-  { id: 'music', position: { x: 50, y: 600 } },
-  { id: 'wallpaper', position: { x: 50, y: 700 } },
+  { id: 'blog', position: { x: 50, y: 300 } },
+  { id: 'resume', position: { x: 50, y: 400 } },
+  { id: 'contact', position: { x: 50, y: 500 } },
+  { id: 'terminal', position: { x: 50, y: 600 } },
+  { id: 'music', position: { x: 50, y: 700 } },
+  { id: 'wallpaper', position: { x: 50, y: 800 } },
 ]
 
 function DesktopOS() {
@@ -62,6 +65,7 @@ function DesktopOS() {
   const { userName } = useUser()
   const { wallpaperUrl } = useWallpaper()
   const [isMobile, setIsMobile] = useState(false)
+  const hasOpenedDeepLink = useRef(false)
   const sounds = useSounds()
 
   useEffect(() => {
@@ -113,6 +117,7 @@ function DesktopOS() {
       '2026': 'awards',
       'Roles.json': 'leadership',
       'Experience.md': 'leadership',
+      'Field Notes.md': 'blog',
     }
 
     // Handle README.md files and project files - map to parent folder's app
@@ -137,6 +142,7 @@ function DesktopOS() {
         '2025': 'awards',
         '2026': 'awards',
         'Leadership': 'leadership',
+        'Blog': 'blog',
         'ACM': 'leadership',
         'SGA': 'leadership',
         'The AI Collective': 'leadership',
@@ -164,6 +170,18 @@ function DesktopOS() {
       }
     }
   }
+
+  useEffect(() => {
+    const requestedApp = new URLSearchParams(window.location.search).get('app')
+    const isBlogDeepLink = requestedApp === 'blog' || window.location.hash === '#blog'
+
+    if (!isBlogDeepLink || hasOpenedDeepLink.current) return
+
+    hasOpenedDeepLink.current = true
+    handleAppClick(apps.find(app => app.id === 'blog'))
+    // This intentionally runs only when DesktopOS mounts after login.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleWindowClick = (windowId) => {
     const window = windows.find(w => w.id === windowId)
@@ -303,7 +321,7 @@ function DesktopOS() {
       {/* Dock */}
       <Dock
         items={apps
-          .filter(app => ['about', 'projects', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id))
+          .filter(app => ['about', 'projects', 'blog', 'resume', 'contact', 'awards', 'leadership', 'explorer', 'terminal', 'music', 'wallpaper'].includes(app.id))
           .map(app => {
             const windowForApp = windows.find(w => w.type === app.type)
             return {
