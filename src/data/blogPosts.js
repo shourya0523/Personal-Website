@@ -2,7 +2,7 @@ export const blogPosts = [
   {
     id: 'agentic-ai-use-guide',
     title: 'Please use agentic AI!!',
-    excerpt: 'We are working for a real client. We need to build this product in a really short window, and do high quality work.',
+    excerpt: 'This is the AI use guide I give to engineers I am mentoring for a project.',
     date: '2026-09-17',
     readTime: '12 min',
     tags: ['AI', 'Engineering', 'Mentoring'],
