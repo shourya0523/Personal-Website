@@ -1,0 +1,10 @@
+/* Self-hosted type: Erode (display), Chillax (UI), Sono (mono). Files in public/fonts. */
+@font-face{font-family:'Erode';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/erode-500.woff2') format('woff2')}
+@font-face{font-family:'Erode';font-weight:500;font-style:italic;font-display:swap;src:url('/fonts/erode-500-italic.woff2') format('woff2')}
+@font-face{font-family:'Erode';font-weight:600;font-style:normal;font-display:swap;src:url('/fonts/erode-600.woff2') format('woff2')}
+@font-face{font-family:'Erode';font-weight:600;font-style:italic;font-display:swap;src:url('/fonts/erode-600-italic.woff2') format('woff2')}
+@font-face{font-family:'Chillax';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/chillax-400.woff2') format('woff2')}
+@font-face{font-family:'Chillax';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/chillax-500.woff2') format('woff2')}
+@font-face{font-family:'Chillax';font-weight:600;font-style:normal;font-display:swap;src:url('/fonts/chillax-600.woff2') format('woff2')}
+@font-face{font-family:'Sono';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/sono-400.woff2') format('woff2')}
+@font-face{font-family:'Sono';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/sono-500.woff2') format('woff2')}

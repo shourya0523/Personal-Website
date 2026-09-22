@@ -1,0 +1,59 @@
+/* ShouryaOS design tokens. One material, one radius set, one type scale.
+   Palette is wallpaper-driven: the html[data-wallpaper] attribute swaps the hue set. */
+:root{
+  /* type */
+  --font-display:'Erode',Georgia,'Times New Roman',serif;
+  --font-ui:'Chillax',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'Sono','SF Mono',ui-monospace,Menlo,monospace;
+  --fs-2xs:11px;--fs-xs:12px;--fs-sm:13px;--fs-md:15px;--fs-lg:17px;--fs-xl:22px;--fs-2xl:30px;--fs-3xl:44px;
+  --lh-tight:1.1;--lh-body:1.55;
+  --track-label:.12em;
+
+  /* radii */
+  --r-control:8px;--r-card:12px;--r-window:14px;--r-panel:18px;--r-icon:27%;
+
+  /* spacing */
+  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:48px;
+
+  /* chrome metrics */
+  --menubar-h:30px;--dock-h:72px;--dock-icon:52px;--desktop-icon:64px;--desktop-grid-x:96px;--desktop-grid-y:104px;
+
+  /* motion */
+  --ease-out:cubic-bezier(.2,.8,.2,1);--ease-spring:cubic-bezier(.34,1.4,.64,1);--dur-fast:140ms;--dur-base:220ms;--dur-slow:420ms;
+
+  /* palette: Moonrise Swell (default) */
+  --ink:#0e1a20;--ink-2:#132229;--ink-3:#1a2d35;
+  --tint:26,62,66;              /* glass tint rgb */
+  --text:#ece6d8;--text-2:rgba(236,230,216,.72);--text-3:rgba(236,230,216,.48);
+  --line:rgba(236,230,216,.12);--line-2:rgba(236,230,216,.2);
+  --accent:#f0a35e;--accent-ink:#2a1608;--accent-2:#7fd6c3;--cream:#f4dcb2;
+  --icon-paper:#f1dcb6;--icon-paper-2:#e6c894;--icon-ink:#173238;--icon-dot:#3fb2a0;
+  --danger:#ff5f57;--warn:#febc2e;--ok:#28c840;
+}
+:root[data-wallpaper="survey"]{
+  --ink:#0c1216;--ink-2:#121b21;--ink-3:#18242b;--tint:20,40,46;
+  --text:#e9dfc9;--text-2:rgba(233,223,201,.72);--text-3:rgba(233,223,201,.48);--line:rgba(233,223,201,.12);--line-2:rgba(233,223,201,.2);
+  --accent:#f4aa60;--accent-2:#e2c48c;--cream:#e9dcbf;
+  --icon-paper:#ead9b4;--icon-paper-2:#d9bf8a;--icon-ink:#14232a;--icon-dot:#f4aa60;
+}
+:root[data-wallpaper="circuit"]{
+  --ink:#0a0f16;--ink-2:#10161f;--ink-3:#161f2a;--tint:18,28,40;
+  --text:#e4e9ec;--text-2:rgba(228,233,236,.72);--text-3:rgba(228,233,236,.48);--line:rgba(228,233,236,.12);--line-2:rgba(228,233,236,.2);
+  --accent:#f4aa60;--accent-2:#7ed6c4;--cream:#dfe7ea;
+  --icon-paper:#dfe7ea;--icon-paper-2:#c4d1d6;--icon-ink:#0f1a24;--icon-dot:#7ed6c4;
+}
+
+/* Glass material (CSS fallback + window frames). Chrome (menu bar, dock) is upgraded to WebGL at runtime. */
+.glass{
+  background:rgba(var(--tint),.30);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(0,0,0,.18),0 10px 30px rgba(0,0,0,.35);
+}
+.glass--window{
+  background:rgba(var(--tint),.74);
+  -webkit-backdrop-filter:blur(34px) saturate(140%);backdrop-filter:blur(34px) saturate(140%);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 30px 60px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.3);
+}
+.label{font-family:var(--font-mono);font-size:var(--fs-2xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--accent)}

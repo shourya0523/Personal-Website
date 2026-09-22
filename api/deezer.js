@@ -35,7 +35,7 @@ export const config = {
           'Access-Control-Allow-Origin': allowedOrigin,
         },
       });
-    } catch (error) {
+    } catch {
       return new Response(JSON.stringify({ error: 'Failed to fetch from Deezer' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },

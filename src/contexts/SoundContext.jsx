@@ -12,7 +12,7 @@ class WoodblockSoundGenerator {
   initAudioContext() {
     try {
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
-    } catch (e) {
+    } catch {
       // Web Audio API not supported - graceful degradation
     }
   }
@@ -51,7 +51,7 @@ class WoodblockSoundGenerator {
 
       oscillator.start(now)
       oscillator.stop(now + duration)
-    } catch (e) {
+    } catch {
       // Silently fail
     }
   }
@@ -90,7 +90,7 @@ class WoodblockSoundGenerator {
       gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.05 + duration)
       osc2.start(now + 0.05)
       osc2.stop(now + 0.05 + duration)
-    } catch (e) {
+    } catch {
       // Silently fail
     }
   }
@@ -116,7 +116,7 @@ class WoodblockSoundGenerator {
         osc.start(now + index * delay)
         osc.stop(now + index * delay + duration)
       })
-    } catch (e) {
+    } catch {
       // Silently fail
     }
   }
@@ -144,7 +144,7 @@ class WoodblockSoundGenerator {
 
       oscillator.start(now)
       oscillator.stop(now + duration)
-    } catch (e) {
+    } catch {
       // Silently fail
     }
   }
@@ -194,16 +194,19 @@ class WoodblockSoundGenerator {
 
 const soundGenerator = new WoodblockSoundGenerator()
 
-export function SoundProvider({ children }) {
-  const sounds = useMemo(() => ({
-    click: () => soundGenerator.click(),
-    open: () => soundGenerator.open(),
-    close: () => soundGenerator.close(),
-    hover: () => soundGenerator.hover(),
-    notification: () => soundGenerator.notification(),
-    maximize: () => soundGenerator.maximize(),
-    minimize: () => soundGenerator.minimize()
-  }), [])
+export function SoundProvider({ children, enabled = true }) {
+  const sounds = useMemo(() => {
+    const g = fn => () => { if (enabled) fn() }
+    return {
+      click: g(() => soundGenerator.click()),
+      open: g(() => soundGenerator.open()),
+      close: g(() => soundGenerator.close()),
+      hover: g(() => soundGenerator.hover()),
+      notification: g(() => soundGenerator.notification()),
+      maximize: g(() => soundGenerator.maximize()),
+      minimize: g(() => soundGenerator.minimize())
+    }
+  }, [enabled])
 
   return (
     <SoundContext.Provider value={sounds}>
@@ -212,6 +215,7 @@ export function SoundProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSounds() {
   const context = useContext(SoundContext)
   if (!context) {
