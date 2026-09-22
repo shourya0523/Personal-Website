@@ -38,7 +38,8 @@ export default function Settings() {
 
       <Section title="Sound & motion">
         <Toggle label="Sounds" checked={settings.sound} onChange={v => setSetting('sound', v)} />
-        <Toggle label="Effects" hint="Liquid glass chrome and wallpaper motion" checked={settings.effects} onChange={v => setSetting('effects', v)} />
+        <Toggle label="Effects" hint="Liquid glass and wallpaper motion" checked={settings.effects} onChange={v => setSetting('effects', v)} />
+        <Toggle label="Glass on windows" hint="Real refraction on every window and menu, not only the dock and menu bar. Turns itself off if the frame rate drops." checked={settings.glass !== 'chrome'} onChange={v => setSetting('glass', v ? 'full' : 'chrome')} />
       </Section>
 
       <Section title="You">

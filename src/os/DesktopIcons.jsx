@@ -80,27 +80,31 @@ export default function DesktopIcons({ onEmptyClick, onEmptyDrag, className = ''
     } else if (os.isMobile) open(it, center(e.currentTarget))
   }
 
-  // ---- layer pointer handling (marquee / empty click)
-  const mq = useRef(null)
-  const onLayerDown = e => {
-    if (e.target !== layerRef.current || e.button !== 0) return
-    layerRef.current.setPointerCapture(e.pointerId)
-    const r = layerRef.current.getBoundingClientRect(); mq.current = { x0: e.clientX - r.left, y0: e.clientY - r.top, moved: false }
-    if (!(e.metaKey || e.shiftKey)) setSelected(new Set())
-  }
-  const onLayerMove = e => {
-    const m = mq.current; if (!m) return
-    const r = layerRef.current.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top
-    if (!m.moved && Math.hypot(x - m.x0, y - m.y0) < 4) return
-    m.moved = true; const rect = { x: Math.min(m.x0, x), y: Math.min(m.y0, y), w: Math.abs(x - m.x0), h: Math.abs(y - m.y0) }
-    setMarquee(rect); onEmptyDrag?.(e)
-    const sel = new Set(); layerRef.current.querySelectorAll('.dicon').forEach(el => { const b = el.getBoundingClientRect(); const bx = b.left - r.left, by = b.top - r.top; if (bx < rect.x + rect.w && bx + b.width > rect.x && by < rect.y + rect.h && by + b.height > rect.y) sel.add(el.dataset.id) })
-    setSelected(sel)
-  }
-  const onLayerUp = e => {
-    const m = mq.current; mq.current = null; setMarquee(null)
-    if (m && !m.moved) onEmptyClick?.(e)
-  }
+  // ---- empty-desktop pointer handling lives on the desktop root (marquee / still click); the icon container stays small
+  // so the glass library has little to rasterize when it changes
+  const mq = useRef(null); const cbs = useRef({})
+  useEffect(() => { cbs.current = { onEmptyClick, onEmptyDrag } }, [onEmptyClick, onEmptyDrag])
+  useEffect(() => {
+    const root = layerRef.current?.parentElement; if (!root) return
+    const isEmpty = t => t === root || t.classList?.contains('desktop__wallpaper')
+    const down = e => {
+      if (!isEmpty(e.target) || e.button !== 0) return
+      root.setPointerCapture?.(e.pointerId); const r = root.getBoundingClientRect(); mq.current = { x0: e.clientX - r.left, y0: e.clientY - r.top, moved: false }
+      if (!(e.metaKey || e.shiftKey)) setSelected(new Set())
+    }
+    const move = e => {
+      const m = mq.current; if (!m) return
+      const r = root.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top
+      if (!m.moved && Math.hypot(x - m.x0, y - m.y0) < 4) return
+      m.moved = true; const rect = { x: Math.min(m.x0, x), y: Math.min(m.y0, y), w: Math.abs(x - m.x0), h: Math.abs(y - m.y0) }
+      setMarquee(rect); cbs.current.onEmptyDrag?.(e)
+      const sel = new Set(); root.querySelectorAll('.dicon').forEach(el => { const b = el.getBoundingClientRect(); const bx = b.left - r.left, by = b.top - r.top; if (bx < rect.x + rect.w && bx + b.width > rect.x && by < rect.y + rect.h && by + b.height > rect.y) sel.add(el.dataset.id) })
+      setSelected(sel)
+    }
+    const up = e => { const m = mq.current; mq.current = null; setMarquee(null); if (m && !m.moved) cbs.current.onEmptyClick?.(e) }
+    root.addEventListener('pointerdown', down); root.addEventListener('pointermove', move); root.addEventListener('pointerup', up); root.addEventListener('pointercancel', up)
+    return () => { root.removeEventListener('pointerdown', down); root.removeEventListener('pointermove', move); root.removeEventListener('pointerup', up); root.removeEventListener('pointercancel', up) }
+  }, [])
   useEffect(() => {
     const onKey = e => {
       if (e.target.closest('input,textarea,[contenteditable]') || e.target.closest('.window')) return
@@ -112,8 +116,9 @@ export default function DesktopIcons({ onEmptyClick, onEmptyDrag, className = ''
   }, [items, selected, open])
 
   const { gx, gy } = metrics()
-  return (
-    <div ref={layerRef} className={`desktop__icons ${className}`} onPointerDown={onLayerDown} onPointerMove={onLayerMove} onPointerUp={onLayerUp} onPointerCancel={onLayerUp} role="listbox" aria-label="Desktop">
+  const extent = Object.values(layout).reduce((m, p) => ({ c: Math.max(m.c, p.col), r: Math.max(m.r, p.row) }), { c: 0, r: 0 })
+  return (<>
+    <div ref={layerRef} className={`desktop__icons ${className}`} style={{ width: PAD_X * 2 + (extent.c + 1) * gx, height: PAD_Y * 2 + (extent.r + 1) * gy }} role="listbox" aria-label="Desktop">
       {items.map(it => {
         const p = layout[it.id] || { col: 0, row: 0 }; const isSel = selected.has(it.id); const dragging = drag && (isSel || drag.id === it.id)
         const x = PAD_X + p.col * gx + (dragging ? drag.dx : 0), y = PAD_Y + p.row * gy + (dragging ? drag.dy : 0)
@@ -126,7 +131,7 @@ export default function DesktopIcons({ onEmptyClick, onEmptyDrag, className = ''
           </div>
         )
       })}
-      {marquee && <div className="marquee" style={{ left: marquee.x, top: marquee.y, width: marquee.w, height: marquee.h }} />}
     </div>
-  )
+    {marquee && <div className="marquee" style={{ left: marquee.x, top: marquee.y, width: marquee.w, height: marquee.h }} />}
+  </>)
 }
