@@ -1,4 +1,5 @@
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
+import { setGlassConfig, glassHandle } from './Glass'
 import { motion } from 'framer-motion'
 import AppIcon from '../brand/AppIcon'
 import { useOS } from './OSContext'
@@ -12,6 +13,9 @@ export default function Window({ win, side }) {
   const app = os.appById[win.appId]; const ref = useRef(null); const focused = os.focusId === win.id
   const Comp = app.component
   const tucked = os.stage
+  const [hidden, setHidden] = useState(false)
+  if (!win.minimized && hidden) setHidden(false) // adjust during render, no effect needed
+  useEffect(() => { if (!win.minimized) return; const t = setTimeout(() => setHidden(true), 260); return () => clearTimeout(t) }, [win.minimized])
 
   // drag by title bar: transform during the drag, commit on release
   const drag = useRef(null)
@@ -24,7 +28,7 @@ export default function Window({ win, side }) {
     d.moved = true; d.nx = Math.round(d.ox + dx); d.ny = Math.max(MENUBAR, Math.round(d.oy + dy)); ref.current.style.transform = `translate(${d.nx}px,${d.ny}px)`
     const now = performance.now(); if (now - d.lastWake > 60) { d.lastWake = now; os.wpRef.current?.wake(e.clientX, e.clientY, .2) }
   }
-  const onBarUp = () => { const d = drag.current; drag.current = null; ref.current?.classList.remove('window-pos--dragging'); if (d?.moved) os.moveWindow(win.id, { x: d.nx, y: d.ny }) }
+  const onBarUp = () => { const d = drag.current; drag.current = null; ref.current?.classList.remove('window-pos--dragging'); if (d?.moved) { os.moveWindow(win.id, { x: d.nx, y: d.ny }); setTimeout(() => glassHandle.current?.touch(), 80) } }
 
   const rs = useRef(null)
   const onResizeDown = e => { e.stopPropagation(); e.currentTarget.setPointerCapture(e.pointerId); rs.current = { x: e.clientX, y: e.clientY, w: win.w, h: win.h } }
@@ -32,13 +36,14 @@ export default function Window({ win, side }) {
   const onResizeUp = () => { const r = rs.current; rs.current = null; if (r?.nw) os.resizeWindow(win.id, { w: r.nw, h: r.nh }) }
 
   useEffect(() => { if (ref.current && !win.maximized) ref.current.style.transform = `translate(${win.x}px,${win.y}px)` }, [win.x, win.y, win.maximized])
+  useEffect(() => { setGlassConfig(ref.current, 'window', { cornerRadius: win.maximized || os.isMobile ? 0 : 14 }) }, [win.maximized, os.isMobile])
 
   const max = win.maximized || os.isMobile
   const pos = max ? { left: 0, top: MENUBAR, width: '100%', height: `calc(100% - ${MENUBAR}px)`, transform: 'none', zIndex: win.z }
     : { left: 0, top: 0, width: win.w, height: win.h, transform: `translate(${win.x}px,${win.y}px)`, zIndex: win.z }
 
   return (
-    <div ref={ref} className={`window-pos ${max ? 'window-pos--max' : ''} ${tucked ? `window-pos--tucked window-pos--${side}` : ''}`} style={pos} data-window={win.appId}
+    <div ref={ref} className={`window-pos glass chrome ${max ? 'window-pos--max' : ''} ${tucked ? `window-pos--tucked window-pos--${side}` : ''} ${hidden ? 'window-pos--hidden' : ''}`} style={pos} data-window={win.appId} data-glass="window"
       onPointerDown={() => { if (tucked) { os.setStage(false); return } if (!focused) os.focusWindow(win.id) }}>
       <MotionDiv className={`window glass--window ${focused ? 'window--focused' : 'window--blurred'} ${max ? 'window--maximized' : ''}`}
         initial={{ opacity: 0, scale: .92 }} animate={{ opacity: win.minimized ? 0 : 1, scale: win.minimized ? .9 : 1, pointerEvents: win.minimized ? 'none' : 'auto' }} exit={{ opacity: 0, scale: .9 }} transition={{ type: 'spring', stiffness: 380, damping: 32 }}>

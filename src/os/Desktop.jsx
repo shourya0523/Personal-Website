@@ -9,7 +9,7 @@ import Window from './Window'
 import Dock from './Dock'
 import MenuBar from './MenuBar'
 import LockScreen from './LockScreen'
-import { mountGlass, GLASS_CONFIGS } from './Glass'
+import { GlassManager, CHROME_KINDS, glassHandle } from './Glass'
 import { wallpaperHandle } from './wallpaperHandle'
 import { useSounds } from '../contexts/SoundContext'
 import './os.css'
@@ -23,18 +23,26 @@ export default function Desktop() {
   // wallpaper engine
   useEffect(() => {
     const eng = new WallpaperEngine(canvasRef.current); engineRef.current = eng; wallpaperHandle.current = eng
+    if (glassHandle.current) eng.onFrame = () => glassHandle.current?.changed(canvasRef.current)
     eng.onAction = act => { if (act?.type === 'open-project') { const p = projects.find(p => p.id === act.id || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === act.id); os.openApp('projects', { props: p ? { projectId: p.id } : {} }) } }
     return () => { eng.destroy(); wallpaperHandle.current = null }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { engineRef.current?.setScene(scenes[os.wallpaper] || scenes.swell, { intro: !locked }) }, [os.wallpaper]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { engineRef.current?.setSlow(!os.settings.effects || (os.windows.some(w => !w.minimized) && !os.stage)) }, [os.windows, os.stage, os.settings.effects])
 
-  // glass chrome
+  // real glass on every data-glass surface (chrome, menus, windows); drops to chrome-only if the frame rate collapses
+  const lowFps = useRef(0); const setSetting = os.setSetting
   useEffect(() => {
-    let g = null, dead = false
-    if (os.settings.effects) mountGlass(rootRef.current, [barRef.current, dockRef.current, lockRef.current].filter(Boolean), GLASS_CONFIGS).then(m => { if (dead) m?.destroy(); else g = m })
-    return () => { dead = true; g?.destroy() }
-  }, [os.settings.effects, locked])
+    const gm = new GlassManager(rootRef.current, { onFps: (fps, count) => { if (count <= 3 || fps <= 0) { lowFps.current = 0; return } lowFps.current = fps < 24 ? lowFps.current + 1 : 0; if (lowFps.current >= 4) { lowFps.current = 0; setSetting('glass', 'chrome') } } })
+    if (import.meta.env.DEV) window.__glass = gm
+    // the wallpaper repaints every frame: tell the glass which element changed instead of flagging it data-dynamic,
+    // which would make the library re-rasterize every layer on every frame
+    const eng = engineRef.current; if (eng) eng.onFrame = () => gm.changed(canvasRef.current)
+    return () => { gm.destroy() }
+  }, [setSetting])
+  useEffect(() => { const gm = glassHandle.current; if (!gm) return; gm.setKinds(os.settings.glass === 'chrome' ? CHROME_KINDS : null); gm.setEnabled(os.settings.effects) }, [os.settings.effects, os.settings.glass])
+
+  useEffect(() => { const t = setTimeout(() => glassHandle.current?.touch(), 400); return () => clearTimeout(t) }, [os.focusId, os.stage, os.windows.length])
 
   // stage-mode rules: a still click on empty desktop tucks windows away; with nothing to tuck it reaches the wallpaper
   const onEmptyClick = useCallback(e => {
@@ -51,13 +59,13 @@ export default function Desktop() {
   const sorted = [...os.windows].sort((a, b) => a.z - b.z)
   return (
     <div ref={rootRef} className={`desktop ${os.stage ? 'desktop--stage' : ''} ${booting ? 'desktop--booting' : ''}`} onPointerMove={onMove} onPointerLeave={() => { engineRef.current?.leave(); setHint(null) }}>
-      <canvas ref={canvasRef} className="desktop__wallpaper" data-dynamic aria-hidden="true" />
+      <canvas ref={canvasRef} className="desktop__wallpaper" aria-hidden="true" />
       <DesktopIcons onEmptyClick={onEmptyClick} onEmptyDrag={e => engineRef.current?.wake(e.clientX, e.clientY, .15)} />
       <AnimatePresence>
         {sorted.map((w, i) => <Window key={w.id} win={w} side={i % 2 ? 'right' : 'left'} />)}
       </AnimatePresence>
       {hint && <div className="wp-hint" style={{ left: hint.x, top: hint.y }}>{hint.label} · open</div>}
-      <MenuBar ref={barRef} onLock={lock} />
+      <MenuBar ref={barRef} onLock={lock} portalTarget={rootRef} />
       <Dock ref={dockRef} />
       {locked && <LockScreen onUnlock={unlock} glassRef={lockRef} />}
     </div>

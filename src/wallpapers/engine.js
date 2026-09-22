@@ -7,7 +7,7 @@ export class WallpaperEngine {
     this.canvas = canvas; this.ctx = canvas.getContext('2d', { alpha: false })
     this.scene = null; this.S = null; this.raf = 0; this.running = false; this.last = 0
     this.slow = false; this.visible = true; this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
-    this.onAction = null
+    this.onAction = null; this.onFrame = null
     this.shared = { t: 0, dt: 0, w: 0, h: 0, intro: { active: false, t0: 0, dur: 3.2 }, pointer: { x: -1e4, y: -1e4, inside: false }, ripples: [], pulses: [], marks: [], slow: false }
     this._ro = new ResizeObserver(() => this.resize()); this._ro.observe(canvas)
     this._vis = () => { this.visible = document.visibilityState === 'visible'; if (this.visible) this.start() }
@@ -42,6 +42,7 @@ export class WallpaperEngine {
     if (sh.intro.active && sh.t - sh.intro.t0 > sh.intro.dur) sh.intro.active = false
     const cutoff = sh.t - 6; sh.ripples = sh.ripples.filter(r => r.t0 > cutoff); sh.pulses = sh.pulses.filter(p => p.t0 > cutoff)
     if (this.S) this.scene.frame(this.ctx, sh.w, sh.h, sh, this.S)
+    if (this.onFrame) this.onFrame()
     if (once && this.reduced) this.running = false
   }
   // --- coordinates: CSS px -> canvas px

@@ -5,7 +5,7 @@
 //   closeWindow(id) | minimizeWindow(id) | toggleMaximize(id) | focusWindow(id) | moveWindow(id,{x,y}) | resizeWindow(id,{w,h})
 //   windows, focusId, stage, setStage(bool)
 //   wallpaper, setWallpaper(id), wp (engine handle: pulse/wake/click/hover/leave/intro/setSlow) via wpRef.current
-//   settings {sound, effects}, setSetting(key, value)
+//   settings {sound, effects, glass: 'full'|'chrome'}, setSetting(key, value)
 //   userName, setUserName(name)
 //   apps (registry), isMobile
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
@@ -32,7 +32,7 @@ export function OSProvider({ children }) {
   const [focusId, setFocusId] = useState(null)
   const [stage, setStage] = useState(false)
   const [wallpaper, setWallpaperState] = useState(() => safeLocalStorage.getItem('os.wallpaper', DEFAULT_WALLPAPER))
-  const [settings, setSettings] = useState(() => ({ sound: safeLocalStorage.getItem('os.sound', 'on') !== 'off', effects: safeLocalStorage.getItem('os.effects', 'on') !== 'off' }))
+  const [settings, setSettings] = useState(() => ({ sound: safeLocalStorage.getItem('os.sound', 'on') !== 'off', effects: safeLocalStorage.getItem('os.effects', 'on') !== 'off', glass: safeLocalStorage.getItem('os.glass', 'full') }))
   const [userName, setUserNameState] = useState(() => safeLocalStorage.getItem('userName', ''))
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
   const wpRef = wallpaperHandle
@@ -40,7 +40,7 @@ export function OSProvider({ children }) {
 
   useEffect(() => { document.documentElement.dataset.wallpaper = wallpaper; safeLocalStorage.setItem('os.wallpaper', wallpaper) }, [wallpaper])
   useEffect(() => { const f = () => setIsMobile(window.innerWidth < 768); window.addEventListener('resize', f); return () => window.removeEventListener('resize', f) }, [])
-  useEffect(() => { safeLocalStorage.setItem('os.sound', settings.sound ? 'on' : 'off'); safeLocalStorage.setItem('os.effects', settings.effects ? 'on' : 'off') }, [settings])
+  useEffect(() => { safeLocalStorage.setItem('os.sound', settings.sound ? 'on' : 'off'); safeLocalStorage.setItem('os.effects', settings.effects ? 'on' : 'off'); safeLocalStorage.setItem('os.glass', settings.glass) }, [settings])
 
   const setWallpaper = useCallback(id => setWallpaperState(id), [])
   const setSetting = useCallback((k, v) => setSettings(s => ({ ...s, [k]: v })), [])
