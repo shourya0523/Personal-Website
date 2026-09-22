@@ -3,6 +3,7 @@ import { Howl } from 'howler'
 
 const MusicContext = createContext()
 
+// eslint-disable-next-line react-refresh/only-export-components -- hook must live beside its provider; consumers rely on useMusic from this module
 export const useMusic = () => {
   const context = useContext(MusicContext)
   if (!context) {
@@ -52,7 +53,7 @@ export const MusicProvider = ({ children }) => {
       try {
         soundRef.current.stop()
         soundRef.current.unload()
-      } catch (error) {
+      } catch {
         // Ignore errors when stopping/unloading
       }
       soundRef.current = null

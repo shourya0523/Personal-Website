@@ -9,7 +9,7 @@ const isLocalStorageAvailable = () => {
     localStorage.setItem(test, test)
     localStorage.removeItem(test)
     return true
-  } catch (e) {
+  } catch {
     return false
   }
 }
@@ -29,7 +29,7 @@ export const safeLocalStorage = {
     try {
       const value = localStorage.getItem(key)
       return value !== null ? value : defaultValue
-    } catch (e) {
+    } catch {
       return defaultValue
     }
   },
@@ -48,7 +48,7 @@ export const safeLocalStorage = {
     try {
       localStorage.setItem(key, value)
       return true
-    } catch (e) {
+    } catch {
       return false
     }
   },
@@ -66,7 +66,7 @@ export const safeLocalStorage = {
     try {
       localStorage.removeItem(key)
       return true
-    } catch (e) {
+    } catch {
       return false
     }
   },
@@ -83,7 +83,7 @@ export const safeLocalStorage = {
     try {
       localStorage.clear()
       return true
-    } catch (e) {
+    } catch {
       return false
     }
   }

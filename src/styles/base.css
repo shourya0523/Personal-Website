@@ -1,0 +1,17 @@
+@import './fonts.css';
+@import './tokens.css';
+*,*::before,*::after{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--font-ui);font-size:var(--fs-md);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow:hidden;overscroll-behavior:none}
+h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height:var(--lh-tight);text-wrap:balance}
+h1{font-size:var(--fs-3xl)}h2{font-size:var(--fs-2xl)}h3{font-size:var(--fs-xl)}h4{font-size:var(--fs-lg);font-family:var(--font-ui)}
+p{margin:0}
+a{color:var(--accent-2);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:var(--r-control)}
+input,textarea{font:inherit;color:inherit}
+code,kbd,pre{font-family:var(--font-mono)}
+::selection{background:rgba(240,163,94,.35)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:999px;border:3px solid transparent;background-clip:padding-box}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.24);background-clip:padding-box}
+.no-select{user-select:none;-webkit-user-select:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

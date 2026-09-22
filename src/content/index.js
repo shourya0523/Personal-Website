@@ -1,0 +1,5 @@
+export { profile, default as profileDefault } from './profile.js'
+export { projects, default as projectsDefault } from './projects.js'
+export { resume, default as resumeDefault } from './resume.js'
+export { files, default as filesDefault } from './files.js'
+export { terminalFacts, default as terminalFactsDefault } from './terminal.js'

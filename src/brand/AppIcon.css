@@ -1,0 +1,13 @@
+.app-icon{
+  position:relative;display:inline-grid;place-items:center;flex:none;
+  border-radius:var(--r-icon);
+  background:linear-gradient(160deg,color-mix(in oklab,var(--icon-paper) 82%,white) 0%,var(--icon-paper) 55%,var(--icon-paper-2) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(0,0,0,.08),0 6px 16px rgba(0,0,0,.35);
+  color:var(--icon-ink);
+}
+.app-icon>svg{width:62%;height:62%;fill:currentColor;overflow:visible}
+.app-icon .dot{fill:var(--icon-dot)}
+.app-icon .paper{fill:var(--icon-paper)}
+.glyph{fill:currentColor;overflow:visible;flex:none}
+.glyph .dot{fill:var(--icon-dot)}
+.glyph .paper{fill:var(--ink)}

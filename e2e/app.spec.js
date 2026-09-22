@@ -1,135 +1,58 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Personal Website E2E Tests', () => {
-  test.beforeEach(async ({ page }) => {
+async function unlock(page, name = 'Visitor') {
+  await page.goto('/')
+  await page.fill('#lock-name', name)
+  await page.keyboard.press('Enter')
+  await expect(page.locator('.dock')).toBeVisible()
+  await page.waitForTimeout(1200) // boot reveal
+}
+
+test.describe('ShouryaOS', () => {
+  test('lock screen asks for a name and unlocks to the desktop', async ({ page }) => {
     await page.goto('/')
-    // Wait for landing page animation to complete and navigate to login
-    await page.waitForTimeout(2000)
-    
-    // Handle login flow if present
-    const loginButton = page.locator('button, [role="button"]').filter({ hasText: /login|enter|start/i }).first()
-    if (await loginButton.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await loginButton.click()
-      await page.waitForTimeout(1000)
-    }
-    
-    // Handle name input if present
-    const nameInput = page.locator('input[type="text"], input[placeholder*="name" i]').first()
-    if (await nameInput.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await nameInput.fill('Test User')
-      const submitButton = page.locator('button').filter({ hasText: /submit|enter|continue|start/i }).first()
-      if (await submitButton.isVisible({ timeout: 1000 }).catch(() => false)) {
-        await submitButton.click()
-      }
-      await page.waitForTimeout(2000)
-    }
-    
-    // Wait for desktop to load
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(2000)
+    await expect(page.locator('.lock__card')).toBeVisible()
+    await unlock(page, 'Playwright')
+    await expect(page.locator('.dicon[data-id="app:about"]')).toBeVisible()
+    await expect(page.locator('.menubar')).toContainText('Desktop')
   })
 
-  test('should load the landing page', async ({ page }) => {
-    // Wait for the page to load
-    await page.waitForLoadState('networkidle')
-    
-    // Check if main elements are visible
-    const body = page.locator('body')
-    await expect(body).toBeVisible()
+  test('dock opens apps as windows and the menu bar follows focus', async ({ page }) => {
+    await unlock(page)
+    await page.click('.dock__item[aria-label="Resume"]')
+    await expect(page.locator('[data-window="resume"]')).toBeVisible()
+    await expect(page.locator('.menubar')).toContainText('Resume')
+    await page.click('.dock__item[aria-label="Terminal"]')
+    await expect(page.locator('[data-window="terminal"] input')).toBeVisible()
   })
 
-  test('should display desktop icons', async ({ page }) => {
-    // Look for icon labels on the desktop
-    const aboutIcon = page.locator('text=About').first()
-    const projectsIcon = page.locator('text=Projects').first()
-    
-    // At least one icon should be visible
-    const hasAbout = await aboutIcon.isVisible({ timeout: 5000 }).catch(() => false)
-    const hasProjects = await projectsIcon.isVisible({ timeout: 5000 }).catch(() => false)
-    
-    expect(hasAbout || hasProjects).toBeTruthy()
+  test('desktop icons drag to a new grid cell and persist', async ({ page }) => {
+    await unlock(page)
+    const icon = page.locator('.dicon[data-id="app:projects"]')
+    const before = await icon.boundingBox()
+    await page.mouse.move(before.x + 30, before.y + 30); await page.mouse.down()
+    await page.mouse.move(before.x + 240, before.y + 40, { steps: 10 }); await page.mouse.move(before.x + 300, before.y + 40, { steps: 10 }); await page.mouse.up()
+    const after = await icon.boundingBox()
+    expect(Math.abs(after.x - before.x)).toBeGreaterThan(150)
+    await page.reload(); await unlock(page)
+    const again = await page.locator('.dicon[data-id="app:projects"]').boundingBox()
+    expect(Math.round(again.x)).toBe(Math.round(after.x))
   })
 
-  test('should open Music Player app', async ({ page }) => {
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
-    
-    // Find and double-click the Music icon
-    const musicIcon = page.locator('text=Music').first()
-    if (await musicIcon.isVisible()) {
-      await musicIcon.dblclick()
-      
-      // Wait for the music player window to open
-      await page.waitForTimeout(1000)
-      
-      // Check if Music Player title is visible
-      const musicPlayerTitle = page.locator('text=Music Player')
-      await expect(musicPlayerTitle).toBeVisible({ timeout: 5000 })
-    }
+  test('clicking empty desktop with windows open enters stage mode; Escape leaves it', async ({ page }) => {
+    await unlock(page)
+    await page.click('.dock__item[aria-label="About"]')
+    await expect(page.locator('[data-window="about"]')).toBeVisible()
+    await page.mouse.click(1200, 300)
+    await expect(page.locator('.desktop')).toHaveClass(/desktop--stage/)
+    await page.keyboard.press('Escape')
+    await expect(page.locator('.desktop')).not.toHaveClass(/desktop--stage/)
   })
 
-  test('should search for songs in Music Player', async ({ page }) => {
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
-    
-    // Try to open Music Player
-    const musicIcon = page.locator('text=Music').first()
-    if (await musicIcon.isVisible()) {
-      await musicIcon.dblclick()
-      await page.waitForTimeout(1000)
-      
-      // Find search input
-      const searchInput = page.locator('input[placeholder*="Search for songs"]')
-      await expect(searchInput).toBeVisible({ timeout: 5000 })
-      
-      // Type a search query
-      await searchInput.fill('The Beatles')
-      
-      // Click search button
-      const searchButton = page.locator('button:has-text("Search")')
-      await searchButton.click()
-      
-      // Wait for results (either songs or loading/error state)
-      await page.waitForTimeout(2000)
-      
-      // Check if either results appear or loading/error message
-      const hasResults = await page.locator('text=Test Song').isVisible().catch(() => false)
-      const hasLoading = await page.locator('text=Searching').isVisible().catch(() => false)
-      const hasError = await page.locator('text=Error').isVisible().catch(() => false)
-      const hasEmptyState = await page.locator('text=No results').isVisible().catch(() => false)
-      
-      // At least one of these should be true
-      expect(hasResults || hasLoading || hasError || hasEmptyState).toBeTruthy()
-    }
-  })
-
-  test('should interact with dock', async ({ page }) => {
-    // Find dock (should be at bottom of screen)
-    const dock = page.locator('[class*="fixed"][class*="bottom"]').first()
-    const dockVisible = await dock.isVisible({ timeout: 5000 }).catch(() => false)
-    
-    // Dock might not always be visible, but if it is, it should work
-    if (dockVisible) {
-      await expect(dock).toBeVisible()
-    } else {
-      // Skip if dock not found (might be hidden on some screen sizes)
-      test.skip()
-    }
-  })
-
-  test('should open About page', async ({ page }) => {
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
-    
-    // Find and double-click About icon
-    const aboutIcon = page.locator('text=About').first()
-    if (await aboutIcon.isVisible()) {
-      await aboutIcon.dblclick()
-      await page.waitForTimeout(1000)
-      
-      // Check if About content appears
-      const aboutContent = page.locator('text=About Me')
-      await expect(aboutContent).toBeVisible({ timeout: 5000 })
-    }
+  test('settings switches the wallpaper and the palette attribute', async ({ page }) => {
+    await unlock(page)
+    await page.click('.dock__item[aria-label="Settings"]')
+    await page.getByRole('button', { name: /Constellation Circuit/ }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-wallpaper', 'circuit')
   })
 })

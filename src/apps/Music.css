@@ -1,0 +1,32 @@
+/* Music app: now-playing header + transport, search, results list.
+   Colors/spacing/radii all from tokens.css — no hex literals here. */
+.music{padding:var(--sp-6) var(--sp-6) var(--sp-7);display:flex;flex-direction:column;gap:var(--sp-6);max-width:640px}
+
+.music__now{display:flex;gap:var(--sp-5);flex-wrap:wrap}
+.music__cover{width:160px;height:160px;border-radius:var(--r-card);object-fit:cover;flex:none;background:rgba(0,0,0,.25)}
+.music__meta{display:flex;flex-direction:column;gap:var(--sp-2);min-width:0;flex:1 1 220px}
+.music__meta h2{font-size:var(--fs-2xl);line-height:var(--lh-tight);letter-spacing:-.01em}
+
+.music__transport{display:flex;align-items:center;gap:var(--sp-2);margin-top:var(--sp-2)}
+.music__transport .btn{border-radius:999px;padding:9px;line-height:0}
+.music__transport .btn--primary{padding:12px}
+.music__transport .btn:disabled{opacity:.35;cursor:not-allowed}
+
+.music__seek,.music__volume{display:flex;align-items:center;gap:var(--sp-2)}
+.music__time{font-family:var(--font-mono);font-size:var(--fs-2xs);color:var(--text-3);white-space:nowrap}
+.music__range{flex:1;accent-color:var(--accent);height:4px;min-width:0}
+.music__range:disabled{opacity:.4}
+
+.music__search{display:flex;gap:var(--sp-2)}
+.music__search .input{flex:1;min-width:0}
+
+.music__row-meta{display:flex;align-items:center;gap:var(--sp-2)}
+.music__row-meta .btn{border-radius:999px;padding:6px;line-height:0}
+
+/* Sidebar search-result titles can be long; keep the Library list tidy. */
+.split__side .side-item span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+@media (max-width:480px){
+  .music{padding:var(--sp-4)}
+  .music__cover{width:120px;height:120px}
+}
