@@ -38,7 +38,7 @@ npm run test:e2e   # playwright (starts the dev server itself)
 npm run build
 ```
 
-Music search calls a Vercel edge function (`api/deezer.js`); it is unavailable under plain `vite` and the app says so. Everything else runs offline.
+Music search calls `api/deezer.js`, a Vercel serverless function that proxies Deezer's public search API (responses are edge-cached for an hour). Under `npm run dev`, Vite proxies `/api/deezer` straight to Deezer so search works locally too. No environment variables are required; set `ALLOWED_ORIGIN` only if another site should be allowed to call the function.
 
 ## Content
 
