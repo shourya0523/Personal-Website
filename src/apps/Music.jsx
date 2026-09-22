@@ -67,10 +67,10 @@ export default function Music({ windowId }) {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/deezer?q=${encodeURIComponent(q)}&limit=20`)
-      if (!res.ok) throw new Error(`http-${res.status}`)
-      const data = await res.json()
-      if (data.error) throw new Error(data.error.message || 'api-error')
+      const res = await fetch(`/api/deezer?q=${encodeURIComponent(q)}&limit=20`, { headers: { accept: 'application/json' } })
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data) throw new Error(typeof data?.error === 'string' ? data.error : data?.error?.message || `Search failed (HTTP ${res.status})`)
+      if (data.error) throw new Error(typeof data.error === 'string' ? data.error : data.error.message || 'Search failed')
       const tracks = Array.isArray(data.data) ? data.data : []
       const mapped = tracks
         .filter(t => t.preview)
@@ -85,8 +85,8 @@ export default function Music({ windowId }) {
         }))
       setResults(mapped)
       if (mapped.length === 0) setError('No previews found for that search. Try another term.')
-    } catch {
-      setError('Search is unavailable right now (the Deezer API could not be reached from here).')
+    } catch (err) {
+      setError(`Search is unavailable right now: ${err?.message || 'the Deezer API could not be reached'}.`)
       setResults([])
     } finally {
       setLoading(false)
