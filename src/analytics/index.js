@@ -1,7 +1,12 @@
 // Product analytics: PostHog when VITE_POSTHOG_KEY is set, otherwise a no-op that still logs in dev.
 // Events are queued until the SDK loads. Honors Global Privacy Control. Never sends the visitor's typed name.
-const KEY = import.meta.env.VITE_POSTHOG_KEY
-const HOST = import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com'
+// The project key is public by design (it can only write events). The env var wins; the fallback is the
+// production project, so a missing or renamed Vercel variable can't silently switch analytics off.
+// Development builds never send unless a key is set explicitly.
+const DEFAULT_KEY = 'phc_AaB24bVEXHu9HtLRgcctLZB7CuF844yWXWvWoVDeHyHJ'
+const KEY = import.meta.env.VITE_POSTHOG_KEY || (import.meta.env.PROD ? DEFAULT_KEY : '')
+// '/ingest' is a same-origin reverse proxy (vercel.json) so ad blockers don't drop events.
+const HOST = import.meta.env.VITE_POSTHOG_HOST || (import.meta.env.PROD ? '/ingest' : 'https://us.i.posthog.com')
 const gpc = typeof navigator !== 'undefined' && navigator.globalPrivacyControl === true
 let ph = null, queue = [], loading = null
 export const analyticsEnabled = Boolean(KEY) && !gpc
@@ -9,7 +14,7 @@ export const analyticsEnabled = Boolean(KEY) && !gpc
 export function initAnalytics() {
   if (!analyticsEnabled || ph || loading) return loading
   loading = import('posthog-js').then(({ default: posthog }) => {
-    posthog.init(KEY, { api_host: HOST, capture_pageview: true, capture_pageleave: true, autocapture: false, disable_session_recording: true, persistence: 'localStorage+cookie', person_profiles: 'identified_only' })
+    posthog.init(KEY, { api_host: HOST, ui_host: 'https://us.posthog.com', capture_pageview: true, capture_pageleave: true, autocapture: false, disable_session_recording: true, persistence: 'localStorage+cookie', person_profiles: 'identified_only' })
     ph = posthog
     for (const [e, p] of queue) ph.capture(e, p); queue = []
   }).catch(err => { console.warn('[analytics] failed to load', err); loading = null })
