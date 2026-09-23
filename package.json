@@ -19,6 +19,7 @@
     "@ybouane/liquidglass": "^1.0.3",
     "framer-motion": "^12.27.1",
     "howler": "^2.2.4",
+    "posthog-js": "^1.434.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

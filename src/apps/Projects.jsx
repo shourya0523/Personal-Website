@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Doc, DocHeader, Section, Prose, Rows, Row, Tags, Button, ButtonRow, Card } from '../ui'
 import { projects } from '../content'
+
+import { track } from '../analytics'
 
 export default function Projects({ projectId }) {
   const [selectedId, setSelectedId] = useState(projectId ?? null)
@@ -11,6 +13,7 @@ export default function Projects({ projectId }) {
   }
 
   const selected = selectedId ? projects.find(p => p.id === selectedId) : null
+  useEffect(() => { if (selectedId) track('project_viewed', { project: selectedId }) }, [selectedId])
   if (selected) return <ProjectDetail project={selected} onBack={() => setSelectedId(null)} />
   return <ProjectList onSelect={setSelectedId} />
 }

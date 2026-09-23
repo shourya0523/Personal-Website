@@ -34,8 +34,8 @@ export default function About() {
         <Tags items={profile.interests} />
       </Section>
       <ButtonRow>
-        <Button variant="primary" onClick={() => openApp('contact')}>Get in touch</Button>
-        <Button onClick={() => openApp('resume')}>Resume</Button>
+        <Button variant="primary" onClick={() => openApp('contact', { source: 'about' })}>Get in touch</Button>
+        <Button onClick={() => openApp('resume', { source: 'about' })}>Resume</Button>
       </ButtonRow>
     </Doc>
   )

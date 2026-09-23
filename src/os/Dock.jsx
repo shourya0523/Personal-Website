@@ -6,7 +6,7 @@ import { useSounds } from '../contexts/SoundContext'
 const Dock = forwardRef(function Dock(_, ref) {
   const os = useOS(); const sounds = useSounds()
   const items = os.apps.filter(a => a.dock)
-  const click = (e, a) => { const r = e.currentTarget.getBoundingClientRect(); sounds.open(); os.openApp(a.id, { origin: { x: r.left + r.width / 2, y: r.top } }) }
+  const click = (e, a) => { const r = e.currentTarget.getBoundingClientRect(); sounds.open(); os.openApp(a.id, { origin: { x: r.left + r.width / 2, y: r.top }, source: 'dock' }) }
   return (
     <nav ref={ref} className="dock glass chrome" data-glass="dock" aria-label="Dock">
       {items.map((a, i) => { const w = os.windows.find(w => w.appId === a.id); return (

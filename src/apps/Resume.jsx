@@ -78,7 +78,7 @@ export default function Resume() {
           <Kv items={skillItems} />
         </Section>
         <ButtonRow>
-          <Button variant="primary" onClick={() => openApp('contact')}>Get in touch</Button>
+          <Button variant="primary" onClick={() => openApp('contact', { source: 'resume' })}>Get in touch</Button>
         </ButtonRow>
       </Doc>
     </Split>

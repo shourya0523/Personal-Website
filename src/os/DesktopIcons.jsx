@@ -40,7 +40,7 @@ export default function DesktopIcons({ onEmptyClick, onEmptyDrag, className = ''
 
   useEffect(() => { safeLocalStorage.setItem('os.iconPositions', JSON.stringify(positions)) }, [positions])
 
-  const open = useCallback((it, origin) => { const o = it.open(); os.openApp(o.app, { props: o.props, origin }) }, [os])
+  const open = useCallback((it, origin) => { const o = it.open(); os.openApp(o.app, { props: o.props, origin, source: 'desktop' }) }, [os])
   const center = el => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 } }
 
   // ---- icon pointer handling (select / drag)

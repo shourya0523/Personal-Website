@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Doc, DocHeader, Section, Toggle, Field, Kv } from '../ui'
+import { Doc, DocHeader, Section, Toggle, Field, Kv, AppIcon } from '../ui'
+import { USER_TYPES } from '../analytics'
 import { useOS } from '../os/OSContext'
 import { sceneList } from '../wallpapers'
 import './Settings.css'
@@ -11,7 +12,7 @@ const descriptions = {
 }
 
 export default function Settings() {
-  const { wallpaper, setWallpaper, settings, setSetting, userName, setUserName } = useOS()
+  const { wallpaper, setWallpaper, settings, setSetting, userName, setUserName, userType, setUserType } = useOS()
   const [name, setName] = useState(userName)
   useEffect(() => { setName(userName) }, [userName])
 
@@ -43,6 +44,11 @@ export default function Settings() {
       </Section>
 
       <Section title="You">
+        <div className="field"><label>I'm visiting as</label>
+          <div className="settings__types" role="group" aria-label="Visitor type">
+            {USER_TYPES.map(t => <button key={t.id} type="button" className="settings__type" aria-pressed={userType === t.id} onClick={() => setUserType(t.id)}><AppIcon name={t.glyph} flat size={16} /><span>{t.label}</span></button>)}
+          </div>
+        </div>
         <Field label="Name" id="settings-name">
           <input id="settings-name" className="input" value={name}
             onChange={e => setName(e.target.value)}

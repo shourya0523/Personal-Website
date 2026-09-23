@@ -4,6 +4,8 @@ Shourya Yadav's portfolio, shaped like an operating system. A lock screen, a des
 
 ## What's in it
 
+- **A landing sequence**, not a login: kinetic type over the live wallpaper (the monogram splits in, the name wipes up letter by letter, the role types itself), then "Who's visiting?" with four glass tiles, then an optional name. Recruiters land on the Resume, clients on Projects, peers on About. Returning visitors get a one-click welcome. Enter skips the intro.
+
 - **Three living wallpapers**, generated on a canvas from a seed (`src/wallpapers/`): *Moonrise Swell* (a woodblock sea, ripples answer clicks and drags), *Survey* (a topographic map, the cursor is a survey lamp and clicks plant flags) and *Constellation Circuit* (a star chart of projects wired as circuits; click a constellation to open it). Unlocking replays each one's intro. Opening an app sends a pulse from the icon.
 - **Stage mode.** Clicking empty desktop while windows are open tucks them to the edges so the wallpaper can be played with directly. Escape or a click on a tucked window brings them back.
 - **A real desktop.** Icons select, marquee-select, drag with grid snap, and remember where you put them. Double-click opens.
@@ -27,6 +29,10 @@ src/
 
 Design rules: tokens only (no hardcoded colours in apps), no icon libraries, no Tailwind. The palette follows the wallpaper through `html[data-wallpaper]`.
 
+## Analytics
+
+`src/analytics/index.js` wraps [PostHog](https://posthog.com). Install PostHog from the Vercel Marketplace (it sets `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST`, which the build picks up) or set `VITE_POSTHOG_KEY` and optionally `VITE_POSTHOG_HOST` yourself, and the site records pageviews plus product events: `landing_viewed`, `landing_skipped`, `user_type_selected`, `onboarding_completed`, `app_opened` (with `source`: dock, desktop, menubar, terminal, files, wallpaper, onboarding, shortcut), `project_viewed`, `terminal_command`, `music_search`, `music_play`, `wallpaper_changed`, `stage_mode_entered`, `setting_changed`, `glass_degraded`, `locked`. The visitor type (peer, recruiter, client, visitor) is registered as a super property and a person property, so every event can be broken down by it. The typed name is never sent. Global Privacy Control is honored. Without a key, `track()` is a no-op that logs in dev. Cloudflare Web Analytics (index.html) keeps counting plain pageviews independently.
+
 ## Develop
 
 ```bash
@@ -39,6 +45,10 @@ npm run build
 ```
 
 Music search calls `api/deezer.js`, a Vercel serverless function that proxies Deezer's public search API (responses are edge-cached for an hour). Under `npm run dev`, Vite proxies `/api/deezer` straight to Deezer so search works locally too. No environment variables are required; set `ALLOWED_ORIGIN` only if another site should be allowed to call the function.
+
+## Share image
+
+`public/og.png` (2400×1260) is rendered from the landing's Halftone Dawn scene and brand type. To regenerate after a change, run the dev server and screenshot `scripts/og-image.html` at 1200×630 with a device scale factor of 2 (a Playwright one-liner does it). The absolute URL in the Open Graph tags comes from `VITE_SITE_URL`, falling back to Vercel's production URL at build time.
 
 ## Content
 

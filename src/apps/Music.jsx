@@ -47,6 +47,8 @@ function formatTime(s) {
   return `${m}:${String(sec).padStart(2, '0')}`
 }
 
+import { track } from '../analytics'
+
 export default function Music({ windowId }) {
   const { currentSong, isPlaying, progress, duration, volume, playSong, togglePlayPause, setVolume, seekTo } = useMusic()
   const sounds = useSounds()
@@ -64,6 +66,7 @@ export default function Music({ windowId }) {
     const q = query.trim()
     if (!q) return
     sounds.click()
+    track('music_search')
     setLoading(true)
     setError(null)
     try {
@@ -93,7 +96,7 @@ export default function Music({ windowId }) {
     }
   }
 
-  const handlePlay = (song) => { sounds.click(); playSong(song) }
+  const handlePlay = (song) => { sounds.click(); track('music_play', { source: song.id === FAVORITE_SONG.id ? 'favourite' : 'deezer' }); playSong(song) }
 
   const handleTogglePlayPause = () => {
     sounds.click()

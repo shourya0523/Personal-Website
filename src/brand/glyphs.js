@@ -9,6 +9,8 @@ export const glyphs = {
   music: '<circle cx="8" cy="17" r="3.8"/><path d="M10.5 17V5l9-2.2V6l-7 1.8V17z"/><circle class="dot" cx="17" cy="15.5" r="3.3"/>',
   files: '<path d="M3 7a2 2 0 0 1 2-2h4.5l2 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path class="paper" d="M3 10h18v1.5H3z" opacity=".35"/><circle class="dot" cx="18" cy="15" r="2.2"/>',
   settings: '<path d="M12 3l2.1 1.2 2.4-.4 1.2 2.1 2.1 1.2-.4 2.4L21 12l-1.6 1.9.4 2.4-2.1 1.2-1.2 2.1-2.4-.4L12 21l-2.1-1.2-2.4.4-1.2-2.1-2.1-1.2.4-2.4L3 12l1.6-1.9-.4-2.4 2.1-1.2 1.2-2.1 2.4.4z"/><circle class="paper" cx="12" cy="12" r="3.4"/><circle class="dot" cx="12" cy="12" r="1.6"/>',
+  briefcase: '<rect x="3" y="7" width="18" height="13" rx="3"/><path class="paper" d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7h-1.6V5.6h-2.8V7z" opacity=".9"/><path class="paper" d="M3 12h18v1.4H3z" opacity=".35"/><circle class="dot" cx="12" cy="12.7" r="1.7"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path class="paper" d="M15.6 8.4l-2.2 5.3-5.3 2.2 2.2-5.3z"/><circle class="dot" cx="12" cy="12" r="1.5"/>',
   // file kinds
   folder: '<path d="M3 7a2 2 0 0 1 2-2h4.5l2 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path class="paper" d="M3 10h18v1.5H3z" opacity=".35"/>',
   doc: '<path d="M6 3h8l5 5v13H6z"/><path class="paper" d="M9 12h6v1.6H9zM9 15.5h6v1.6H9z" opacity=".8"/><path class="dot" d="M14 3v5h5z"/>',
