@@ -16,6 +16,7 @@
     "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@ybouane/liquidglass": "^1.0.3",
     "framer-motion": "^12.27.1",
     "howler": "^2.2.4",
