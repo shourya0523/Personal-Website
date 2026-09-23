@@ -11,8 +11,8 @@ export const palette = { paper: '#f2e6cf', ink: '#12303a', sun: '#ef9f5c', sunDe
 export function init(w, h, sd = seed) {
   const n = fbm(noise2(sd)); const r = rng(sd + 3); const s = w / 1600
   const sp = Math.max(9, 13 * s); const cols = Math.ceil(w / sp) + 1, rows = Math.ceil(h / sp) + 1
-  const sunX = w * .62, sunY = h * .58, sunR = h * .17
-  const hz = y => h * .72 + Math.sin(y / w * 4.2) * h * .025 + (n(y / 700, 9) - .5) * h * .05 // hill line as function of x
+  const sunX = w * .64, sunY = h * .6, sunR = h * .16
+  const hz = y => h * .76 + Math.sin(y / w * 4.2) * h * .025 + (n(y / 700, 9) - .5) * h * .05 // hill line as function of x
   // per-dot base radius from a brightness field: ink is heavy at the top of the sky, light near the sun and horizon
   const base = new Float32Array(cols * rows); const jx = new Float32Array(cols * rows); const jy = new Float32Array(cols * rows)
   for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
