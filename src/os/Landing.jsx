@@ -36,6 +36,13 @@ export default function Landing({ onEnter, glassRef }) {
   const canvasRef = useRef(null); const engRef = useRef(null)
   useEffect(() => { const eng = new WallpaperEngine(canvasRef.current); engRef.current = eng; const cv = canvasRef.current; eng.onFrame = () => glassHandle.current?.changed(cv); eng.setScene(landingScene, { intro: true }); if (import.meta.env.DEV) window.__landing = eng; return () => eng.destroy() }, [])
   const bg = () => engRef.current
+  // tell the scene where the text is so it keeps the paper clean there
+  const rootEl = useRef(null)
+  useEffect(() => {
+    let raf = 0
+    const tick = () => { const eng = engRef.current; const root = rootEl.current; if (eng && root) { const rects = []; root.querySelectorAll('[data-mask]').forEach(el => { const r = el.getBoundingClientRect(); if (r.width && r.height) rects.push(r) }); eng.setMasks(rects) } raf = requestAnimationFrame(tick) }
+    raf = requestAnimationFrame(tick); return () => cancelAnimationFrame(raf)
+  }, [])
   const returning = Boolean(os.userType)
   const [phase, setPhase] = useState(returning ? 'welcome' : 'intro')
   const [name, setName] = useState(os.userName || ''); const [leaving, setLeaving] = useState(false)
@@ -80,9 +87,9 @@ export default function Landing({ onEnter, glassRef }) {
   return (
     <>
       <MotionDiv className={`landing__bg ${leaving ? 'landing__bg--leaving' : ''}`} initial={{ opacity: 1 }} animate={{ opacity: leaving ? 0 : 1 }} transition={{ duration: .6, delay: leaving ? .75 : 0 }}><canvas ref={canvasRef} aria-hidden="true" /></MotionDiv>
-      <MotionDiv className={`landing landing--${phase} ${leaving ? 'landing--leaving' : ''}`} data-phase={phase} onPointerMove={onMove} onPointerLeave={() => bg()?.leave()} onClick={e => { if (phase === 'intro') skipIntro(); else if (e.target === e.currentTarget || e.target.classList.contains('landing__scrim')) bg()?.click(e.clientX, e.clientY) }} animate={leaving ? { opacity: 0 } : { opacity: 1 }} transition={{ duration: .7 }}>
+      <MotionDiv ref={rootEl} className={`landing landing--${phase} ${leaving ? 'landing--leaving' : ''}`} data-phase={phase} onPointerMove={onMove} onPointerLeave={() => bg()?.leave()} onClick={e => { if (phase === 'intro') skipIntro(); else if (e.target === e.currentTarget || e.target.classList.contains('landing__scrim')) bg()?.click(e.clientX, e.clientY) }} animate={leaving ? { opacity: 0 } : { opacity: 1 }} transition={{ duration: .7 }}>
         <div className="landing__scrim" />
-        <div className="landing__top">
+        <div className="landing__top" data-mask>
           <AnimatePresence>{phase !== 'intro' && <MotionDiv key="mark" className="landing__mark" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2 }}><b>S</b><span>Y</span></MotionDiv>}</AnimatePresence>
           <div className="landing__clock" aria-hidden="true">{time}</div>
         </div>
@@ -90,36 +97,36 @@ export default function Landing({ onEnter, glassRef }) {
         <AnimatePresence mode="wait">
           {phase === 'intro' && (
             <MotionDiv key="intro" className="landing__intro" style={{ x: px, y: py }} exit={{ opacity: 0, y: -30, scale: .96, transition: { duration: .5 } }}>
-              <MotionDiv className="landing__bigmark" initial="hidden" animate="show">
+              <MotionDiv className="landing__bigmark" data-mask initial="hidden" animate="show">
                 <MotionSpan className="landing__bigS" initial={{ x: -70, opacity: 0, filter: 'blur(14px)' }} animate={{ x: 0, opacity: 1, filter: 'blur(0px)' }} transition={{ duration: .9, ease: [.2, .8, .2, 1] }}>S</MotionSpan>
                 <MotionSpan className="landing__bigY" initial={{ x: 70, opacity: 0, filter: 'blur(14px)', rotate: -30 }} animate={{ x: 0, opacity: 1, filter: 'blur(0px)', rotate: -8 }} transition={{ duration: .9, ease: [.2, .8, .2, 1] }}>Y</MotionSpan>
               </MotionDiv>
-              <MotionDiv className="landing__name" initial="hidden" animate="show" transition={{ delayChildren: .5, staggerChildren: .25 }}>
+              <MotionDiv className="landing__name" data-mask initial="hidden" animate="show" transition={{ delayChildren: .5, staggerChildren: .25 }}>
                 <Word text={profile.firstName} /><Word text={profile.name.split(' ').slice(1).join(' ')} />
               </MotionDiv>
               <MotionDiv className="landing__rule" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 1.3, duration: .8, ease: [.2, .8, .2, 1] }} />
-              <div className="landing__role"><span className="landing__typed">{profile.headline.replace(/·/g, '·')}</span></div>
-              <MotionDiv className="landing__tag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: .8 }}>a portfolio, shaped like an operating system</MotionDiv>
+              <div className="landing__role" data-mask><span className="landing__typed">{profile.headline.replace(/·/g, '·')}</span></div>
+              <MotionDiv className="landing__tag" data-mask initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: .8 }}>a portfolio, shaped like an operating system</MotionDiv>
             </MotionDiv>
           )}
           {phase === 'who' && (
-            <MotionDiv key="who" className="landing__heading" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
+            <MotionDiv key="who" className="landing__heading" data-mask style={{ x: '-50%' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
               <h1>Who's visiting?</h1><p>The desktop opens on what matters to you.</p>
             </MotionDiv>
           )}
           {phase === 'name' && (
-            <MotionDiv key="name" className="landing__heading" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
+            <MotionDiv key="name" className="landing__heading" data-mask style={{ x: '-50%' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
               <h1>{greeting()}.</h1><p>{chosenType ? chosenType.hint : ''}</p>
             </MotionDiv>
           )}
           {phase === 'welcome' && (
-            <MotionDiv key="welcome" className="landing__heading" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
+            <MotionDiv key="welcome" className="landing__heading" data-mask style={{ x: '-50%' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .5 }}>
               <h1>Welcome back{os.userName ? `, ${os.userName}` : ''}.</h1><p>Everything is where you left it.</p>
             </MotionDiv>
           )}
         </AnimatePresence>
 
-        {phase === 'intro' && <button type="button" className="landing__skip" onClick={e => { e.stopPropagation(); skipIntro() }}>Skip <span className="kbd">↵</span></button>}
+        {phase === 'intro' && <button type="button" className="landing__skip" data-mask onClick={e => { e.stopPropagation(); skipIntro() }}>Skip <span className="kbd">↵</span></button>}
         <div className="landing__ticker" aria-hidden="true"><div className="landing__ticker-track"><span>{ticker}   ·   </span><span>{ticker}   ·   </span></div></div>
       </MotionDiv>
 

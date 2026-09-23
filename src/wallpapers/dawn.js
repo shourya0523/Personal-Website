@@ -45,11 +45,17 @@ export function frame(ctx, w, h, sh, S) {
   const px = sh.pointer.inside ? sh.pointer.x : -1e4, py = sh.pointer.inside ? sh.pointer.y : -1e4
   const B = S.buckets; for (const b of B) b.length = 0
   const breathe = sh.t * .6; const maxR = sp * .72; const flood = out > 0 ? out * Math.hypot(w, h) * .75 : -1
+  const masks = flood < 0 ? sh.masks : []; const margin = 46 * s
   for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
     const k = j * cols + i; const x = i * sp + jx[k], y = j * sp + jy[k]
     let rad = base[k] * (1 + .18 * Math.sin(breathe + i * .37 + j * .23))
     // reveal from the sun outward during the intro
     if (reveal < 1) { const d = Math.hypot(x - sunX, y - sunY); const edge = reveal * Math.hypot(w, h) * 1.1; if (d > edge) continue; rad *= ease.clamp((edge - d) / (220 * s)) }
+    // keep the paper clean behind text
+    let keep = 1
+    for (const m of masks) { const dx = Math.max(m.x - x, 0, x - (m.x + m.w)), dy = Math.max(m.y - y, 0, y - (m.y + m.h)); const d = Math.hypot(dx, dy); if (d < margin) { const t = d / margin; keep = Math.min(keep, t * t * (3 - 2 * t)) } }
+    if (keep <= .02) continue
+    rad *= keep
     // pointer magnet
     const dp = Math.hypot(x - px, y - py); if (dp < 170 * s) rad += (1 - dp / (170 * s)) * sp * .34
     // ripples from clicks / pulses

@@ -8,7 +8,7 @@ export class WallpaperEngine {
     this.scene = null; this.S = null; this.raf = 0; this.running = false; this.last = 0
     this.slow = false; this.visible = true; this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
     this.onAction = null; this.onFrame = null
-    this.shared = { t: 0, dt: 0, w: 0, h: 0, intro: { active: false, t0: 0, dur: 3.2 }, outro: null, pointer: { x: -1e4, y: -1e4, inside: false }, ripples: [], pulses: [], marks: [], slow: false }
+    this.shared = { t: 0, dt: 0, w: 0, h: 0, intro: { active: false, t0: 0, dur: 3.2 }, outro: null, masks: [], pointer: { x: -1e4, y: -1e4, inside: false }, ripples: [], pulses: [], marks: [], slow: false }
     this._ro = new ResizeObserver(() => this.resize()); this._ro.observe(canvas)
     this._vis = () => { this.visible = document.visibilityState === 'visible'; if (this.visible) this.start() }
     document.addEventListener('visibilitychange', this._vis)
@@ -57,4 +57,6 @@ export class WallpaperEngine {
   click(x, y) { const [cx, cy] = this.toCanvas(x, y); const act = this.scene?.click ? this.scene.click(cx, cy, this.shared, this.S) : null; this.shared.ripples.push({ x: cx, y: cy, t0: this.shared.t, a: .8 }); this.start(); if (act && this.onAction) this.onAction(act); return act }
   hit(x, y) { const [cx, cy] = this.toCanvas(x, y); return this.scene?.hit ? this.scene.hit(cx, cy, this.shared, this.S) : null }
   setSlow(v) { this.slow = !!v }
+  /** Rectangles (client px) the scene should keep clear, e.g. behind text. */
+  setMasks(rects) { const r = this.canvas.getBoundingClientRect(); this.shared.masks = rects.map(m => ({ x: (m.left - r.left) * this.scale, y: (m.top - r.top) * this.scale, w: m.width * this.scale, h: m.height * this.scale })) }
 }

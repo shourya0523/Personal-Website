@@ -59,7 +59,7 @@
 .window-pos{position:absolute;will-change:transform;transition:transform var(--dur-slow) var(--ease-out),opacity var(--dur-slow)}
 .window-pos--dragging{transition:none}
 .window-pos--hidden{display:none}
-.window-pos.chrome::before{background:rgba(var(--tint),.6);border-radius:var(--r-window)}
+.window-pos.chrome::before{background:rgba(var(--tint),.68);border-radius:var(--r-window)}
 .window-pos--max.chrome::before{border-radius:0}
 .window-pos.glass--webgl{border:0!important}
 .window-pos.glass--webgl .window{background:transparent;border-color:rgba(255,255,255,.12)}
