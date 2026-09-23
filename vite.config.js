@@ -9,8 +9,9 @@ const siteUrlPlugin = { name: 'site-url', transformIndexHtml: html => html.repla
 export default defineConfig(({ mode }) => {
   // PostHog: accept the names Vercel's native PostHog integration sets (NEXT_PUBLIC_POSTHOG_*) as well as VITE_POSTHOG_*.
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
-  const posthogKey = env.VITE_POSTHOG_KEY || env.NEXT_PUBLIC_POSTHOG_KEY || ''
-  const posthogHost = env.VITE_POSTHOG_HOST || env.NEXT_PUBLIC_POSTHOG_HOST || env.POSTHOG_HOST || ''
+  const posthogKey = env.VITE_POSTHOG_KEY || env.NEXT_PUBLIC_POSTHOG_KEY || env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN || env.POSTHOG_PROJECT_API_KEY || env.POSTHOG_API_KEY || env.POSTHOG_KEY || ''
+  // Production uses the same-origin /ingest proxy unless VITE_POSTHOG_HOST is set explicitly.
+  const posthogHost = env.VITE_POSTHOG_HOST || ''
   return {
   define: { 'import.meta.env.VITE_POSTHOG_KEY': JSON.stringify(posthogKey), 'import.meta.env.VITE_POSTHOG_HOST': JSON.stringify(posthogHost) },
   plugins: [react(), siteUrlPlugin],
