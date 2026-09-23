@@ -37,24 +37,25 @@
 
 /* panel: the glass surface (direct child of the desktop root) */
 .landing__panel{--tint:242,230,207;--l-ink:#12303a;--l-ink-2:rgba(18,48,58,.7);--l-ink-3:rgba(18,48,58,.5);--l-paper:#f2e6cf;position:absolute;z-index:101;color:var(--l-ink);left:max(16px,calc(50% - 400px));top:calc(var(--stack-top,19vh) + 132px);width:min(800px,calc(100% - 32px));border-radius:22px;padding:14px;will-change:transform,opacity}
-.landing__panel--name,.landing__panel--welcome{left:max(16px,calc(50% - 280px));width:min(560px,calc(100% - 32px));padding:22px}
+.landing__panel--name,.landing__panel--welcome{left:max(16px,calc(50% - 400px));width:min(800px,calc(100% - 32px));padding:36px 40px 32px}
 .landing__tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .landing__tile{display:flex;flex-direction:column;align-items:center;gap:12px;padding:26px 12px 22px;border-radius:14px;border:1px solid rgba(18,48,58,.12);background:rgba(242,230,207,.55);text-align:center;transition:background var(--dur-fast),border-color var(--dur-fast),transform var(--dur-base) var(--ease-out);will-change:transform}
 .landing__tile:hover{background:rgba(242,230,207,.6);border-color:rgba(18,48,58,.3)}
 .landing__tile:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
 .landing__tile-label{font-family:var(--font-display);font-weight:600;font-size:var(--fs-lg);color:var(--l-ink);line-height:1.15;margin-top:2px}
 .landing__tile-hint{font-size:var(--fs-xs);color:var(--l-ink);opacity:.72;line-height:1.35;max-width:16ch}
-.landing__form{display:flex;flex-direction:column;gap:8px;padding:4px 6px 0}
-.landing__label{font-family:var(--font-mono);font-size:var(--fs-2xs);letter-spacing:.14em;text-transform:uppercase;color:var(--l-ink-2)}
-.landing__input{background:transparent;border:0;outline:none;font-family:var(--font-display);font-weight:600;font-size:clamp(30px,4.5vw,44px);line-height:1.2;color:var(--l-ink);padding:6px 0;width:100%}
+.landing__form{display:flex;flex-direction:column;gap:12px;padding:0}
+.landing__label{font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--l-ink-2)}
+.landing__input{background:transparent;border:0;outline:none;font-family:var(--font-display);font-weight:600;font-size:clamp(40px,5.6vw,72px);line-height:1.15;color:var(--l-ink);padding:8px 0 10px;width:100%}
 .landing__input::placeholder{color:var(--l-ink-3)}
-.landing__underline{height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left;border-radius:2px}
-.landing__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px}
+.landing__underline{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left;border-radius:2px}
+.landing__actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
+.landing__actions .btn{padding:11px 18px;font-size:var(--fs-md)}
 .landing__actions .btn--quiet{color:var(--l-ink-2)}.landing__actions .btn--quiet:hover{color:var(--l-ink);background:rgba(18,48,58,.08)}
 .landing__back{margin-left:auto}
 .landing__actions .kbd{color:inherit;border-color:rgba(0,0,0,.25)}
-.landing__welcome{display:flex;flex-direction:column;gap:10px;padding:4px 6px 0}
-.landing__welcome-type{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-size:var(--fs-xl);color:var(--l-ink)}
+.landing__welcome{display:flex;flex-direction:column;gap:14px;padding:0}
+.landing__welcome-type{display:flex;align-items:center;gap:16px;font-family:var(--font-display);font-size:var(--fs-2xl);color:var(--l-ink)}
 .landing--leaving{pointer-events:none}
 
 @media (max-width:767px){
@@ -65,13 +66,13 @@
   .landing__heading h1{font-size:clamp(30px,8.6vw,38px)}
   .landing__heading p{font-size:var(--fs-sm)}
   .landing__panel{left:16px;right:16px;width:auto;top:calc(9vh + 112px);padding:10px;border-radius:18px}
-  .landing__panel--name,.landing__panel--welcome{left:16px;width:auto;padding:16px}
+  .landing__panel--name,.landing__panel--welcome{left:16px;width:auto;padding:20px 18px 18px}
   .landing__tiles{grid-template-columns:1fr 1fr;gap:8px}
   .landing__tile{padding:14px 8px 12px;gap:8px;border-radius:12px}
   .landing__tile .app-icon{width:40px;height:40px}
   .landing__tile-label{font-size:var(--fs-md)}
   .landing__tile-hint{font-size:var(--fs-2xs)}
-  .landing__input{font-size:30px}
+  .landing__input{font-size:34px}
   .landing__skip{bottom:52px;right:16px}
 }
 }

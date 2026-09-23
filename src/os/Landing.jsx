@@ -14,6 +14,7 @@ import { glassHandle } from './Glass'
 import { WallpaperEngine, landingScene } from '../wallpapers'
 import { track, USER_TYPES } from '../analytics'
 import { profile } from '../content/profile'
+import '../ui/ui.css'
 import './Landing.css'
 
 const MotionDiv = motion.div, MotionSpan = motion.span, MotionButton = motion.button, MotionForm = motion.form
