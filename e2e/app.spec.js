@@ -1,20 +1,35 @@
 import { test, expect } from '@playwright/test'
 
-async function unlock(page, name = 'Visitor') {
+async function unlock(page, name = 'Visitor', type = /just looking/i) {
   await page.goto('/')
-  await page.fill('#lock-name', name)
-  await page.keyboard.press('Enter')
+  const returning = await page.locator('.landing--welcome').isVisible().catch(() => false)
+  if (returning) { await page.getByRole('button', { name: /^Enter/ }).click() }
+  else {
+    await page.keyboard.press('Enter') // skip the intro
+    await page.getByRole('button', { name: type }).click()
+    await page.fill('#lock-name', name)
+    await page.keyboard.press('Enter')
+  }
   await expect(page.locator('.dock')).toBeVisible()
-  await page.waitForTimeout(1200) // boot reveal
+  await page.waitForTimeout(1500) // boot reveal
 }
 
 test.describe('ShouryaOS', () => {
-  test('lock screen asks for a name and unlocks to the desktop', async ({ page }) => {
+  test('landing plays an intro, asks who is visiting and a name, then opens the desktop', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.lock__card')).toBeVisible()
+    await expect(page.locator('.landing--intro')).toBeVisible()
+    await expect(page.locator('.landing__name')).toContainText('Shourya')
     await unlock(page, 'Playwright')
     await expect(page.locator('.dicon[data-id="app:about"]')).toBeVisible()
     await expect(page.locator('.menubar')).toContainText('Desktop')
+  })
+
+  test('a recruiter lands on the Resume, and comes back to a welcome screen', async ({ page }) => {
+    await unlock(page, 'Rue', /recruiter/i)
+    await expect(page.locator('[data-window="resume"]')).toBeVisible({ timeout: 6000 })
+    await page.reload()
+    await expect(page.locator('.landing--welcome')).toBeVisible()
+    await expect(page.locator('.landing__heading')).toContainText('Welcome back, Rue')
   })
 
   test('dock opens apps as windows and the menu bar follows focus', async ({ page }) => {

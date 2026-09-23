@@ -8,7 +8,7 @@ export class WallpaperEngine {
     this.scene = null; this.S = null; this.raf = 0; this.running = false; this.last = 0
     this.slow = false; this.visible = true; this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
     this.onAction = null; this.onFrame = null
-    this.shared = { t: 0, dt: 0, w: 0, h: 0, intro: { active: false, t0: 0, dur: 3.2 }, pointer: { x: -1e4, y: -1e4, inside: false }, ripples: [], pulses: [], marks: [], slow: false }
+    this.shared = { t: 0, dt: 0, w: 0, h: 0, intro: { active: false, t0: 0, dur: 3.2 }, outro: null, pointer: { x: -1e4, y: -1e4, inside: false }, ripples: [], pulses: [], marks: [], slow: false }
     this._ro = new ResizeObserver(() => this.resize()); this._ro.observe(canvas)
     this._vis = () => { this.visible = document.visibilityState === 'visible'; if (this.visible) this.start() }
     document.addEventListener('visibilitychange', this._vis)
@@ -49,6 +49,7 @@ export class WallpaperEngine {
   toCanvas(x, y) { const r = this.canvas.getBoundingClientRect(); return [(x - r.left) * this.scale, (y - r.top) * this.scale] }
   // --- public interaction API (all in CSS/client px)
   intro() { const sh = this.shared; sh.intro = { active: true, t0: sh.t, dur: 3.2 }; this.start() }
+  outro(dur = 1.1) { const sh = this.shared; sh.outro = { t0: sh.t, dur }; this.start() }
   hover(x, y) { const [cx, cy] = this.toCanvas(x, y); this.shared.pointer = { x: cx, y: cy, inside: true }; this.start() }
   leave() { this.shared.pointer.inside = false }
   wake(x, y, strength = .35) { const [cx, cy] = this.toCanvas(x, y); const last = this.shared.ripples[this.shared.ripples.length - 1]; if (last && Math.hypot(last.x - cx, last.y - cy) < 28 * this.scale && this.shared.t - last.t0 < .12) return; this.shared.ripples.push({ x: cx, y: cy, t0: this.shared.t, a: strength }); this.start() }

@@ -6,13 +6,14 @@
 //   windows, focusId, stage, setStage(bool)
 //   wallpaper, setWallpaper(id), wp (engine handle: pulse/wake/click/hover/leave/intro/setSlow) via wpRef.current
 //   settings {sound, effects, glass: 'full'|'chrome'}, setSetting(key, value)
-//   userName, setUserName(name)
+//   userName, setUserName(name); userType ('peer'|'recruiter'|'client'|'visitor'|null), setUserType(id)
 //   apps (registry), isMobile
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { apps, appById } from './apps'
 import { safeLocalStorage } from '../utils/storage'
 import { DEFAULT_WALLPAPER } from '../wallpapers'
 import { wallpaperHandle } from './wallpaperHandle'
+import { initAnalytics, track, setTraits } from '../analytics'
 
 const OSContext = createContext(null)
 // eslint-disable-next-line react-refresh/only-export-components
@@ -34,6 +35,8 @@ export function OSProvider({ children }) {
   const [wallpaper, setWallpaperState] = useState(() => safeLocalStorage.getItem('os.wallpaper', DEFAULT_WALLPAPER))
   const [settings, setSettings] = useState(() => ({ sound: safeLocalStorage.getItem('os.sound', 'on') !== 'off', effects: safeLocalStorage.getItem('os.effects', 'on') !== 'off', glass: safeLocalStorage.getItem('os.glass', 'full') }))
   const [userName, setUserNameState] = useState(() => safeLocalStorage.getItem('userName', ''))
+  const [userType, setUserTypeState] = useState(() => safeLocalStorage.getItem('os.userType', '') || null)
+  useEffect(() => { initAnalytics(); if (userType) setTraits({ user_type: userType }) }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
   const wpRef = wallpaperHandle
   const openCount = useRef(0)
@@ -42,18 +45,21 @@ export function OSProvider({ children }) {
   useEffect(() => { const f = () => setIsMobile(window.innerWidth < 768); window.addEventListener('resize', f); return () => window.removeEventListener('resize', f) }, [])
   useEffect(() => { safeLocalStorage.setItem('os.sound', settings.sound ? 'on' : 'off'); safeLocalStorage.setItem('os.effects', settings.effects ? 'on' : 'off'); safeLocalStorage.setItem('os.glass', settings.glass) }, [settings])
 
-  const setWallpaper = useCallback(id => setWallpaperState(id), [])
-  const setSetting = useCallback((k, v) => setSettings(s => ({ ...s, [k]: v })), [])
+  const setWallpaper = useCallback(id => { setWallpaperState(id); track('wallpaper_changed', { wallpaper: id }) }, [])
+  const setSetting = useCallback((k, v) => { setSettings(s => ({ ...s, [k]: v })); track('setting_changed', { key: k, value: String(v) }) }, [])
   const setUserName = useCallback(n => { setUserNameState(n); safeLocalStorage.setItem('userName', n) }, [])
+  const setUserType = useCallback(id => { setUserTypeState(id); if (id) { safeLocalStorage.setItem('os.userType', id); setTraits({ user_type: id }) } else safeLocalStorage.removeItem?.('os.userType') }, [])
+  const setStageTracked = useCallback(v => { setStage(v); if (v) track('stage_mode_entered') }, [])
 
   const focusWindow = useCallback(id => { const z = ++nextZ; setFocusId(id); setWindows(ws => ws.map(w => w.id === id ? { ...w, z, minimized: false } : w)) }, [])
 
   // Mirror of `windows` for decisions inside callbacks; keeps state updaters pure (StrictMode runs them twice).
   const windowsRef = useRef(windows); useEffect(() => { windowsRef.current = windows }, [windows])
 
-  const openApp = useCallback((appId, { props, origin } = {}) => {
+  const openApp = useCallback((appId, { props, origin, source = 'unknown' } = {}) => {
     const app = appById[appId]; if (!app) return
     setStage(false)
+    track('app_opened', { app: appId, source, reopened: windowsRef.current.some(w => w.appId === appId) })
     if (origin && wallpaperHandle.current) wallpaperHandle.current.pulse(origin.x, origin.y)
     const existing = windowsRef.current.find(w => w.appId === appId)
     if (existing) { const z = ++nextZ; setFocusId(existing.id); setWindows(ws => ws.map(w => w.id === existing.id ? { ...w, z, minimized: false, props: props ?? w.props } : w)); return }
@@ -72,7 +78,7 @@ export function OSProvider({ children }) {
   const moveWindow = useCallback((id, p) => setWindows(ws => ws.map(w => w.id === id ? { ...w, ...p } : w)), [])
   const resizeWindow = useCallback((id, s) => setWindows(ws => ws.map(w => w.id === id ? { ...w, ...s } : w)), [])
 
-  const value = useMemo(() => ({ apps, appById, windows, focusId, stage, setStage, openApp, closeWindow, minimizeWindow, toggleMaximize, focusWindow, moveWindow, resizeWindow, wallpaper, setWallpaper, wpRef, settings, setSetting, userName, setUserName, isMobile }),
-    [windows, focusId, stage, openApp, closeWindow, minimizeWindow, toggleMaximize, focusWindow, moveWindow, resizeWindow, wallpaper, setWallpaper, wpRef, settings, setSetting, userName, setUserName, isMobile])
+  const value = useMemo(() => ({ apps, appById, windows, focusId, stage, setStage: setStageTracked, openApp, closeWindow, minimizeWindow, toggleMaximize, focusWindow, moveWindow, resizeWindow, wallpaper, setWallpaper, wpRef, settings, setSetting, userName, setUserName, userType, setUserType, isMobile }),
+    [windows, focusId, stage, setStageTracked, openApp, closeWindow, minimizeWindow, toggleMaximize, focusWindow, moveWindow, resizeWindow, wallpaper, setWallpaper, wpRef, settings, setSetting, userName, setUserName, userType, setUserType, isMobile])
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>
 }

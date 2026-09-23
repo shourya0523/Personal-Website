@@ -8,7 +8,8 @@ import DesktopIcons from './DesktopIcons'
 import Window from './Window'
 import Dock from './Dock'
 import MenuBar from './MenuBar'
-import LockScreen from './LockScreen'
+import Landing from './Landing'
+import { track, userTypeById } from '../analytics'
 import { GlassManager, CHROME_KINDS, glassHandle } from './Glass'
 import { wallpaperHandle } from './wallpaperHandle'
 import { useSounds } from '../contexts/SoundContext'
@@ -24,16 +25,16 @@ export default function Desktop() {
   useEffect(() => {
     const eng = new WallpaperEngine(canvasRef.current); engineRef.current = eng; wallpaperHandle.current = eng
     if (glassHandle.current) eng.onFrame = () => glassHandle.current?.changed(canvasRef.current)
-    eng.onAction = act => { if (act?.type === 'open-project') { const p = projects.find(p => p.id === act.id || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === act.id); os.openApp('projects', { props: p ? { projectId: p.id } : {} }) } }
+    eng.onAction = act => { if (act?.type === 'open-project') { const p = projects.find(p => p.id === act.id || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === act.id); os.openApp('projects', { props: p ? { projectId: p.id } : {}, source: 'wallpaper' }) } }
     return () => { eng.destroy(); wallpaperHandle.current = null }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { engineRef.current?.setScene(scenes[os.wallpaper] || scenes.swell, { intro: !locked }) }, [os.wallpaper]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { const eng = engineRef.current; if (!eng) return; eng.setScene(scenes[os.wallpaper] || scenes.swell, { intro: !locked }); if (locked) eng.stop() }, [os.wallpaper]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { engineRef.current?.setSlow(!os.settings.effects || (os.windows.some(w => !w.minimized) && !os.stage)) }, [os.windows, os.stage, os.settings.effects])
 
   // real glass on every data-glass surface (chrome, menus, windows); drops to chrome-only if the frame rate collapses
   const lowFps = useRef(0); const setSetting = os.setSetting
   useEffect(() => {
-    const gm = new GlassManager(rootRef.current, { onFps: (fps, count) => { if (count <= 3 || fps <= 0) { lowFps.current = 0; return } lowFps.current = fps < 24 ? lowFps.current + 1 : 0; if (lowFps.current >= 4) { lowFps.current = 0; setSetting('glass', 'chrome') } } })
+    const gm = new GlassManager(rootRef.current, { onFps: (fps, count) => { if (count <= 3 || fps <= 0) { lowFps.current = 0; return } lowFps.current = fps < 24 ? lowFps.current + 1 : 0; if (lowFps.current >= 4) { lowFps.current = 0; track('glass_degraded', { fps: Math.round(fps), glass_elements: count }); setSetting('glass', 'chrome') } } })
     if (import.meta.env.DEV) window.__glass = gm
     // the wallpaper repaints every frame: tell the glass which element changed instead of flagging it data-dynamic,
     // which would make the library re-rasterize every layer on every frame
@@ -52,9 +53,14 @@ export default function Desktop() {
   }, [os, sounds])
   const onMove = useCallback(e => { const eng = engineRef.current; if (!eng) return; eng.hover(e.clientX, e.clientY); if (!os.windows.some(w => !w.minimized) || os.stage) { const h = eng.hit(e.clientX, e.clientY); setHint(h ? { x: e.clientX, y: e.clientY, label: h.label } : null) } else if (hint) setHint(null) }, [os.windows, os.stage, hint])
 
-  const unlock = () => { setLocked(false); engineRef.current?.intro(); requestAnimationFrame(() => setTimeout(() => setBooting(false), 900)) }
-  const lock = () => { setLocked(true); setBooting(true); os.setStage(false) }
-  useEffect(() => { const k = e => { if ((e.metaKey || e.ctrlKey) && !e.shiftKey) { const map = { t: 'terminal', f: 'files', ',': 'settings' }; if (map[e.key]) { e.preventDefault(); os.openApp(map[e.key]) } if (e.key === 'w' && os.focusId) { e.preventDefault(); os.closeWindow(os.focusId) } } if (e.key === 'Escape' && os.stage) os.setStage(false) }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [os])
+  const unlock = ({ userType, justOnboarded } = {}) => {
+    setLocked(false); const eng = engineRef.current; if (eng) { eng.intro() } requestAnimationFrame(() => setTimeout(() => setBooting(false), 900))
+    // the desktop opens on what matters to this visitor: recruiter → Resume, client → Projects, peer → About
+    const starter = justOnboarded && userTypeById[userType]?.opens
+    if (starter && !os.windows.length) setTimeout(() => os.openApp(starter, { source: 'onboarding', origin: { x: window.innerWidth / 2, y: window.innerHeight / 2 } }), 1300)
+  }
+  const lock = () => { setLocked(true); setBooting(true); os.setStage(false); engineRef.current?.stop(); track('locked') }
+  useEffect(() => { const k = e => { if ((e.metaKey || e.ctrlKey) && !e.shiftKey) { const map = { t: 'terminal', f: 'files', ',': 'settings' }; if (map[e.key]) { e.preventDefault(); os.openApp(map[e.key], { source: 'shortcut' }) } if (e.key === 'w' && os.focusId) { e.preventDefault(); os.closeWindow(os.focusId) } } if (e.key === 'Escape' && os.stage) os.setStage(false) }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [os])
 
   const sorted = [...os.windows].sort((a, b) => a.z - b.z)
   return (
@@ -67,7 +73,7 @@ export default function Desktop() {
       {hint && <div className="wp-hint" style={{ left: hint.x, top: hint.y }}>{hint.label} · open</div>}
       <MenuBar ref={barRef} onLock={lock} portalTarget={rootRef} />
       <Dock ref={dockRef} />
-      {locked && <LockScreen onUnlock={unlock} glassRef={lockRef} />}
+      {locked && <Landing onEnter={unlock} glassRef={lockRef} />}
     </div>
   )
 }

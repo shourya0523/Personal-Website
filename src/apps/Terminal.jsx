@@ -5,6 +5,7 @@
 // src/apps/README.md for the app contract).
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOS } from '../os/OSContext'
+import { track } from '../analytics'
 import { useSounds } from '../contexts/SoundContext'
 import profile from '../content/profile'
 import projects from '../content/projects'
@@ -141,7 +142,7 @@ function buildCommands(ctx) {
     const id = (args[0] || '').toLowerCase()
     if (!id) return print(`usage: open <app>\napps: ${APP_IDS.join(', ')}`, 'err')
     if (!APP_IDS.includes(id)) return print(`open: unknown app "${id}"\napps: ${APP_IDS.join(', ')}`, 'err')
-    os.openApp(id)
+    os.openApp(id, { source: 'terminal' })
     print(`opening ${id}...`, 'ok')
   }
 
@@ -203,10 +204,10 @@ function buildCommands(ctx) {
     help, about, projects: listProjects, contact, skills, ls, cd, cat, pwd,
     open: openCmd, whoami, history: historyCmd, echo, date, neofetch, clear,
     exit, random,
-    resume: () => { os.openApp('resume'); print('opening resume...', 'ok') },
-    files: () => { os.openApp('files'); print('opening files...', 'ok') },
-    music: () => { os.openApp('music'); print('opening music...', 'ok') },
-    settings: () => { os.openApp('settings'); print('opening settings...', 'ok') },
+    resume: () => { os.openApp('resume', { source: 'terminal' }); print('opening resume...', 'ok') },
+    files: () => { os.openApp('files', { source: 'terminal' }); print('opening files...', 'ok') },
+    music: () => { os.openApp('music', { source: 'terminal' }); print('opening music...', 'ok') },
+    settings: () => { os.openApp('settings', { source: 'terminal' }); print('opening settings...', 'ok') },
   }
 }
 
@@ -252,6 +253,7 @@ export default function Terminal({ windowId }) {
     const [cmd, ...args] = trimmed.split(/\s+/)
     const name = cmd.toLowerCase()
     const fn = commands[name]
+    track('terminal_command', { command: fn ? name : 'unknown' })
     sounds.click?.()
     if (fn) fn(args)
     else print(`command not found: ${name} (try "help")`, 'err')

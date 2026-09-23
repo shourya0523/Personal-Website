@@ -4,6 +4,8 @@ Shourya Yadav's portfolio, shaped like an operating system. A lock screen, a des
 
 ## What's in it
 
+- **A landing sequence**, not a login: kinetic type over the live wallpaper (the monogram splits in, the name wipes up letter by letter, the role types itself), then "Who's visiting?" with four glass tiles, then an optional name. Recruiters land on the Resume, clients on Projects, peers on About. Returning visitors get a one-click welcome. Enter skips the intro.
+
 - **Three living wallpapers**, generated on a canvas from a seed (`src/wallpapers/`): *Moonrise Swell* (a woodblock sea, ripples answer clicks and drags), *Survey* (a topographic map, the cursor is a survey lamp and clicks plant flags) and *Constellation Circuit* (a star chart of projects wired as circuits; click a constellation to open it). Unlocking replays each one's intro. Opening an app sends a pulse from the icon.
 - **Stage mode.** Clicking empty desktop while windows are open tucks them to the edges so the wallpaper can be played with directly. Escape or a click on a tucked window brings them back.
 - **A real desktop.** Icons select, marquee-select, drag with grid snap, and remember where you put them. Double-click opens.
@@ -26,6 +28,10 @@ src/
 ```
 
 Design rules: tokens only (no hardcoded colours in apps), no icon libraries, no Tailwind. The palette follows the wallpaper through `html[data-wallpaper]`.
+
+## Analytics
+
+`src/analytics/index.js` wraps [PostHog](https://posthog.com). Set `VITE_POSTHOG_KEY` (and optionally `VITE_POSTHOG_HOST`) in Vercel and the site records pageviews plus product events: `landing_viewed`, `landing_skipped`, `user_type_selected`, `onboarding_completed`, `app_opened` (with `source`: dock, desktop, menubar, terminal, files, wallpaper, onboarding, shortcut), `project_viewed`, `terminal_command`, `music_search`, `music_play`, `wallpaper_changed`, `stage_mode_entered`, `setting_changed`, `glass_degraded`, `locked`. The visitor type (peer, recruiter, client, visitor) is registered as a super property and a person property, so every event can be broken down by it. The typed name is never sent. Global Privacy Control is honored. Without a key, `track()` is a no-op that logs in dev. Cloudflare Web Analytics (index.html) keeps counting plain pageviews independently.
 
 ## Develop
 

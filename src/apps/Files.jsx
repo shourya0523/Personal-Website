@@ -94,7 +94,7 @@ export default function Files({ windowId, path: initialPath }) {
 
   const handleOpenIn = () => {
     const projectId = matchProjectId(node.name)
-    os.openApp(selectedFile.opens, projectId ? { props: { projectId } } : undefined)
+    os.openApp(selectedFile.opens, { source: 'files', ...(projectId ? { props: { projectId } } : {}) })
   }
 
   return (
