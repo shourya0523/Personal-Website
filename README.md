@@ -46,6 +46,10 @@ npm run build
 
 Music search calls `api/deezer.js`, a Vercel serverless function that proxies Deezer's public search API (responses are edge-cached for an hour). Under `npm run dev`, Vite proxies `/api/deezer` straight to Deezer so search works locally too. No environment variables are required; set `ALLOWED_ORIGIN` only if another site should be allowed to call the function.
 
+## Share image
+
+`public/og.png` (2400×1260) is rendered from the landing's Halftone Dawn scene and brand type. To regenerate after a change, run the dev server and screenshot `scripts/og-image.html` at 1200×630 with a device scale factor of 2 (a Playwright one-liner does it). The absolute URL in the Open Graph tags comes from `VITE_SITE_URL`, falling back to Vercel's production URL at build time.
+
 ## Content
 
 Edit `src/content/*.js`. The root `*.txt` files are the original source notes.

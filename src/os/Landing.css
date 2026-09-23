@@ -75,7 +75,6 @@
   .landing__input{font-size:34px}
   .landing__skip{bottom:52px;right:16px}
 }
-}
 @media (prefers-reduced-motion:reduce){.landing__ticker-track{animation:none}.landing__typed{animation:none;max-width:none;border-right:0}}
 
 .landing__panel.chrome::before{background:rgba(242,230,207,.72)}
