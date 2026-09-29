@@ -67,7 +67,7 @@ AI Engineer Co-op
 SNAP Life Sciences
 https://www.linkedin.com/company/snap-lifesciences
 Location: Remote
-Period: May 2025 – December 2025
+Period: September 2025 – December 2025
 
 Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials with BioBERT and SciSpacy for biomedical NER. Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS and built an AWS-native stack (RDS, S3, Lambda) for pharma dealmaking workflows.
 

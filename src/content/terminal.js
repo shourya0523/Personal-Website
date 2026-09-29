@@ -83,7 +83,7 @@ export const terminalFacts = {
     '    → Streamlined grading workflows, reduced turnaround by 30%',
     '',
     '  • AI Engineer Co-op | SNAP Life Sciences',
-    '    May 2025 - Dec 2025',
+    '    Sep 2025 - Dec 2025',
     '    → NLP ETL pipelines (150k+ patents, 500k+ trials, BioBERT/SciSpacy)',
     '    → Migrated ChEMBL (2.8M molecules) onto PostgreSQL/RDS',
     '    → AWS-native stack (RDS, S3, Lambda) for pharma dealmaking',

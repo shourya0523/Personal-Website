@@ -57,7 +57,7 @@ export const resume = {
     {
       org: 'SNAP Life Sciences',
       role: 'AI Engineer Co-op',
-      period: 'May 2025 – December 2025',
+      period: 'September 2025 – December 2025',
       location: 'Remote',
       bullets: [
         'Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials using BioBERT and SciSpacy for biomedical named entity recognition',
