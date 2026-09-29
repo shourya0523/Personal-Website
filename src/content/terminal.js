@@ -1,20 +1,4 @@
-// Personal facts printed by src/components/Terminal.jsx's built-in commands
-// (not the command engine itself — just the text). Reproduced verbatim from the
-// template literals in that file.
-//
-// IMPORTANT DISCREPANCY: Terminal.jsx's `linkedin` / `github` / `email` commands
-// (lines ~671-682) print contact details that disagree with every other source
-// in the repo (src/pages/Contact.jsx, src/pages/Resume.jsx, Contact.txt,
-// Resume.txt, and src/content/profile.js, which all agree on
-// yadav.sho@northeastern.edu / github.com/shourya0523 / linkedin.com/in/shouryadav):
-//   - linkedin command -> "https://linkedin.com/in/shouryayadav" (extra "ya")
-//   - github command   -> "https://github.com/shouryayadav" (wrong handle entirely;
-//                          the real GitHub is github.com/shourya0523)
-//   - email command    -> "shourya.yadav@northeastern.edu" (dot instead of the
-//                          real yadav.sho@northeastern.edu)
-// These look like stale/copy-paste values in the terminal easter egg. They are
-// captured below as `staleLinkedin` / `staleGithub` / `staleEmail` exactly as
-// printed, for reference only — use `profile.links` for the correct values.
+// Supplemental terminal content. Contact commands read profile.links directly.
 
 export const terminalFacts = {
   whoami: 'guest', // Terminal.jsx falls back to the string "guest" when no userName is set (there is no hardcoded username).
@@ -161,11 +145,6 @@ export const terminalFacts = {
     'Software Tech Lead at ACM @ Northeastern.'
   ],
 
-  // See the discrepancy note at the top of this file — these do not match
-  // profile.links / Contact.jsx / Resume.jsx.
-  staleLinkedin: 'https://linkedin.com/in/shouryayadav',
-  staleGithub: 'https://github.com/shouryayadav',
-  staleEmail: 'shourya.yadav@northeastern.edu'
 }
 
 export default terminalFacts

@@ -8,6 +8,7 @@ const sections = [
   { id: 'education', label: 'Education' },
   { id: 'leadership', label: 'Leadership' },
   { id: 'awards', label: 'Awards' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'skills', label: 'Skills' },
 ]
 
@@ -71,6 +72,13 @@ export default function Resume() {
               <Row key={i} title={a.title} sub={a.org} meta={a.year}>
                 <p>{a.description}</p>
               </Row>
+            ))}
+          </Rows>
+        </Section>
+        <Section title="Certifications" id="certifications">
+          <Rows>
+            {resume.certifications.map((c, i) => (
+              <Row key={i} title={c.name} sub={c.issuer} meta={c.year || undefined} />
             ))}
           </Rows>
         </Section>

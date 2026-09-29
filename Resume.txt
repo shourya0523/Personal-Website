@@ -313,6 +313,43 @@ Tools
 -----
 Git, Jira, REST APIs, Agile/Scrum, N8N, Alteryx (Foundations Certified)
 
+CERTIFICATIONS
+==============
+
+Alteryx Foundations Certified
+-----------------------------
+Issuer: Alteryx
+
+AI BootCamp
+-----------
+Issuer: Northeastern AI Club
+Date: Mar 2025
+
+Top 10% Worldwide
+------------------
+Issuer: Marketplace Simulations
+Date: Mar 2025
+
+Navigating AI Ethical Challenges and Risks
+------------------------------------------
+Issuer: Codecademy
+Date: Jan 2025
+
+Problem-Solving Techniques
+--------------------------
+Issuer: LinkedIn
+Date: Jan 2025
+
+Mergers and Acquisitions Simulation
+-----------------------------------
+Issuer: StepStone
+Date: Oct 2024
+
+Applying AI Technologies to the Workplace
+-----------------------------------------
+Issuer: Northeastern University
+Date: Sep 2024
+
 
 PERSONAL INTERESTS
 ==================
