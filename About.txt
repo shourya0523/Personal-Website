@@ -20,7 +20,7 @@ MY JOURNEY
 
 Data Engineering
 ----------------
-Building data systems at Kroll for risk and financial advisory
+Built data systems at Kroll for risk and financial advisory
 
 AI for Healthcare
 -----------------

@@ -67,7 +67,7 @@ AI Engineer Co-op
 SNAP Life Sciences
 https://www.linkedin.com/company/snap-lifesciences
 Location: Remote
-Period: May 2025 – December 2025
+Period: September 2025 – December 2025
 
 Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials with BioBERT and SciSpacy for biomedical NER. Migrated the ChEMBL chemistry database (2.8M molecules) onto PostgreSQL/RDS and built an AWS-native stack (RDS, S3, Lambda) for pharma dealmaking workflows.
 
@@ -312,6 +312,43 @@ Pandas, Scikit-Learn, HuggingFace, TensorFlow, NumPy, Plotly, PowerBI, BioBERT, 
 Tools
 -----
 Git, Jira, REST APIs, Agile/Scrum, N8N, Alteryx (Foundations Certified)
+
+CERTIFICATIONS
+==============
+
+Alteryx Foundations Certified
+-----------------------------
+Issuer: Alteryx
+
+AI BootCamp
+-----------
+Issuer: Northeastern AI Club
+Date: Mar 2025
+
+Top 10% Worldwide
+------------------
+Issuer: Marketplace Simulations
+Date: Mar 2025
+
+Navigating AI Ethical Challenges and Risks
+------------------------------------------
+Issuer: Codecademy
+Date: Jan 2025
+
+Problem-Solving Techniques
+--------------------------
+Issuer: LinkedIn
+Date: Jan 2025
+
+Mergers and Acquisitions Simulation
+-----------------------------------
+Issuer: StepStone
+Date: Oct 2024
+
+Applying AI Technologies to the Workplace
+-----------------------------------------
+Issuer: Northeastern University
+Date: Sep 2024
 
 
 PERSONAL INTERESTS

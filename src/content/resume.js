@@ -57,7 +57,7 @@ export const resume = {
     {
       org: 'SNAP Life Sciences',
       role: 'AI Engineer Co-op',
-      period: 'May 2025 – December 2025',
+      period: 'September 2025 – December 2025',
       location: 'Remote',
       bullets: [
         'Engineered NLP ETL pipelines processing 150k+ patents and 500k+ clinical trials using BioBERT and SciSpacy for biomedical named entity recognition',
@@ -82,6 +82,12 @@ export const resume = {
   ],
 
   awards: [
+    {
+      title: 'AINU Chatathon Winner – ProsperiFi Track',
+      org: 'AI Club at Northeastern',
+      year: 'Sep 2026',
+      description: 'Winner of the ProsperiFi track at the AINU Chatathon'
+    },
     {
       title: '1st Place at Husky Healthcare Innovation Challenge',
       org: 'ViTAL at Northeastern University',
@@ -218,15 +224,41 @@ export const resume = {
     }
   ],
 
-  // Not a distinct "certifications" section in any source; the only credential-like
-  // item is "Alteryx (Foundations Certified)", listed inside the Tools skill group
-  // in About.jsx / Resume.jsx / About.txt / Resume.txt. Surfaced here too since the
-  // schema calls for a certifications list — year is not stated anywhere.
   certifications: [
     {
       name: 'Alteryx Foundations Certified',
       issuer: 'Alteryx',
       year: null
+    },
+    {
+      name: 'AI BootCamp',
+      issuer: 'Northeastern AI Club',
+      year: 'Mar 2025'
+    },
+    {
+      name: 'Top 10% Worldwide',
+      issuer: 'Marketplace Simulations',
+      year: 'Mar 2025'
+    },
+    {
+      name: 'Navigating AI Ethical Challenges and Risks',
+      issuer: 'Codecademy',
+      year: 'Jan 2025'
+    },
+    {
+      name: 'Problem-Solving Techniques',
+      issuer: 'LinkedIn',
+      year: 'Jan 2025'
+    },
+    {
+      name: 'Mergers and Acquisitions Simulation',
+      issuer: 'StepStone',
+      year: 'Oct 2024'
+    },
+    {
+      name: 'Applying AI Technologies to the Workplace',
+      issuer: 'Northeastern University',
+      year: 'Sep 2024'
     }
   ]
 }
