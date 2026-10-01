@@ -105,6 +105,23 @@ export const projects = [
     files: ['Search', 'Edge', 'CERs']
   },
   {
+    id: 'pharma-analog-uptake-workbench',
+    title: 'Pharma Analog Uptake Workbench',
+    blurb: 'Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.',
+    description: [
+      'Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.'
+    ],
+    tech: ['FastAPI', 'React', 'SQLAlchemy', 'OpenRouter'],
+    github: 'https://github.com/shourya0523/pharma-analog-uptake-workbench',
+    demo: null,
+    demoLabel: null,
+    period: 'August 2026 – Present',
+    featured: false,
+    accent: '#6366F1',
+    highlights: [],
+    files: ['Sources', 'Curves', 'Citations']
+  },
+  {
     id: 'insync',
     title: 'InSync',
     blurb: 'Algorithmic VC-to-startup matching platform with data pipelines processing investor preference datasets.',
