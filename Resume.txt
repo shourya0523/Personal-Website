@@ -236,6 +236,13 @@ Tech: Healthcare, Data Engineering
 Description: Hospital-controlled imaging discovery for research. PHI stays at the hospital; the edge returns de-identified Clinical Evidence Records, count bands, and opaque study tokens.
 GitHub: https://github.com/shourya0523/DICOM
 
+Pharma Analog Uptake Workbench
+------------------------------
+Period: August 2026 – Present
+Tech: FastAPI, React, SQLAlchemy, OpenRouter
+Description: Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.
+GitHub: https://github.com/shourya0523/pharma-analog-uptake-workbench
+
 SiMSai
 ------
 Period: February 2026 – Present
