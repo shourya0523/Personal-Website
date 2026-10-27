@@ -73,7 +73,7 @@ export class Theater {
     this.timer = new THREE.Timer()
     this.pickables = []
     this.handlers = {}
-    this.state = { curtain: 0, eyeOpen: 0.06, banner: 0, bubbles: 0, house: 0, trapdoor: 0, print: 0, forces: [0, 0, 0], loft: 0, box: 0, toggleOn: true, velocity: 0 }
+    this.state = { stats: 0, eyeStat: 0, question: 0, curtain: 0, eyeOpen: 0.06, banner: 0, bubbles: 0, house: 0, trapdoor: 0, print: 0, forces: [0, 0, 0], loft: 0, box: 0, toggleOn: true, velocity: 0 }
 
     const renderer = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
     renderer.setClearColor(C.black, 1)
@@ -100,6 +100,7 @@ export class Theater {
     this.buildReceipt()
     this.buildWorkshop()
     this.buildClaimCards()
+    this.buildLines()
     this.buildPost()
 
     this.raycaster = new THREE.Raycaster()
@@ -221,6 +222,7 @@ export class Theater {
     hinge.position.set(0, 0, T.z - hole)
     const door = new THREE.Mesh(new THREE.BoxGeometry(hole * 2, 0.12, hole * 2), new THREE.MeshStandardMaterial({ color: 0x241010, roughness: 0.55 }))
     door.position.set(0, -0.06, hole); hinge.add(door)
+    this.trapDoor = door
     const edge = new THREE.LineSegments(new THREE.EdgesGeometry(door.geometry), new THREE.LineBasicMaterial({ color: C.dim }))
     edge.position.copy(door.position); hinge.add(edge)
     g.add(hinge)
@@ -520,15 +522,14 @@ export class Theater {
     g.add(new THREE.LineSegments(ropeGeo, new THREE.LineBasicMaterial({ color: 0x3a2a26 })))
     this.scene.add(g)
 
-    // The Buckmaster placard, hanging on two lines.
+    // A placard up in the flies, where the chats end up.
     const { tex } = canvasTexture(1024, 620, (ctx, w, h) => {
       ctx.fillStyle = '#E9E1CE'; ctx.fillRect(0, 0, w, h)
-      ctx.fillStyle = '#1D1B19'; ctx.font = `400 26px ${FONT.mono}`; ctx.fillText('EXHIBIT B · SEPT. 2026', 60, 70)
-      ctx.font = `400 46px ${FONT.type}`
-      wrapText(ctx, '"While unlikely, we cannot rule out that de-identified data derived from their usage of our products helped improve our models."', w - 120).forEach((l, i) => ctx.fillText(l, 60, 150 + i * 60))
-      ctx.font = `400 26px ${FONT.mono}`; ctx.fillStyle = '#7E130C'; ctx.fillText('OPENAI, RESPONDING TO TRISTAN BUCKMASTER (NYU)', 60, h - 60)
-      ctx.strokeStyle = '#C01D13'; ctx.lineWidth = 6; ctx.strokeRect(w - 300, 40, 240, 70)
-      ctx.fillStyle = '#C01D13'; ctx.font = `400 40px ${FONT.poster}`; ctx.textAlign = 'center'; ctx.fillText('ON RECORD', w - 180, 92)
+      ctx.fillStyle = '#1D1B19'; ctx.font = `400 26px ${FONT.mono}`; ctx.fillText('LOST PROPERTY · NO RETURNS', 60, 76)
+      ctx.font = `400 64px ${FONT.type}`
+      wrapText(ctx, 'Once it goes up, nobody can trace where it goes.', w - 120).forEach((l, i) => ctx.fillText(l, 60, 190 + i * 82))
+      ctx.strokeStyle = '#C01D13'; ctx.lineWidth = 6; ctx.strokeRect(60, h - 120, 330, 70)
+      ctx.fillStyle = '#C01D13'; ctx.font = `400 40px ${FONT.poster}`; ctx.textAlign = 'center'; ctx.fillText('YOUR CHATS', 225, h - 70)
     })
     const placard = this.placard = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.15), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.25 }))
     placard.position.set(1.5, 14.2, -5)
@@ -545,7 +546,7 @@ export class Theater {
       for (let i = 0; i < 3; i++) roundRect(ctx, 30, 30 + i * 26, i === 2 ? 110 : 190, 12, 6), ctx.fill()
     }).tex
     this.bubbles = []
-    for (let i = 0; i < 26; i++) {
+    for (let i = 0; i < 10; i++) {
       const mat = new THREE.SpriteMaterial({ map: bubbleTex, color: 0x9a9a9a, transparent: true, opacity: 0, depthWrite: false })
       const sp = new THREE.Sprite(mat)
       sp.scale.set(1.0, 0.62, 1)
@@ -575,7 +576,7 @@ export class Theater {
     const { tex } = canvasTexture(1024, 256, (ctx, w, h) => {
       ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h)
       ctx.strokeStyle = '#8a5a24'; ctx.lineWidth = 6; ctx.strokeRect(10, 10, w - 20, h - 20)
-      ctx.textAlign = 'center'; ctx.fillStyle = '#FFD9B0'; ctx.font = `500 76px ${FONT.head}`; ctx.fillText('PRIVATE BOX', w / 2, 112)
+      ctx.textAlign = 'center'; ctx.fillStyle = '#FFD9B0'; ctx.font = `500 64px ${FONT.head}`; ctx.fillText('PRIVACY, SOLD SEPARATELY', w / 2, 108)
       ctx.font = `400 30px ${FONT.mono}`; ctx.fillStyle = '#CFCFCF'; ctx.fillText('ENTERPRISE · NOT USED FOR TRAINING', w / 2, 190)
     })
     const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 0.85), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }))
@@ -679,12 +680,13 @@ export class Theater {
   buildClaimCards() {
     this.cards = []
     this.cardQueue = []
-    this.cardTimer = 0
+    this.cardTimer = 0.6
+    this.cardIndex = -1
   }
 
-  /** Lines from the live reading float from your seat into the pupil. */
+  /** A few lines from the live reading drift once from your seat through the curtain. */
   setClaims(texts) {
-    this.cardQueue = texts.slice(0, 16).map(t => {
+    this.cardQueue = texts.slice(0, 5).map(t => {
       const { tex } = canvasTexture(1024, 200, (ctx, w, h) => {
         ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0, 0, w, h)
         ctx.strokeStyle = '#FF3B2F'; ctx.lineWidth = 3; ctx.strokeRect(2, 2, w - 4, h - 4)
@@ -696,23 +698,82 @@ export class Theater {
   }
 
   spawnCard() {
-    if (!this.cardQueue.length) return
-    const tex = this.cardQueue[this.cardIndex = ((this.cardIndex ?? -1) + 1) % this.cardQueue.length]
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false }))
-    sp.scale.set(2.6, 0.51, 1)
+    if (this.cardIndex >= this.cardQueue.length - 1) return
+    const tex = this.cardQueue[++this.cardIndex]
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0 }))
+    sp.scale.set(1.7, 0.33, 1)
     const seat = LAYOUT.seat()
-    const start = seat.clone().add(new THREE.Vector3((Math.random() - 0.5) * 3, -0.3, -1.6))
-    const end = LAYOUT.eye.clone()
-    const mid = start.clone().lerp(end, 0.5).add(new THREE.Vector3((Math.random() - 0.5) * 6, 3 + Math.random() * 2, 0))
+    const side = this.cardIndex % 2 ? 1 : -1
+    // Off to the side of your seat and up over the stalls, so they never cross the lens.
+    const start = seat.clone().add(new THREE.Vector3(side * (1.6 + Math.random()), 0.4, -2.2))
+    const end = new THREE.Vector3(side * 0.3, 5.2, 0.7) // the gap in the curtain
+    const mid = start.clone().lerp(end, 0.5).add(new THREE.Vector3(side * 2.5, 2.2, 0))
     sp.userData = { curve: new THREE.QuadraticBezierCurve3(start, mid, end), t: 0 }
     this.scene.add(sp); this.cards.push(sp)
+  }
+
+
+  // ---------------------------------------------------------------- lines that live in the scene
+  /** A text plane that fades with a state value. */
+  textPlane(width, height, pxW, pxH, draw) {
+    const { tex } = canvasTexture(pxW, pxH, draw)
+    const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false })
+    return new THREE.Mesh(new THREE.PlaneGeometry(width, height), mat)
+  }
+
+  buildLines() {
+    // Act I: the two Pew numbers glow on the curtain until it opens.
+    const stat = (big, small) => (ctx, w) => {
+      ctx.textAlign = 'center'; ctx.fillStyle = '#FF3B2F'; ctx.font = `500 230px ${FONT.head}`
+      ctx.fillText(big, w / 2, 230)
+      ctx.fillStyle = '#F2F2F2'; ctx.font = `400 34px ${FONT.mono}`
+      wrapText(ctx, small, w - 80).forEach((l, i) => ctx.fillText(l, w / 2, 300 + i * 44))
+    }
+    this.statPlanes = [
+      this.textPlane(3.6, 1.8, 800, 400, stat('56%', 'CLICK "AGREE" WITHOUT READING')),
+      this.textPlane(3.6, 1.8, 800, 400, stat('61%', 'DOUBT ANYTHING THEY DO WILL MATTER')),
+    ]
+    this.statPlanes[0].position.set(-2.4, 6.6, 1.0)
+    this.statPlanes[1].position.set(2.4, 6.6, 1.0)
+    this.scene.add(...this.statPlanes)
+
+    // Act II: the number sits in the pupil, as the brand's countdown numbers do.
+    this.eyeStat = this.textPlane(1.6, 0.8, 512, 256, (ctx, w, h) => {
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+      ctx.fillStyle = '#F2F2F2'; ctx.font = `500 120px ${FONT.head}`; ctx.fillText('6', w / 2 - 130, h / 2 - 14)
+      ctx.fillStyle = '#FF3B2F'; ctx.fillText('6', w / 2 + 130, h / 2 - 14)
+      ctx.fillStyle = '#CFCFCF'; ctx.font = `400 40px ${FONT.mono}`; ctx.fillText('OF', w / 2, h / 2 - 8)
+      ctx.font = `400 22px ${FONT.mono}`; ctx.fillText('TRAIN ON YOUR CHATS', w / 2, h / 2 + 78)
+    })
+    this.eyeStat.position.set(0, 0, 0.04)
+    this.eye.add(this.eyeStat)
+
+    // Act IV: painted on the trapdoor, read from above before it drops.
+    const trapText = this.textPlane(2.2, 0.55, 880, 220, (ctx, w, h) => {
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#E9E1CE'
+      ctx.font = `400 64px ${FONT.poster}`; ctx.fillText('THE OTHER SIDE OF THE COIN', w / 2, h / 2)
+    })
+    trapText.rotation.x = -Math.PI / 2; trapText.position.set(0, 0.07, 0)
+    trapText.material.opacity = 0.85
+    this.trapDoor.add(trapText)
+
+    // The closing question, on the back wall of the house, for the reverse shot from the stage.
+    this.questionPlane = this.textPlane(22, 5.5, 1600, 400, (ctx, w, h) => {
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+      ctx.fillStyle = '#F2F2F2'; ctx.font = `500 96px ${FONT.head}`
+      ctx.fillText('Who do you trust with', w / 2, h / 2 - 66)
+      ctx.fillStyle = '#FF3B2F'; ctx.fillText('your most sensitive data?', w / 2, h / 2 + 66)
+    })
+    this.questionPlane.position.set(0, houseFloor(30) + 7.5, 35.7)
+    this.questionPlane.rotation.y = Math.PI
+    this.scene.add(this.questionPlane)
   }
 
   // ---------------------------------------------------------------- post-processing
   buildPost() {
     const composer = this.composer = new EffectComposer(this.renderer)
     composer.addPass(new RenderPass(this.scene, this.camera))
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.6, 0.4, 0.82)
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.5, 0.4, 0.84)
     composer.addPass(this.bloom)
     // Scanlines, a little chromatic aberration that grows with scroll speed, vignette and grain.
     this.crt = new ShaderPass({
@@ -724,16 +785,16 @@ export class Theater {
         void main() {
           vec2 c = vUv - 0.5;
           float d = dot(c, c);
-          float ca = 0.0015 + uVel * 0.012;
+          float ca = 0.0008 + uVel * 0.006;
           vec2 off = c * d * ca * 8.0;
           vec3 col;
           col.r = texture2D(tDiffuse, vUv + off).r;
           col.g = texture2D(tDiffuse, vUv).g;
           col.b = texture2D(tDiffuse, vUv - off).b;
-          float scan = 0.9 + 0.1 * sin(vUv.y * uRes.y * 1.6);
+          float scan = 0.95 + 0.05 * sin(vUv.y * uRes.y * 1.6);
           col *= scan;
           col *= 1.0 - smoothstep(0.18, 0.75, d * 1.6);
-          col += (hash(vUv * uRes + fract(uTime) * 100.0) - 0.5) * 0.045;
+          col += (hash(vUv * uRes + fract(uTime) * 100.0) - 0.5) * 0.025;
           gl_FragColor = vec4(col, 1.0);
         }`,
     })
@@ -824,28 +885,33 @@ export class Theater {
     this.glint.visible = st.eyeOpen > 0.25
     this.pupilRing.material.opacity = clamp01(st.eyeOpen * 2)
     this.halo.material.opacity = 0.5 * clamp01(st.eyeOpen * 1.5)
-    for (const c of this.eyeCones) c.material.uniforms.uStrength.value = clamp01(st.eyeOpen * 1.3) * (1 - st.house)
+    for (const c of this.eyeCones) c.material.uniforms.uStrength.value = 0.6 * clamp01(st.eyeOpen * 1.3) * (1 - st.house)
 
     // Claim cards drift from your seat into the pupil.
     const cardsOn = st.cards > 0.01
     if (cardsOn && this.cardQueue.length) {
       this.cardTimer -= dt
-      if (this.cardTimer <= 0) { this.spawnCard(); this.cardTimer = 1.1 }
+      if (this.cardTimer <= 0) { this.spawnCard(); this.cardTimer = 1.8 }
     }
     for (let i = this.cards.length - 1; i >= 0; i--) {
       const sp = this.cards[i]
-      sp.userData.t += dt / 5.5
+      sp.userData.t += dt / 7
       const k = sp.userData.t
       sp.position.copy(sp.userData.curve.getPoint(Math.min(1, k)))
-      const sc = 1 - smooth((k - 0.6) / 0.4) * 0.92
-      sp.scale.set(2.6 * sc, 0.51 * sc, 1)
-      sp.material.opacity = clamp01(k * 6) * (cardsOn ? 1 : clamp01(1 - k)) * (1 - smooth((k - 0.9) / 0.1))
+      const sc = 1 - smooth((k - 0.55) / 0.45) * 0.85
+      sp.scale.set(1.7 * sc, 0.33 * sc, 1)
+      sp.material.opacity = 0.8 * clamp01(k * 5) * st.cards * (1 - smooth((k - 0.85) / 0.15))
       if (k >= 1) {
         this.eyeUniforms.uPulse.value = 1
         this.scene.remove(sp); sp.material.dispose(); this.cards.splice(i, 1)
       }
     }
     this.yourSeatLight.intensity = 30 * st.cards
+
+    // In-scene lines.
+    for (const p of this.statPlanes) p.material.opacity = st.stats
+    this.eyeStat.material.opacity = st.eyeStat
+    this.questionPlane.material.opacity = st.question
 
     // Toggle knob eases to its side.
     this.toggleT += ((st.toggleOn ? 1 : 0) - this.toggleT) * (1 - Math.pow(0.001, dt))

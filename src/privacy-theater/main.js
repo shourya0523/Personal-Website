@@ -58,7 +58,7 @@ const SHOTS = {
   workbench: [{ pos: V(L.x + 0.5, L.y + 0.75, L.z + 1.6), tgt: V(L.x, L.y + 0.4, L.z - 0.3), fov: 40, move: 'dolly' }],
   tobesure: [{ pos: V(0, 3.2, -1.2), tgt: E, fov: 50, move: 'crane' }],
   fixes: [{ pos: V(0, 9, 30), tgt: V(0, 3, -2), fov: 50, move: 'dolly' }],
-  close: [{ pos: V(0, 2.4, -2.4), tgt: V(0, 3.6, 18), fov: 56, move: 'orbit' }],
+  close: [{ pos: V(0, 2.4, -2.4), tgt: V(0, 7.5, 18), fov: 56, move: 'orbit' }],
   credits: [{ pos: V(0, 4.2, 13), tgt: V(0, 4.4, 0), fov: 48, move: 'crane' }],
 }
 
@@ -173,11 +173,15 @@ function phase(name, a = 0, b = 1, y = smoothY) {
 function sceneState() {
   const after = phase
   return {
-    curtain: after('curtain', 0.45, 0.9) * (1 - after('credits', 0.05, 0.5)),
-    banner: after('curtain', 0.3, 0.7),
-    eyeOpen: 0.06 + 0.44 * after('curtain', 0.5, 1) + 0.5 * after('eye', 0, 0.5) - 0.2 * after('box', 0, 0.5)
+    // The curtain opens late in its beat, so the numbers on it have time to be read.
+    stats: after('curtain', 0.02, 0.2) * (1 - after('curtain', 0.62, 0.78)),
+    curtain: after('curtain', 0.66, 0.98) * (1 - after('credits', 0.05, 0.5)),
+    banner: after('curtain', 0.55, 0.85),
+    eyeStat: after('eye', 0.18, 0.4) * (1 - after('eye', 0.85, 1)),
+    question: after('close', 0.2, 0.55),
+    eyeOpen: 0.06 + 0.44 * after('curtain', 0.7, 1) + 0.5 * after('eye', 0, 0.5) - 0.2 * after('box', 0, 0.5)
       - 0.45 * after('trapdoor', 0.2, 0.8) - 0.15 * after('tobesure') - 0.1 * after('fixes') - 0.1 * after('close', 0, 0.6),
-    cards: reading ? after('seat', 0, 0.2) * (1 - after('eye', 0, 0.4)) : 0,
+    cards: reading ? after('seat', 0.05, 0.25) * (1 - after('curtain', 0.4, 0.62)) : 0,
     bubbles: after('toggle', 0.5, 1) * (1 - after('box', 0, 0.5)),
     forces: [0, 1, 2].map(i => after('forces', 0.12 + i * 0.2, 0.27 + i * 0.2) * (1 - after('trapdoor', 0, 0.3))),
     box: after('box', 0, 0.4) * (1 - after('forces', 0.1, 0.5)),
@@ -224,11 +228,25 @@ function syncAct() {
   document.body.dataset.act = act
 }
 
-// Beats fade in as they reach the middle of the screen.
-const io = new IntersectionObserver(entries => {
-  for (const e of entries) e.target.classList.toggle('in', e.isIntersecting)
-}, { rootMargin: '-25% 0px -25% 0px' })
-beats.forEach(b => io.observe(b))
+// Text rides the same smoothed scroll as the camera: the column is offset by however far the
+// smoothing trails the real scroll, and each caption fades on the camera's clock.
+const play = document.getElementById('play')
+const captions = beats.map(el => ({ el, hold: el.hasAttribute('data-hold'), fixed: el.classList.contains('beat--title') || el.classList.contains('beat--credits') }))
+function syncText() {
+  play.style.transform = `translate3d(0, ${(window.scrollY - smoothY).toFixed(2)}px, 0)`
+  const vh = window.innerHeight
+  for (const c of captions) {
+    if (c.fixed) continue
+    const box = beatBox[c.el.dataset.shot]
+    if (!box) continue
+    const t = (smoothY + vh / 2 - box.top) / box.h
+    const [a, b] = c.hold ? [0.04, 0.14] : [0.16, 0.3]
+    // Fade in over [a, b], hold, fade out over [1 - b, 1 - a].
+    const op = Math.min(clamp01((t - a) / (b - a)), clamp01((1 - a - t) / (b - a)))
+    c.el.style.setProperty('--o', op.toFixed(3))
+    c.el.style.pointerEvents = op > 0.5 ? '' : 'none'
+  }
+}
 
 // Render loop.
 let frames = 0, fpsClock = performance.now(), lastY = smoothY, hintHidden = false, lastT = performance.now()
@@ -252,6 +270,7 @@ function frame(now) {
   const p = panelSide(smoothY), k = 1 - Math.exp(-dt * 3)
   shift += (p.side - shift) * k; lift += (p.lift - lift) * k
   syncAct()
+  syncText()
   if (!hintHidden && target > 40) { hintHidden = true; document.getElementById('scroll-hint')?.classList.add('gone') }
   if (!theater) return
   theater.render({ ...cameraAt(smoothY), shift, lift }, sceneState(), reduced)
@@ -313,7 +332,7 @@ const readingTime = document.getElementById('reading-time')
 readVisitor().then(async r => {
   reading = r
   readingTime.textContent = `· ${r.count} readings in ${(r.ms / 1000).toFixed(2)} s`
-  const claims = r.claims.slice(0, 9)
+  const claims = r.claims.slice(0, 5)
   theater?.setClaims(claims.map(c => plain(c.text)))
   const lines = receiptLines(r)
   theater?.setReceipt(lines)

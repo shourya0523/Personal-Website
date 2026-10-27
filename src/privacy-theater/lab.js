@@ -114,7 +114,7 @@ export function initLab({ onState } = {}) {
     $('s-model').textContent = 'ready'
     $('lab-progress').textContent = 'Ready. From here on, everything happens on this device. Watch the request counter.'
     $('lab-load').textContent = 'Loaded'
-    $('lab-forget').disabled = false
+    $('lab-forget').hidden = false; $('lab-forget').disabled = false
     $('lab-ask').disabled = false; $('lab-check').disabled = false
     onState?.('ready')
   }
@@ -163,6 +163,7 @@ export function initLab({ onState } = {}) {
       $('lab-progress').textContent = 'Deleted. The model is no longer stored in this browser.'
       $('lab-load').textContent = 'Download the model'; $('lab-load').disabled = false
       $('lab-ask').disabled = true; $('lab-check').disabled = true
+      $('lab-forget').hidden = true
       onState?.('idle')
     } catch (err) {
       warn(`Couldn't delete the model: ${err.message || err}`); $('lab-forget').disabled = false

@@ -42,209 +42,225 @@
       <p class="hint" id="scroll-hint">Scroll to take your seat. The show has already started.</p>
     </section>
 
-    <!-- ACT I: make it personal (pathos) -->
+    <!-- ACT I · THE PERFORMANCE -->
     <section class="beat beat--left" id="act-1" data-shot="seat" data-act="1">
-      <p class="chip">Act I · The performance</p>
-      <h2>Your software is watching you.</h2>
-      <p class="lede">Open a website, any website, and before you can even find the "Reject All" button, it already knows your device, your city, your internet provider and a lot more. This one is no different.</p>
-      <p class="aside">Look at the stage. Those cards are leaving your seat.</p>
+      <div class="cap">
+        <p class="chip">Act I · The performance</p>
+        <p>Open a website, any website, and before you can even find the "Reject All" button, it already knows your device, your city and a lot more. This one is no different, so watch the stage.</p>
+      </div>
     </section>
 
-    <section class="beat beat--right beat--wide" data-shot="banner" data-act="1">
-      <h2 class="h3">Here's what this page learned before you clicked anything.</h2>
-      <div class="reading" id="reading" aria-live="polite">
-        <p class="reading-head"><span class="rec" aria-hidden="true"></span> Reading you <span id="reading-time"></span></p>
-        <ol id="reading-list"><li class="pending">Measuring…</li></ol>
-        <p class="credit">This live reading is Kuber Mehta's code, from his project <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">github.com/Kuberwastaken/cookie</a>), running in your browser under its open-source license. Nothing is stored or sent.</p>
+    <section class="beat beat--right" data-shot="banner" data-act="1" data-hold>
+      <div class="cap cap--wide">
+        <h2>What this page learned before you clicked anything</h2>
+        <div class="reading" id="reading" aria-live="polite">
+          <p class="reading-head"><span class="rec" aria-hidden="true"></span> Reading you <span id="reading-time"></span></p>
+          <ol id="reading-list"><li class="pending">Measuring…</li></ol>
+        </div>
+        <p class="credit">Live reading by Kuber Mehta, from <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">source</a>). It runs in your browser, and nothing is stored.</p>
       </div>
-      <p class="small">As Mehta warns, "the site you visit after this one can do all of it too, and won't tell you."</p>
     </section>
 
     <section class="beat beat--left" data-shot="curtain" data-act="1">
-      <h2>The banner is the stage set.</h2>
-      <p class="stat"><b>56%</b> of Americans routinely click "agree" without reading.</p>
-      <p class="stat"><b>61%</b> doubt anything they do will make a difference. <a class="src" href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">Pew Research Center, 2023</a></p>
-      <p>Most of us have learned to play our part without reading the script, and that resignation is the theater working exactly as designed, since a choice that feels pointless is a choice people stop making.</p>
-      <div class="banner-mirror">
-        <p class="banner-q">The banner on stage works. Choose, and watch what changes.</p>
-        <div class="row">
-          <button class="btn" data-banner="accept">Accept all</button>
-          <button class="btn btn--ghost" data-banner="reject">Reject all</button>
+      <p class="sr-only">56% of Americans click "agree" without reading. 61% doubt anything they do will make a difference.</p>
+      <div class="cap">
+        <p>The cookie banner is the stage set of self-managed privacy, and as <a href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">Pew's numbers</a> show, most of us have learned to play our part without reading the script.</p>
+        <div class="row row--quiet">
+          <button class="btn btn--small" data-banner="accept">Accept all</button>
+          <button class="btn btn--small btn--ghost" data-banner="reject">Reject all</button>
         </div>
         <p class="banner-a" id="banner-answer" aria-live="polite"></p>
       </div>
     </section>
 
-    <!-- ACT II: raise the stakes (logos, then pathos) -->
+    <!-- ACT II · THE STAKES -->
     <section class="beat beat--right" id="act-2" data-shot="eye" data-act="2">
-      <p class="chip">Act II · The stakes</p>
-      <h2>The cookie banner has a successor.</h2>
-      <p class="stat"><b>6 of 6</b> major U.S. AI developers train on your chats by default. <a class="src" href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">Stanford HAI, 2025</a></p>
-      <p>For years the stakes felt small, a few targeted ads and an eerie sense of being followed around the internet. Now your drafts, your questions and the things you would never post become training data by default, with some companies keeping them indefinitely and some letting people read the transcripts.</p>
+      <p class="sr-only">6 of 6 major U.S. AI developers train on your chats by default.</p>
+      <div class="cap">
+        <p class="chip">Act II · The stakes</p>
+        <p>The cookie banner has a successor. All six major U.S. AI developers <a href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">train on your chats by default</a>, with some keeping them indefinitely and some letting people read the transcripts.</p>
+      </div>
     </section>
 
     <section class="beat beat--left" data-shot="toggle" data-act="2">
-      <h2>Find the switch.</h2>
-      <p>When one major lab updated its terms in 2025, users saw a large "Accept" button with a much smaller training toggle beneath it, already switched on, and anyone who left it on can now have their chats kept for up to five years.</p>
-      <div class="toggle-mirror">
+      <div class="cap">
+        <p>When one major lab updated its terms in 2025, the training toggle sat beneath a large "Accept" button, already switched on. Find the real one tonight, in every chatbot you use.</p>
         <button class="switch" id="toggle-btn" role="switch" aria-checked="true">
           <span class="switch-track"><span class="switch-knob"></span></span>
           <span class="switch-label">Help improve the model with my chats</span>
         </button>
-        <p class="toggle-a" id="toggle-answer" aria-live="polite">Switched on before you got here. The giant one on stage works too.</p>
+        <p class="toggle-a" id="toggle-answer" aria-live="polite"></p>
       </div>
-      <p class="cta">Now find the real one, tonight, in every chatbot you use.</p>
     </section>
 
     <section class="beat beat--right" data-shot="flyloft" data-act="2">
-      <h2>Ask Tristan Buckmaster.</h2>
-      <p>Buckmaster, a mathematician at NYU, worked through unpublished research in an AI coding tool, and when the company announced its AI had solved the famous Navier-Stokes problem, a claim mathematicians are still examining, he asked a simple question: had the model seen his drafts? <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">Their answer</a> deserves to be read slowly:</p>
-      <blockquote>"While unlikely, we cannot rule out that de-identified data derived from their usage of our products helped improve our models."</blockquote>
-      <p class="punch">Once your ideas enter a cloud model, even the company running it cannot fully trace where they go.</p>
+      <p class="sr-only">Placard in the flies: once it goes up, nobody can trace where it goes.</p>
+      <div class="cap">
+        <p>Think about what you typed into a chatbot this week, the half-finished draft, the symptom, the question you wouldn't ask out loud. Once it goes up, even the company running the model cannot fully trace where it goes.</p>
+      </div>
     </section>
 
-    <!-- ACT III: name the cause (logos, ethos) -->
+    <!-- ACT III · THE PRICE -->
     <section class="beat beat--left" id="act-3" data-shot="box" data-act="3">
-      <p class="chip">Act III · The price</p>
-      <h2>Privacy, sold separately.</h2>
-      <p>The same update that switched the toggle on for everyday users left business, enterprise and API customers untouched. Privacy, therefore, is already for sale, and the companies that can afford it are buying. Everyone else pays with their conversations.</p>
-      <p class="pull">"If you are not paying for the AI you use with your data, you are probably paying with it." <a class="src" href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">Me, on LinkedIn</a></p>
+      <p class="sr-only">Sign on the private box: privacy, sold separately. Enterprise, not used for training.</p>
+      <div class="cap">
+        <p class="chip">Act III · The price</p>
+        <p>The update that switched that toggle on for everyday users left business, enterprise and API customers untouched. Privacy, therefore, is already for sale, and everyone else pays with their conversations.</p>
+      </div>
     </section>
 
     <section class="beat beat--right" data-shot="receipt" data-act="3">
-      <h2>Here's your receipt.</h2>
-      <p>Itemized from what this page read in Act I. The total in dollars is zero, which is exactly the point.</p>
-      <div class="receipt" id="receipt">
-        <p class="receipt-head">Admit one · general seating</p>
-        <p class="receipt-sub">Paid with:</p>
-        <dl id="receipt-lines"><dt>Waiting for the reading…</dt><dd></dd></dl>
-        <p class="receipt-total">Total charged: <span>$0.00</span></p>
-        <p class="receipt-note">Illustrative. Nothing here was saved.</p>
+      <div class="cap">
+        <p>As I <a href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">put it on LinkedIn</a>, if you are not paying for the AI you use with your data, you are probably paying with it. Here is your receipt.</p>
+        <div class="receipt" id="receipt">
+          <p class="receipt-head">Admit one · general seating</p>
+          <p class="receipt-sub">Paid with:</p>
+          <dl id="receipt-lines"><dt>Waiting for the reading…</dt><dd></dd></dl>
+          <p class="receipt-total">Total charged: <span>$0.00</span></p>
+          <p class="receipt-note">Illustrative. Nothing here was saved.</p>
+        </div>
       </div>
     </section>
 
     <section class="beat beat--left" data-shot="forces" data-act="3">
-      <h2>Three forces keep the show running.</h2>
-      <ol class="forces">
-        <li><b>Money.</b> Data has become the fuel for training AI, and every conversation makes the next model a little sharper.</li>
-        <li><b>Law.</b> The US still has no comprehensive federal privacy law. <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">24 states</a> wrote their own; of <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">49 federal bills</a>, two narrow ones passed.</li>
-        <li><b>Design.</b> A pre-switched toggle and a giant "Accept" button do exactly what they were built to do, and most of us have stopped pushing back.</li>
-      </ol>
+      <p class="sr-only">Three spotlights: money, law, design.</p>
+      <div class="cap">
+        <p>Three forces keep the show running: money, because every conversation makes the next model a little sharper; law, because <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">24 states</a> patch the gaps while only two narrow bills out of <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">49 federal proposals</a> have passed; and design, because a pre-switched toggle does exactly what it was built to do.</p>
+      </div>
     </section>
 
-    <!-- ACT IV: the alternative and the ask (ethos, call to action) -->
+    <!-- ACT IV · TAKE IT BACK -->
     <section class="beat beat--right" id="act-4" data-shot="trapdoor" data-act="4">
-      <p class="chip">Act IV · Take it back</p>
-      <h2>The other side of the coin.</h2>
-      <p>I learned how much private AI matters by building it. At M3 and SNAP Life Sciences, I worked with pharmaceutical and financial data where everything was valuable and proprietary, and with a startup's resources, that meant finding creative ways to run privacy-first, local AI. A model running on your own hardware keeps your sharpest ideas exactly where they belong, so the savings and the privacy arrive together.</p>
+      <p class="sr-only">Painted on the trapdoor: the other side of the coin.</p>
+      <div class="cap">
+        <p class="chip">Act IV · Take it back</p>
+        <p>I learned how much private AI matters by building it. At M3 and SNAP Life Sciences, where the data was valuable and proprietary, running privacy-first, local AI meant the savings and the privacy arrived together.</p>
+      </div>
     </section>
 
-    <section class="beat beat--left beat--wide" data-shot="workbench" data-act="4">
-      <h2>There's a trapdoor out of this show.</h2>
-      <p>The model below runs on your own graphics chip, so you can paste in a privacy policy and have it pull out what they train on, how long they keep it and who gets to read it, or ask it about the argument, all while the request counter stays at zero.</p>
-
-      <div class="lab" id="lab">
-        <p class="lab-head">An AI that never leaves this device</p>
-        <p class="lab-sub">Qwen3.5 0.8B, running in your browser. It downloads once (447 MB) and stays on this device. After that, nothing you type goes anywhere.</p>
-        <div class="lab-stats">
-          <div><b>WebGPU</b><span id="s-gpu">checking…</span></div>
-          <div><b>Model</b><span id="s-model">not loaded</span></div>
-          <div><b>Speed</b><span id="s-speed">—</span></div>
-          <div><b>Requests since ready</b><span id="s-net">—</span></div>
-        </div>
-        <div class="lab-bar" aria-hidden="true"><i id="lab-bar"></i></div>
-        <p class="lab-progress" id="lab-progress"></p>
-        <div class="row">
-          <button class="btn" id="lab-load" disabled>Download the model</button>
-          <button class="btn btn--ghost" id="lab-forget" disabled>Delete it from this device</button>
-        </div>
-        <div class="lab-tabs" role="tablist">
-          <button role="tab" id="tab-policy" aria-selected="true" aria-controls="panel-policy">Check a privacy policy</button>
-          <button role="tab" id="tab-ask" aria-selected="false" aria-controls="panel-ask">Ask about the argument</button>
-        </div>
-        <div class="lab-panel" id="panel-policy" role="tabpanel" aria-labelledby="tab-policy">
-          <label for="lab-policy">Paste the part of a privacy policy about your data</label>
-          <textarea id="lab-policy"></textarea>
-          <p class="lab-count"><span id="lab-count">0</span> / 6,000 characters</p>
+    <section class="beat beat--left beat--long" data-shot="workbench" data-act="4" data-hold>
+      <div class="cap cap--wide">
+        <p>So try it yourself. This model runs on your own graphics chip, and the request counter stays at zero.</p>
+        <div class="lab" id="lab">
+          <div class="lab-stats">
+            <div><b>WebGPU</b><span id="s-gpu">checking…</span></div>
+            <div><b>Model</b><span id="s-model">not loaded</span></div>
+            <div><b>Speed</b><span id="s-speed">—</span></div>
+            <div><b>Requests since ready</b><span id="s-net">—</span></div>
+          </div>
+          <div class="lab-bar" aria-hidden="true"><i id="lab-bar"></i></div>
+          <p class="lab-progress" id="lab-progress">Qwen3.5 0.8B downloads once (447 MB) and stays on this device. After that, nothing you type goes anywhere.</p>
           <div class="row">
-            <button class="btn" id="lab-check" disabled>Check it</button>
-            <button class="btn btn--ghost" id="lab-sample">Use a made-up sample</button>
+            <button class="btn" id="lab-load" disabled>Download the model</button>
+            <button class="btn btn--ghost" id="lab-forget" hidden disabled>Delete it from this device</button>
           </div>
-          <div class="lab-out" id="out-policy"></div>
-        </div>
-        <div class="lab-panel" id="panel-ask" role="tabpanel" aria-labelledby="tab-ask" hidden>
-          <label for="lab-q">Your question</label>
-          <input type="text" id="lab-q" placeholder="Why should I care if my chats train an AI?" autocomplete="off" />
-          <div class="suggest" id="lab-suggest">
-            <button>Why should I care if my chats train an AI?</button>
-            <button>What can I actually do about it?</button>
-            <button>What happened to Tristan Buckmaster?</button>
+          <div class="lab-tabs" role="tablist">
+            <button role="tab" id="tab-policy" aria-selected="true" aria-controls="panel-policy">Check a privacy policy</button>
+            <button role="tab" id="tab-ask" aria-selected="false" aria-controls="panel-ask">Ask about the argument</button>
           </div>
-          <button class="btn" id="lab-ask" disabled>Ask</button>
-          <div class="lab-out" id="out-ask"></div>
+          <div class="lab-panel" id="panel-policy" role="tabpanel" aria-labelledby="tab-policy">
+            <label for="lab-policy">Paste the part of a privacy policy about your data</label>
+            <textarea id="lab-policy"></textarea>
+            <p class="lab-count"><span id="lab-count">0</span> / 6,000 characters</p>
+            <div class="row">
+              <button class="btn" id="lab-check" disabled>Check it</button>
+              <button class="btn btn--ghost" id="lab-sample">Use a made-up sample</button>
+            </div>
+            <div class="lab-out" id="out-policy"></div>
+          </div>
+          <div class="lab-panel" id="panel-ask" role="tabpanel" aria-labelledby="tab-ask" hidden>
+            <label for="lab-q">Your question</label>
+            <input type="text" id="lab-q" placeholder="Why should I care if my chats train an AI?" autocomplete="off" />
+            <div class="suggest" id="lab-suggest">
+              <button>Why should I care if my chats train an AI?</button>
+              <button>What can I actually do about it?</button>
+            </div>
+            <button class="btn" id="lab-ask" disabled>Ask</button>
+            <div class="lab-out" id="out-ask"></div>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="beat beat--right" data-shot="tobesure" data-act="4">
-      <p class="objection">"But free AI needs our data to get better."</p>
-      <p>To be sure, user data does make models better, and free tools have bills to pay. Regardless, the burden of protecting that data belongs with the companies collecting it, so training should stay off by default for everyone, the same protection enterprise customers already enjoy without lifting a finger.</p>
+      <div class="cap">
+        <p class="objection">"But free AI needs our data."</p>
+        <p>To be sure, user data does make models better. Regardless, training should stay off by default for everyone, the same protection enterprise customers already enjoy without lifting a finger.</p>
+      </div>
     </section>
 
-    <section class="beat beat--left" id="toolkit" data-shot="fixes" data-act="4">
-      <h2>Your move.</h2>
-      <p>The fixes are within reach, and the first few start with you, tonight.</p>
-      <ol class="actions">
-        <li><b>Tonight:</b> turn off chat training in every AI tool you use.</li>
-        <li><b>This week:</b> turn on <a href="https://globalprivacycontrol.org" target="_blank" rel="noopener">Global Privacy Control</a>, so your browser tells every site not to sell your data.</li>
-        <li><b>From now on:</b> keep sensitive work on a local model, like the one above, or free apps such as <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> and <a href="https://lmstudio.ai" target="_blank" rel="noopener">LM Studio</a>.</li>
-        <li><b>Speak up:</b> tell your representatives you want a federal privacy law that sets a floor for every state and lets them build higher, and tell AI companies that training should stay off unless you opt in.</li>
-        <li><b>Build it:</b> <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, a 24-hour privacy-first hackathon in Boston, Nov 7–8.</li>
-      </ol>
+    <section class="beat beat--left" id="toolkit" data-shot="fixes" data-act="4" data-hold>
+      <div class="cap">
+        <h2>Your move</h2>
+        <ol class="actions">
+          <li><b>Tonight.</b> Turn off chat training in every AI tool you use.</li>
+          <li><b>This week.</b> Turn on <a href="https://globalprivacycontrol.org" target="_blank" rel="noopener">Global Privacy Control</a> in your browser.</li>
+          <li><b>From now on.</b> Keep sensitive work on a local model, like the one above, <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> or <a href="https://lmstudio.ai" target="_blank" rel="noopener">LM Studio</a>.</li>
+          <li><b>Speak up.</b> Ask your representatives for a federal privacy law that sets a floor for every state.</li>
+          <li><b>Build it.</b> <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, a 24-hour privacy-first hackathon in Boston, Nov 7–8.</li>
+        </ol>
+      </div>
     </section>
 
     <section class="beat beat--center" data-shot="close" data-act="4">
-      <p class="closing">The next time a pop-up asks for your consent, remember you're watching a performance, and ask yourself the question I asked on LinkedIn.</p>
-      <p class="question">Who do you trust with your most sensitive data?</p>
+      <p class="sr-only">On the back wall: who do you trust with your most sensitive data?</p>
+      <div class="cap">
+        <p>The next time a pop-up asks for your consent, remember you're watching a performance, and turn around.</p>
+      </div>
     </section>
 
     <!-- CURTAIN CALL -->
     <section class="beat beat--credits" id="curtain-call" data-shot="credits" data-act="5">
       <p class="chip">Curtain call</p>
-      <h2>Credits</h2>
       <div class="credits">
-        <div>
-          <h3>Written by</h3>
-          <p>Shourya Yadav</p>
-        </div>
-        <div class="credits-kuber">
-          <h3>Live reading by</h3>
-          <p><b>Kuber Mehta.</b> Act I runs the probes and plain-English inferences from his project <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">source on GitHub</a>), used under its modified MIT license. The idea, the measurements and the sentences that describe you are his. This page only stages them.</p>
-        </div>
-        <div>
-          <h3>Local model</h3>
-          <p>Qwen3.5 0.8B by the Qwen team, run in the browser with <a href="https://github.com/mlc-ai/web-llm" target="_blank" rel="noopener">WebLLM</a>.</p>
-        </div>
-        <div>
-          <h3>Stage built with</h3>
-          <p><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a>. Look borrowed from <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, Nov 7–8, Boston.</p>
-        </div>
+        <div><h3>Written by</h3><p>Shourya Yadav</p></div>
+        <div><h3>Local model</h3><p>Qwen3.5 0.8B by the Qwen team, run with <a href="https://github.com/mlc-ai/web-llm" target="_blank" rel="noopener">WebLLM</a>.</p></div>
+        <div class="credits-kuber"><h3>Live reading by</h3><p><b>Kuber Mehta.</b> Act I runs the probes and plain-English inferences from his project <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">source on GitHub</a>), used under its modified MIT license. The idea, the measurements and the sentences that describe you are his. This page only stages them.</p></div>
+        <div><h3>Stage</h3><p>Built with <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a>. Look borrowed from <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>.</p></div>
+        <div><h3>Privacy</h3><p>No cookies, no analytics, and nothing you typed was sent anywhere.</p></div>
       </div>
 
-      <h3 class="toolkit-head">Works Cited</h3>
-      <ol class="cited">
-        <li>"HACK1984: Boston Hack 84." Claude Builder Club Northeastern, <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">claudeneu.com/hackathon</a>. Accessed 27 Oct. 2026.</li>
-        <li>"Federal Privacy Legislation in 2026: The 49 Bills Reshaping US Data Privacy Law." <i>KEYT</i>, Stacker, 21 Oct. 2026, <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law</a>.</li>
-        <li>Itoi, Nikki Goth. "Be Careful What You Tell Your AI Chatbot." <i>Stanford HAI</i>, 15 Oct. 2025, <a href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot</a>.</li>
-        <li>"Key Findings about Americans and Data Privacy." <i>Pew Research Center</i>, 18 Oct. 2023, <a href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy</a>.</li>
-        <li>"A Mathematician Working on the Navier-Stokes Millennium Prize Problem Now Wonders If OpenAI Stole His Notes That He Stored in Codex." <i>Wccftech</i>, 8 Sept. 2026, <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex</a>.</li>
-        <li>Mehta, Kuber. <i>Cookie</i>. GitHub, <a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">github.com/Kuberwastaken/cookie</a>. Accessed 27 Oct. 2026.</li>
-        <li>Mehta, Kuber. "I Didn't Set a Cookie." <i>kuber.studio</i>, <a href="https://kuber.studio/cookie" target="_blank" rel="noopener">kuber.studio/cookie</a>. Accessed 27 Oct. 2026.</li>
-        <li>"U.S. State Privacy Law Landscape Expands to 24 States." <i>Byte Back</i>, 29 June 2026, <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses</a>.</li>
-        <li>Yadav, Shourya. "Privacy Theater." <i>shouryadav.info</i>, 2026, <a href="/blog/Privacy-Theater">shouryadav.info/blog/Privacy-Theater</a>.</li>
-        <li>Yadav, Shourya. "Unpopular opinion: if you are not paying for the AI you use with your data, you are probably paying with it…" <i>LinkedIn</i>, 2026, <a href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">lnkd.in/p/epJPCgZD</a>.</li>
-      </ol>
-      <p class="fin">Nothing on this page set a cookie, ran analytics, or sent what you typed anywhere. The house lights are up. You can go.</p>
+      <details class="full-oped">
+        <summary>Read the op-ed in full</summary>
+        <article>
+          <h2>Privacy Theater: You Never Agreed to This</h2>
+          <h3>Act I: Your software is watching you</h3>
+          <p>Open a website, any website, and before you can even find the "Reject All" button, it already knows your zip code, device type, internet provider, and a lot more. Stitched together, this is enough data to tell you apart from almost everyone else online.</p>
+          <p>When I opened Kuber Mehta's project, <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a>, it read me back to myself in under two seconds, "as if a stranger were describing you out loud," and it did all of it without storing a single cookie, the thing banner on the internet so politely asks permission for. Mehta's warning, written plainly in <a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">the project's notes</a>, is that "the site you visit after this one can do all of it too, and won't tell you."</p>
+          <p>When's the last time you read the terms and conditions of an app? Understood the cookie policy of a site? The cookie banner is the stage set of self-managed privacy, a polite little box that asks for your consent on one narrow question while the real collection happens backstage, and most of us have learned to play our part without reading the script. According to a 2023 <a href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">Pew Research Center survey</a>, 56% of Americans say they always, almost always or often click "agree" without reading privacy policies, and 61% doubt that anything they do will make much difference. That resignation is the theater working exactly as designed, since a choice that feels pointless is a choice people stop making.</p>
+          <h3>Act II: The AI spy</h3>
+          <p>For years, the stakes of that theater felt small, a few targeted ads and an eerie sense of being followed around the internet. What's changed now is the way companies use your data, which has grown far hungrier than any ad network ever was. The same Pew survey found that 70% of Americans who have heard of AI have little to no trust in companies to use it responsibly, and the evidence suggests they are right to worry. In October 2025, <a href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">researchers at Stanford</a> reviewed the privacy policies of six major American AI developers and found that all six use people's chat conversations to train their models by default, with some keeping that data indefinitely and some letting human reviewers read transcripts.</p>
+          <p>Where an opt-out exists, it tends to look familiar. When one major lab updated its terms in 2025, users saw a large "Accept" button with a much smaller training toggle beneath it, already switched on, and conversations from anyone who left it on can now be kept for up to five years. The cookie banner has a successor, and it is guarding far more valuable data.</p>
+          <p>Few stories capture what that data is worth better than one from this September. Tristan Buckmaster, a mathematician at NYU, had been using OpenAI's coding tool to work through unpublished research, and when OpenAI announced that its AI had solved the famous Navier-Stokes problem, a claim mathematicians are still examining, he asked a simple question: had the model seen the drafts he kept in those sessions? OpenAI <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">responded publicly</a> that its researchers "did not see any of their work through any means until they released it publicly," and then added a sentence that deserves to be read slowly: "While unlikely, we cannot rule out that de-identified data derived from their usage of our products helped improve our models." Regardless of how that dispute ends, the sentence is an honest admission that once your ideas enter a cloud model, even the company running it cannot fully trace where they go.</p>
+          <h3>Act III: Privacy, sold separately</h3>
+          <p>This is why I believe real protection doesn't end at self-management. It has to be built into the software we use and written into the laws that govern it, so privacy is the default long before anyone goes looking for a toggle. When it comes to AI, I made this argument <a href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">on LinkedIn</a> this fall: if you are not paying for the AI you use with your data, you are probably paying with it.</p>
+          <p>The fine print proves the point. The same update that switched that toggle on for everyday users left business, enterprise and API customers untouched. Privacy, therefore, is already for sale, and the companies that can afford it are buying. Everyone else pays with their conversations.</p>
+          <p>Three forces keep it that way. The first is money: data has become the fuel for training AI, and every conversation makes the next model a little sharper. The second is law: the US still has no comprehensive federal privacy law, only <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">a patchwork of 24 state laws</a>, and of <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">the 49 federal proposals</a> Congress has seen, only two narrow ones have passed. The third is design. A pre-switched toggle and a giant "Accept" button do exactly what they were built to do, and as Pew's numbers show, most of us have stopped pushing back.</p>
+          <h3>Act IV: The other side of the coin</h3>
+          <p>I learned how much private AI matters by building it. At M3 and SNAP Life Sciences, I went deep into AI engineering, working with pharmaceutical and financial data where everything was valuable and proprietary, especially at a startup. Pair that with limited resources and a real need for AI-driven solutions, and you get very creative ways to run privacy-first, local AI. A model running on your own hardware keeps your sharpest ideas and most sensitive information exactly where they belong, so the savings and the privacy arrive together.</p>
+          <p>That lesson has followed me into everything I've taken on since. It shapes how I help Northeastern's business school adopt AI as a member of the SGA AI Advisory Board, and it's why I'm co-organizing <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, a 24-hour, privacy-first hackathon in Boston, where one hundred builders will spend a day proving that powerful AI and private data can live side by side.</p>
+          <p>To be sure, user data does make models better, and free tools have bills to pay. Regardless, the burden of protecting that data belongs with the companies collecting it, so training should stay off by default for everyone, the same protection enterprise customers already enjoy without lifting a finger.</p>
+          <p>The fixes are within reach. AI companies should leave training switched off unless a user actively opts in, as Stanford's researchers recommend. Congress should pass a federal privacy law that sets a floor for every state and lets them build higher. And builders, students included, should treat local, privacy-first AI as the default, because I've seen firsthand that it works.</p>
+          <p>The next time a pop-up asks for your consent, remember you're watching a performance, and ask yourself the question I asked on LinkedIn. Who do you trust with your most sensitive data?</p>
+        </article>
+      </details>
+
+      <details class="full-oped">
+        <summary>Works Cited</summary>
+        <ol class="cited">
+          <li>"HACK1984: Boston Hack 84." Claude Builder Club Northeastern, <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">claudeneu.com/hackathon</a>. Accessed 27 Oct. 2026.</li>
+          <li>"Federal Privacy Legislation in 2026: The 49 Bills Reshaping US Data Privacy Law." <i>KEYT</i>, Stacker, 21 Oct. 2026, <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law</a>.</li>
+          <li>Itoi, Nikki Goth. "Be Careful What You Tell Your AI Chatbot." <i>Stanford HAI</i>, 15 Oct. 2025, <a href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot</a>.</li>
+          <li>"Key Findings about Americans and Data Privacy." <i>Pew Research Center</i>, 18 Oct. 2023, <a href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy</a>.</li>
+          <li>"A Mathematician Working on the Navier-Stokes Millennium Prize Problem Now Wonders If OpenAI Stole His Notes That He Stored in Codex." <i>Wccftech</i>, 8 Sept. 2026, <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex</a>.</li>
+          <li>Mehta, Kuber. <i>Cookie</i>. GitHub, <a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">github.com/Kuberwastaken/cookie</a>. Accessed 27 Oct. 2026.</li>
+          <li>Mehta, Kuber. "I Didn't Set a Cookie." <i>kuber.studio</i>, <a href="https://kuber.studio/cookie" target="_blank" rel="noopener">kuber.studio/cookie</a>. Accessed 27 Oct. 2026.</li>
+          <li>"U.S. State Privacy Law Landscape Expands to 24 States." <i>Byte Back</i>, 29 June 2026, <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses</a>.</li>
+          <li>Yadav, Shourya. "Privacy Theater." <i>shouryadav.info</i>, 2026, <a href="/blog/Privacy-Theater">shouryadav.info/blog/Privacy-Theater</a>.</li>
+          <li>Yadav, Shourya. "Unpopular opinion: if you are not paying for the AI you use with your data, you are probably paying with it…" <i>LinkedIn</i>, 2026, <a href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">lnkd.in/p/epJPCgZD</a>.</li>
+        </ol>
+      </details>
+      <p class="fin">The house lights are up. You can go.</p>
     </section>
   </main>
 
