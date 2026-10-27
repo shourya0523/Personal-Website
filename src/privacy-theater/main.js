@@ -12,6 +12,7 @@ import * as THREE from 'three'
 import { Theater, LAYOUT } from './theater.js'
 import { readVisitor, receiptLines, claimHTML, plain } from './reader.js'
 import { initLab } from './lab.js'
+import { receiptBlob } from './receipt.js'
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z)
 const seat = LAYOUT.seat()
@@ -338,6 +339,7 @@ readVisitor().then(async r => {
   const claims = r.claims.slice(0, 5)
   theater?.setClaims(claims.map(c => plain(c.text)))
   const lines = receiptLines(r)
+  receiptReady(lines)
   theater?.setReceipt(lines)
   const dl = document.getElementById('receipt-lines')
   dl.innerHTML = ''
@@ -362,6 +364,21 @@ readVisitor().then(async r => {
   list.innerHTML = '<li>The reading didn\'t finish in this browser, which is, for once, the private outcome.</li>'
   console.warn('[privacy-theater] reading failed', err)
 })
+
+// ------------------------------------------------------------------ download the receipt
+const receiptBtn = document.getElementById('receipt-download')
+function receiptReady(lines) {
+  receiptBtn.disabled = false
+  receiptBtn.onclick = async () => {
+    const blob = await receiptBlob(lines)
+    if (!blob) return
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = 'privacy-theater-receipt.png'
+    a.click()
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000)
+  }
+}
 
 // ------------------------------------------------------------------ the local model
 const lab = initLab({ onState: s => theater?.setLabState(s) })

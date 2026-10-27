@@ -10,6 +10,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
+import { drawReceipt } from './receipt.js'
 
 // HACK1984 palette (brand guide).
 export const C = {
@@ -595,24 +596,7 @@ export class Theater {
     printer.position.set(0, 0.25, -0.2); g.add(printer)
     const slot = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.04, 0.04), new THREE.MeshBasicMaterial({ color: C.red }))
     slot.position.set(0, 0.48, 0.2); g.add(slot)
-    this.receiptCanvas = canvasTexture(400, 1200, (ctx, w, h, lines = []) => {
-      ctx.fillStyle = '#F5F4EF'; ctx.fillRect(0, 0, w, h)
-      ctx.fillStyle = '#1D1B19'; ctx.textAlign = 'center'
-      ctx.font = `400 26px ${FONT.type}`; ctx.fillText('PRIVACY THEATER', w / 2, 60)
-      ctx.font = `400 18px ${FONT.type}`; ctx.fillText('ADMIT ONE · GENERAL SEATING', w / 2, 92)
-      ctx.fillText('- - - - - - - - - - - - - - - -', w / 2, 122)
-      ctx.textAlign = 'left'; ctx.font = `400 17px ${FONT.type}`
-      let y = 160
-      ctx.fillText('PAID WITH:', 26, y); y += 36
-      for (const [k, v] of lines) {
-        ctx.fillText(k.toUpperCase(), 26, y); y += 24
-        ctx.textAlign = 'right'; ctx.fillText(String(v).slice(0, 34), w - 26, y); ctx.textAlign = 'left'; y += 34
-      }
-      ctx.textAlign = 'center'; ctx.fillText('- - - - - - - - - - - - - - - -', w / 2, y + 6)
-      ctx.font = `400 24px ${FONT.type}`; ctx.fillText('TOTAL CHARGED  $0.00', w / 2, y + 50)
-      ctx.font = `400 15px ${FONT.type}`; ctx.fillText('YOU PAID IN DATA, NOT DOLLARS', w / 2, y + 84)
-      ctx.fillText('ILLUSTRATIVE · NOTHING WAS SAVED', w / 2, y + 108)
-    })
+    this.receiptCanvas = canvasTexture(400, 1200, (ctx, w, h, lines = []) => { drawReceipt(ctx, w, h, lines) })
     this.receiptUniforms = { uPrint: { value: 0 }, map: { value: this.receiptCanvas.tex } }
     const paper = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 3.3, 1, 40), new THREE.ShaderMaterial({
       uniforms: this.receiptUniforms, side: THREE.DoubleSide,
