@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Privacy Theater</title>
+  <meta name="description" content="An interactive show about the data you never agreed to give away, and how to take it back with AI that runs on your own device." />
+  <meta name="author" content="Shourya Yadav" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:title" content="Privacy Theater: You Never Agreed to This" />
+  <meta property="og:description" content="The page reads you while you scroll, then hands you an AI that never leaves your device." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="%SITE_URL%/blog/Privacy-Theater" />
+  <meta name="twitter:card" content="summary" />
+  <!-- No analytics, no cookies, no third-party scripts or fonts on this page. -->
+</head>
+<body>
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <header class="bar">
+    <a class="bar-home" href="/">Shourya Yadav</a>
+    <span class="bar-act" id="act-label" aria-live="polite">Prologue</span>
+    <button class="bar-sound" id="motion-toggle" aria-pressed="false" title="Reduce motion">Motion: on</button>
+  </header>
+
+  <nav class="progress" aria-label="Acts">
+    <a href="#act-1" data-act="1"><span>I</span></a>
+    <a href="#act-2" data-act="2"><span>II</span></a>
+    <a href="#act-3" data-act="3"><span>III</span></a>
+    <a href="#act-4" data-act="4"><span>IV</span></a>
+    <a href="#curtain-call" data-act="5"><span>✦</span></a>
+  </nav>
+
+  <main id="play">
+    <!-- PROLOGUE -->
+    <section class="beat beat--title" data-shot="establish" data-act="0">
+      <p class="chip">A show in four acts</p>
+      <h1>Privacy<br /><span>Theater</span></h1>
+      <p class="dek">You never agreed to this.</p>
+      <p class="byline">By Shourya Yadav</p>
+      <p class="hint" id="scroll-hint">Scroll to take your seat. The show has already started.</p>
+    </section>
+
+    <!-- ACT I: make it personal (pathos) -->
+    <section class="beat beat--left" id="act-1" data-shot="seat" data-act="1">
+      <p class="chip">Act I · The performance</p>
+      <h2>Take your seat. You're being read.</h2>
+      <p class="lede">This page set no cookies, asked for no permission, and you haven't clicked a thing. It already knows what you're sitting at.</p>
+      <p class="aside">Watch what leaves your seat.</p>
+    </section>
+
+    <section class="beat beat--right beat--wide" data-shot="banner" data-act="1">
+      <h2 class="h3">Here's what it learned while you scrolled.</h2>
+      <div class="reading" id="reading" aria-live="polite">
+        <p class="reading-head"><span class="rec" aria-hidden="true"></span> Reading you <span id="reading-time"></span></p>
+        <ol id="reading-list"><li class="pending">Measuring…</li></ol>
+        <p class="credit">This live reading is Kuber Mehta's code, from his project <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">github.com/Kuberwastaken/cookie</a>), running in your browser under its open-source license. Nothing is stored or sent.</p>
+      </div>
+      <p class="small">Any site you visit next can do the same, without saying so.</p>
+    </section>
+
+    <section class="beat beat--left" data-shot="curtain" data-act="1">
+      <h2>The banner is a prop.</h2>
+      <p class="stat"><b>56%</b> of Americans routinely click "agree" without reading.</p>
+      <p class="stat"><b>61%</b> doubt anything they do will make a difference. <a class="src" href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">Pew Research Center, 2023</a></p>
+      <p>That's the act working. A choice that feels pointless is a choice people stop making.</p>
+      <div class="banner-mirror">
+        <p class="banner-q">The banner on stage is real. Choose, and see what changes.</p>
+        <div class="row">
+          <button class="btn" data-banner="accept">Accept all</button>
+          <button class="btn btn--ghost" data-banner="reject">Reject all</button>
+        </div>
+        <p class="banner-a" id="banner-answer" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ACT II: raise the stakes (logos, then pathos) -->
+    <section class="beat beat--right" id="act-2" data-shot="eye" data-act="2">
+      <p class="chip">Act II · The stakes</p>
+      <h2>Now the audience is an AI.</h2>
+      <p class="stat"><b>6 of 6</b> major U.S. AI developers train on your chats by default. <a class="src" href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">Stanford HAI, 2025</a></p>
+      <p>Your drafts, your late-night questions, the things you'd never post. Some companies keep them indefinitely. Some let people read the transcripts.</p>
+    </section>
+
+    <section class="beat beat--left" data-shot="toggle" data-act="2">
+      <h2>Find the switch.</h2>
+      <p>When one major lab changed its terms in 2025, the training toggle sat under a big "Accept" button, already on. Leave it on, and your chats can be kept for up to five years.</p>
+      <div class="toggle-mirror">
+        <button class="switch" id="toggle-btn" role="switch" aria-checked="true">
+          <span class="switch-track"><span class="switch-knob"></span></span>
+          <span class="switch-label">Help improve the model with my chats</span>
+        </button>
+        <p class="toggle-a" id="toggle-answer" aria-live="polite">Switched on before you got here. The giant one on stage works too.</p>
+      </div>
+      <p class="cta">Now do it for real: tonight, open every chatbot you use and find this switch.</p>
+    </section>
+
+    <section class="beat beat--right" data-shot="flyloft" data-act="2">
+      <h2>Ask Tristan Buckmaster.</h2>
+      <p>The NYU mathematician kept unpublished research in an AI coding tool. When the company said its AI had cracked the problem he works on, he asked whether it had seen his drafts. <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">Their answer</a>:</p>
+      <blockquote>"While unlikely, we cannot rule out that de-identified data derived from their usage of our products helped improve our models."</blockquote>
+      <p class="punch">Once your ideas are in the cloud, even the company can't say where they went.</p>
+    </section>
+
+    <!-- ACT III: name the cause (logos, ethos) -->
+    <section class="beat beat--left" id="act-3" data-shot="box" data-act="3">
+      <p class="chip">Act III · The price</p>
+      <h2>Privacy is already for sale.</h2>
+      <p>The same update that opted everyday users into training left business, enterprise and API customers out of it. The box seats come with privacy. General admission pays with conversations.</p>
+      <p class="pull">"If you are not paying for the AI you use with your data, you are probably paying with it." <a class="src" href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">Me, on LinkedIn</a></p>
+    </section>
+
+    <section class="beat beat--right" data-shot="receipt" data-act="3">
+      <h2>Here's your receipt.</h2>
+      <p>Itemized from your real readings in Act I. Total in dollars: zero.</p>
+      <div class="receipt" id="receipt">
+        <p class="receipt-head">Admit one · general seating</p>
+        <p class="receipt-sub">Paid with:</p>
+        <dl id="receipt-lines"><dt>Waiting for the reading…</dt><dd></dd></dl>
+        <p class="receipt-total">Total charged: <span>$0.00</span></p>
+        <p class="receipt-note">Illustrative. Nothing here was saved.</p>
+      </div>
+    </section>
+
+    <section class="beat beat--left" data-shot="forces" data-act="3">
+      <h2>Why the show keeps running</h2>
+      <ol class="forces">
+        <li><b>Money.</b> Every conversation makes the next model sharper, so your chats are worth keeping.</li>
+        <li><b>Law.</b> No federal privacy law. <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">24 states</a> wrote their own; of <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">49 federal bills</a>, two narrow ones passed.</li>
+        <li><b>Design.</b> Pre-switched toggles and giant "Accept" buttons work, which is why they're everywhere.</li>
+      </ol>
+    </section>
+
+    <!-- ACT IV: the alternative and the ask (ethos, call to action) -->
+    <section class="beat beat--right" id="act-4" data-shot="trapdoor" data-act="4">
+      <p class="chip">Act IV · Take it back</p>
+      <h2>There's a trapdoor out of this show.</h2>
+      <p>At M3 and SNAP Life Sciences, I worked with pharmaceutical and financial data too valuable to hand to anyone else. On a startup budget, the answer was local AI: models running on our own hardware. It cost less, and the data stayed ours.</p>
+    </section>
+
+    <section class="beat beat--left beat--wide" data-shot="workbench" data-act="4">
+      <h2>Try it. It's already here.</h2>
+      <p>This model runs on your own graphics chip. Ask it about the argument, or paste a privacy policy and let it pull out the parts about training, how long they keep your data, and who reads it. Then watch the request counter.</p>
+
+      <div class="lab" id="lab">
+        <p class="lab-head">An AI that never leaves this device</p>
+        <p class="lab-sub">Qwen3.5 0.8B, running in your browser. It downloads once (447 MB) and stays on this device. After that, nothing you type goes anywhere.</p>
+        <div class="lab-stats">
+          <div><b>WebGPU</b><span id="s-gpu">checking…</span></div>
+          <div><b>Model</b><span id="s-model">not loaded</span></div>
+          <div><b>Speed</b><span id="s-speed">—</span></div>
+          <div><b>Requests since ready</b><span id="s-net">—</span></div>
+        </div>
+        <div class="lab-bar" aria-hidden="true"><i id="lab-bar"></i></div>
+        <p class="lab-progress" id="lab-progress"></p>
+        <div class="row">
+          <button class="btn" id="lab-load" disabled>Download the model</button>
+          <button class="btn btn--ghost" id="lab-forget" disabled>Delete it from this device</button>
+        </div>
+        <div class="lab-tabs" role="tablist">
+          <button role="tab" id="tab-policy" aria-selected="true" aria-controls="panel-policy">Check a privacy policy</button>
+          <button role="tab" id="tab-ask" aria-selected="false" aria-controls="panel-ask">Ask about the argument</button>
+        </div>
+        <div class="lab-panel" id="panel-policy" role="tabpanel" aria-labelledby="tab-policy">
+          <label for="lab-policy">Paste the part of a privacy policy about your data</label>
+          <textarea id="lab-policy"></textarea>
+          <p class="lab-count"><span id="lab-count">0</span> / 6,000 characters</p>
+          <div class="row">
+            <button class="btn" id="lab-check" disabled>Check it</button>
+            <button class="btn btn--ghost" id="lab-sample">Use a made-up sample</button>
+          </div>
+          <div class="lab-out" id="out-policy"></div>
+        </div>
+        <div class="lab-panel" id="panel-ask" role="tabpanel" aria-labelledby="tab-ask" hidden>
+          <label for="lab-q">Your question</label>
+          <input type="text" id="lab-q" placeholder="Why should I care if my chats train an AI?" autocomplete="off" />
+          <div class="suggest" id="lab-suggest">
+            <button>Why should I care if my chats train an AI?</button>
+            <button>What can I actually do about it?</button>
+            <button>What happened to Tristan Buckmaster?</button>
+          </div>
+          <button class="btn" id="lab-ask" disabled>Ask</button>
+          <div class="lab-out" id="out-ask"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat beat--right" data-shot="tobesure" data-act="4">
+      <p class="objection">"But free AI needs our data to get better."</p>
+      <p>Then ask for it. Make training opt-in for everyone, the way enterprise customers already have it, and let the people who want to contribute choose to.</p>
+    </section>
+
+    <section class="beat beat--left" id="toolkit" data-shot="fixes" data-act="4">
+      <h2>Your move.</h2>
+      <ol class="actions">
+        <li><b>Tonight:</b> turn off chat training in every AI tool you use.</li>
+        <li><b>This week:</b> turn on <a href="https://globalprivacycontrol.org" target="_blank" rel="noopener">Global Privacy Control</a>, so your browser tells every site not to sell your data.</li>
+        <li><b>From now on:</b> keep sensitive work on a local model, like the one above, or free apps such as <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> and <a href="https://lmstudio.ai" target="_blank" rel="noopener">LM Studio</a>.</li>
+        <li><b>Speak up:</b> tell your representatives you want a federal privacy law that sets a floor for every state.</li>
+        <li><b>Build it:</b> <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, a 24-hour privacy-first hackathon in Boston, Nov 7–8.</li>
+      </ol>
+    </section>
+
+    <section class="beat beat--center" data-shot="close" data-act="4">
+      <p class="closing">The next time a pop-up asks for your consent, remember it's a performance, and ask yourself one question.</p>
+      <p class="question">Who do you trust with your most sensitive data?</p>
+    </section>
+
+    <!-- CURTAIN CALL -->
+    <section class="beat beat--credits" id="curtain-call" data-shot="credits" data-act="5">
+      <p class="chip">Curtain call</p>
+      <h2>Credits</h2>
+      <div class="credits">
+        <div>
+          <h3>Written by</h3>
+          <p>Shourya Yadav</p>
+        </div>
+        <div class="credits-kuber">
+          <h3>Live reading by</h3>
+          <p><b>Kuber Mehta.</b> Act I runs the probes and plain-English inferences from his project <a href="https://kuber.studio/cookie" target="_blank" rel="noopener"><i>I didn't set a cookie</i></a> (<a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">source on GitHub</a>), used under its modified MIT license. The idea, the measurements and the sentences that describe you are his. This page only stages them.</p>
+        </div>
+        <div>
+          <h3>Local model</h3>
+          <p>Qwen3.5 0.8B by the Qwen team, run in the browser with <a href="https://github.com/mlc-ai/web-llm" target="_blank" rel="noopener">WebLLM</a>.</p>
+        </div>
+        <div>
+          <h3>Stage built with</h3>
+          <p><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a>. Look borrowed from <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">HACK1984</a>, Nov 7–8, Boston.</p>
+        </div>
+      </div>
+
+      <h3 class="toolkit-head">Works Cited</h3>
+      <ol class="cited">
+        <li>"HACK1984: Boston Hack 84." Claude Builder Club Northeastern, <a href="https://claudeneu.com/hackathon" target="_blank" rel="noopener">claudeneu.com/hackathon</a>. Accessed 27 Oct. 2026.</li>
+        <li>"Federal Privacy Legislation in 2026: The 49 Bills Reshaping US Data Privacy Law." <i>KEYT</i>, Stacker, 21 Oct. 2026, <a href="https://keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law/" target="_blank" rel="noopener">keyt.com/stacker-cybersecurity-privacy/2026/10/21/federal-privacy-legislation-in-2026-the-49-bills-reshaping-us-data-privacy-law</a>.</li>
+        <li>Itoi, Nikki Goth. "Be Careful What You Tell Your AI Chatbot." <i>Stanford HAI</i>, 15 Oct. 2025, <a href="https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot" target="_blank" rel="noopener">hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot</a>.</li>
+        <li>"Key Findings about Americans and Data Privacy." <i>Pew Research Center</i>, 18 Oct. 2023, <a href="https://www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy/" target="_blank" rel="noopener">www.pewresearch.org/short-reads/2023/10/18/key-findings-about-americans-and-data-privacy</a>.</li>
+        <li>"A Mathematician Working on the Navier-Stokes Millennium Prize Problem Now Wonders If OpenAI Stole His Notes That He Stored in Codex." <i>Wccftech</i>, 8 Sept. 2026, <a href="https://wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex/" target="_blank" rel="noopener">wccftech.com/a-mathematician-working-on-the-navier-stokes-millennium-prize-problem-now-wonders-if-openai-stole-his-notes-that-he-stored-in-codex</a>.</li>
+        <li>Mehta, Kuber. <i>Cookie</i>. GitHub, <a href="https://github.com/Kuberwastaken/cookie" target="_blank" rel="noopener">github.com/Kuberwastaken/cookie</a>. Accessed 27 Oct. 2026.</li>
+        <li>Mehta, Kuber. "I Didn't Set a Cookie." <i>kuber.studio</i>, <a href="https://kuber.studio/cookie" target="_blank" rel="noopener">kuber.studio/cookie</a>. Accessed 27 Oct. 2026.</li>
+        <li>"U.S. State Privacy Law Landscape Expands to 24 States." <i>Byte Back</i>, 29 June 2026, <a href="https://www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses/" target="_blank" rel="noopener">www.bytebacklaw.com/2026/06/u-s-state-privacy-law-landscape-expands-to-24-states-what-the-latest-legislative-wave-means-for-businesses</a>.</li>
+        <li>Yadav, Shourya. "Privacy Theater." <i>shouryadav.info</i>, 2026, <a href="/blog/Privacy-Theater">shouryadav.info/blog/Privacy-Theater</a>.</li>
+        <li>Yadav, Shourya. "Unpopular opinion: if you are not paying for the AI you use with your data, you are probably paying with it…" <i>LinkedIn</i>, 2026, <a href="https://lnkd.in/p/epJPCgZD" target="_blank" rel="noopener">lnkd.in/p/epJPCgZD</a>.</li>
+      </ol>
+      <p class="fin">Nothing on this page set a cookie, ran analytics, or sent what you typed anywhere. The house lights are up. You can go.</p>
+    </section>
+  </main>
+
+  <noscript><p class="noscript">The stage needs JavaScript, but the whole op-ed above reads fine without it.</p></noscript>
+  <script type="module" src="/src/privacy-theater/main.js"></script>
+</body>
+</html>

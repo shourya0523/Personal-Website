@@ -16,12 +16,18 @@
     "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/courier-prime": "^5.3.0",
+    "@fontsource/funnel-display": "^5.3.0",
+    "@fontsource/geist-mono": "^5.3.0",
+    "@mlc-ai/web-llm": "^0.2.86",
     "@ybouane/liquidglass": "^1.0.3",
     "framer-motion": "^12.27.1",
     "howler": "^2.2.4",
     "posthog-js": "^1.434.9",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

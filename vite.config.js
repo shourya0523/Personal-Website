@@ -17,7 +17,14 @@ export default defineConfig(({ mode }) => {
   plugins: [react(), siteUrlPlugin],
   // Local stand-in for the Vercel function in api/deezer.js so the Music app's search works under `npm run dev`.
   server: { proxy: { '/api/deezer': { target: 'https://api.deezer.com', changeOrigin: true, rewrite: p => p.replace(/^\/api\/deezer/, '/search') } } },
-  build: { chunkSizeWarningLimit: 700 },
+  build: {
+    chunkSizeWarningLimit: 700,
+    // A second, standalone page: /blog/Privacy-Theater. Its own bundle, so none of the site's
+    // analytics or React code loads there.
+    rollupOptions: { input: { main: 'index.html', privacyTheater: 'blog/Privacy-Theater/index.html' } },
+  },
+  // The local model runs in a module worker that imports WebLLM.
+  worker: { format: 'es' },
   test: { globals: true, environment: 'jsdom', setupFiles: './src/test/setup.js', exclude: ['e2e/**', 'node_modules/**', 'dist/**'] },
   }
 })
