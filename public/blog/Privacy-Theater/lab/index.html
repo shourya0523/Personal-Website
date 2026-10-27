@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Local Model Lab</title>
+<meta name="description" content="Test page: a small language model running entirely in your browser." />
+<!-- No analytics, no cookies, no third-party fonts. The only outside requests are the
+     library and the one-time model download, and the page counts every request after that. -->
+<style>
+  :root {
+    --black: #000000; --red: #FF3B2F; --glow: #FF7A70; --pale: #FFD0CA;
+    --dim-red: #7E130C; --white: #F2F2F2; --meta: #CFCFCF; --chip: #262626; --rule: #2C2C2C; --dash: #3A3A3A;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--black); color: var(--white); }
+  body {
+    font-family: var(--sans); line-height: 1.5; min-height: 100vh;
+    /* CRT scanlines, as in the Iris look */
+    background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px);
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 16px 80px; }
+  .chip { display: inline-block; font: 11px/1 var(--mono); letter-spacing: 0.25em; text-transform: uppercase; color: var(--meta); background: var(--chip); padding: 7px 10px; }
+  h1 { font-weight: 500; font-size: clamp(30px, 6vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin: 18px 0 10px; }
+  h1 em { font-style: normal; color: var(--red); }
+  .meta { font: 12px/1.6 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--meta); margin: 0 0 32px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border-top: 1px dashed var(--dash); border-left: 1px dashed var(--dash); margin-bottom: 24px; }
+  .stat { border-right: 1px dashed var(--dash); border-bottom: 1px dashed var(--dash); padding: 12px 14px; }
+  .stat b { display: block; font: 10px/1 var(--mono); letter-spacing: 0.22em; text-transform: uppercase; color: #8a8a8a; margin-bottom: 8px; font-weight: 400; }
+  .stat span { font: 15px/1.3 var(--mono); color: var(--white); word-break: break-word; }
+  .stat span.hot { color: var(--red); }
+  .stat.net span { font-size: 22px; }
+  .bar { height: 3px; background: var(--rule); margin: -12px 0 24px; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--red); transition: width 0.2s; }
+  button { font: 12px/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--white); background: var(--white); color: var(--black); padding: 13px 18px; }
+  button.ghost { background: transparent; color: var(--meta); border-color: var(--dash); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .tabs { display: flex; gap: 0; margin: 36px 0 0; border-bottom: 1px solid var(--rule); }
+  .tabs button { background: transparent; color: #8a8a8a; border: 0; border-bottom: 2px solid transparent; padding: 14px 16px; }
+  .tabs button[aria-selected="true"] { color: var(--white); border-bottom-color: var(--red); }
+  .panel { padding: 22px 0 0; }
+  .panel[hidden] { display: none; }
+  label { display: block; font: 11px/1 var(--mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--meta); margin-bottom: 10px; }
+  input[type=text], textarea { width: 100%; background: #0b0b0b; color: var(--white); border: 1px solid var(--rule); font: 15px/1.5 var(--sans); padding: 12px 14px; }
+  textarea { min-height: 180px; resize: vertical; font-size: 14px; }
+  .hint { font: 12px/1.5 var(--mono); color: #8a8a8a; margin: 8px 0 14px; }
+  .suggest { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 14px; }
+  .suggest button { background: transparent; color: var(--meta); border: 1px dashed var(--dash); padding: 9px 11px; letter-spacing: 0.06em; text-transform: none; font-size: 12px; }
+  .out { margin-top: 22px; border-left: 2px solid var(--red); padding: 4px 0 4px 16px; min-height: 2em; white-space: pre-wrap; font-size: 16px; color: var(--white); }
+  .out:empty::before { content: 'The answer streams in here.'; color: #5a5a5a; }
+  .warn { border: 1px solid var(--dim-red); color: var(--pale); padding: 14px 16px; font-size: 14px; margin-bottom: 24px; }
+  .warn[hidden] { display: none; }
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--rule); font: 12px/1.7 var(--mono); color: #8a8a8a; }
+  footer a { color: var(--meta); }
+</style>
+</head>
+<body>
+<main>
+  <span class="chip">Privacy Theater · Lab</span>
+  <h1>A language model running <em>on your device</em>.</h1>
+  <p class="meta">Test page · not the final design · Qwen2.5 0.5B via WebLLM</p>
+
+  <div class="warn" id="warn" hidden></div>
+
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b>WebGPU</b><span id="s-gpu">checking…</span></div>
+    <div class="stat"><b>Model</b><span id="s-model">not loaded</span></div>
+    <div class="stat"><b>Load time</b><span id="s-load">—</span></div>
+    <div class="stat"><b>Speed</b><span id="s-speed">—</span></div>
+    <div class="stat net"><b>Requests since ready</b><span id="s-net">—</span></div>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+
+  <div class="row">
+    <button id="load" disabled>Download model (290 MB, once)</button>
+    <button id="forget" class="ghost" disabled>Delete model from this device</button>
+  </div>
+  <p class="hint" id="progress">The model downloads once and is kept in your browser's storage. After that, nothing you type leaves this device.</p>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-ask" aria-selected="true" aria-controls="panel-ask">Ask the op-ed</button>
+    <button role="tab" id="tab-policy" aria-selected="false" aria-controls="panel-policy">Check a policy</button>
+  </div>
+
+  <section class="panel" id="panel-ask" role="tabpanel" aria-labelledby="tab-ask">
+    <label for="q">Your question</label>
+    <input type="text" id="q" placeholder="What does the author want Congress to do?" autocomplete="off" />
+    <div class="suggest" id="suggest">
+      <button>What is privacy theater?</button>
+      <button>What happened with Tristan Buckmaster?</button>
+      <button>What fixes does the author propose?</button>
+      <button>Why is privacy "for sale"?</button>
+    </div>
+    <button id="ask" disabled>Ask</button>
+    <div class="out" id="out-ask"></div>
+  </section>
+
+  <section class="panel" id="panel-policy" role="tabpanel" aria-labelledby="tab-policy" hidden>
+    <label for="policy">Paste a privacy policy or terms of service</label>
+    <textarea id="policy"></textarea>
+    <p class="hint"><span id="count">0</span> / 6,000 characters. The model reads about three pages at a time, so paste the section about data.</p>
+    <div class="row">
+      <button id="check" disabled>Check it</button>
+      <button id="sample" class="ghost">Use a made-up sample</button>
+    </div>
+    <div class="out" id="out-policy"></div>
+  </section>
+
+  <footer>
+    Everything on this page runs in your browser. No analytics, no cookies.
+    The outside requests are the WebLLM library (jsDelivr), the model's compiled code (GitHub) and its weights (Hugging Face), all fetched once.
+    The counter above tracks every request made after the model is ready.
+  </footer>
+</main>
+
+<script type="module">
+import { CreateWebWorkerMLCEngine, hasModelInCache, deleteModelAllInfoInCache } from 'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.86/+esm'
+
+const $ = id => document.getElementById(id)
+const MAX_POLICY = 6000
+
+// Op-ed text the model answers from (second draft, without the Works Cited).
+const OPED = `Privacy Theater
+
+Act I: Your software is watching you
+Open a website, any website, and before you can even find the "Reject All" button, it already knows your zip code, device type, internet provider, and a lot more. Stitched together, this is enough data to tell you apart from almost everyone else online.
+When I opened Kuber Mehta's project, I didn't set a cookie, it read me back to myself in under two seconds, "as if a stranger were describing you out loud," and it did all of it without storing a single cookie, the thing banner on the internet so politely asks permission for. Mehta's warning, written plainly in the project's notes, is that "the site you visit after this one can do all of it too, and won't tell you."
+When's the last time you read the terms and conditions of an app? Understood the cookie policy of a site? The cookie banner is the stage set of self-managed privacy, a polite little box that asks for your consent on one narrow question while the real collection happens backstage, and most of us have learned to play our part without reading the script. According to a 2023 Pew Research Center survey, 56% of Americans say they always, almost always or often click "agree" without reading privacy policies, and 61% doubt that anything they do will make much difference. That resignation is the theater working exactly as designed, since a choice that feels pointless is a choice people stop making.
+
+Act II: The AI spy
+For years, the stakes of that theater felt small, a few targeted ads and an eerie sense of being followed around the internet. What's changed now is the way companies use your data, which has grown far hungrier than any ad network ever was. The same Pew survey found that 70% of Americans who have heard of AI have little to no trust in companies to use it responsibly, and the evidence suggests they are right to worry. In October 2025, researchers at Stanford reviewed the privacy policies of six major American AI developers and found that all six use people's chat conversations to train their models by default, with some keeping that data indefinitely and some letting human reviewers read transcripts.
+Where an opt-out exists, it tends to look familiar. When one major lab updated its terms in 2025, users saw a large "Accept" button with a much smaller training toggle beneath it, already switched on, and conversations from anyone who left it on can now be kept for up to five years. The cookie banner has a successor, and it is guarding far more valuable data.
+Few stories capture what that data is worth better than one from this September. Tristan Buckmaster, a mathematician at NYU, had been using OpenAI's coding tool to work through unpublished research, and when OpenAI announced that its AI had solved the famous Navier-Stokes problem, a claim mathematicians are still examining, he asked a simple question: had the model seen the drafts he kept in those sessions? OpenAI responded publicly that its researchers "did not see any of their work through any means until they released it publicly," and then added a sentence that deserves to be read slowly: "While unlikely, we cannot rule out that de-identified data derived from their usage of our products helped improve our models." Regardless of how that dispute ends, the sentence is an honest admission that once your ideas enter a cloud model, even the company running it cannot fully trace where they go.
+
+Act III: Privacy, sold separately
+This is why I believe real protection doesn't end at self-management. It has to be built into the software we use and written into the laws that govern it, so privacy is the default long before anyone goes looking for a toggle. When it comes to AI, I made this argument on LinkedIn this fall: if you are not paying for the AI you use with your data, you are probably paying with it.
+The fine print proves the point. The same update that switched that toggle on for everyday users left business, enterprise and API customers untouched. Privacy, therefore, is already for sale, and the companies that can afford it are buying. Everyone else pays with their conversations.
+Three forces keep it that way. The first is money: data has become the fuel for training AI, and every conversation makes the next model a little sharper. The second is law: the US still has no comprehensive federal privacy law, only a patchwork of 24 state laws, and of the 49 federal proposals Congress has seen, only two narrow ones have passed. The third is design. A pre-switched toggle and a giant "Accept" button do exactly what they were built to do, and as Pew's numbers show, most of us have stopped pushing back.
+
+Act IV: The other side of the coin
+I learned how much private AI matters by building it. At M3 and SNAP Life Sciences, I went deep into AI engineering, working with pharmaceutical and financial data where everything was valuable and proprietary, especially at a startup. Pair that with limited resources and a real need for AI-driven solutions, and you get very creative ways to run privacy-first, local AI. A model running on your own hardware keeps your sharpest ideas and most sensitive information exactly where they belong, so the savings and the privacy arrive together.
+That lesson has followed me into everything I've taken on since. It shapes how I help Northeastern's business school adopt AI as a member of the SGA AI Advisory Board, and it's why I'm co-organizing HACK1984, a 24-hour, privacy-first hackathon in Boston, where one hundred builders will spend a day proving that powerful AI and private data can live side by side.
+To be sure, user data does make models better, and free tools have bills to pay. Regardless, the burden of protecting that data belongs with the companies collecting it, so training should stay off by default for everyone, the same protection enterprise customers already enjoy without lifting a finger.
+The fixes are within reach. AI companies should leave training switched off unless a user actively opts in, as Stanford's researchers recommend. Congress should pass a federal privacy law that sets a floor for every state and lets them build higher. And builders, students included, should treat local, privacy-first AI as the default, because I've seen firsthand that it works. I've gathered the tools and sources behind this piece in a companion Privacy Theater toolkit.
+The next time a pop-up asks for your consent, remember you're watching a performance, and ask yourself the question I asked on LinkedIn. Who do you trust with your most sensitive data?`
+
+const ASK_SYSTEM = `You answer questions about one op-ed, shown below. Use only what the op-ed says. Answer in one to three plain sentences. If the op-ed does not answer the question, reply exactly: "The op-ed doesn't cover that."
+
+OP-ED:
+${OPED}`
+
+const POLICY_SYSTEM = `You read privacy policies for ordinary people. Look for four things in the policy the user gives you:
+1. Training: user data or conversations used to train or improve AI models.
+2. Retention: how long data is kept.
+3. Human review: people reading user content.
+4. Sharing: data shared with or sold to others.
+For each of the four, write the label, a colon, then quote the matching sentence from the policy word for word. If nothing matches, write "not mentioned". Write nothing else.`
+
+const SAMPLE = `Example Chat Privacy Notice (a made-up sample for testing)
+
+We collect the messages you send, the files you upload, and information about your device and how you use the service. We may use your conversations to develop and improve our services, including to train new models, unless you turn off "Help Improve Example Chat" in Settings. This setting is on by default for personal accounts. If the setting is on, we may keep your conversations for up to three years; otherwise we delete them within 30 days. Business accounts are never used for model training. To keep the service safe, trained reviewers may read a small sample of conversations. We share information with service providers who help us run the service, and we may share de-identified data with research partners. We do not sell your personal information.`
+
+let engine = null, modelId = null, readyAt = Infinity, busy = false
+const net = { requests: 0, bytes: 0 }
+
+// --- network counter: this page's requests plus the worker's (reported over a BroadcastChannel)
+function countEntries(list) {
+  let changed = false
+  for (const e of list) if (e.at > readyAt) { net.requests++; net.bytes += e.bytes; changed = true }
+  if (changed) renderNet()
+}
+function renderNet() {
+  if (readyAt === Infinity) return
+  const el = $('s-net')
+  el.textContent = net.requests === 0 ? '0' : `${net.requests} (${(net.bytes / 1024).toFixed(1)} KB)`
+  el.classList.toggle('hot', net.requests > 0)
+}
+new PerformanceObserver(l => countEntries(l.getEntries().map(e => ({ at: performance.timeOrigin + e.startTime, bytes: e.transferSize || 0 }))))
+  .observe({ type: 'resource', buffered: true })
+new BroadcastChannel('pt-net').onmessage = ev => countEntries(ev.data)
+
+// --- capability check: WebGPU, and whether the GPU supports 16-bit floats (smaller, faster weights)
+async function detect() {
+  if (!('gpu' in navigator)) return null
+  try {
+    const adapter = await navigator.gpu.requestAdapter()
+    if (!adapter) return null
+    return adapter.features.has('shader-f16') ? 'Qwen2.5-0.5B-Instruct-q4f16_1-MLC' : 'Qwen2.5-0.5B-Instruct-q4f32_1-MLC'
+  } catch { return null }
+}
+
+function warn(text) { $('warn').textContent = text; $('warn').hidden = false }
+
+async function init() {
+  modelId = await detect()
+  if (!modelId) {
+    $('s-gpu').textContent = 'not available'; $('s-gpu').classList.add('hot')
+    warn('This browser can\'t run the model: it needs WebGPU. Try a recent Chrome or Edge on a laptop, or Safari 26 or later.')
+    return
+  }
+  $('s-gpu').textContent = modelId.includes('q4f16') ? 'yes (16-bit)' : 'yes (32-bit)'
+  if (await hasModelInCache(modelId).catch(() => false)) {
+    $('load').textContent = 'Load model (already on this device)'
+    $('forget').disabled = false
+  }
+  $('load').disabled = false
+}
+
+async function load() {
+  $('load').disabled = true
+  const t0 = performance.now()
+  $('s-model').textContent = 'loading…'
+  try {
+    engine = await CreateWebWorkerMLCEngine(new Worker(new URL('./worker.js', import.meta.url), { type: 'module' }), modelId, {
+      initProgressCallback: r => {
+        $('bar').style.width = `${Math.round(r.progress * 100)}%`
+        $('progress').textContent = r.text
+      },
+    })
+  } catch (err) {
+    $('s-model').textContent = 'failed'; $('s-model').classList.add('hot')
+    warn(`The model didn't load: ${err.message || err}`)
+    $('load').disabled = false
+    return
+  }
+  readyAt = performance.timeOrigin + performance.now()
+  renderNet()
+  $('s-load').textContent = `${((performance.now() - t0) / 1000).toFixed(1)} s`
+  $('s-model').textContent = 'ready'
+  $('progress').textContent = 'Ready. From here on, everything happens on this device. Watch the request counter.'
+  $('load').textContent = 'Loaded'
+  $('forget').disabled = false
+  $('ask').disabled = false; $('check').disabled = false
+}
+
+async function run(system, user, out) {
+  if (!engine || busy) return
+  busy = true; $('ask').disabled = true; $('check').disabled = true
+  out.textContent = ''
+  const t0 = performance.now()
+  let tokens = 0, first = 0
+  try {
+    const stream = await engine.chat.completions.create({
+      messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
+      temperature: 0.2, max_tokens: 320, stream: true,
+    })
+    for await (const chunk of stream) {
+      const piece = chunk.choices[0]?.delta?.content || ''
+      if (piece) { if (!tokens) first = performance.now(); tokens++; out.textContent += piece }
+    }
+    const secs = (performance.now() - (first || t0)) / 1000
+    $('s-speed').textContent = tokens > 1 ? `${(tokens / secs).toFixed(1)} tokens/s` : '—'
+  } catch (err) {
+    out.textContent = `Something went wrong: ${err.message || err}`
+  } finally {
+    busy = false; $('ask').disabled = false; $('check').disabled = false
+  }
+}
+
+function ask() {
+  const q = $('q').value.trim()
+  if (q) run(ASK_SYSTEM, q, $('out-ask'))
+}
+
+function check() {
+  const p = $('policy').value.trim()
+  if (p) run(POLICY_SYSTEM, `POLICY:\n${p.slice(0, MAX_POLICY)}`, $('out-policy'))
+}
+
+async function forget() {
+  if (!modelId) return
+  $('forget').disabled = true
+  try {
+    if (engine) { await engine.unload(); engine = null }
+    await deleteModelAllInfoInCache(modelId)
+    readyAt = Infinity; net.requests = 0; net.bytes = 0
+    $('s-net').textContent = '—'; $('s-net').classList.remove('hot')
+    $('s-model').textContent = 'deleted'; $('s-load').textContent = '—'; $('s-speed').textContent = '—'
+    $('bar').style.width = '0'
+    $('progress').textContent = 'Deleted. The model is no longer stored in this browser.'
+    $('load').textContent = 'Download model (290 MB, once)'; $('load').disabled = false
+    $('ask').disabled = true; $('check').disabled = true
+  } catch (err) {
+    warn(`Couldn't delete the model: ${err.message || err}`); $('forget').disabled = false
+  }
+}
+
+// --- wiring
+$('load').onclick = load
+$('forget').onclick = forget
+$('ask').onclick = ask
+$('q').onkeydown = e => { if (e.key === 'Enter') ask() }
+$('suggest').onclick = e => { if (e.target.tagName === 'BUTTON') { $('q').value = e.target.textContent; ask() } }
+$('check').onclick = check
+$('sample').onclick = () => { $('policy').value = SAMPLE; $('policy').dispatchEvent(new Event('input')) }
+$('policy').oninput = () => {
+  if ($('policy').value.length > MAX_POLICY) $('policy').value = $('policy').value.slice(0, MAX_POLICY)
+  $('count').textContent = $('policy').value.length.toLocaleString()
+}
+for (const [tab, panel] of [['tab-ask', 'panel-ask'], ['tab-policy', 'panel-policy']]) {
+  $(tab).onclick = () => {
+    for (const [t, p] of [['tab-ask', 'panel-ask'], ['tab-policy', 'panel-policy']]) {
+      $(t).setAttribute('aria-selected', String(t === tab)); $(p).hidden = p !== panel
+    }
+  }
+}
+init()
+</script>
+</body>
+</html>
