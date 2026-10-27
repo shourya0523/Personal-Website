@@ -213,13 +213,24 @@ const syncMotion = () => { motionBtn.textContent = reduced ? 'Motion: reduced' :
 motionBtn.onclick = () => { reduced = !reduced; syncMotion() }
 
 // Sound is generated in the browser and stays off until the visitor asks for it.
+// On by default. Browsers only allow audio after a tap, click or key press (scrolling doesn't
+// count), so it starts on the visitor's first gesture anywhere unless they've switched it off.
 const sound = new Sound()
 const soundBtn = document.getElementById('sound-toggle')
-soundBtn.onclick = async () => {
-  const on = await sound.toggle()
-  soundBtn.textContent = on ? 'Sound: on' : 'Sound: off'
-  soundBtn.setAttribute('aria-pressed', String(on))
+let soundWanted = true
+const syncSound = () => { soundBtn.textContent = soundWanted ? 'Sound: on' : 'Sound: off'; soundBtn.setAttribute('aria-pressed', String(soundWanted)) }
+const startSound = e => {
+  if (e.target instanceof Element && e.target.closest('#sound-toggle')) return
+  if (soundWanted && !sound.on) sound.toggle()
 }
+addEventListener('pointerdown', startSound, { passive: true })
+addEventListener('keydown', startSound)
+soundBtn.onclick = async () => {
+  soundWanted = !soundWanted
+  if (soundWanted !== sound.on) await sound.toggle()
+  syncSound()
+}
+syncSound()
 syncMotion()
 
 measure()
