@@ -47,7 +47,7 @@ main { position: relative; z-index: 1; pointer-events: none; will-change: transf
 .beat--center { align-items: center; text-align: center; }
 
 .cap {
-  opacity: var(--o); transform: translateY(calc((1 - var(--o)) * 18px));
+  opacity: var(--o); transform: translateY(calc((1 - var(--o)) * 32px));
   pointer-events: auto; max-width: 34em; width: 100%;
   padding: 26px 30px 28px; background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -101,6 +101,16 @@ h1, h2, h3 { font-family: var(--head); font-weight: 500; letter-spacing: -0.02em
 .switch-knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--white); transition: transform 0.25s; }
 .switch[aria-checked="true"] .switch-track { background: var(--deep); }
 .switch[aria-checked="true"] .switch-knob { transform: translateX(20px); }
+
+/* ---- the toggle beat: just the prop and a prompt */
+.beat--prop { padding-top: 62vh; }
+.cap--prompt { display: flex; flex-direction: column; align-items: center; max-width: none; }
+.click-prompt { display: inline-flex; align-items: center; gap: 12px; background: rgba(0, 0, 0, 0.6); color: var(--white); border: 1px solid var(--red); border-radius: 999px; padding: 12px 22px; font: 400 11px/1 var(--mono); letter-spacing: 0.24em; text-transform: uppercase; cursor: pointer; }
+.click-prompt .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 0 rgba(255, 59, 47, 0.6); animation: ping 1.6s infinite; }
+.click-prompt[aria-checked="false"] { border-color: var(--dash); color: var(--meta); }
+.click-prompt[aria-checked="false"] .pulse { background: var(--muted); animation: none; }
+@keyframes ping { 70% { box-shadow: 0 0 0 10px rgba(255, 59, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 47, 0); } }
+.cap--prompt .toggle-a { max-width: 30em; text-align: center; text-shadow: 0 0 18px #000; }
 
 /* ---- your move */
 .actions { margin: 0; padding: 0; list-style: none; counter-reset: a; }

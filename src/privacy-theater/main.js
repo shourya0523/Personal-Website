@@ -33,10 +33,10 @@ const SHOTS = {
     { pos: V(0, 4.6, 0.6), tgt: E, fov: 44, move: 'dolly' },
     { pos: V(0, 4.6, 7.5), tgt: E, fov: 15, move: 'dollyzoom' },
   ],
-  toggle: [
-    { pos: V(-1.6, 2.8, 3.4), tgt: T, fov: 42, move: 'whip' },
-    { pos: V(-9.4, 2.6, 2.4), tgt: T, fov: 40, move: 'orbit' },
-  ],
+  // Square on to the switch, centred, while the reader is invited to click it...
+  toggle: [{ pos: V(-3.5, 2.2, 3.6), tgt: T.clone().add(V(0, 0.15, 0)), fov: 40, move: 'whip' }],
+  // ...then swing round it while the caption explains.
+  toggleText: [{ pos: V(-9.4, 2.6, 2.4), tgt: T, fov: 40, move: 'orbit' }],
   flyloft: [
     { pos: V(-2.8, 2.0, 1.2), tgt: V(-1.2, 9, -3), fov: 56, move: 'crane' },
     // Straight up into the flies (both axes together, so it clears the arch), rolling slightly.
@@ -182,7 +182,8 @@ function sceneState() {
     eyeOpen: 0.06 + 0.44 * after('curtain', 0.7, 1) + 0.5 * after('eye', 0, 0.5) - 0.2 * after('box', 0, 0.5)
       - 0.45 * after('trapdoor', 0.2, 0.8) - 0.15 * after('tobesure') - 0.1 * after('fixes') - 0.1 * after('close', 0, 0.6),
     cards: reading ? after('seat', 0.05, 0.25) * (1 - after('curtain', 0.4, 0.62)) : 0,
-    bubbles: after('toggle', 0.5, 1) * (1 - after('box', 0, 0.5)),
+    bubbles: after('toggleText', 0.5, 1) * (1 - after('box', 0, 0.5)),
+    togglePrompt: after('toggle', 0.1, 0.3) * (1 - after('toggle', 0.75, 0.95)),
     forces: [0, 1, 2].map(i => after('forces', 0.12 + i * 0.2, 0.27 + i * 0.2) * (1 - after('trapdoor', 0, 0.3))),
     box: after('box', 0, 0.4) * (1 - after('forces', 0.1, 0.5)),
     print: after('receipt', 0.1, 0.75),
@@ -240,9 +241,11 @@ function syncText() {
     const box = beatBox[c.el.dataset.shot]
     if (!box) continue
     const t = (smoothY + vh / 2 - box.top) / box.h
-    const [a, b] = c.hold ? [0.04, 0.14] : [0.16, 0.3]
+    // A short visible window per caption, so the gaps between beats belong to the stage.
+    const [a, b] = c.hold ? [0.06, 0.16] : [0.24, 0.36]
     // Fade in over [a, b], hold, fade out over [1 - b, 1 - a].
-    const op = Math.min(clamp01((t - a) / (b - a)), clamp01((1 - a - t) / (b - a)))
+    const lin = Math.min(clamp01((t - a) / (b - a)), clamp01((1 - a - t) / (b - a)))
+    const op = lin * lin * (3 - 2 * lin)
     c.el.style.setProperty('--o', op.toFixed(3))
     c.el.style.pointerEvents = op > 0.5 ? '' : 'none'
   }

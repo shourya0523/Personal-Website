@@ -73,7 +73,7 @@ export class Theater {
     this.timer = new THREE.Timer()
     this.pickables = []
     this.handlers = {}
-    this.state = { stats: 0, eyeStat: 0, question: 0, curtain: 0, eyeOpen: 0.06, banner: 0, bubbles: 0, house: 0, trapdoor: 0, print: 0, forces: [0, 0, 0], loft: 0, box: 0, toggleOn: true, velocity: 0 }
+    this.state = { togglePrompt: 0, stats: 0, eyeStat: 0, question: 0, curtain: 0, eyeOpen: 0.06, banner: 0, bubbles: 0, house: 0, trapdoor: 0, print: 0, forces: [0, 0, 0], loft: 0, box: 0, toggleOn: true, velocity: 0 }
 
     const renderer = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
     renderer.setClearColor(C.black, 1)
@@ -749,6 +749,15 @@ export class Theater {
     this.eyeStat.position.set(0, 0, 0.04)
     this.eye.add(this.eyeStat)
 
+    // Act II: a prompt under the switch, pulsing until it's clicked.
+    this.togglePrompt = this.textPlane(2.4, 0.5, 768, 160, (ctx, w, h) => {
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+      ctx.strokeStyle = '#FF3B2F'; ctx.lineWidth = 4; roundRect(ctx, 150, 24, w - 300, h - 48, (h - 48) / 2); ctx.stroke()
+      ctx.fillStyle = '#F2F2F2'; ctx.font = `400 52px ${FONT.mono}`; ctx.fillText('CLICK ME', w / 2, h / 2 + 2)
+    })
+    this.togglePrompt.position.set(0, -1.05, 0.5)
+    this.toggle.add(this.togglePrompt)
+
     // Act IV: painted on the trapdoor, read from above before it drops.
     const trapText = this.textPlane(2.2, 0.55, 880, 220, (ctx, w, h) => {
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#E9E1CE'
@@ -913,6 +922,7 @@ export class Theater {
     for (const p of this.statPlanes) p.material.opacity = st.stats
     this.eyeStat.material.opacity = st.eyeStat
     this.questionPlane.material.opacity = st.question
+    this.togglePrompt.material.opacity = st.togglePrompt * (st.toggleOn ? 0.6 + 0.4 * Math.sin(t * 4) : 0.25)
 
     // Toggle knob eases to its side.
     this.toggleT += ((st.toggleOn ? 1 : 0) - this.toggleT) * (1 - Math.pow(0.001, dt))
