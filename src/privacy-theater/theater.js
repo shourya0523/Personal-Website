@@ -669,9 +669,9 @@ export class Theater {
     this.cardIndex = -1
   }
 
-  /** A few lines from the live reading drift once from your seat through the curtain. */
+  /** Lines from the live reading fly from your seat, over the stalls and backstage, on a loop through Act I. */
   setClaims(texts) {
-    this.cardQueue = texts.slice(0, 5).map(t => {
+    this.cardQueue = texts.slice(0, 12).map(t => {
       const { tex } = canvasTexture(1024, 200, (ctx, w, h) => {
         ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0, 0, w, h)
         ctx.strokeStyle = '#FF3B2F'; ctx.lineWidth = 3; ctx.strokeRect(2, 2, w - 4, h - 4)
@@ -683,15 +683,16 @@ export class Theater {
   }
 
   spawnCard() {
-    if (this.cardIndex >= this.cardQueue.length - 1) return
-    const tex = this.cardQueue[++this.cardIndex]
+    if (!this.cardQueue.length) return
+    this.cardIndex = (this.cardIndex + 1) % this.cardQueue.length
+    const tex = this.cardQueue[this.cardIndex]
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0 }))
-    sp.scale.set(1.7, 0.33, 1)
+    sp.scale.set(2.3, 0.45, 1)
     const seat = LAYOUT.seat()
     const side = this.cardIndex % 2 ? 1 : -1
     // Off to the side of your seat and up over the stalls, so they never cross the lens.
     const start = seat.clone().add(new THREE.Vector3(side * (1.6 + Math.random()), 0.4, -2.2))
-    const end = new THREE.Vector3(side * 0.3, 5.2, 0.7) // the gap in the curtain
+    const end = new THREE.Vector3(side * (0.5 + Math.random() * 2), 4.2 + Math.random() * 2, -2.5) // backstage, behind the curtain line
     const mid = start.clone().lerp(end, 0.5).add(new THREE.Vector3(side * 2.5, 2.2, 0))
     sp.userData = { curve: new THREE.QuadraticBezierCurve3(start, mid, end), t: 0 }
     this.scene.add(sp); this.cards.push(sp)
@@ -885,16 +886,16 @@ export class Theater {
     const cardsOn = st.cards > 0.01
     if (cardsOn && this.cardQueue.length) {
       this.cardTimer -= dt
-      if (this.cardTimer <= 0) { this.spawnCard(); this.cardTimer = 1.8 }
+      if (this.cardTimer <= 0) { this.spawnCard(); this.cardTimer = 1.25 }
     }
     for (let i = this.cards.length - 1; i >= 0; i--) {
       const sp = this.cards[i]
-      sp.userData.t += dt / 7
+      sp.userData.t += dt / 6
       const k = sp.userData.t
       sp.position.copy(sp.userData.curve.getPoint(Math.min(1, k)))
-      const sc = 1 - smooth((k - 0.55) / 0.45) * 0.85
-      sp.scale.set(1.7 * sc, 0.33 * sc, 1)
-      sp.material.opacity = 0.8 * clamp01(k * 5) * st.cards * (1 - smooth((k - 0.85) / 0.15))
+      const sc = 1 - smooth((k - 0.6) / 0.4) * 0.6
+      sp.scale.set(2.3 * sc, 0.45 * sc, 1)
+      sp.material.opacity = 0.95 * clamp01(k * 5) * st.cards * (1 - smooth((k - 0.88) / 0.12))
       if (k >= 1) {
         this.eyeUniforms.uPulse.value = 1
         this.scene.remove(sp); sp.material.dispose(); this.cards.splice(i, 1)

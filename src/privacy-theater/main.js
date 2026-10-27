@@ -182,7 +182,7 @@ function sceneState() {
     question: after('close', 0.2, 0.55),
     eyeOpen: 0.06 + 0.44 * after('curtain', 0.7, 1) + 0.5 * after('eye', 0, 0.5) - 0.2 * after('box', 0, 0.5)
       - 0.45 * after('trapdoor', 0.2, 0.8) - 0.15 * after('tobesure') - 0.1 * after('fixes') - 0.1 * after('close', 0, 0.6),
-    cards: reading ? after('seat', 0.05, 0.25) * (1 - after('curtain', 0.4, 0.62)) : 0,
+    cards: reading ? after('seat', 0.05, 0.25) * (1 - after('curtain', 0.75, 0.95)) : 0,
     bubbles: after('toggleText', 0.5, 1) * (1 - after('box', 0, 0.5)),
     togglePrompt: after('toggle', 0.1, 0.3) * (1 - after('toggle', 0.75, 0.95)),
     forces: [0, 1, 2].map(i => after('forces', 0.12 + i * 0.2, 0.27 + i * 0.2) * (1 - after('trapdoor', 0, 0.3))),
@@ -337,7 +337,7 @@ readVisitor().then(async r => {
   reading = r
   readingTime.textContent = `· ${r.count} readings in ${(r.ms / 1000).toFixed(2)} s`
   const claims = r.claims.slice(0, 5)
-  theater?.setClaims(claims.map(c => plain(c.text)))
+  theater?.setClaims(r.claims.slice(0, 12).map(c => plain(c.text)))
   const lines = receiptLines(r)
   receiptReady(lines)
   theater?.setReceipt(lines)
