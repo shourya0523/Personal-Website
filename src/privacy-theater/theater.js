@@ -463,18 +463,19 @@ export class Theater {
       this.scene.add(l, l.target)
       return l
     })
-    const label = (text, x) => {
-      const { tex } = canvasTexture(512, 160, (ctx, w, h) => {
-        ctx.font = `400 120px ${FONT.poster}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-        ctx.fillStyle = '#F2F2F2'; ctx.fillText(text, w / 2, h / 2 + 6)
+    const label = (text, x, sub = '') => {
+      const { tex } = canvasTexture(640, 280, (ctx, w) => {
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+        ctx.font = `400 120px ${FONT.poster}`; ctx.fillStyle = '#F2F2F2'; ctx.fillText(text, w / 2, 96)
+        if (sub) { ctx.font = `400 52px ${FONT.mono}`; ctx.fillStyle = '#FF3B2F'; ctx.fillText(sub, w / 2, 214) }
       })
       const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false })
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 0.81), mat)
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.4), mat)
       mesh.rotation.x = -Math.PI / 2; mesh.position.set(x, 0.02, -1.4)
       this.scene.add(mesh)
       return mesh
     }
-    this.forceLabels = [label('MONEY', -5), label('LAW', 0), label('DESIGN', 5)]
+    this.forceLabels = [label('MONEY', -5, 'EVERY CHAT'), label('LAW', 0, '2 OF 49 BILLS'), label('DESIGN', 5, 'ON BY DEFAULT')]
   }
 
   // ---------------------------------------------------------------- the toggle
@@ -494,7 +495,7 @@ export class Theater {
       ctx.font = `400 46px ${FONT.mono}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
       ctx.fillStyle = '#CFCFCF'; ctx.fillText('HELP IMPROVE THE MODEL', w / 2, 60)
       ctx.font = `400 34px ${FONT.mono}`; ctx.fillStyle = on ? '#FF3B2F' : '#8a8a8a'
-      ctx.fillText(on ? 'ON · SWITCHED ON FOR YOU' : 'OFF · YOU FOUND IT', w / 2, 140)
+      ctx.fillText(on ? 'ON · YOUR CHATS KEPT UP TO 5 YEARS' : 'OFF · YOU FOUND IT', w / 2, 140)
     })
     this.toggleLabel = redraw
     const label = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 0.9), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false }))
@@ -526,10 +527,10 @@ export class Theater {
     const { tex } = canvasTexture(1024, 620, (ctx, w, h) => {
       ctx.fillStyle = '#E9E1CE'; ctx.fillRect(0, 0, w, h)
       ctx.fillStyle = '#1D1B19'; ctx.font = `400 26px ${FONT.mono}`; ctx.fillText('LOST PROPERTY · NO RETURNS', 60, 76)
-      ctx.font = `400 64px ${FONT.type}`
-      wrapText(ctx, 'Once it goes up, nobody can trace where it goes.', w - 120).forEach((l, i) => ctx.fillText(l, 60, 190 + i * 82))
-      ctx.strokeStyle = '#C01D13'; ctx.lineWidth = 6; ctx.strokeRect(60, h - 120, 330, 70)
-      ctx.fillStyle = '#C01D13'; ctx.font = `400 40px ${FONT.poster}`; ctx.textAlign = 'center'; ctx.fillText('YOUR CHATS', 225, h - 70)
+      ctx.fillStyle = '#C01D13'; ctx.font = `500 230px ${FONT.head}`; ctx.fillText('70%', 50, 320)
+      ctx.fillStyle = '#1D1B19'; ctx.font = `400 34px ${FONT.mono}`
+      wrapText(ctx, "OF AMERICANS WHO KNOW AI DON'T TRUST COMPANIES TO USE IT RESPONSIBLY", w - 120).forEach((l, i) => ctx.fillText(l, 60, 400 + i * 46))
+      ctx.font = `400 22px ${FONT.mono}`; ctx.fillStyle = '#7E130C'; ctx.fillText('PEW RESEARCH CENTER, 2023', 60, h - 50)
     })
     const placard = this.placard = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.15), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.25 }))
     placard.position.set(1.5, 14.2, -5)
