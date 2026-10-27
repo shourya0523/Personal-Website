@@ -186,8 +186,8 @@ function sceneState() {
     forces: [0, 1, 2].map(i => after('forces', 0.12 + i * 0.2, 0.27 + i * 0.2) * (1 - after('trapdoor', 0, 0.3))),
     box: after('box', 0, 0.4) * (1 - after('forces', 0.1, 0.5)),
     print: after('receipt', 0.1, 0.75),
-    trapdoor: after('trapdoor', 0.1, 0.5) * (1 - after('fixes', 0, 0.4)),
-    house: after('fixes', 0.2, 0.9),
+    trapdoor: after('trapdoor', 0.1, 0.5) * (1 - after('close', 0, 0.4)),
+    house: after('close', 0.15, 0.8),
     velocity,
   }
 }
