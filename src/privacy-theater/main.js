@@ -189,7 +189,8 @@ function sceneState() {
     box: after('box', 0, 0.4) * (1 - after('forces', 0.1, 0.5)),
     print: after('receipt', 0.1, 0.75),
     trapdoor: after('trapdoor', 0.1, 0.5) * (1 - after('close', 0, 0.4)),
-    house: after('close', 0.15, 0.8),
+    // House lights start half up, dim as you take your seat, and come back up at the end.
+    house: Math.max(0.5 * (1 - after('seat', 0, 0.7)), after('close', 0.15, 0.8)),
     velocity,
   }
 }

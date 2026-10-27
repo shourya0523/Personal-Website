@@ -79,12 +79,12 @@ export class Theater {
     const renderer = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
     renderer.setClearColor(C.black, 1)
     renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMappingExposure = 1.05
+    renderer.toneMappingExposure = 1.35
     this.dprCap = lowPower ? 1 : Math.min(window.devicePixelRatio, 1.5)
     this.dpr = this.dprCap
 
     const scene = this.scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x050101, 0.022)
+    scene.fog = new THREE.FogExp2(0x0a0303, 0.013)
     this.camera = new THREE.PerspectiveCamera(48, 1, 0.05, 200)
 
     this.buildLights()
@@ -114,10 +114,10 @@ export class Theater {
 
   // ---------------------------------------------------------------- lights
   buildLights() {
-    this.hemi = new THREE.HemisphereLight(0x6b2a24, 0x050000, 0.18)
+    this.hemi = new THREE.HemisphereLight(0x8a3a32, 0x140404, 0.45)
     this.scene.add(this.hemi)
     // Two front-of-house spots wash the curtain and the stage.
-    const key = this.key = new THREE.SpotLight(0xffe0d6, 140, 60, 0.42, 0.6, 1.4)
+    const key = this.key = new THREE.SpotLight(0xffe0d6, 220, 60, 0.46, 0.6, 1.3)
     key.position.set(0, 13, 14); key.target.position.set(0, 3.5, -1)
     this.scene.add(key, key.target)
     const rim = this.rim = new THREE.SpotLight(C.red, 90, 40, 0.6, 0.8, 1.2)
@@ -788,7 +788,7 @@ export class Theater {
           col.b = texture2D(tDiffuse, vUv - off).b;
           float scan = 0.95 + 0.05 * sin(vUv.y * uRes.y * 1.6);
           col *= scan;
-          col *= 1.0 - smoothstep(0.18, 0.75, d * 1.6);
+          col *= 1.0 - 0.75 * smoothstep(0.25, 0.9, d * 1.3);
           col += (hash(vUv * uRes + fract(uTime) * 100.0) - 0.5) * 0.025;
           gl_FragColor = vec4(col, 1.0);
         }`,
@@ -941,11 +941,11 @@ export class Theater {
     this.screenGlow.intensity = (3 + (this.labThinking ? Math.sin(t * 8) * 1.5 + 1.5 : 0)) * smooth(st.trapdoor)
 
     // House lights come up at the end.
-    this.hemi.intensity = 0.18 + st.house * 0.9
+    this.hemi.intensity = 0.45 + st.house * 0.8
     for (const l of this.houseLights) l.intensity = st.house * 40
     for (const c of this.chandeliers) c.material.emissiveIntensity = st.house * 2.5
-    this.key.intensity = 140 * (1 - st.house * 0.4)
-    this.scene.fog.density = 0.022 * (1 - st.house * 0.6)
+    this.key.intensity = 220 * (1 - st.house * 0.35)
+    this.scene.fog.density = 0.013 * (1 - st.house * 0.6)
 
     this.crt.uniforms.uTime.value = t
     this.crt.uniforms.uVel.value = reduced ? 0 : Math.min(1, st.velocity)
