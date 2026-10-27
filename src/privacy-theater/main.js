@@ -13,6 +13,7 @@ import { Theater, LAYOUT } from './theater.js'
 import { readVisitor, receiptLines, claimHTML, plain } from './reader.js'
 import { initLab } from './lab.js'
 import { receiptBlob } from './receipt.js'
+import { Sound } from './audio.js'
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z)
 const seat = LAYOUT.seat()
@@ -210,6 +211,15 @@ let smoothY = window.scrollY, velocity = 0, reading = null
 const motionBtn = document.getElementById('motion-toggle')
 const syncMotion = () => { motionBtn.textContent = reduced ? 'Motion: reduced' : 'Motion: on'; motionBtn.setAttribute('aria-pressed', String(reduced)) }
 motionBtn.onclick = () => { reduced = !reduced; syncMotion() }
+
+// Sound is generated in the browser and stays off until the visitor asks for it.
+const sound = new Sound()
+const soundBtn = document.getElementById('sound-toggle')
+soundBtn.onclick = async () => {
+  const on = await sound.toggle()
+  soundBtn.textContent = on ? 'Sound: on' : 'Sound: off'
+  soundBtn.setAttribute('aria-pressed', String(on))
+}
 syncMotion()
 
 measure()
@@ -277,8 +287,10 @@ function frame(now) {
   syncAct()
   syncText()
   if (!hintHidden && target > 40) { hintHidden = true; document.getElementById('scroll-hint')?.classList.add('gone') }
+  const st = sceneState()
+  sound.update(st, dt, reduced)
   if (!theater) return
-  theater.render({ ...cameraAt(smoothY), shift, lift }, sceneState(), reduced)
+  theater.render({ ...cameraAt(smoothY), shift, lift }, st, reduced)
   frames++
   if (now - fpsClock > 2000) { theater.adapt(frames * 1000 / (now - fpsClock)); frames = 0; fpsClock = now }
 }
@@ -310,6 +322,7 @@ const bannerAnswer = document.getElementById('banner-answer')
 function chooseBanner(choice) {
   const n = reading?.count ?? 0
   theater?.setBannerChoice(choice, n)
+  sound.play('thunk')
   bannerAnswer.textContent = n
     ? `${choice === 'accept' ? 'Accepted' : 'Rejected'}. Either way, this page had already taken ${n} readings of your device before you chose, and it never set a cookie.`
     : `${choice === 'accept' ? 'Accepted' : 'Rejected'}. Either way, this page had started reading your device before you chose, and it never set a cookie.`
@@ -323,6 +336,7 @@ const toggleAnswer = document.getElementById('toggle-answer')
 let toggleOn = true
 function flipToggle() {
   toggleOn = !toggleOn
+  sound.play('click')
   toggleBtn.setAttribute('aria-checked', String(toggleOn))
   theater?.setToggle(toggleOn)
   toggleAnswer.textContent = toggleOn
@@ -382,5 +396,6 @@ function receiptReady(lines) {
 }
 
 // ------------------------------------------------------------------ the local model
-const lab = initLab({ onState: s => theater?.setLabState(s) })
+const lab = initLab({ onState: s => { theater?.setLabState(s); sound.setThinking(s === 'thinking') } })
+theater?.on('card', () => sound.play('blip'))
 lab.init()

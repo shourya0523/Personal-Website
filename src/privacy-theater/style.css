@@ -31,6 +31,7 @@ body.no-stage .sr-only { position: static !important; width: auto; height: auto;
 }
 .bar-home { color: var(--muted); text-decoration: none; }
 .bar-act { flex: 1; text-align: center; color: var(--meta); }
+#sound-toggle[aria-pressed="false"] { color: var(--glow); }
 .bar-sound { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--muted); background: none; border: 0; padding: 6px 0; cursor: pointer; }
 .progress { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; gap: 14px; opacity: 0.55; transition: opacity 0.3s; }
 .progress:hover { opacity: 1; }

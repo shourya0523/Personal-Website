@@ -696,6 +696,7 @@ export class Theater {
     const mid = start.clone().lerp(end, 0.5).add(new THREE.Vector3(side * 2.5, 2.2, 0))
     sp.userData = { curve: new THREE.QuadraticBezierCurve3(start, mid, end), t: 0 }
     this.scene.add(sp); this.cards.push(sp)
+    this.emit('card')
   }
 
 
