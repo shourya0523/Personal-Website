@@ -10,11 +10,11 @@ export const profile = {
   // From About.jsx ProfileCard `title` prop (src/pages/About.jsx:57).
   // Terminal.jsx's `about` command prints the same line with a "|" instead of "·".
   headline: 'JRA @ M3 · Software Lead @ ACM',
-  tagline: "CS and Business student at Northeastern (fintech + AI) who'd rather be building something than talking about building something.",
+  tagline: "Product-minded, AI-native developer and operator who'd rather be building something than talking about building something.",
   bio: [
-    "I'm Shourya — a CS and Business student at Northeastern (fintech + AI) who'd rather be building something than talking about building something.",
-    "Right now I'm a Junior Healthcare Research Associate at M3 and Software Tech Lead at ACM, working on problems at the intersection of AI, healthcare, and finance.",
-    "That looks like Concord for IB interview prep, SiMSai (1st at HHIC), InSync matching VCs with startups, or federated imaging search that keeps PHI at the hospital.",
+    "I'm Shourya — a CS and Business student at Northeastern (fintech + AI), product-minded AI-native developer and operator, and someone who'd rather be building something than talking about building something.",
+    "I've built internal AI tools in regulated environments at Kroll and M3, and helped lead AI adoption at Northeastern.",
+    "My work spans pharma, finance, and SaaS — from Concord for IB interview prep and SiMSai (1st at HHIC) to InSync matching VCs with startups and federated imaging search that keeps PHI at the hospital.",
     "I'm drawn to roles where I can build real things and lead teams doing the same.",
     "When I'm not coding, I'm producing music, playing poker, hunting for good food in random cities, or binge-watching shows I've already seen three times."
   ],

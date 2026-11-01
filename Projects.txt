@@ -9,6 +9,13 @@ Description: AI-assisted IB interview prep with thousands of real-world question
 Website: https://concord.courses
 GitHub: https://github.com/shourya0523/concord
 
+Team Impact Portal
+------------------
+Period: Active Development
+Tech: Expo, React, Fastify, Drizzle, Postgres, Zod
+Description: Community platform for Team IMPACT with an Expo app for athletes, families, and coaches plus a recruiter and staff portal. Fastify and Postgres power community feeds, teams, profiles, events, and staff tools through shared Zod contracts.
+GitHub: https://github.com/shourya0523/Team-Impact-Portal
+
 Rubber Duck
 -----------
 Period: August 2026
@@ -43,8 +50,9 @@ Pharma Analog Uptake Workbench
 ------------------------------
 Period: August 2026 – Present
 Tech: FastAPI, React, SQLAlchemy, OpenRouter
-Description: Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.
+Description: Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field. Its companion Gold Verification App lets teams review gold-answer rows beside cached source documents, with keyboard review, flags, progress views, and Excel export.
 GitHub: https://github.com/shourya0523/pharma-analog-uptake-workbench
+Verification tool: https://gold-verification-app.vercel.app/
 
 InSync
 ------
