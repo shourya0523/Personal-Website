@@ -26,6 +26,24 @@ export const projects = [
     files: ['Heat', 'Modules', 'Mocks']
   },
   {
+    id: 'team-impact-portal',
+    title: 'Team Impact Portal',
+    blurb: 'Community platform for Team IMPACT with an Expo app for athletes, families, and coaches plus a recruiter and staff portal.',
+    description: [
+      'Community platform for Team IMPACT with an Expo app for athletes, families, and coaches plus a recruiter and staff portal.',
+      'Fastify and Postgres power community feeds, teams, profiles, events, and staff tools; shared Zod contracts connect the clients and API.'
+    ],
+    tech: ['Expo', 'React', 'Fastify', 'Drizzle', 'Postgres', 'Zod'],
+    github: 'https://github.com/shourya0523/Team-Impact-Portal',
+    demo: null,
+    demoLabel: null,
+    period: 'Active Development',
+    featured: true,
+    accent: '#22C55E',
+    highlights: [],
+    files: ['Athlete App', 'Portal', 'API']
+  },
+  {
     id: 'rubber-duck',
     title: 'Rubber Duck',
     blurb: "Portable agent skill for rubber-duck debugging: index a repo, talk to a duck in the browser, and stream an agent's replies live.",
@@ -109,12 +127,13 @@ export const projects = [
     title: 'Pharma Analog Uptake Workbench',
     blurb: 'Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.',
     description: [
-      'Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.'
+      'Source-first workbench for pharmaceutical analog uptake: extract and validate product revenue and launch curves from public filings and labels, with mandatory citations on every source-derived field.',
+      'Its companion Gold Verification App lets teams review gold-answer rows beside cached source documents, with keyboard review, flags, progress views, and Excel export.'
     ],
     tech: ['FastAPI', 'React', 'SQLAlchemy', 'OpenRouter'],
     github: 'https://github.com/shourya0523/pharma-analog-uptake-workbench',
-    demo: null,
-    demoLabel: null,
+    demo: 'https://gold-verification-app.vercel.app/',
+    demoLabel: 'Verification tool',
     period: 'August 2026 – Present',
     featured: false,
     accent: '#6366F1',

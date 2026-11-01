@@ -1,9 +1,9 @@
 ABOUT ME
 ========
 
-I'm Shourya — a CS and Business student at Northeastern (fintech + AI), Junior Healthcare Research Associate at M3, and Software Tech Lead at ACM.
+I'm Shourya — a CS and Business student at Northeastern (fintech + AI), product-minded AI-native developer and operator, Junior Healthcare Research Associate at M3, and Software Tech Lead at ACM.
 
-I like solving problems at the intersection of AI, healthcare, and finance — Concord for IB interview prep, SiMSai (1st at HHIC), InSync matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
+I've built internal AI tools in regulated environments at Kroll and M3, and helped lead AI adoption at Northeastern. My work spans pharma, finance, and SaaS — Concord for IB interview prep, SiMSai (1st at HHIC), InSync matching VCs with startups, or federated imaging search that keeps PHI at the hospital.
 
 I get restless when I'm not working on something, which is why I'm usually juggling a role, a couple side projects, and at least one organization that probably needs more of my attention.
 
