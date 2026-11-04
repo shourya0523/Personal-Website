@@ -32,7 +32,7 @@ export const resume = {
     },
     {
       org: 'Kroll',
-      role: 'Data Engineering Intern',
+      role: 'Data Engineer Intern',
       period: 'June 2026 – August 2026',
       location: 'New York, NY · Hybrid',
       bullets: [
@@ -91,14 +91,14 @@ export const resume = {
     {
       title: '1st Place at Husky Healthcare Innovation Challenge',
       org: 'ViTAL at Northeastern University',
-      year: '2026',
+      year: 'Feb 2026',
       description: 'First place for SiMSai, an SMS-based agentic AI prototype for remote patient monitoring, pitched with a live demo'
     },
     {
-      title: 'FinHacks AI/ML Track Winner',
+      title: 'FinHacks 2025 Best AI Hack',
       org: 'Disrupt at Northeastern',
       year: '2025',
-      description: 'First place in AI/ML category for Spendr, a financial compatibility app using bank data analysis'
+      description: 'Best AI Hack at FinHacks 2025 for Spendr, a financial compatibility app using bank data analysis'
     },
     {
       title: 'John Martinson Honors Program',
@@ -120,6 +120,15 @@ export const resume = {
   // Quantum Community, Investment Analyst @ Pathway Investment Fund, and Analyst @
   // Global Equity Management. See report for the full discrepancy note.
   leadership: [
+    {
+      org: 'HACK1984',
+      role: 'Head of Sponsorship Outreach',
+      period: null,
+      location: 'Boston, MA',
+      bullets: [
+        'Lead sponsorship outreach for HACK1984, a 24-hour, privacy-first hackathon in Boston'
+      ]
+    },
     {
       org: 'ACM at Northeastern University',
       role: 'Software Tech Lead',
@@ -170,7 +179,7 @@ export const resume = {
     {
       org: 'Claude Builder Club Northeastern',
       role: 'Co-Founder & Vice President',
-      period: 'December 2025 – March 2026',
+      period: 'May 2025 – April 2026',
       location: 'Boston, MA',
       bullets: [
         'Grew the club from zero to 200+ members across engineering, business, and design',

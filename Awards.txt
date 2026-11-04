@@ -12,11 +12,11 @@ Organization: ViTAL at Northeastern University
 Year: 2026
 Description: First place for SiMSai, an SMS-based agentic AI prototype for remote patient monitoring
 
-FinHacks AI/ML Track Winner
----------------------------
+FinHacks 2025 Best AI Hack
+--------------------------
 Organization: Disrupt at Northeastern
 Year: 2025
-Description: First place in AI/ML category for Spendr financial compatibility app
+Description: Best AI Hack at FinHacks 2025 for Spendr financial compatibility app
 Devpost: https://devpost.com/software/spendr
 
 John Martinson Honors Program
