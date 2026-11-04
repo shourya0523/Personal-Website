@@ -5,10 +5,6 @@ Email
 -----
 yadav.sho@northeastern.edu
 
-Phone
------
-(510) 326-7626
-
 LinkedIn
 --------
 linkedin.com/in/shouryadav
@@ -16,3 +12,7 @@ linkedin.com/in/shouryadav
 GitHub
 ------
 github.com/shourya0523
+
+Devpost
+-------
+devpost.com/shourya0523

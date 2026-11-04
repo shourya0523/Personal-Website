@@ -4,7 +4,6 @@ SHOURYA YADAV
 LinkedIn: https://linkedin.com/in/shouryadav
 GitHub: https://github.com/shourya0523
 Email: yadav.sho@northeastern.edu
-Phone: (510) 326-7626
 
 
 EDUCATION
@@ -25,7 +24,7 @@ PROFESSIONAL EXPERIENCE
 =======================
 
 Junior Healthcare Research Associate
-M3
+M3 USA
 https://www.m3.com
 Location: North America
 Period: August 2026 – Present
@@ -33,7 +32,7 @@ Period: August 2026 – Present
 Healthcare research associate supporting studies and research operations at M3.
 
 
-Data Engineering Intern
+Data Engineer Intern
 Kroll
 https://www.kroll.com
 Location: New York, NY · Hybrid
@@ -149,7 +148,7 @@ Co-Founder & Vice President
 Claude Builder Club Northeastern
 https://www.linkedin.com/company/northeastern-anthropic-builders-club
 Location: Boston, MA
-Period: December 2025 – March 2026
+Period: May 2025 – April 2026
 
 Co-founded Northeastern's Anthropic-sponsored Claude Builder Club, growing it from zero to 200+ members. Secured $30k+ in sponsorships and ran workshops, hackathons, and a creatathon.
 
@@ -284,7 +283,7 @@ Spendr
 Period: January 2025
 Tech: JavaScript, Python, React
 Description: A hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.
-Award: FinHacks AI/ML Track Winner
+Award: FinHacks 2025 Best AI Hack
 Devpost: https://devpost.com/software/spendr
 
 CapTuring
@@ -370,4 +369,3 @@ CONTACT INFORMATION
 Email: yadav.sho@northeastern.edu
 LinkedIn: linkedin.com/in/shouryadav
 GitHub: github.com/shourya0523
-Phone: (510) 326-7626

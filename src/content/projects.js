@@ -219,7 +219,7 @@ export const projects = [
       'Spending pattern matching',
       'Tinder-style swipe interface',
       'Financial compatibility scoring',
-      'FinHacks AI/ML Track Winner (2025)'
+      'FinHacks 2025 Best AI Hack'
     ],
     files: ['Algorithm', 'UI', 'Data']
   },

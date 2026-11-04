@@ -78,7 +78,7 @@ Spendr
 Period: January 2025
 Tech: JavaScript, Python, React
 Description: Hackathon-winning financial compatibility app using bank data analysis and spending pattern matching with a Tinder-style interface.
-Award: FinHacks AI/ML Track Winner
+Award: FinHacks 2025 Best AI Hack
 Devpost: https://devpost.com/software/spendr
 
 CapTuring

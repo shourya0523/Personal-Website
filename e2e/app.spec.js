@@ -70,4 +70,22 @@ test.describe('ShouryaOS', () => {
     await page.getByRole('button', { name: /Constellation Circuit/ }).click()
     await expect(page.locator('html')).toHaveAttribute('data-wallpaper', 'circuit')
   })
+
+  test('without JavaScript the homepage is a readable text version; with it, the OS replaces it', async ({ browser, page }) => {
+    const ctx = await browser.newContext({ javaScriptEnabled: false })
+    const noJs = await ctx.newPage()
+    await noJs.goto('/')
+    await expect(noJs.locator('[data-seo] h1')).toHaveText('Shourya Yadav')
+    await expect(noJs.locator('[data-seo]')).toContainText('Junior Healthcare Research Associate')
+    await ctx.close()
+    await page.goto('/')
+    await expect(page.locator('.landing--intro')).toBeVisible()
+    await expect(page.locator('[data-seo]')).toHaveCount(0)
+  })
+
+  test('each project has its own static page', async ({ page }) => {
+    await page.goto('/projects/simsai')
+    await expect(page.locator('h1')).toHaveText('SiMSai')
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://shouryadav.info/projects/simsai')
+  })
 })

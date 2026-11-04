@@ -25,6 +25,7 @@ export default function Contact() {
         <Row title="Email" sub={email} meta="↗" href={`mailto:${email}`} />
         <Row title="GitHub" sub={stripProtocol(profile.links.github)} meta="↗" href={profile.links.github} />
         <Row title="LinkedIn" sub={stripProtocol(profile.links.linkedin)} meta="↗" href={profile.links.linkedin} />
+        <Row title="Devpost" sub={stripProtocol(profile.links.devpost)} meta="↗" href={profile.links.devpost} />
       </Rows>
       <ButtonRow>
         <Button variant="primary" href={`mailto:${email}`}>Email me</Button>

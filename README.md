@@ -48,7 +48,18 @@ Music search calls `api/deezer.js`, a Vercel serverless function that proxies De
 
 ## Share image
 
-`public/og.png` (2400×1260) is rendered from the landing's Halftone Dawn scene and brand type. To regenerate after a change, run the dev server and screenshot `scripts/og-image.html` at 1200×630 with a device scale factor of 2 (a Playwright one-liner does it). The absolute URL in the Open Graph tags comes from `VITE_SITE_URL`, falling back to Vercel's production URL at build time.
+`public/og.png` (2400×1260) is rendered from the landing's Halftone Dawn scene and brand type. To regenerate after a change, run the dev server and screenshot `scripts/og-image.html` at 1200×630 with a device scale factor of 2 (a Playwright one-liner does it). The absolute URL in the canonical and Open Graph tags is `https://shouryadav.info` unless `VITE_SITE_URL` overrides it.
+
+## Search and AI crawlers
+
+The OS is drawn by JavaScript, so `scripts/seo/site.js` renders plain HTML from `src/content` at build time (wired up as the `seo` plugin in `vite.config.js`):
+
+- **Homepage:** a text version of the bio, roles, experience, leadership, awards, projects, writing, education and contact sits inside `#root`. React replaces it when the OS boots. JSON-LD: `WebSite`, `ProfilePage`, `Person`.
+- **`/projects` and `/projects/<id>`:** one static page per project (title, description, canonical, one H1, related projects). JSON-LD: `SoftwareSourceCode` or `CreativeWork`, plus `BreadcrumbList`.
+- **`/blog/Privacy-Theater`:** already static; the plugin adds `BlogPosting` JSON-LD.
+- **Crawl files:** `public/robots.txt` (search and AI crawlers allowed), and generated `sitemap.xml` and `llms.txt`.
+
+`npm run dev` serves the generated pages too, and `npm run preview` applies the local rewrites in `vercel.json`, so `/projects/<id>` and the blog resolve as they do on Vercel. `vercel.json` also 301s `personal-website-ten-pi-53.vercel.app` to `https://shouryadav.info`.
 
 ## Content
 

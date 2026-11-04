@@ -73,12 +73,10 @@ export const profile = {
     email: 'yadav.sho@northeastern.edu',
     github: 'https://github.com/shourya0523',
     linkedin: 'https://linkedin.com/in/shouryadav',
+    devpost: 'https://devpost.com/shourya0523',
     // Referenced by Resume.jsx's "Download PDF" button and FileExplorer.jsx's
     // Resume README, but no matching file exists under public/ — see report.
-    resumePdf: '/Shourya_Yadav_Gusto.pdf',
-    other: {
-      phone: '(510) 326-7626'
-    }
+    resumePdf: '/Shourya_Yadav_Gusto.pdf'
   }
 }
 
