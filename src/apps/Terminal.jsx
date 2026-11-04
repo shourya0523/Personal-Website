@@ -97,7 +97,6 @@ function buildCommands(ctx) {
     print(`  Email     ${profile.links.email}`, 'link')
     print(`  GitHub    ${profile.links.github}`, 'link')
     print(`  LinkedIn  ${profile.links.linkedin}`, 'link')
-    print(`  Phone     ${profile.links.other.phone}`)
   }
 
   const skills = () => {

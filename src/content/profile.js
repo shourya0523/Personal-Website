@@ -75,10 +75,7 @@ export const profile = {
     linkedin: 'https://linkedin.com/in/shouryadav',
     // Referenced by Resume.jsx's "Download PDF" button and FileExplorer.jsx's
     // Resume README, but no matching file exists under public/ — see report.
-    resumePdf: '/Shourya_Yadav_Gusto.pdf',
-    other: {
-      phone: '(510) 326-7626'
-    }
+    resumePdf: '/Shourya_Yadav_Gusto.pdf'
   }
 }
 

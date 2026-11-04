@@ -197,7 +197,7 @@ export const files = {
           "name": "README.md",
           "type": "file",
           "kind": "md",
-          "content": "# Contact\n\nLet's connect! I'm always open to discussing new opportunities, collaborations, or just chatting about tech and business.\n\n## Get in Touch\n\n- **Email:** [yadav.sho@northeastern.edu](mailto:yadav.sho@northeastern.edu)\n- **Phone:** (510) 326-7626\n- **LinkedIn:** [linkedin.com/in/shouryadav](https://linkedin.com/in/shouryadav)\n- **GitHub:** [github.com/shourya0523](https://github.com/shourya0523)\n\n## What I'm Looking For\n\n- Roles where I can build real things and lead teams\n- Opportunities at the intersection of tech and business\n- Co-ops and internships in data engineering, AI/ML, healthcare, or product leadership\n- Collaborations on interesting projects\n\nNot interested in busywork or meetings that could've been emails.\n",
+          "content": "# Contact\n\nLet's connect! I'm always open to discussing new opportunities, collaborations, or just chatting about tech and business.\n\n## Get in Touch\n\n- **Email:** [yadav.sho@northeastern.edu](mailto:yadav.sho@northeastern.edu)\n- **LinkedIn:** [linkedin.com/in/shouryadav](https://linkedin.com/in/shouryadav)\n- **GitHub:** [github.com/shourya0523](https://github.com/shourya0523)\n\n## What I'm Looking For\n\n- Roles where I can build real things and lead teams\n- Opportunities at the intersection of tech and business\n- Co-ops and internships in data engineering, AI/ML, healthcare, or product leadership\n- Collaborations on interesting projects\n\nNot interested in busywork or meetings that could've been emails.\n",
           "opens": "contact"
         },
         {
@@ -205,13 +205,6 @@ export const files = {
           "type": "file",
           "kind": "txt",
           "content": "yadav.sho@northeastern.edu",
-          "opens": "contact"
-        },
-        {
-          "name": "Phone.txt",
-          "type": "file",
-          "kind": "txt",
-          "content": "(510) 326-7626",
           "opens": "contact"
         },
         {
