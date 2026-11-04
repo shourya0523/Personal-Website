@@ -22,7 +22,7 @@ export const resume = {
   // Order matches Resume.jsx (most recent first).
   experience: [
     {
-      org: 'M3',
+      org: 'M3 USA',
       role: 'Junior Healthcare Research Associate',
       period: 'August 2026 – Present',
       location: 'North America',

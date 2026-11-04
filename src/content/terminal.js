@@ -25,7 +25,7 @@ export const terminalFacts = {
     '  • Location: Greater Boston',
     '',
     '💼 Current Role:',
-    '  • Junior Healthcare Research Associate - M3',
+    '  • Junior Healthcare Research Associate - M3 USA',
     '  • Software Tech Lead - ACM at Northeastern',
     '',
     '🔧 Key Skills:',
