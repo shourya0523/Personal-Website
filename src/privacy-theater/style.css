@@ -73,6 +73,8 @@ h1, h2, h3 { font-family: var(--head); font-weight: 500; letter-spacing: -0.02em
 .beat--title .chip { background: none; }
 .dek { font-size: clamp(20px, 2.4vw, 28px); margin: 18px 0 0; }
 .byline { font: 400 11px/1 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--meta); margin: 18px 0 0; }
+.summary { max-width: 34em; margin: 16px auto 0; font-size: 16px; line-height: 1.5; color: var(--meta); }
+.byline a { color: inherit; text-decoration: none; }
 .hint { font: 400 10px/1.6 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin: 48px 0 0; transition: opacity 0.6s; animation: breathe 2.4s ease-in-out infinite; }
 .hint.gone { opacity: 0; }
 @keyframes breathe { 50% { opacity: 0.4; } }
@@ -173,6 +175,7 @@ body:not(.no-stage) .receipt { position: absolute !important; width: 1px; height
 .full-oped article p { font-size: 17px; line-height: 1.7; color: #e6e6e6; margin: 0 0 16px; }
 .cited { margin: 0; padding: 4px 24px 24px 48px; }
 .cited li { margin-bottom: 10px; font-size: 13px; color: var(--meta); word-break: break-word; }
+.more { margin-top: 32px; text-align: center; font: 400 11px/1.6 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 .fin { margin-top: 32px; text-align: center; font: 400 11px/1.6 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 .noscript { position: fixed; bottom: 0; left: 0; right: 0; background: var(--chip); color: var(--meta); padding: 12px 16px; font: 400 13px var(--mono); z-index: 5; }
 
